@@ -4,6 +4,9 @@
 
 package com.mycompany.gerenciamento.uniformes;
 
+import com.mycompany.gerenciamento.uniformes.DAO.TamanhoDAO;
+import com.mycompany.gerenciamento.uniformes.Models.TamanhoModel;
+
 /**
  *
  * @author barba
@@ -11,6 +14,9 @@ package com.mycompany.gerenciamento.uniformes;
 public class GerenciamentoUniformes {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        TamanhoModel xg = new TamanhoModel();
+        xg.setNome("XG");
+        
+        new TamanhoDAO().cadastrarTamanho(xg);
     }
 }
