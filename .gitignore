@@ -9,7 +9,7 @@ buildNumber.properties
 .mvn/timing.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
-src/main/java/com/mycompany/gerenciamento/uniformes/DBConnection
+src/main/java/com/mycompany/gerenciamento/uniformes/DBConnection/DBConfig.java
 
 # Eclipse m2e generated files
 # Eclipse Core
