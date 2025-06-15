@@ -1,18 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.gerenciamento.uniformes.View;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  *
  * @author barbara
  */
-public class ViewsSistema extends javax.swing.JFrame {
 
-    /**
-     * Creates new form GerenciamentoServidores
-     */
+public class ViewsSistema extends javax.swing.JFrame {
     public ViewsSistema() {
         initComponents();
     }
@@ -26,10 +24,20 @@ public class ViewsSistema extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panel_navbar = new javax.swing.JPanel();
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(80, 80), new java.awt.Dimension(20, 800));
+        logo_ifro = new javax.swing.JLabel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(80, 80), new java.awt.Dimension(100, 800));
+        nome_sistema = new javax.swing.JLabel();
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(80, 80), new java.awt.Dimension(450, 800));
+        btn_nav_Inicio = new javax.swing.JButton();
+        btn_nav_distribuicao = new javax.swing.JButton();
+        btn_nav_alunos = new javax.swing.JButton();
+        btn_nav_servidores = new javax.swing.JButton();
+        btn_Inicio4 = new javax.swing.JButton();
+        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(80, 80), new java.awt.Dimension(20, 800));
+        panel_telaInicial = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -40,95 +48,151 @@ public class ViewsSistema extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(1360, 760));
         setSize(new java.awt.Dimension(1360, 750));
 
-        jPanel1.setBackground(new java.awt.Color(35, 91, 88));
-        jPanel1.setPreferredSize(new java.awt.Dimension(1360, 100));
+        panel_navbar.setBackground(new java.awt.Color(35, 91, 88));
+        panel_navbar.setMaximumSize(new java.awt.Dimension(1360, 800));
+        panel_navbar.setMinimumSize(new java.awt.Dimension(1360, 64));
+        panel_navbar.setPreferredSize(new java.awt.Dimension(1360, 80));
+        panel_navbar.setLayout(new javax.swing.BoxLayout(panel_navbar, javax.swing.BoxLayout.LINE_AXIS));
+        panel_navbar.add(filler4);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logo-IFRO-PNG-branco.png"))); // NOI18N
+        logo_ifro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logo-IFRO-PNG-branco.png"))); // NOI18N
+        panel_navbar.add(logo_ifro);
+        panel_navbar.add(filler1);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("GERENCIAMENTO DE UNIFORMES ACADÊMICOS");
+        nome_sistema.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        nome_sistema.setForeground(new java.awt.Color(255, 255, 255));
+        nome_sistema.setText("GERENCIAMENTO DE UNIFORMES ACADÊMICOS");
+        panel_navbar.add(nome_sistema);
+        panel_navbar.add(filler3);
 
-        jButton1.setBackground(new java.awt.Color(35, 91, 88));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Inicio");
-        jButton1.setBorderPainted(false);
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btn_nav_Inicio.setBackground(new java.awt.Color(35, 91, 88));
+        btn_nav_Inicio.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btn_nav_Inicio.setForeground(new java.awt.Color(255, 255, 255));
+        btn_nav_Inicio.setText("Inicio");
+        btn_nav_Inicio.setBorderPainted(false);
+        btn_nav_Inicio.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btn_nav_Inicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btn_nav_InicioActionPerformed(evt);
             }
         });
+        panel_navbar.add(btn_nav_Inicio);
+
+        btn_nav_distribuicao.setBackground(new java.awt.Color(35, 91, 88));
+        btn_nav_distribuicao.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btn_nav_distribuicao.setForeground(new java.awt.Color(255, 255, 255));
+        btn_nav_distribuicao.setText("Distribuição");
+        btn_nav_distribuicao.setBorderPainted(false);
+        btn_nav_distribuicao.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btn_nav_distribuicao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_nav_distribuicaoActionPerformed(evt);
+            }
+        });
+        panel_navbar.add(btn_nav_distribuicao);
+
+        btn_nav_alunos.setBackground(new java.awt.Color(35, 91, 88));
+        btn_nav_alunos.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btn_nav_alunos.setForeground(new java.awt.Color(255, 255, 255));
+        btn_nav_alunos.setText("Alunos");
+        btn_nav_alunos.setBorderPainted(false);
+        btn_nav_alunos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btn_nav_alunos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_nav_alunosActionPerformed(evt);
+            }
+        });
+        panel_navbar.add(btn_nav_alunos);
+
+        btn_nav_servidores.setBackground(new java.awt.Color(35, 91, 88));
+        btn_nav_servidores.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btn_nav_servidores.setForeground(new java.awt.Color(255, 255, 255));
+        btn_nav_servidores.setText("Servidores");
+        btn_nav_servidores.setBorderPainted(false);
+        btn_nav_servidores.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btn_nav_servidores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_nav_servidoresActionPerformed(evt);
+            }
+        });
+        panel_navbar.add(btn_nav_servidores);
+
+        btn_Inicio4.setBackground(new java.awt.Color(35, 91, 88));
+        btn_Inicio4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btn_Inicio4.setForeground(new java.awt.Color(255, 255, 255));
+        btn_Inicio4.setText("Uniformes");
+        btn_Inicio4.setBorderPainted(false);
+        btn_Inicio4.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btn_Inicio4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_Inicio4ActionPerformed(evt);
+            }
+        });
+        panel_navbar.add(btn_Inicio4);
+        panel_navbar.add(filler5);
+
+        getContentPane().add(panel_navbar, java.awt.BorderLayout.NORTH);
+
+        panel_telaInicial.setBackground(new java.awt.Color(204, 255, 102));
+        panel_telaInicial.setPreferredSize(new java.awt.Dimension(1360, 650));
+        panel_telaInicial.setLayout(new java.awt.CardLayout());
+
+        jPanel1.setBackground(new java.awt.Color(153, 255, 204));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(jLabel2)
-                .addGap(49, 49, 49)
-                .addComponent(jLabel1)
-                .addGap(311, 311, 311)
-                .addComponent(jButton1)
-                .addContainerGap(556, Short.MAX_VALUE))
+            .addGap(0, 1360, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jButton1))
-                .addGap(21, 21, 21))
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setPreferredSize(new java.awt.Dimension(1360, 650));
+        panel_telaInicial.add(jPanel1, "card2");
+
+        jPanel2.setBackground(new java.awt.Color(204, 255, 153));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 1360, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 603, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 1348, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1348, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 603, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        panel_telaInicial.add(jPanel2, "card3");
+
+        getContentPane().add(panel_telaInicial, java.awt.BorderLayout.CENTER);
 
         getAccessibleContext().setAccessibleDescription("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btn_nav_InicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_InicioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btn_nav_InicioActionPerformed
+
+    private void btn_nav_distribuicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_distribuicaoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_nav_distribuicaoActionPerformed
+
+    private void btn_nav_alunosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_alunosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_nav_alunosActionPerformed
+
+    private void btn_nav_servidoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_servidoresActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_nav_servidoresActionPerformed
+
+    private void btn_Inicio4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Inicio4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_Inicio4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -167,10 +231,20 @@ public class ViewsSistema extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton btn_Inicio4;
+    private javax.swing.JButton btn_nav_Inicio;
+    private javax.swing.JButton btn_nav_alunos;
+    private javax.swing.JButton btn_nav_distribuicao;
+    private javax.swing.JButton btn_nav_servidores;
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler3;
+    private javax.swing.Box.Filler filler4;
+    private javax.swing.Box.Filler filler5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel logo_ifro;
+    private javax.swing.JLabel nome_sistema;
+    private javax.swing.JPanel panel_navbar;
+    private javax.swing.JPanel panel_telaInicial;
     // End of variables declaration//GEN-END:variables
 }
