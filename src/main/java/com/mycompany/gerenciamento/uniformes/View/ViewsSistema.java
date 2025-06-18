@@ -1,20 +1,26 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.gerenciamento.uniformes.View;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
- *
  * @author barbara
  */
-public class ViewsSistema extends javax.swing.JFrame {
 
-    /**
-     * Creates new form GerenciamentoServidores
-     */
+public class ViewsSistema extends javax.swing.JFrame {
+    private CardLayout cardLayout;
+    
     public ViewsSistema() {
         initComponents();
+        System.out.println("Painéis disponíveis:");
+        for (Component comp : panel_telaInicial.getComponents()) {
+            System.out.println("- " + comp.getName() + " (" + comp.getClass().getSimpleName() + ")");
+        }
+        cardLayout = (CardLayout) panel_telaInicial.getLayout();
+        cardLayout.show(panel_telaInicial, "Inicio");
+        this.setVisible(true);
     }
 
     /**
@@ -26,119 +32,297 @@ public class ViewsSistema extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        panel_navbar = new javax.swing.JPanel();
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(80, 80), new java.awt.Dimension(25, 800));
+        jLabel7 = new javax.swing.JLabel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(80, 80), new java.awt.Dimension(100, 800));
+        nome_sistema = new javax.swing.JLabel();
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(80, 80), new java.awt.Dimension(450, 800));
+        btn_nav_Inicio = new javax.swing.JButton();
+        filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(80, 80), new java.awt.Dimension(20, 800));
+        btn_nav_distribuicao = new javax.swing.JButton();
+        filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(80, 80), new java.awt.Dimension(10, 800));
+        btn_nav_alunos = new javax.swing.JButton();
+        btn_nav_servidores = new javax.swing.JButton();
+        btn_nav_uniformes = new javax.swing.JButton();
+        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(80, 80), new java.awt.Dimension(20, 800));
+        panel_telaInicial = new javax.swing.JPanel();
+        Inicio = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
+        Distribuicao = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        Alunos = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        Servidores = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        Uniformes = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("GERENCIAMENTO DE UNIFORMES ACADÊMICOS");
         setMaximumSize(new java.awt.Dimension(1360, 2147483647));
         setName("FrameServidores"); // NOI18N
-        setUndecorated(true);
         setPreferredSize(new java.awt.Dimension(1360, 760));
         setSize(new java.awt.Dimension(1360, 750));
 
-        jPanel1.setBackground(new java.awt.Color(35, 91, 88));
-        jPanel1.setPreferredSize(new java.awt.Dimension(1360, 100));
+        panel_navbar.setBackground(new java.awt.Color(35, 91, 88));
+        panel_navbar.setMaximumSize(new java.awt.Dimension(1360, 800));
+        panel_navbar.setMinimumSize(new java.awt.Dimension(1360, 64));
+        panel_navbar.setPreferredSize(new java.awt.Dimension(1360, 80));
+        panel_navbar.setLayout(new javax.swing.BoxLayout(panel_navbar, javax.swing.BoxLayout.LINE_AXIS));
+        panel_navbar.add(filler4);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logo-IFRO-PNG-branco.png"))); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/mycompany/gerenciamento/uniformes/Images/logo-IFRO-PNG-branco.png"))); // NOI18N
+        panel_navbar.add(jLabel7);
+        panel_navbar.add(filler1);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("GERENCIAMENTO DE UNIFORMES ACADÊMICOS");
+        nome_sistema.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        nome_sistema.setForeground(new java.awt.Color(255, 255, 255));
+        nome_sistema.setText("GERENCIAMENTO DE UNIFORMES ACADÊMICOS");
+        panel_navbar.add(nome_sistema);
+        panel_navbar.add(filler3);
 
-        jButton1.setBackground(new java.awt.Color(35, 91, 88));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Inicio");
-        jButton1.setBorderPainted(false);
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btn_nav_Inicio.setBackground(new java.awt.Color(35, 91, 88));
+        btn_nav_Inicio.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btn_nav_Inicio.setForeground(new java.awt.Color(255, 255, 255));
+        btn_nav_Inicio.setText("Inicio");
+        btn_nav_Inicio.setBorder(null);
+        btn_nav_Inicio.setBorderPainted(false);
+        btn_nav_Inicio.setContentAreaFilled(false);
+        btn_nav_Inicio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_nav_Inicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btn_nav_InicioActionPerformed(evt);
             }
         });
+        panel_navbar.add(btn_nav_Inicio);
+        panel_navbar.add(filler6);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(jLabel2)
-                .addGap(49, 49, 49)
+        btn_nav_distribuicao.setBackground(new java.awt.Color(35, 91, 88));
+        btn_nav_distribuicao.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btn_nav_distribuicao.setForeground(new java.awt.Color(255, 255, 255));
+        btn_nav_distribuicao.setText("Distribuição");
+        btn_nav_distribuicao.setBorder(null);
+        btn_nav_distribuicao.setBorderPainted(false);
+        btn_nav_distribuicao.setContentAreaFilled(false);
+        btn_nav_distribuicao.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_nav_distribuicao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_nav_distribuicaoActionPerformed(evt);
+            }
+        });
+        panel_navbar.add(btn_nav_distribuicao);
+        panel_navbar.add(filler7);
+
+        btn_nav_alunos.setBackground(new java.awt.Color(35, 91, 88));
+        btn_nav_alunos.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btn_nav_alunos.setForeground(new java.awt.Color(255, 255, 255));
+        btn_nav_alunos.setText("Alunos");
+        btn_nav_alunos.setBorderPainted(false);
+        btn_nav_alunos.setContentAreaFilled(false);
+        btn_nav_alunos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_nav_alunos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_nav_alunosActionPerformed(evt);
+            }
+        });
+        panel_navbar.add(btn_nav_alunos);
+
+        btn_nav_servidores.setBackground(new java.awt.Color(35, 91, 88));
+        btn_nav_servidores.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btn_nav_servidores.setForeground(new java.awt.Color(255, 255, 255));
+        btn_nav_servidores.setText("Servidores");
+        btn_nav_servidores.setBorderPainted(false);
+        btn_nav_servidores.setContentAreaFilled(false);
+        btn_nav_servidores.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_nav_servidores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_nav_servidoresActionPerformed(evt);
+            }
+        });
+        panel_navbar.add(btn_nav_servidores);
+
+        btn_nav_uniformes.setBackground(new java.awt.Color(35, 91, 88));
+        btn_nav_uniformes.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btn_nav_uniformes.setForeground(new java.awt.Color(255, 255, 255));
+        btn_nav_uniformes.setText("Uniformes");
+        btn_nav_uniformes.setBorderPainted(false);
+        btn_nav_uniformes.setContentAreaFilled(false);
+        btn_nav_uniformes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_nav_uniformes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_nav_uniformesActionPerformed(evt);
+            }
+        });
+        panel_navbar.add(btn_nav_uniformes);
+        panel_navbar.add(filler5);
+
+        getContentPane().add(panel_navbar, java.awt.BorderLayout.NORTH);
+
+        panel_telaInicial.setBackground(new java.awt.Color(204, 255, 102));
+        panel_telaInicial.setPreferredSize(new java.awt.Dimension(1360, 650));
+        panel_telaInicial.setLayout(new java.awt.CardLayout());
+
+        Inicio.setBackground(new java.awt.Color(204, 255, 153));
+
+        jLabel1.setText("Inicio");
+
+        javax.swing.GroupLayout InicioLayout = new javax.swing.GroupLayout(Inicio);
+        Inicio.setLayout(InicioLayout);
+        InicioLayout.setHorizontalGroup(
+            InicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(InicioLayout.createSequentialGroup()
+                .addGap(0, 665, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(311, 311, 311)
-                .addComponent(jButton1)
-                .addContainerGap(556, Short.MAX_VALUE))
+                .addGap(0, 666, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+        InicioLayout.setVerticalGroup(
+            InicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(InicioLayout.createSequentialGroup()
+                .addGap(0, 216, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(0, 216, Short.MAX_VALUE))
+        );
+
+        panel_telaInicial.add(Inicio, "inicio");
+
+        Distribuicao.setBackground(new java.awt.Color(153, 255, 204));
+
+        jLabel2.setText("Distribuição");
+
+        javax.swing.GroupLayout DistribuicaoLayout = new javax.swing.GroupLayout(Distribuicao);
+        Distribuicao.setLayout(DistribuicaoLayout);
+        DistribuicaoLayout.setHorizontalGroup(
+            DistribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DistribuicaoLayout.createSequentialGroup()
+                .addContainerGap(667, Short.MAX_VALUE)
                 .addComponent(jLabel2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jButton1))
-                .addGap(21, 21, 21))
+                .addGap(630, 630, 630))
+        );
+        DistribuicaoLayout.setVerticalGroup(
+            DistribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DistribuicaoLayout.createSequentialGroup()
+                .addGap(102, 102, 102)
+                .addComponent(jLabel2)
+                .addContainerGap(532, Short.MAX_VALUE))
         );
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setPreferredSize(new java.awt.Dimension(1360, 650));
+        panel_telaInicial.add(Distribuicao, "distribuicao");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        Alunos.setBackground(new java.awt.Color(255, 204, 255));
+
+        jLabel3.setText("Alunos");
+
+        javax.swing.GroupLayout AlunosLayout = new javax.swing.GroupLayout(Alunos);
+        Alunos.setLayout(AlunosLayout);
+        AlunosLayout.setHorizontalGroup(
+            AlunosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AlunosLayout.createSequentialGroup()
+                .addContainerGap(693, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addGap(630, 630, 630))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 603, Short.MAX_VALUE)
+        AlunosLayout.setVerticalGroup(
+            AlunosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(AlunosLayout.createSequentialGroup()
+                .addGap(102, 102, 102)
+                .addComponent(jLabel3)
+                .addContainerGap(532, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 1348, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1348, Short.MAX_VALUE))
-                .addContainerGap())
+        panel_telaInicial.add(Alunos, "alunos");
+
+        Servidores.setBackground(new java.awt.Color(255, 255, 204));
+
+        jLabel4.setText("Servidores");
+
+        javax.swing.GroupLayout ServidoresLayout = new javax.swing.GroupLayout(Servidores);
+        Servidores.setLayout(ServidoresLayout);
+        ServidoresLayout.setHorizontalGroup(
+            ServidoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ServidoresLayout.createSequentialGroup()
+                .addContainerGap(676, Short.MAX_VALUE)
+                .addComponent(jLabel4)
+                .addGap(630, 630, 630))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 603, javax.swing.GroupLayout.PREFERRED_SIZE))
+        ServidoresLayout.setVerticalGroup(
+            ServidoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ServidoresLayout.createSequentialGroup()
+                .addGap(102, 102, 102)
+                .addComponent(jLabel4)
+                .addContainerGap(532, Short.MAX_VALUE))
         );
+
+        panel_telaInicial.add(Servidores, "servidores");
+
+        Uniformes.setBackground(new java.awt.Color(255, 153, 153));
+
+        jLabel5.setText("Uniformes");
+
+        javax.swing.GroupLayout UniformesLayout = new javax.swing.GroupLayout(Uniformes);
+        Uniformes.setLayout(UniformesLayout);
+        UniformesLayout.setHorizontalGroup(
+            UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UniformesLayout.createSequentialGroup()
+                .addContainerGap(675, Short.MAX_VALUE)
+                .addComponent(jLabel5)
+                .addGap(630, 630, 630))
+        );
+        UniformesLayout.setVerticalGroup(
+            UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(UniformesLayout.createSequentialGroup()
+                .addGap(102, 102, 102)
+                .addComponent(jLabel5)
+                .addContainerGap(532, Short.MAX_VALUE))
+        );
+
+        panel_telaInicial.add(Uniformes, "uniformes");
+
+        getContentPane().add(panel_telaInicial, java.awt.BorderLayout.CENTER);
 
         getAccessibleContext().setAccessibleDescription("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btn_nav_InicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_InicioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        cardLayout.show(panel_telaInicial, "inicio");
+        System.out.println("Mostrando painel Inicio");
+    }//GEN-LAST:event_btn_nav_InicioActionPerformed
+
+    private void btn_nav_distribuicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_distribuicaoActionPerformed
+        // TODO add your handling code here:
+        cardLayout.show(panel_telaInicial, "distribuicao");
+        System.out.println("Mostrando painel Distribuicao");
+    }//GEN-LAST:event_btn_nav_distribuicaoActionPerformed
+
+    private void btn_nav_alunosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_alunosActionPerformed
+        // TODO add your handling code here:
+        cardLayout.show(panel_telaInicial, "alunos");
+        System.out.println("Mostrando painel Alunos");
+        //JOptionPane.showMessageDialog(this, "Painel de Alunos ainda não implementado");
+    }//GEN-LAST:event_btn_nav_alunosActionPerformed
+
+    private void btn_nav_servidoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_servidoresActionPerformed
+        // TODO add your handling code here:
+        cardLayout.show(panel_telaInicial, "servidores");
+        System.out.println("Mostrando painel Servidores");
+        //JOptionPane.showMessageDialog(this, "Painel de Servidores ainda não implementado");
+    }//GEN-LAST:event_btn_nav_servidoresActionPerformed
+
+    private void btn_nav_uniformesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_uniformesActionPerformed
+        // TODO add your handling code here:
+        cardLayout.show(panel_telaInicial, "uniformes");
+        System.out.println("Mostrando painel Uniformes");
+        //JOptionPane.showMessageDialog(this, "Painel de Uniformes ainda não implementado");
+    }//GEN-LAST:event_btn_nav_uniformesActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+        System.out.println("Método main iniciado!");
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -146,31 +330,43 @@ public class ViewsSistema extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ViewsSistema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ViewsSistema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ViewsSistema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (Exception ex) {
             java.util.logging.Logger.getLogger(ViewsSistema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ViewsSistema().setVisible(true);
+                new ViewsSistema().setVisible(true); 
             }
         });
     }
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JPanel Alunos;
+    private javax.swing.JPanel Distribuicao;
+    private javax.swing.JPanel Inicio;
+    private javax.swing.JPanel Servidores;
+    private javax.swing.JPanel Uniformes;
+    private javax.swing.JButton btn_nav_Inicio;
+    private javax.swing.JButton btn_nav_alunos;
+    private javax.swing.JButton btn_nav_distribuicao;
+    private javax.swing.JButton btn_nav_servidores;
+    private javax.swing.JButton btn_nav_uniformes;
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler3;
+    private javax.swing.Box.Filler filler4;
+    private javax.swing.Box.Filler filler5;
+    private javax.swing.Box.Filler filler6;
+    private javax.swing.Box.Filler filler7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel nome_sistema;
+    private javax.swing.JPanel panel_navbar;
+    private javax.swing.JPanel panel_telaInicial;
     // End of variables declaration//GEN-END:variables
 }
