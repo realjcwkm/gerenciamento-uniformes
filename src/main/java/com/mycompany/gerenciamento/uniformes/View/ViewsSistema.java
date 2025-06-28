@@ -69,7 +69,6 @@ public class ViewsSistema extends javax.swing.JFrame {
         setName("FrameServidores"); // NOI18N
         setPreferredSize(new java.awt.Dimension(1360, 760));
         setSize(new java.awt.Dimension(1360, 750));
-        getContentPane().setLayout(new java.awt.BorderLayout());
 
         panel_navbar.setBackground(new java.awt.Color(35, 91, 88));
         panel_navbar.setMaximumSize(new java.awt.Dimension(1360, 800));
@@ -78,7 +77,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         panel_navbar.setLayout(new javax.swing.BoxLayout(panel_navbar, javax.swing.BoxLayout.LINE_AXIS));
         panel_navbar.add(filler4);
 
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/mycompany/gerenciamento/uniformes/Images/logo-IFRO-PNG-branco.png"))); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon("src\\main\\java\\com\\mycompany\\gerenciamento\\uniformes\\Images\\logo-IFRO-PNG-branco.png"));
         panel_navbar.add(jLabel7);
         panel_navbar.add(filler1);
 
@@ -185,9 +184,9 @@ public class ViewsSistema extends javax.swing.JFrame {
         InicioLayout.setVerticalGroup(
             InicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(InicioLayout.createSequentialGroup()
-                .addGap(0, 216, Short.MAX_VALUE)
+                .addGap(0, 309, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(0, 216, Short.MAX_VALUE))
+                .addGap(0, 309, Short.MAX_VALUE))
         );
 
         panel_telaInicial.add(Inicio, "inicio");
@@ -248,7 +247,7 @@ public class ViewsSistema extends javax.swing.JFrame {
             .addGroup(DistribuicaoLayout.createSequentialGroup()
                 .addGap(102, 102, 102)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
                 .addGroup(DistribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -280,7 +279,7 @@ public class ViewsSistema extends javax.swing.JFrame {
             .addGroup(AlunosLayout.createSequentialGroup()
                 .addGap(102, 102, 102)
                 .addComponent(jLabel3)
-                .addContainerGap(532, Short.MAX_VALUE))
+                .addContainerGap(516, Short.MAX_VALUE))
         );
 
         panel_telaInicial.add(Alunos, "alunos");
@@ -303,7 +302,7 @@ public class ViewsSistema extends javax.swing.JFrame {
             .addGroup(ServidoresLayout.createSequentialGroup()
                 .addGap(102, 102, 102)
                 .addComponent(jLabel4)
-                .addContainerGap(532, Short.MAX_VALUE))
+                .addContainerGap(516, Short.MAX_VALUE))
         );
 
         panel_telaInicial.add(Servidores, "servidores");
@@ -326,7 +325,7 @@ public class ViewsSistema extends javax.swing.JFrame {
             .addGroup(UniformesLayout.createSequentialGroup()
                 .addGap(102, 102, 102)
                 .addComponent(jLabel5)
-                .addContainerGap(532, Short.MAX_VALUE))
+                .addContainerGap(516, Short.MAX_VALUE))
         );
 
         panel_telaInicial.add(Uniformes, "uniformes");
