@@ -49,7 +49,6 @@ public class ServidorDAO implements ServidorInterface {
     
     @Override
     public ServidorModel getByMatricula(String matricula) {
-        ServidorModel servidor = null;
         String sql = "SELECT * FROM Servidor WHERE matricula = ?";
         
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -59,7 +58,7 @@ public class ServidorDAO implements ServidorInterface {
             try (ResultSet rs = ps.executeQuery()) {
             
                 if (rs.next()) {
-                    servidor = new ServidorModel();
+                    ServidorModel servidor = new ServidorModel();
                     servidor.setId(rs.getInt("id"));
                     servidor.setNome(rs.getString("nome"));
                     servidor.setSobrenome(rs.getString("sobrenome"));
@@ -77,7 +76,7 @@ public class ServidorDAO implements ServidorInterface {
             e.printStackTrace();
         }
         
-        return servidor;
+        return null;
     }
     
     @Override
