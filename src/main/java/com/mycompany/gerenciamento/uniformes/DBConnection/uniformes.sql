@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `uniformes`.`Servidor` (
   `email` VARCHAR(45) NOT NULL,
   `telefone` VARCHAR(45) NOT NULL,
   `matricula` VARCHAR(45) NOT NULL,
-  `senha` VARCHAR(45) NOT NULL,
+  `senha` VARCHAR(255) NOT NULL,
   `ativo` TINYINT NOT NULL,
   `fk_departamento` INT NOT NULL,
   PRIMARY KEY (`id`),
