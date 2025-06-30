@@ -10,13 +10,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServidorDAO {
+public class ServidorDAO implements ServidorInterface {
     private Connection conn;
     
     public ServidorDAO() {
         this.conn = Conexao.getConexao();
     }
     
+    @Override
     public List<ServidorModel> listarTodos() {
         List<ServidorModel> servidores = new ArrayList<>();
         String sql = "SELECT * FROM servidor";
@@ -46,6 +47,39 @@ public class ServidorDAO {
         return servidores;
     }
     
+    @Override
+    public ServidorModel getByMatricula(String matricula) {
+        String sql = "SELECT * FROM Servidor WHERE matricula = ?";
+        
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+            ps.setString(1, matricula);
+            
+            try (ResultSet rs = ps.executeQuery()) {
+            
+                if (rs.next()) {
+                    ServidorModel servidor = new ServidorModel();
+                    servidor.setId(rs.getInt("id"));
+                    servidor.setNome(rs.getString("nome"));
+                    servidor.setSobrenome(rs.getString("sobrenome"));
+                    servidor.setEmail(rs.getString("email"));
+                    servidor.setTelefone(rs.getString("telefone"));
+                    servidor.setMatricula(rs.getString("matricula"));
+                    servidor.setSenha(rs.getString("senha"));
+                    servidor.setAtivo(rs.getBoolean("ativo"));
+                    servidor.setFk_departamento(rs.getInt("fk_departamento"));
+                    return servidor;
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao listar servidor:");
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
+    
+    @Override
     public boolean cadastrarServidor(ServidorModel servidor) {
         String sql = "INSERT INTO servidor (nome, sobrenome, email, telefone, matricula, senha, ativo, fk_departamento) "
                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -93,7 +127,8 @@ public class ServidorDAO {
         }
     }
     
-    private boolean verificarDepartamento(int idDepartamento) throws SQLException {
+    @Override
+    public boolean verificarDepartamento(int idDepartamento) throws SQLException {
         String sql = "SELECT id FROM departamento WHERE id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, idDepartamento);
