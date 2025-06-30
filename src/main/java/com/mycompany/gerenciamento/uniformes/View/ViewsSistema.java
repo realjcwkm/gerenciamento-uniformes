@@ -1,5 +1,6 @@
 package com.mycompany.gerenciamento.uniformes.View;
 
+import com.mycompany.gerenciamento.uniformes.AuthController;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,16 +11,31 @@ import java.awt.event.ActionListener;
  */
 
 public class ViewsSistema extends javax.swing.JFrame {
-    private CardLayout cardLayout;
+    private final CardLayout mainCardLayout;
+    private final CardLayout appCardLayout;
     
     public ViewsSistema() {
         initComponents();
+        appCardLayout = (CardLayout) panel_telaInicial.getLayout();
+        mainCardLayout = (CardLayout) main_container.getLayout();
+        
         System.out.println("Painéis disponíveis:");
         for (Component comp : panel_telaInicial.getComponents()) {
             System.out.println("- " + comp.getName() + " (" + comp.getClass().getSimpleName() + ")");
         }
-        cardLayout = (CardLayout) panel_telaInicial.getLayout();
-        cardLayout.show(panel_telaInicial, "Inicio");
+        
+        btn_login.addActionListener(e -> {
+            boolean login = new AuthController().autenticar(input_matricula.getText(), new String(input_senha.getPassword()));
+            System.out.println(login);
+            
+            if (login) {
+                mainCardLayout.show(main_container, "card_aplicacao");
+                appCardLayout.show(panel_telaInicial, "Inicio");
+            }
+        });
+        
+        mainCardLayout.show(main_container, "card_login");
+        
         this.setVisible(true);
     }
 
@@ -32,6 +48,8 @@ public class ViewsSistema extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        main_container = new javax.swing.JPanel();
+        panel_aplicacao = new javax.swing.JPanel();
         panel_navbar = new javax.swing.JPanel();
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(80, 80), new java.awt.Dimension(25, 800));
         jLabel7 = new javax.swing.JLabel();
@@ -62,6 +80,12 @@ public class ViewsSistema extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         Uniformes = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
+        panel_login = new javax.swing.JPanel();
+        lb_matricula = new javax.swing.JLabel();
+        input_matricula = new javax.swing.JTextField();
+        lb_senha = new javax.swing.JLabel();
+        input_senha = new javax.swing.JPasswordField();
+        btn_login = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("GERENCIAMENTO DE UNIFORMES ACADÊMICOS");
@@ -69,6 +93,14 @@ public class ViewsSistema extends javax.swing.JFrame {
         setName("FrameServidores"); // NOI18N
         setPreferredSize(new java.awt.Dimension(1360, 760));
         setSize(new java.awt.Dimension(1360, 750));
+
+        main_container.setMaximumSize(new java.awt.Dimension(1360, 2147483647));
+        main_container.setPreferredSize(new java.awt.Dimension(1360, 760));
+        main_container.setLayout(new java.awt.CardLayout());
+
+        panel_aplicacao.setMaximumSize(new java.awt.Dimension(1360, 2147483647));
+        panel_aplicacao.setPreferredSize(new java.awt.Dimension(1360, 760));
+        panel_aplicacao.setLayout(new java.awt.BorderLayout());
 
         panel_navbar.setBackground(new java.awt.Color(35, 91, 88));
         panel_navbar.setMaximumSize(new java.awt.Dimension(1360, 800));
@@ -162,7 +194,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         panel_navbar.add(btn_nav_uniformes);
         panel_navbar.add(filler5);
 
-        getContentPane().add(panel_navbar, java.awt.BorderLayout.NORTH);
+        panel_aplicacao.add(panel_navbar, java.awt.BorderLayout.NORTH);
 
         panel_telaInicial.setBackground(new java.awt.Color(204, 255, 102));
         panel_telaInicial.setPreferredSize(new java.awt.Dimension(1360, 650));
@@ -177,16 +209,16 @@ public class ViewsSistema extends javax.swing.JFrame {
         InicioLayout.setHorizontalGroup(
             InicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(InicioLayout.createSequentialGroup()
-                .addGap(0, 1632, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(0, 1633, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         InicioLayout.setVerticalGroup(
             InicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(InicioLayout.createSequentialGroup()
-                .addGap(0, 309, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(0, 309, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         panel_telaInicial.add(Inicio, "inicio");
@@ -270,7 +302,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         AlunosLayout.setHorizontalGroup(
             AlunosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AlunosLayout.createSequentialGroup()
-                .addContainerGap(2624, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addGap(630, 630, 630))
         );
@@ -279,7 +311,7 @@ public class ViewsSistema extends javax.swing.JFrame {
             .addGroup(AlunosLayout.createSequentialGroup()
                 .addGap(102, 102, 102)
                 .addComponent(jLabel3)
-                .addContainerGap(516, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panel_telaInicial.add(Alunos, "alunos");
@@ -293,7 +325,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         ServidoresLayout.setHorizontalGroup(
             ServidoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ServidoresLayout.createSequentialGroup()
-                .addContainerGap(2598, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addGap(630, 630, 630))
         );
@@ -302,7 +334,7 @@ public class ViewsSistema extends javax.swing.JFrame {
             .addGroup(ServidoresLayout.createSequentialGroup()
                 .addGap(102, 102, 102)
                 .addComponent(jLabel4)
-                .addContainerGap(516, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panel_telaInicial.add(Servidores, "servidores");
@@ -316,7 +348,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         UniformesLayout.setHorizontalGroup(
             UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UniformesLayout.createSequentialGroup()
-                .addContainerGap(2601, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addGap(630, 630, 630))
         );
@@ -325,12 +357,71 @@ public class ViewsSistema extends javax.swing.JFrame {
             .addGroup(UniformesLayout.createSequentialGroup()
                 .addGap(102, 102, 102)
                 .addComponent(jLabel5)
-                .addContainerGap(516, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panel_telaInicial.add(Uniformes, "uniformes");
 
-        getContentPane().add(panel_telaInicial, java.awt.BorderLayout.CENTER);
+        panel_aplicacao.add(panel_telaInicial, java.awt.BorderLayout.CENTER);
+
+        main_container.add(panel_aplicacao, "card_aplicacao");
+
+        panel_login.setBackground(new java.awt.Color(35, 91, 88));
+        panel_login.setMaximumSize(new java.awt.Dimension(1360, 32767));
+        panel_login.setMinimumSize(new java.awt.Dimension(1360, 714));
+        panel_login.setPreferredSize(new java.awt.Dimension(1360, 760));
+
+        lb_matricula.setText("matricula");
+
+        input_matricula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                input_matriculaActionPerformed(evt);
+            }
+        });
+
+        lb_senha.setText("senha");
+
+        btn_login.setText("login");
+        btn_login.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_loginActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panel_loginLayout = new javax.swing.GroupLayout(panel_login);
+        panel_login.setLayout(panel_loginLayout);
+        panel_loginLayout.setHorizontalGroup(
+            panel_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_loginLayout.createSequentialGroup()
+                .addGap(59, 59, 59)
+                .addGroup(panel_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_login)
+                    .addGroup(panel_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(lb_matricula)
+                        .addComponent(input_matricula)
+                        .addComponent(lb_senha)
+                        .addComponent(input_senha, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)))
+                .addContainerGap(3004, Short.MAX_VALUE))
+        );
+        panel_loginLayout.setVerticalGroup(
+            panel_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_loginLayout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(lb_matricula)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(input_matricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(55, 55, 55)
+                .addComponent(lb_senha)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(input_senha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43)
+                .addComponent(btn_login)
+                .addContainerGap(465, Short.MAX_VALUE))
+        );
+
+        main_container.add(panel_login, "card_login");
+
+        getContentPane().add(main_container, java.awt.BorderLayout.CENTER);
 
         getAccessibleContext().setAccessibleDescription("");
 
@@ -339,33 +430,33 @@ public class ViewsSistema extends javax.swing.JFrame {
 
     private void btn_nav_InicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_InicioActionPerformed
         // TODO add your handling code here:
-        cardLayout.show(panel_telaInicial, "inicio");
+        appCardLayout.show(panel_telaInicial, "inicio");
         System.out.println("Mostrando painel Inicio");
     }//GEN-LAST:event_btn_nav_InicioActionPerformed
 
     private void btn_nav_distribuicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_distribuicaoActionPerformed
         // TODO add your handling code here:
-        cardLayout.show(panel_telaInicial, "distribuicao");
+        appCardLayout.show(panel_telaInicial, "distribuicao");
         System.out.println("Mostrando painel Distribuicao");
     }//GEN-LAST:event_btn_nav_distribuicaoActionPerformed
 
     private void btn_nav_alunosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_alunosActionPerformed
         // TODO add your handling code here:
-        cardLayout.show(panel_telaInicial, "alunos");
+        appCardLayout.show(panel_telaInicial, "alunos");
         System.out.println("Mostrando painel Alunos");
         //JOptionPane.showMessageDialog(this, "Painel de Alunos ainda não implementado");
     }//GEN-LAST:event_btn_nav_alunosActionPerformed
 
     private void btn_nav_servidoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_servidoresActionPerformed
         // TODO add your handling code here:
-        cardLayout.show(panel_telaInicial, "servidores");
+        appCardLayout.show(panel_telaInicial, "servidores");
         System.out.println("Mostrando painel Servidores");
         //JOptionPane.showMessageDialog(this, "Painel de Servidores ainda não implementado");
     }//GEN-LAST:event_btn_nav_servidoresActionPerformed
 
     private void btn_nav_uniformesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_uniformesActionPerformed
         // TODO add your handling code here:
-        cardLayout.show(panel_telaInicial, "uniformes");
+        appCardLayout.show(panel_telaInicial, "uniformes");
         System.out.println("Mostrando painel Uniformes");
         //JOptionPane.showMessageDialog(this, "Painel de Uniformes ainda não implementado");
     }//GEN-LAST:event_btn_nav_uniformesActionPerformed
@@ -373,6 +464,14 @@ public class ViewsSistema extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void input_matriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_input_matriculaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_input_matriculaActionPerformed
+
+    private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_loginActionPerformed
 
     /**
      * @param args the command line arguments
@@ -404,6 +503,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JPanel Inicio;
     private javax.swing.JPanel Servidores;
     private javax.swing.JPanel Uniformes;
+    private javax.swing.JButton btn_login;
     private javax.swing.JButton btn_nav_Inicio;
     private javax.swing.JButton btn_nav_alunos;
     private javax.swing.JButton btn_nav_distribuicao;
@@ -415,6 +515,8 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler5;
     private javax.swing.Box.Filler filler6;
     private javax.swing.Box.Filler filler7;
+    private javax.swing.JTextField input_matricula;
+    private javax.swing.JPasswordField input_senha;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -426,7 +528,12 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lb_matricula;
+    private javax.swing.JLabel lb_senha;
+    private javax.swing.JPanel main_container;
     private javax.swing.JLabel nome_sistema;
+    private javax.swing.JPanel panel_aplicacao;
+    private javax.swing.JPanel panel_login;
     private javax.swing.JPanel panel_navbar;
     private javax.swing.JPanel panel_telaInicial;
     // End of variables declaration//GEN-END:variables
