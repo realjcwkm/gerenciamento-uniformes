@@ -61,7 +61,18 @@ public class ViewsSistema extends javax.swing.JFrame {
         Servidores = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         Uniformes = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        TableDistribution = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        EDITAR = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("GERENCIAMENTO DE UNIFORMES ACADÊMICOS");
@@ -177,16 +188,16 @@ public class ViewsSistema extends javax.swing.JFrame {
         InicioLayout.setHorizontalGroup(
             InicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(InicioLayout.createSequentialGroup()
-                .addGap(0, 1632, Short.MAX_VALUE)
+                .addGap(0, 665, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(0, 1633, Short.MAX_VALUE))
+                .addGap(0, 666, Short.MAX_VALUE))
         );
         InicioLayout.setVerticalGroup(
             InicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(InicioLayout.createSequentialGroup()
-                .addGap(0, 309, Short.MAX_VALUE)
+                .addGap(0, 317, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(0, 309, Short.MAX_VALUE))
+                .addGap(0, 317, Short.MAX_VALUE))
         );
 
         panel_telaInicial.add(Inicio, "inicio");
@@ -270,7 +281,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         AlunosLayout.setHorizontalGroup(
             AlunosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AlunosLayout.createSequentialGroup()
-                .addContainerGap(2624, Short.MAX_VALUE)
+                .addContainerGap(693, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addGap(630, 630, 630))
         );
@@ -279,7 +290,7 @@ public class ViewsSistema extends javax.swing.JFrame {
             .addGroup(AlunosLayout.createSequentialGroup()
                 .addGap(102, 102, 102)
                 .addComponent(jLabel3)
-                .addContainerGap(516, Short.MAX_VALUE))
+                .addContainerGap(532, Short.MAX_VALUE))
         );
 
         panel_telaInicial.add(Alunos, "alunos");
@@ -293,7 +304,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         ServidoresLayout.setHorizontalGroup(
             ServidoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ServidoresLayout.createSequentialGroup()
-                .addContainerGap(2598, Short.MAX_VALUE)
+                .addContainerGap(676, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addGap(630, 630, 630))
         );
@@ -302,30 +313,135 @@ public class ViewsSistema extends javax.swing.JFrame {
             .addGroup(ServidoresLayout.createSequentialGroup()
                 .addGap(102, 102, 102)
                 .addComponent(jLabel4)
-                .addContainerGap(516, Short.MAX_VALUE))
+                .addContainerGap(532, Short.MAX_VALUE))
         );
 
         panel_telaInicial.add(Servidores, "servidores");
 
-        Uniformes.setBackground(new java.awt.Color(255, 153, 153));
+        Uniformes.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel5.setText("Uniformes");
+        TableDistribution.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Tipo", "Status", "Entrada", "Saída", "Tamanho", "Data de Entrega"
+            }
+        ));
+        TableDistribution.setDoubleBuffered(true);
+        jScrollPane2.setViewportView(TableDistribution);
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel5.setText("Controle de Uniformes");
+
+        jLabel9.setForeground(new java.awt.Color(0, 102, 51));
+        jLabel9.setText("Tenha um controle em tempo real do estoque de uniformes");
+
+        jButton2.setBackground(new java.awt.Color(0, 102, 51));
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("+ Adicionar Uniforme");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Anterior");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("Práxima");
+
+        jLabel10.setText("BUSCAR");
+        jLabel10.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jButton5.setText("Exportar Lista");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Camisa","Calça","Bermuda","Tamanho P","Tamanho M", "Tamanho G"}));
+
+        EDITAR.setText("EDITAR");
 
         javax.swing.GroupLayout UniformesLayout = new javax.swing.GroupLayout(Uniformes);
         Uniformes.setLayout(UniformesLayout);
         UniformesLayout.setHorizontalGroup(
             UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UniformesLayout.createSequentialGroup()
-                .addContainerGap(2601, Short.MAX_VALUE)
-                .addComponent(jLabel5)
-                .addGap(630, 630, 630))
+            .addGroup(UniformesLayout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(UniformesLayout.createSequentialGroup()
+                        .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel9))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addGap(26, 26, 26))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UniformesLayout.createSequentialGroup()
+                        .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(UniformesLayout.createSequentialGroup()
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1074, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(EDITAR)
+                                .addGap(0, 116, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, UniformesLayout.createSequentialGroup()
+                                .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(UniformesLayout.createSequentialGroup()
+                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(66, 66, 66)
+                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jButton5)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, UniformesLayout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(jButton3)
+                                        .addGap(41, 41, 41)))
+                                .addComponent(jButton4)))
+                        .addGap(70, 70, 70))))
         );
         UniformesLayout.setVerticalGroup(
             UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(UniformesLayout.createSequentialGroup()
-                .addGap(102, 102, 102)
-                .addComponent(jLabel5)
-                .addContainerGap(516, Short.MAX_VALUE))
+                .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(UniformesLayout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel9))
+                    .addGroup(UniformesLayout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(58, 58, 58)
+                .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
+                .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(UniformesLayout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 234, Short.MAX_VALUE)
+                        .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton4)
+                            .addComponent(jButton3))
+                        .addGap(75, 75, 75))
+                    .addGroup(UniformesLayout.createSequentialGroup()
+                        .addComponent(EDITAR)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         panel_telaInicial.add(Uniformes, "uniformes");
@@ -374,6 +490,18 @@ public class ViewsSistema extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -401,8 +529,10 @@ public class ViewsSistema extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Alunos;
     private javax.swing.JPanel Distribuicao;
+    private javax.swing.JToggleButton EDITAR;
     private javax.swing.JPanel Inicio;
     private javax.swing.JPanel Servidores;
+    private javax.swing.JTable TableDistribution;
     private javax.swing.JPanel Uniformes;
     private javax.swing.JButton btn_nav_Inicio;
     private javax.swing.JButton btn_nav_alunos;
@@ -416,7 +546,13 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler6;
     private javax.swing.Box.Filler filler7;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -424,8 +560,11 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel nome_sistema;
     private javax.swing.JPanel panel_navbar;
     private javax.swing.JPanel panel_telaInicial;
