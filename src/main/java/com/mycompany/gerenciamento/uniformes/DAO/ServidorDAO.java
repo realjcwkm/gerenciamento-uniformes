@@ -1,5 +1,6 @@
 package com.mycompany.gerenciamento.uniformes.DAO;
 
+import com.mycompany.gerenciamento.uniformes.Interfaces.ServidorInterface;
 import com.mycompany.gerenciamento.uniformes.DBConnection.Conexao;
 import com.mycompany.gerenciamento.uniformes.Models.ServidorModel;
 import java.sql.Connection;
