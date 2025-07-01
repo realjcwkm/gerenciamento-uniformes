@@ -61,4 +61,10 @@ public class EntregaTableModel extends AbstractTableModel{
     public Class<?> getColumnClass(int columnIndex) {
         return super.getColumnClass(columnIndex);
     }
+    
+    public void setEntregas(List<EntregaModel> novasEntregas) {
+        this.entregas = novasEntregas;
+        fireTableDataChanged();
+    }
+    
 }
