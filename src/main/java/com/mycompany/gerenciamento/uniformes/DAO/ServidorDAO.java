@@ -36,6 +36,7 @@ public class ServidorDAO implements ServidorInterface {
                 servidor.setMatricula(rs.getString("matricula"));
                 servidor.setSenha(rs.getString("senha"));
                 servidor.setAtivo(rs.getBoolean("ativo"));
+                servidor.setAcesso(rs.getBoolean("primeiro_acesso"));
                 servidor.setFk_departamento(rs.getInt("fk_departamento"));
 
                 servidores.add(servidor);
@@ -68,6 +69,7 @@ public class ServidorDAO implements ServidorInterface {
                     servidor.setMatricula(rs.getString("matricula"));
                     servidor.setSenha(rs.getString("senha"));
                     servidor.setAtivo(rs.getBoolean("ativo"));
+                    servidor.setAcesso(rs.getBoolean("primeiro_acesso"));
                     servidor.setFk_departamento(rs.getInt("fk_departamento"));
                     return servidor;
                 }
