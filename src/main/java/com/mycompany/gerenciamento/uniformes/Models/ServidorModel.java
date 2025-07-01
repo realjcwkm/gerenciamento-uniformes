@@ -9,6 +9,7 @@ public class ServidorModel {
     private String matricula;
     private String senha;
     private boolean ativo;
+    private boolean primeiro_acesso;
     private int fk_departamento;
 
     // Getters e Setters
@@ -35,6 +36,9 @@ public class ServidorModel {
     
     public boolean isAtivo() { return ativo; }
     public void setAtivo(boolean ativo) { this.ativo = ativo; }
+    
+    public boolean isPrimeiroAcesso() { return primeiro_acesso; }
+    public void setAcesso(boolean acesso) { this.primeiro_acesso = acesso; }
     
     public int getFk_departamento() { return fk_departamento; }
     public void setFk_departamento(int fk_departamento) { 
