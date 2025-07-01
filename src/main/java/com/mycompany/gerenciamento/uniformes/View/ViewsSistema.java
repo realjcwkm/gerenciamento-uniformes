@@ -1,7 +1,13 @@
 package com.mycompany.gerenciamento.uniformes.View;
 
 import com.mycompany.gerenciamento.uniformes.AuthController;
+import com.mycompany.gerenciamento.uniformes.DAO.EntregaDAO;
+import com.mycompany.gerenciamento.uniformes.Models.EntregaModel;
+import com.mycompany.gerenciamento.uniformes.TableModels.EntregaTableModel;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  * @author barbara
@@ -10,11 +16,15 @@ import java.awt.*;
 public class ViewsSistema extends javax.swing.JFrame {
     private final CardLayout mainCardLayout;
     private final CardLayout appCardLayout;
+    private EntregaTableModel entregaTableModel; // Declara a tableModel
     
     public ViewsSistema() {
         initComponents();
         appCardLayout = (CardLayout) panel_telaInicial.getLayout();
         mainCardLayout = (CardLayout) main_container.getLayout();
+        
+        this.entregaTableModel = new EntregaTableModel(new ArrayList<>()); //Cria modelo com uma lista vazia
+        this.jTable1.setModel(entregaTableModel); //Conecta o Jtable ao criado pelo netbeans
         
         System.out.println("Painéis disponíveis:");
         for (Component comp : panel_telaInicial.getComponents()) {
@@ -34,6 +44,18 @@ public class ViewsSistema extends javax.swing.JFrame {
         mainCardLayout.show(main_container, "card_login");
         
         this.setVisible(true);
+    }
+    
+    private void carregaDadosDistribuicao() {
+        try {
+            EntregaDAO dao = new EntregaDAO();
+            List<EntregaModel> listaDeEntregas = dao.listarTodos();
+            
+            entregaTableModel.setEntregas(listaDeEntregas);
+        } catch (Exception error) {
+            JOptionPane.showMessageDialog(this, "Erro ao carregar os dados de distribuição.", "Erro", JOptionPane.ERROR_MESSAGE);
+            error.printStackTrace();
+        }
     }
 
     /**
@@ -194,10 +216,14 @@ public class ViewsSistema extends javax.swing.JFrame {
         panel_aplicacao.add(panel_navbar, java.awt.BorderLayout.NORTH);
 
         panel_telaInicial.setBackground(new java.awt.Color(204, 255, 102));
+        panel_telaInicial.setMaximumSize(new java.awt.Dimension(1360, 760));
         panel_telaInicial.setPreferredSize(new java.awt.Dimension(1360, 650));
         panel_telaInicial.setLayout(new java.awt.CardLayout());
 
         Inicio.setBackground(new java.awt.Color(204, 255, 153));
+        Inicio.setMaximumSize(new java.awt.Dimension(1360, 760));
+        Inicio.setMinimumSize(new java.awt.Dimension(1360, 714));
+        Inicio.setPreferredSize(new java.awt.Dimension(1360, 760));
 
         jLabel1.setText("Inicio");
 
@@ -413,7 +439,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(input_senha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(43, 43, 43)
                 .addComponent(btn_login)
-                .addContainerGap(465, Short.MAX_VALUE))
+                .addContainerGap(529, Short.MAX_VALUE))
         );
 
         main_container.add(panel_login, "card_login");
@@ -433,6 +459,7 @@ public class ViewsSistema extends javax.swing.JFrame {
 
     private void btn_nav_distribuicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_distribuicaoActionPerformed
         // TODO add your handling code here:
+        carregaDadosDistribuicao();
         appCardLayout.show(panel_telaInicial, "distribuicao");
         System.out.println("Mostrando painel Distribuicao");
     }//GEN-LAST:event_btn_nav_distribuicaoActionPerformed
