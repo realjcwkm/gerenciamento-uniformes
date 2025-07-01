@@ -5,6 +5,7 @@
 package com.mycompany.gerenciamento.uniformes.DAO;
 
 import com.mycompany.gerenciamento.uniformes.DBConnection.Conexao;
+import com.mycompany.gerenciamento.uniformes.Interfaces.EntregaInterface;
 import com.mycompany.gerenciamento.uniformes.Models.EntregaModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,16 +18,17 @@ import java.util.List;
  *
  * @author geinfo
  */
-public class EntregaDAO {
+public class EntregaDAO implements EntregaInterface {
    private Connection conn;
    
    public EntregaDAO() {
        this.conn = Conexao.getConexao();
    }
    
+   @Override
    public List<EntregaModel> listarTodos() {
     List<EntregaModel> entregas = new ArrayList<>();
-    String sql = "SELECT * FROM entrega";
+    String sql = "SELECT * FROM Entrega";
     
     try (PreparedStatement ps = conn.prepareStatement(sql); 
          ResultSet rs = ps.executeQuery()) {
