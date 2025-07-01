@@ -76,9 +76,10 @@ public class ViewsSistema extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("GERENCIAMENTO DE UNIFORMES ACADÊMICOS");
-        setMaximumSize(new java.awt.Dimension(1360, 2147483647));
+        setMaximumSize(new java.awt.Dimension(1360, 714));
         setName("FrameServidores"); // NOI18N
         setPreferredSize(new java.awt.Dimension(1360, 760));
+        setResizable(false);
         setSize(new java.awt.Dimension(1360, 750));
 
         panel_navbar.setBackground(new java.awt.Color(35, 91, 88));
