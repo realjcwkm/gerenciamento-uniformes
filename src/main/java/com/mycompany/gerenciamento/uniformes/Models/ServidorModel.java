@@ -11,7 +11,8 @@ public class ServidorModel {
     private boolean ativo;
     private boolean primeiro_acesso;
     private int fk_departamento;
-
+    private String nomeDepartamento;
+     
     // Getters e Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
@@ -44,4 +45,7 @@ public class ServidorModel {
     public void setFk_departamento(int fk_departamento) { 
         this.fk_departamento = fk_departamento; 
     }
+
+    public String getNomeDepartamento() { return nomeDepartamento; }
+    public void setNomeDepartamento(String nomeDepartamento) { this.nomeDepartamento = nomeDepartamento; }
 }
