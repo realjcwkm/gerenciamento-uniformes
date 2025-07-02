@@ -1,0 +1,57 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.gerenciamento.uniformes.DAO;
+
+import com.mycompany.gerenciamento.uniformes.DBConnection.Conexao;
+import com.mycompany.gerenciamento.uniformes.Interfaces.AlunoInterface;
+import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author geinfo
+ */
+public class AlunoDAO implements AlunoInterface {
+    private Connection conn;
+    
+    public AlunoDAO() {
+        this.conn = Conexao.getConexao();
+    }
+    
+    @Override
+    public List<AlunoModel> listarTodos() {
+        List<AlunoModel> alunos = new ArrayList<>();
+        String sql = "SELECT * FROM Aluno";
+        
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery(sql);
+            
+            while (rs.next()) {
+                AlunoModel aluno = new AlunoModel();
+                aluno.setId(rs.getInt("id"));
+                aluno.setNome(rs.getString("nome"));
+                aluno.setSobrenome(rs.getString("sobrenome"));
+                aluno.setEmail(rs.getString("email"));
+                aluno.setTelefone(rs.getString("telefone"));
+                aluno.setMatricula(rs.getString("matricula"));
+                aluno.setIdade(rs.getInt("idade"));
+                aluno.setPeriodo(rs.getInt("periodo"));
+                aluno.setFk_curso(rs.getInt("fk_curso"));
+                
+                alunos.add(aluno);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao listar alunos:");
+            e.printStackTrace();
+        }
+        
+        return alunos;
+    }
+}
