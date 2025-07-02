@@ -98,6 +98,8 @@ public class ViewsSistema extends javax.swing.JFrame {
         Servidores = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         Uniformes = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        TableDistribution = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
         panel_login = new javax.swing.JPanel();
         lb_matricula = new javax.swing.JLabel();
@@ -108,9 +110,10 @@ public class ViewsSistema extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("GERENCIAMENTO DE UNIFORMES ACADÊMICOS");
-        setMaximumSize(new java.awt.Dimension(1360, 2147483647));
+        setMaximumSize(new java.awt.Dimension(1360, 714));
         setName("FrameServidores"); // NOI18N
         setPreferredSize(new java.awt.Dimension(1360, 760));
+        setResizable(false);
         setSize(new java.awt.Dimension(1360, 750));
 
         main_container.setMaximumSize(new java.awt.Dimension(1360, 2147483647));
@@ -362,9 +365,60 @@ public class ViewsSistema extends javax.swing.JFrame {
 
         panel_telaInicial.add(Servidores, "servidores");
 
-        Uniformes.setBackground(new java.awt.Color(255, 153, 153));
+        Uniformes.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel5.setText("Uniformes");
+        TableDistribution.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Tipo", "Status", "Entrada", "Saída", "Tamanho", "Data de Entrega"
+            }
+        ));
+        TableDistribution.setDoubleBuffered(true);
+        jScrollPane2.setViewportView(TableDistribution);
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel5.setText("Controle de Uniformes");
+
+        jLabel9.setForeground(new java.awt.Color(0, 102, 51));
+        jLabel9.setText("Tenha um controle em tempo real do estoque de uniformes");
+
+        jButton2.setBackground(new java.awt.Color(0, 102, 51));
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("+ Adicionar Uniforme");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Anterior");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("Práxima");
+
+        jLabel10.setText("BUSCAR");
+        jLabel10.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jButton5.setText("Exportar Lista");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Camisa","Calça","Bermuda","Tamanho P","Tamanho M", "Tamanho G"}));
+
+        EDITAR.setText("EDITAR");
 
         javax.swing.GroupLayout UniformesLayout = new javax.swing.GroupLayout(Uniformes);
         Uniformes.setLayout(UniformesLayout);
@@ -504,8 +558,10 @@ public class ViewsSistema extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Alunos;
     private javax.swing.JPanel Distribuicao;
+    private javax.swing.JToggleButton EDITAR;
     private javax.swing.JPanel Inicio;
     private javax.swing.JPanel Servidores;
+    private javax.swing.JTable TableDistribution;
     private javax.swing.JPanel Uniformes;
     private javax.swing.JButton btn_login;
     private javax.swing.JButton btn_nav_Inicio;
@@ -522,7 +578,13 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JTextField input_matricula;
     private javax.swing.JPasswordField input_senha;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -530,7 +592,9 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel lb_matricula;
     private javax.swing.JLabel lb_senha;
