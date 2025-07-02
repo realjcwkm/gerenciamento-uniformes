@@ -132,8 +132,8 @@ public class ServidorDAO implements ServidorInterface {
     
     @Override
     public boolean updateSenha(String matricula, String hashSenha) {
-        String sql = "UPDATE Servidor"
-                   + "SET senha = ?, primeiro_acesso = 0"
+        String sql = "UPDATE Servidor "
+                   + "SET senha = ?, primeiro_acesso = 0 "
                    + "WHERE matricula = ?";
         
         try (PreparedStatement ps = conn.prepareStatement(sql)) {

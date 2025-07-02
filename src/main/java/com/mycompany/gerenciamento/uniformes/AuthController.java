@@ -35,4 +35,9 @@ public class AuthController {
         return "n_autenticado";
     }
     
+    public boolean redefinirSenha(String matricula, String novaSenha) {
+        String hash = BCrypt.hashpw(novaSenha, BCrypt.gensalt(12));
+        return this.servidorDAO.updateSenha(matricula, hash);
+    }
+    
 }
