@@ -19,13 +19,25 @@ public class AuthController {
         this.servidorDAO = new ServidorDAO();
     }
     
-    public boolean autenticar(String matricula, String senha) {
+    public String autenticar(String matricula, String senha) {
         ServidorModel servidor = this.servidorDAO.getByMatricula(matricula);
+        
         if (servidor != null) {
             String hash = servidor.getSenha();
-            return BCrypt.checkpw(senha, hash);
+            if (BCrypt.checkpw(senha, hash)) {
+                if (servidor.isPrimeiroAcesso()) {
+                    return "p_acesso";
+                }
+                return "autenticado";
+            }
         }
         
-        return false;
+        return "n_autenticado";
     }
+    
+    public boolean redefinirSenha(String matricula, String novaSenha) {
+        String hash = BCrypt.hashpw(novaSenha, BCrypt.gensalt(12));
+        return this.servidorDAO.updateSenha(matricula, hash);
+    }
+    
 }

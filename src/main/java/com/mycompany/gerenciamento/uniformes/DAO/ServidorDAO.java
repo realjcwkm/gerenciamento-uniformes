@@ -36,6 +36,7 @@ public class ServidorDAO implements ServidorInterface {
                 servidor.setMatricula(rs.getString("matricula"));
                 servidor.setSenha(rs.getString("senha"));
                 servidor.setAtivo(rs.getBoolean("ativo"));
+                servidor.setAcesso(rs.getBoolean("primeiro_acesso"));
                 servidor.setFk_departamento(rs.getInt("fk_departamento"));
 
                 servidores.add(servidor);
@@ -68,6 +69,7 @@ public class ServidorDAO implements ServidorInterface {
                     servidor.setMatricula(rs.getString("matricula"));
                     servidor.setSenha(rs.getString("senha"));
                     servidor.setAtivo(rs.getBoolean("ativo"));
+                    servidor.setAcesso(rs.getBoolean("primeiro_acesso"));
                     servidor.setFk_departamento(rs.getInt("fk_departamento"));
                     return servidor;
                 }
@@ -126,6 +128,28 @@ public class ServidorDAO implements ServidorInterface {
             e.printStackTrace();
             return false;
         }
+    }
+    
+    @Override
+    public boolean updateSenha(String matricula, String hashSenha) {
+        String sql = "UPDATE Servidor "
+                   + "SET senha = ?, primeiro_acesso = 0 "
+                   + "WHERE matricula = ?";
+        
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, hashSenha);
+            ps.setString(2, matricula);
+            
+            int linhasAfetadas = ps.executeUpdate();
+            
+            return linhasAfetadas == 1;
+            
+        } catch (SQLException e) {
+            System.err.println("Erro ao atualizar a senha:");
+            e.printStackTrace();
+        }
+        
+        return false;
     }
     
     @Override
