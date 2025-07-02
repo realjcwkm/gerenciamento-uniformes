@@ -15,13 +15,18 @@ import javax.swing.JOptionPane;
 
 public class ViewsSistema extends javax.swing.JFrame {
     private final CardLayout mainCardLayout;
+    private final CardLayout authCardLayout;
     private final CardLayout appCardLayout;
-    private EntregaTableModel entregaTableModel; // Declara a tableModel
+    private final EntregaTableModel entregaTableModel; // Declara a tableModel
+    private final AuthController authController;
+    private String matriculaUpdate;
     
     public ViewsSistema() {
         initComponents();
-        appCardLayout = (CardLayout) panel_telaInicial.getLayout();
-        mainCardLayout = (CardLayout) main_container.getLayout();
+        this.appCardLayout = (CardLayout) panel_telaInicial.getLayout();
+        this.mainCardLayout = (CardLayout) main_container.getLayout();
+        this.authCardLayout = (CardLayout) panel_autenticacao.getLayout();
+        this.authController = new AuthController();
         
         this.entregaTableModel = new EntregaTableModel(new ArrayList<>()); //Cria modelo com uma lista vazia
         this.jTable1.setModel(entregaTableModel); //Conecta o Jtable ao criado pelo netbeans
@@ -31,19 +36,8 @@ public class ViewsSistema extends javax.swing.JFrame {
             System.out.println("- " + comp.getName() + " (" + comp.getClass().getSimpleName() + ")");
         }
         
-        btn_login.addActionListener(e -> {
-            boolean login = new AuthController().autenticar(input_matricula.getText(), new String(input_senha.getPassword()));
-            System.out.println(login);
-            
-            if (login) {
-                mainCardLayout.show(main_container, "card_aplicacao");
-                appCardLayout.show(panel_telaInicial, "Inicio");
-            }
-        });
-        
-        mainCardLayout.show(main_container, "card_login");
-        
-        this.setVisible(true);
+        mainCardLayout.show(main_container, "card_autenticacao");
+        authCardLayout.show(panel_autenticacao, "card_login");
     }
     
     private void carregaDadosDistribuicao() {
@@ -99,12 +93,21 @@ public class ViewsSistema extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         Uniformes = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
+        panel_autenticacao = new javax.swing.JPanel();
         panel_login = new javax.swing.JPanel();
-        lb_matricula = new javax.swing.JLabel();
-        input_matricula = new javax.swing.JTextField();
-        lb_senha = new javax.swing.JLabel();
-        input_senha = new javax.swing.JPasswordField();
-        btn_login = new javax.swing.JButton();
+        lb_login_pl = new javax.swing.JLabel();
+        lb_matricula_pl = new javax.swing.JLabel();
+        lb_senha_pl = new javax.swing.JLabel();
+        input_matricula_pl = new javax.swing.JTextField();
+        input_senha_pl = new javax.swing.JPasswordField();
+        btn_login_pl = new javax.swing.JButton();
+        panel_primeiro_acesso = new javax.swing.JPanel();
+        lb_redefinir_senha_ppa = new javax.swing.JLabel();
+        lb_senha_ppa = new javax.swing.JLabel();
+        lb_confirmar_senha_ppa = new javax.swing.JLabel();
+        input_senha_ppa = new javax.swing.JPasswordField();
+        input_confirmar_senha_ppa = new javax.swing.JPasswordField();
+        btn_salvar_ppa = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("GERENCIAMENTO DE UNIFORMES ACADÊMICOS");
@@ -389,25 +392,35 @@ public class ViewsSistema extends javax.swing.JFrame {
 
         main_container.add(panel_aplicacao, "card_aplicacao");
 
+        panel_autenticacao.setMaximumSize(new java.awt.Dimension(1360, 760));
+        panel_autenticacao.setMinimumSize(new java.awt.Dimension(1360, 760));
+        panel_autenticacao.setPreferredSize(new java.awt.Dimension(1360, 760));
+        panel_autenticacao.setLayout(new java.awt.CardLayout());
+
         panel_login.setBackground(new java.awt.Color(35, 91, 88));
-        panel_login.setMaximumSize(new java.awt.Dimension(1360, 32767));
-        panel_login.setMinimumSize(new java.awt.Dimension(1360, 714));
+        panel_login.setMaximumSize(new java.awt.Dimension(1360, 760));
+        panel_login.setMinimumSize(new java.awt.Dimension(1360, 760));
         panel_login.setPreferredSize(new java.awt.Dimension(1360, 760));
 
-        lb_matricula.setText("matricula");
+        lb_login_pl.setFont(new java.awt.Font("Noto Sans", 0, 18)); // NOI18N
+        lb_login_pl.setText("LOGIN");
 
-        input_matricula.addActionListener(new java.awt.event.ActionListener() {
+        lb_matricula_pl.setLabelFor(input_matricula_pl);
+        lb_matricula_pl.setText("Matricula");
+
+        lb_senha_pl.setLabelFor(input_senha_pl);
+        lb_senha_pl.setText("Senha");
+
+        input_matricula_pl.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                input_matriculaActionPerformed(evt);
+                input_matricula_plActionPerformed(evt);
             }
         });
 
-        lb_senha.setText("senha");
-
-        btn_login.setText("login");
-        btn_login.addActionListener(new java.awt.event.ActionListener() {
+        btn_login_pl.setText("login");
+        btn_login_pl.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_loginActionPerformed(evt);
+                btn_login_plActionPerformed(evt);
             }
         });
 
@@ -416,33 +429,100 @@ public class ViewsSistema extends javax.swing.JFrame {
         panel_loginLayout.setHorizontalGroup(
             panel_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_loginLayout.createSequentialGroup()
-                .addGap(59, 59, 59)
+                .addGap(82, 82, 82)
                 .addGroup(panel_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_login)
+                    .addComponent(btn_login_pl)
                     .addGroup(panel_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(lb_matricula)
-                        .addComponent(input_matricula)
-                        .addComponent(lb_senha)
-                        .addComponent(input_senha, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)))
-                .addContainerGap(3004, Short.MAX_VALUE))
+                        .addComponent(input_matricula_pl, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+                        .addComponent(input_senha_pl)
+                        .addComponent(lb_senha_pl)
+                        .addComponent(lb_matricula_pl))
+                    .addGroup(panel_loginLayout.createSequentialGroup()
+                        .addGap(77, 77, 77)
+                        .addComponent(lb_login_pl)))
+                .addContainerGap(1066, Short.MAX_VALUE))
         );
         panel_loginLayout.setVerticalGroup(
             panel_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_loginLayout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(lb_matricula)
+                .addGap(24, 24, 24)
+                .addComponent(lb_login_pl)
+                .addGap(18, 18, 18)
+                .addComponent(lb_matricula_pl)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(input_matricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55)
-                .addComponent(lb_senha)
+                .addComponent(input_matricula_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lb_senha_pl)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(input_senha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
-                .addComponent(btn_login)
-                .addContainerGap(529, Short.MAX_VALUE))
+                .addComponent(input_senha_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addComponent(btn_login_pl)
+                .addContainerGap(518, Short.MAX_VALUE))
         );
 
-        main_container.add(panel_login, "card_login");
+        panel_autenticacao.add(panel_login, "card_login");
+
+        panel_primeiro_acesso.setBackground(new java.awt.Color(35, 91, 88));
+        panel_primeiro_acesso.setMaximumSize(new java.awt.Dimension(1360, 760));
+        panel_primeiro_acesso.setMinimumSize(new java.awt.Dimension(1360, 760));
+
+        lb_redefinir_senha_ppa.setFont(new java.awt.Font("Noto Sans", 0, 18)); // NOI18N
+        lb_redefinir_senha_ppa.setText("REDEFINIR SENHA");
+
+        lb_senha_ppa.setLabelFor(input_senha_ppa);
+        lb_senha_ppa.setText("Senha");
+
+        lb_confirmar_senha_ppa.setLabelFor(input_confirmar_senha_ppa);
+        lb_confirmar_senha_ppa.setText("Confirmar Senha");
+
+        btn_salvar_ppa.setText("Salvar");
+        btn_salvar_ppa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_salvar_ppaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panel_primeiro_acessoLayout = new javax.swing.GroupLayout(panel_primeiro_acesso);
+        panel_primeiro_acesso.setLayout(panel_primeiro_acessoLayout);
+        panel_primeiro_acessoLayout.setHorizontalGroup(
+            panel_primeiro_acessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_primeiro_acessoLayout.createSequentialGroup()
+                .addGroup(panel_primeiro_acessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel_primeiro_acessoLayout.createSequentialGroup()
+                        .addGap(82, 82, 82)
+                        .addGroup(panel_primeiro_acessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_salvar_ppa)
+                            .addGroup(panel_primeiro_acessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(input_confirmar_senha_ppa, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+                                .addComponent(input_senha_ppa, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+                                .addComponent(lb_confirmar_senha_ppa)
+                                .addComponent(lb_senha_ppa))))
+                    .addGroup(panel_primeiro_acessoLayout.createSequentialGroup()
+                        .addGap(114, 114, 114)
+                        .addComponent(lb_redefinir_senha_ppa)))
+                .addContainerGap(3004, Short.MAX_VALUE))
+        );
+        panel_primeiro_acessoLayout.setVerticalGroup(
+            panel_primeiro_acessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_primeiro_acessoLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(lb_redefinir_senha_ppa)
+                .addGap(24, 24, 24)
+                .addComponent(lb_senha_ppa)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(input_senha_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lb_confirmar_senha_ppa)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(input_confirmar_senha_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addComponent(btn_salvar_ppa)
+                .addContainerGap(530, Short.MAX_VALUE))
+        );
+
+        panel_autenticacao.add(panel_primeiro_acesso, "card_primeiro_acesso");
+
+        main_container.add(panel_autenticacao, "card_autenticacao");
 
         getContentPane().add(main_container, java.awt.BorderLayout.CENTER);
 
@@ -489,13 +569,54 @@ public class ViewsSistema extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void input_matriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_input_matriculaActionPerformed
+    private void input_matricula_plActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_input_matricula_plActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_input_matriculaActionPerformed
+    }//GEN-LAST:event_input_matricula_plActionPerformed
 
-    private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_loginActionPerformed
+    private void btn_login_plActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_login_plActionPerformed
+        String matriculaLogin = input_matricula_pl.getText();
+        String senhaLogin = new String(input_senha_pl.getPassword());
+
+        String login = this.authController.autenticar(matriculaLogin, senhaLogin);
+        
+        input_senha_pl.setText("");
+        
+        switch (login) {
+            case "autenticado":
+                mainCardLayout.show(main_container, "card_aplicacao");
+                input_matricula_pl.setText("");
+                JOptionPane.showMessageDialog(this, "Login efetuado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                break;
+            case "p_acesso":
+                this.matriculaUpdate = matriculaLogin;
+                authCardLayout.show(panel_autenticacao, "card_primeiro_acesso");
+                JOptionPane.showMessageDialog(this, "Identificamos que esse é seu primeiro acesso ao sistema, por favor, altere sua senha!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                break;
+            case "n_autenticado":
+                JOptionPane.showMessageDialog(this, "Matrícula ou senha inválida!", "Erro", JOptionPane.ERROR_MESSAGE);
+                break;
+        }
+    }//GEN-LAST:event_btn_login_plActionPerformed
+
+    private void btn_salvar_ppaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salvar_ppaActionPerformed
+        String senhaUpdate = new String(input_senha_ppa.getPassword());
+        String senhaUpdateConf = new String(input_confirmar_senha_ppa.getPassword());
+        
+        if (senhaUpdate.equals(senhaUpdateConf)) {
+            boolean confirm = this.authController.redefinirSenha(this.matriculaUpdate, senhaUpdate);
+            if (confirm) {
+                this.matriculaUpdate = null;
+                authCardLayout.show(panel_autenticacao, "card_login");
+                input_senha_ppa.setText("");
+                input_confirmar_senha_ppa.setText("");
+                JOptionPane.showMessageDialog(this, "Senha alterada com sucesso!\nEfetue o login", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao redefinir a senha!", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "As senhas não são iguais!", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_salvar_ppaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -507,20 +628,23 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JPanel Inicio;
     private javax.swing.JPanel Servidores;
     private javax.swing.JPanel Uniformes;
-    private javax.swing.JButton btn_login;
+    private javax.swing.JButton btn_login_pl;
     private javax.swing.JButton btn_nav_Inicio;
     private javax.swing.JButton btn_nav_alunos;
     private javax.swing.JButton btn_nav_distribuicao;
     private javax.swing.JButton btn_nav_servidores;
     private javax.swing.JButton btn_nav_uniformes;
+    private javax.swing.JButton btn_salvar_ppa;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler5;
     private javax.swing.Box.Filler filler6;
     private javax.swing.Box.Filler filler7;
-    private javax.swing.JTextField input_matricula;
-    private javax.swing.JPasswordField input_senha;
+    private javax.swing.JPasswordField input_confirmar_senha_ppa;
+    private javax.swing.JTextField input_matricula_pl;
+    private javax.swing.JPasswordField input_senha_pl;
+    private javax.swing.JPasswordField input_senha_ppa;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -532,13 +656,19 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JLabel lb_matricula;
-    private javax.swing.JLabel lb_senha;
+    private javax.swing.JLabel lb_confirmar_senha_ppa;
+    private javax.swing.JLabel lb_login_pl;
+    private javax.swing.JLabel lb_matricula_pl;
+    private javax.swing.JLabel lb_redefinir_senha_ppa;
+    private javax.swing.JLabel lb_senha_pl;
+    private javax.swing.JLabel lb_senha_ppa;
     private javax.swing.JPanel main_container;
     private javax.swing.JLabel nome_sistema;
     private javax.swing.JPanel panel_aplicacao;
+    private javax.swing.JPanel panel_autenticacao;
     private javax.swing.JPanel panel_login;
     private javax.swing.JPanel panel_navbar;
+    private javax.swing.JPanel panel_primeiro_acesso;
     private javax.swing.JPanel panel_telaInicial;
     // End of variables declaration//GEN-END:variables
 }
