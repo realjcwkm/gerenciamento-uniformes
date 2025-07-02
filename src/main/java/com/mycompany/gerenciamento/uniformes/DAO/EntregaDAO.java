@@ -28,7 +28,18 @@ public class EntregaDAO implements EntregaInterface {
    @Override
    public List<EntregaModel> listarTodos() {
     List<EntregaModel> entregas = new ArrayList<>();
-    String sql = "SELECT * FROM Entrega";
+    String sql = "SELECT e.id, e.semestre, e.ano, e.data_entrega, e.trocado, e.quantidade, "
+            + "s.id AS id_servidor, s.nome AS nome_servidor, "
+            + "u.id AS id_uniforme, u.quantidade AS quantidade_uniforme, "
+            + "a.id AS id_aluno, a.matricula AS matricula_aluno, a.nome AS nome_aluno, "
+            + "t.id AS id_tamanho, t.nome AS tamanho, "
+            + "tu.id AS id_tipo, tu.nome AS tipo "
+            + "FROM Entrega AS e "
+            + "LEFT JOIN Servidor AS s ON e.fk_servidor = s.id "
+            + "LEFT JOIN Uniforme AS u ON e.fk_uniforme = u.id "
+            + "LEFT JOIN Aluno AS a ON e.fk_aluno = a.id "
+            + "LEFT JOIN Tamanho AS t ON u.fk_tamanho = t.id "
+            + "LEFT JOIN TipoUniforme AS tu ON u.fk_tipo_uniforme = tu.id";
     
     try (PreparedStatement ps = conn.prepareStatement(sql); 
          ResultSet rs = ps.executeQuery()) {
