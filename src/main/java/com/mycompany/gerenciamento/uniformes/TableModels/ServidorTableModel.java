@@ -49,4 +49,9 @@ public class ServidorTableModel extends AbstractTableModel {
             default: return null;
         }
     }
+
+    public void setServidores(List<ServidorModel> novosServidores) {
+        this.servidores = novosServidores;
+        fireTableDataChanged();
+    }
 }
