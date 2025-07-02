@@ -77,6 +77,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_nav_servidores = new javax.swing.JButton();
         btn_nav_uniformes = new javax.swing.JButton();
         filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(80, 80), new java.awt.Dimension(20, 800));
+        btn_sair_pn = new javax.swing.JButton();
         panel_telaInicial = new javax.swing.JPanel();
         Inicio = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -223,6 +224,16 @@ public class ViewsSistema extends javax.swing.JFrame {
         });
         panel_navbar.add(btn_nav_uniformes);
         panel_navbar.add(filler5);
+
+        btn_sair_pn.setBackground(new java.awt.Color(0, 164, 55));
+        btn_sair_pn.setForeground(new java.awt.Color(255, 255, 255));
+        btn_sair_pn.setText("SAIR");
+        btn_sair_pn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_sair_pnActionPerformed(evt);
+            }
+        });
+        panel_navbar.add(btn_sair_pn);
 
         panel_aplicacao.add(panel_navbar, java.awt.BorderLayout.NORTH);
 
@@ -535,7 +546,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(input_senha_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
                 .addComponent(btn_login_pl)
-                .addContainerGap(518, Short.MAX_VALUE))
+                .addContainerGap(551, Short.MAX_VALUE))
         );
 
         panel_autenticacao.add(panel_login, "card_login");
@@ -595,7 +606,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(input_confirmar_senha_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
                 .addComponent(btn_salvar_ppa)
-                .addContainerGap(530, Short.MAX_VALUE))
+                .addContainerGap(545, Short.MAX_VALUE))
         );
 
         panel_autenticacao.add(panel_primeiro_acesso, "card_primeiro_acesso");
@@ -704,6 +715,17 @@ public class ViewsSistema extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jcb_filtrosActionPerformed
 
+    private void btn_sair_pnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sair_pnActionPerformed
+        boolean confirm = this.authController.sair();
+        if (confirm) {
+            mainCardLayout.show(main_container, "card_autenticacao");
+            authCardLayout.show(panel_autenticacao, "card_login");
+            JOptionPane.showMessageDialog(this, "Sessão encerrada!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao encerrar sessão!", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_sair_pnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -724,6 +746,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JButton btn_nav_distribuicao;
     private javax.swing.JButton btn_nav_servidores;
     private javax.swing.JButton btn_nav_uniformes;
+    private javax.swing.JButton btn_sair_pn;
     private javax.swing.JButton btn_salvar_ppa;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler3;
