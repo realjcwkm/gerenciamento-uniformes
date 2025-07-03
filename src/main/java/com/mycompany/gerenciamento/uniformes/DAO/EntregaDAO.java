@@ -102,4 +102,30 @@ public class EntregaDAO implements EntregaInterface {
     return entregas;
     
    }
+   
+   @Override
+   public boolean cadastrarEntrega(EntregaModel entrega) {
+       String sql = "INSERT INTO Entrega "
+               + "(semestre, ano, data_entrega, trocado, quantidade, fk_servidor, fk_uniforme, fk_aluno) "
+               + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+       
+       try(PreparedStatement ps = conn.prepareStatement(sql)) {
+           ps.setInt(1, entrega.getSemestre()); //mudar
+           ps.setInt(2, entrega.getAno());
+           ps.setDate(3, java.sql.Date.valueOf(entrega.getData_entrega()));
+           ps.setBoolean(4, entrega.isTrocado());
+           ps.setInt(5, entrega.getQuantidade());
+           ps.setInt(6, entrega.getServidor().getId());
+           ps.setInt(7, entrega.getUniforme().getId());
+           ps.setInt(8, entrega.getUniforme().getId());
+           
+           ps.executeUpdate();
+           
+           return true;
+       } catch(SQLException error) {
+           System.err.println("Erro ao inserir entrega: ");
+           error.printStackTrace();
+           return false;
+       }
+   }
 }
