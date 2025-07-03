@@ -13,6 +13,11 @@ public class UniformeModel {
     private int quantidade;
     private int fk_tipo_uniforme;
     private int fk_tamanho;
+    
+    
+    private TamanhoModel tamanho;
+    private TipoUniformeModel tipoUniforme;
+    
 //
     public int getId() {
         return id;
@@ -44,6 +49,22 @@ public class UniformeModel {
 
     public void setFk_tamanho(int fk_tamanho) {
         this.fk_tamanho = fk_tamanho;
+    }
+
+    public TamanhoModel getTamanho() {
+        return tamanho;
+    }
+
+    public void setTamanho(TamanhoModel tamanho) {
+        this.tamanho = tamanho;
+    }
+
+    public TipoUniformeModel getTipoUniforme() {
+        return tipoUniforme;
+    }
+
+    public void setTipoUniforme(TipoUniformeModel tipoUniforme) {
+        this.tipoUniforme = tipoUniforme;
     }
 
 }
