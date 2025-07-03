@@ -5,7 +5,6 @@
 package com.mycompany.gerenciamento.uniformes.DAO;
 
 import com.mycompany.gerenciamento.uniformes.DBConnection.Conexao;
-import com.mycompany.gerenciamento.uniformes.Models.CursoModel;
 import com.mycompany.gerenciamento.uniformes.Models.TipoUniformeModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,7 +20,7 @@ import java.util.List;
 public class TipoUniformeDAO {
     private Connection conn;
     
-    private TipoUniformeDAO() {
+    public TipoUniformeDAO() {
         this.conn = Conexao.getConexao();
     }
     

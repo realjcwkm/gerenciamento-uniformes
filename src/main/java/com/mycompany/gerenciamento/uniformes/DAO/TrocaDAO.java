@@ -21,7 +21,7 @@ import java.util.List;
 public class TrocaDAO {
     private Connection conn;
     
-    private TrocaDAO() {
+    public TrocaDAO() {
         this.conn = Conexao.getConexao();
     }
     
