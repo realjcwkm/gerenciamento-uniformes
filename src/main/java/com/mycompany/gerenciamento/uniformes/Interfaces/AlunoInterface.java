@@ -13,4 +13,5 @@ import java.util.List;
  */
 public interface AlunoInterface {
     public List<AlunoModel> listarTodos();
+    public AlunoModel getByMatricula(String matricula);
 }
