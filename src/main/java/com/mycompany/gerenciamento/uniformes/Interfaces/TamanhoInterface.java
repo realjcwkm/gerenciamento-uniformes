@@ -4,14 +4,14 @@
  */
 package com.mycompany.gerenciamento.uniformes.Interfaces;
 
-import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
+import com.mycompany.gerenciamento.uniformes.Models.TamanhoModel;
 import java.util.List;
 
 /**
  *
  * @author geinfo
  */
-public interface AlunoInterface {
-    public List<AlunoModel> listarTodos();
-    public AlunoModel getByMatricula(String matricula);
+public interface TamanhoInterface {
+    public List<TamanhoModel> listarTodos();
+    public void cadastrarTamanho(TamanhoModel tamanho);
 }
