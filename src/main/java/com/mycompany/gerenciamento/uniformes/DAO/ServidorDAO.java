@@ -21,7 +21,9 @@ public class ServidorDAO implements ServidorInterface {
     @Override
     public List<ServidorModel> listarTodos() {
         List<ServidorModel> servidores = new ArrayList<>();
-        String sql = "SELECT * FROM servidor";
+        String sql = "SELECT s.*, d.nome AS nome_departamento " +
+                "FROM servidor s " +
+                "JOIN departamento d ON s.fk_departamento = d.id";
 
         try (PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
@@ -37,7 +39,8 @@ public class ServidorDAO implements ServidorInterface {
                 servidor.setSenha(rs.getString("senha"));
                 servidor.setAtivo(rs.getBoolean("ativo"));
                 servidor.setAcesso(rs.getBoolean("primeiro_acesso"));
-                servidor.setFk_departamento(rs.getInt("fk_departamento"));
+                servidor.setFk_departamento(rs.getInt("fk_departamento"));                
+                servidor.setNomeDepartamento(rs.getString("nome_departamento"));
 
                 servidores.add(servidor);
             }
@@ -71,6 +74,7 @@ public class ServidorDAO implements ServidorInterface {
                     servidor.setAtivo(rs.getBoolean("ativo"));
                     servidor.setAcesso(rs.getBoolean("primeiro_acesso"));
                     servidor.setFk_departamento(rs.getInt("fk_departamento"));
+                    
                     return servidor;
                 }
             }
