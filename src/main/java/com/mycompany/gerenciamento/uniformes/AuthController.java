@@ -6,6 +6,7 @@ package com.mycompany.gerenciamento.uniformes;
 
 import com.mycompany.gerenciamento.uniformes.DAO.ServidorDAO;
 import com.mycompany.gerenciamento.uniformes.Models.ServidorModel;
+import com.mycompany.gerenciamento.uniformes.Session.AuthSession;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -13,9 +14,11 @@ import org.mindrot.jbcrypt.BCrypt;
  * @author w
  */
 public class AuthController {
+    private final AuthSession session;
     private final ServidorDAO servidorDAO;
     
     public AuthController() {
+        this.session = AuthSession.getInstance();
         this.servidorDAO = new ServidorDAO();
     }
     
@@ -28,11 +31,17 @@ public class AuthController {
                 if (servidor.isPrimeiroAcesso()) {
                     return "p_acesso";
                 }
+                this.session.iniciarSessao(servidor);
                 return "autenticado";
             }
         }
         
         return "n_autenticado";
+    }
+    
+    public boolean sair() {
+        this.session.encerrarSessao();
+        return true;
     }
     
     public boolean redefinirSenha(String matricula, String novaSenha) {
