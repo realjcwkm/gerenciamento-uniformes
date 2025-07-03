@@ -13,4 +13,5 @@ import java.util.List;
  */
 public interface EntregaInterface {
     public List<EntregaModel> listarTodos();
+    public boolean cadastrarEntrega(EntregaModel entrega);
 }
