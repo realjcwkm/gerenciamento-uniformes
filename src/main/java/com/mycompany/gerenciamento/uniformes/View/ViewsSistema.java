@@ -2,6 +2,7 @@ package com.mycompany.gerenciamento.uniformes.View;
 
 import com.mycompany.gerenciamento.uniformes.AuthController;
 import com.mycompany.gerenciamento.uniformes.DAO.EntregaDAO;
+import com.mycompany.gerenciamento.uniformes.EntregaController;
 import com.mycompany.gerenciamento.uniformes.Models.EntregaModel;
 import com.mycompany.gerenciamento.uniformes.TableModels.EntregaTableModel;
 import java.awt.*;
@@ -19,6 +20,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private final CardLayout appCardLayout;
     private final EntregaTableModel entregaTableModel; // Declara a tableModel
     private final AuthController authController;
+    private final EntregaController entregaController;
     private String matriculaUpdate;
     
     public ViewsSistema() {
@@ -26,10 +28,13 @@ public class ViewsSistema extends javax.swing.JFrame {
         this.appCardLayout = (CardLayout) panel_telaInicial.getLayout();
         this.mainCardLayout = (CardLayout) main_container.getLayout();
         this.authCardLayout = (CardLayout) panel_autenticacao.getLayout();
+        
         this.authController = new AuthController();
+        this.entregaController = new EntregaController();
         
         this.entregaTableModel = new EntregaTableModel(new ArrayList<>()); //Cria modelo com uma lista vazia
-        this.jTable1.setModel(entregaTableModel); //Conecta o Jtable ao criado pelo netbeans
+        
+        this.tb_distribuicao.setModel(entregaTableModel); //Conecta o Jtable ao criado pelo netbeans
         
         System.out.println("Painéis disponíveis:");
         for (Component comp : panel_telaInicial.getComponents()) {
@@ -42,8 +47,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     
     private void carregaDadosDistribuicao() {
         try {
-            EntregaDAO dao = new EntregaDAO();
-            List<EntregaModel> listaDeEntregas = dao.listarTodos();
+            List<EntregaModel> listaDeEntregas = this.entregaController.listarTodos();
             
             entregaTableModel.setEntregas(listaDeEntregas);
         } catch (Exception error) {
@@ -81,13 +85,12 @@ public class ViewsSistema extends javax.swing.JFrame {
         panel_telaInicial = new javax.swing.JPanel();
         Inicio = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        Distribuicao = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        panel_distribuicao = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        tb_distribuicao = new javax.swing.JTable();
+        btn_cad_distribuicao_pd = new javax.swing.JButton();
+        lb_titulo_pd = new javax.swing.JLabel();
+        lb_subtitulo_pd = new javax.swing.JLabel();
         Alunos = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         Servidores = new javax.swing.JPanel();
@@ -103,7 +106,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_buscar = new javax.swing.JButton();
         jcb_filtros = new javax.swing.JComboBox<>();
         btn_Add_Uniforme = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPane3 = new javax.swing.JScrollPane();
         tabela_uniformes = new javax.swing.JTable();
         btn_editar = new javax.swing.JButton();
         panel_autenticacao = new javax.swing.JPanel();
@@ -272,12 +275,12 @@ public class ViewsSistema extends javax.swing.JFrame {
 
         panel_telaInicial.add(Inicio, "inicio");
 
-        Distribuicao.setBackground(new java.awt.Color(255, 255, 255));
-        Distribuicao.setMaximumSize(new java.awt.Dimension(1360, 650));
-        Distribuicao.setMinimumSize(new java.awt.Dimension(1360, 650));
-        Distribuicao.setPreferredSize(new java.awt.Dimension(1360, 650));
+        panel_distribuicao.setBackground(new java.awt.Color(255, 255, 255));
+        panel_distribuicao.setMaximumSize(new java.awt.Dimension(1360, 650));
+        panel_distribuicao.setMinimumSize(new java.awt.Dimension(1360, 650));
+        panel_distribuicao.setPreferredSize(new java.awt.Dimension(1360, 650));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tb_distribuicao.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
@@ -288,59 +291,52 @@ public class ViewsSistema extends javax.swing.JFrame {
                 "Nome", "Tamanho", "Uniforme", "Matrícula", "Servidor Responsável", "Quantidade", "Data de Troca", ""
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tb_distribuicao);
 
-        jButton1.setBackground(new java.awt.Color(4, 120, 87));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("+ Cadastrar Distribuição");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btn_cad_distribuicao_pd.setBackground(new java.awt.Color(4, 120, 87));
+        btn_cad_distribuicao_pd.setForeground(new java.awt.Color(255, 255, 255));
+        btn_cad_distribuicao_pd.setText("+ Cadastrar Distribuição");
+        btn_cad_distribuicao_pd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btn_cad_distribuicao_pdActionPerformed(evt);
             }
         });
 
-        jLabel6.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
-        jLabel6.setText("Controle de Distribuição");
+        lb_titulo_pd.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
+        lb_titulo_pd.setText("Controle de Distribuição");
 
-        jLabel8.setText("Tenha controle em tempo real das distribuições de uniformes.");
+        lb_subtitulo_pd.setText("Tenha controle em tempo real das distribuições de uniformes.");
 
-        javax.swing.GroupLayout DistribuicaoLayout = new javax.swing.GroupLayout(Distribuicao);
-        Distribuicao.setLayout(DistribuicaoLayout);
-        DistribuicaoLayout.setHorizontalGroup(
-            DistribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DistribuicaoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(2011, 2011, 2011))
-            .addGroup(DistribuicaoLayout.createSequentialGroup()
+        javax.swing.GroupLayout panel_distribuicaoLayout = new javax.swing.GroupLayout(panel_distribuicao);
+        panel_distribuicao.setLayout(panel_distribuicaoLayout);
+        panel_distribuicaoLayout.setHorizontalGroup(
+            panel_distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_distribuicaoLayout.createSequentialGroup()
                 .addGap(51, 51, 51)
-                .addGroup(DistribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addGroup(DistribuicaoLayout.createSequentialGroup()
-                        .addComponent(jLabel8)
+                .addGroup(panel_distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lb_titulo_pd)
+                    .addGroup(panel_distribuicaoLayout.createSequentialGroup()
+                        .addComponent(lb_subtitulo_pd)
                         .addGap(665, 665, 665)
-                        .addComponent(jButton1))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1256, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btn_cad_distribuicao_pd))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1256, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(1991, Short.MAX_VALUE))
         );
-        DistribuicaoLayout.setVerticalGroup(
-            DistribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DistribuicaoLayout.createSequentialGroup()
-                .addGap(102, 102, 102)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel6)
+        panel_distribuicaoLayout.setVerticalGroup(
+            panel_distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_distribuicaoLayout.createSequentialGroup()
+                .addContainerGap(259, Short.MAX_VALUE)
+                .addComponent(lb_titulo_pd)
                 .addGap(18, 18, 18)
-                .addGroup(DistribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(DistribuicaoLayout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel8))
+                .addGroup(panel_distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_cad_distribuicao_pd, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lb_subtitulo_pd))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42))
         );
 
-        panel_telaInicial.add(Distribuicao, "distribuicao");
+        panel_telaInicial.add(panel_distribuicao, "distribuicao");
 
         Alunos.setBackground(new java.awt.Color(255, 204, 255));
 
@@ -382,7 +378,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_cadastrar_serv.setBackground(new java.awt.Color(4, 120, 87));
         btn_cadastrar_serv.setForeground(new java.awt.Color(255, 255, 255));
         btn_cadastrar_serv.setText("+ Cadastrar Distribuição");
-        btn_cadastrar_serv.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_cadastrar_serv.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btn_cadastrar_serv.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_cadastrar_servActionPerformed(evt);
@@ -479,7 +475,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 "Tipo", "Status", "Entrada", "Saída", "Tamanho", "Data Entrega"
             }
         ));
-        jScrollPane2.setViewportView(tabela_uniformes);
+        jScrollPane3.setViewportView(tabela_uniformes);
 
         btn_editar.setText("EDITAR");
 
@@ -491,7 +487,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addGap(34, 34, 34)
                 .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(UniformesLayout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1280, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(1984, Short.MAX_VALUE))
                     .addGroup(UniformesLayout.createSequentialGroup()
                         .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -528,7 +524,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                     .addComponent(tx_pesquisa)
                     .addComponent(jcb_filtros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(132, 132, 132))
         );
 
@@ -711,9 +707,9 @@ public class ViewsSistema extends javax.swing.JFrame {
         //JOptionPane.showMessageDialog(this, "Painel de Uniformes ainda não implementado");
     }//GEN-LAST:event_btn_nav_uniformesActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btn_cad_distribuicao_pdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cad_distribuicao_pdActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btn_cad_distribuicao_pdActionPerformed
 
     private void input_matricula_plActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_input_matricula_plActionPerformed
         // TODO add your handling code here:
@@ -792,14 +788,14 @@ public class ViewsSistema extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Alunos;
-    private javax.swing.JPanel Distribuicao;
     private javax.swing.JPanel Inicio;
     private javax.swing.JPanel Servidores;
     private javax.swing.JLabel Titulo;
     private javax.swing.JPanel Uniformes;
-    private javax.swing.JButton btn_cadastrar_serv;
     private javax.swing.JButton btn_Add_Uniforme;
     private javax.swing.JButton btn_buscar;
+    private javax.swing.JButton btn_cad_distribuicao_pd;
+    private javax.swing.JButton btn_cadastrar_serv;
     private javax.swing.JButton btn_editar;
     private javax.swing.JButton btn_login_pl;
     private javax.swing.JButton btn_nav_Inicio;
@@ -819,18 +815,12 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JTextField input_matricula_pl;
     private javax.swing.JPasswordField input_senha_pl;
     private javax.swing.JPasswordField input_senha_ppa;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JComboBox<String> jcb_filtros;
     private javax.swing.JLabel lb_confirmar_senha_ppa;
     private javax.swing.JLabel lb_login_pl;
@@ -839,18 +829,22 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JLabel lb_senha_pl;
     private javax.swing.JLabel lb_senha_ppa;
     private javax.swing.JLabel lb_sub_serv;
+    private javax.swing.JLabel lb_subtitulo_pd;
+    private javax.swing.JLabel lb_titulo_pd;
     private javax.swing.JLabel lb_titulo_serv;
     private javax.swing.JPanel main_container;
     private javax.swing.JLabel nome_sistema;
     private javax.swing.JPanel panel_aplicacao;
     private javax.swing.JPanel panel_autenticacao;
+    private javax.swing.JPanel panel_distribuicao;
     private javax.swing.JPanel panel_login;
     private javax.swing.JPanel panel_navbar;
     private javax.swing.JPanel panel_primeiro_acesso;
     private javax.swing.JPanel panel_telaInicial;
-    private javax.swing.JTable tb_servidores;
     private javax.swing.JLabel subtitulo;
     private javax.swing.JTable tabela_uniformes;
+    private javax.swing.JTable tb_distribuicao;
+    private javax.swing.JTable tb_servidores;
     private javax.swing.JTextField tx_pesquisa;
     // End of variables declaration//GEN-END:variables
 }
