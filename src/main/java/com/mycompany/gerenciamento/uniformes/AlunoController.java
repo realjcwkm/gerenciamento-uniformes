@@ -22,4 +22,8 @@ public class AlunoController {
     public List<AlunoModel> listarTodos() {
         return this.alunoDAO.listarTodos();
     }
+    
+    public AlunoModel getByMatricula(String matricula) {
+        return this.alunoDAO.getByMatricula(matricula);
+    }
 }
