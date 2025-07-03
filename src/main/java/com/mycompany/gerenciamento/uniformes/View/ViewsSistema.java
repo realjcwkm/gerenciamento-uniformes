@@ -4,7 +4,10 @@ import com.mycompany.gerenciamento.uniformes.AuthController;
 import com.mycompany.gerenciamento.uniformes.DAO.EntregaDAO;
 import com.mycompany.gerenciamento.uniformes.EntregaController;
 import com.mycompany.gerenciamento.uniformes.Models.EntregaModel;
+import com.mycompany.gerenciamento.uniformes.Models.ServidorModel;
+import com.mycompany.gerenciamento.uniformes.ServidorController;
 import com.mycompany.gerenciamento.uniformes.TableModels.EntregaTableModel;
+import com.mycompany.gerenciamento.uniformes.TableModels.ServidorTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +22,10 @@ public class ViewsSistema extends javax.swing.JFrame {
     private final CardLayout authCardLayout;
     private final CardLayout appCardLayout;
     private final EntregaTableModel entregaTableModel; // Declara a tableModel
+    private final ServidorTableModel servidorTableModel;
     private final AuthController authController;
     private final EntregaController entregaController;
+    private final ServidorController servidorController;
     private String matriculaUpdate;
     
     public ViewsSistema() {
@@ -31,10 +36,13 @@ public class ViewsSistema extends javax.swing.JFrame {
         
         this.authController = new AuthController();
         this.entregaController = new EntregaController();
-        
+        this.servidorController = new ServidorController();
+                
         this.entregaTableModel = new EntregaTableModel(new ArrayList<>()); //Cria modelo com uma lista vazia
+        this.servidorTableModel = new ServidorTableModel(new ArrayList<>());
         
         this.tb_distribuicao.setModel(entregaTableModel); //Conecta o Jtable ao criado pelo netbeans
+        this.tb_servidores.setModel(servidorTableModel);
         
         System.out.println("Painéis disponíveis:");
         for (Component comp : panel_telaInicial.getComponents()) {
@@ -56,6 +64,17 @@ public class ViewsSistema extends javax.swing.JFrame {
         }
     }
 
+    private void carregaDadosServidores() {
+        try {
+            List<ServidorModel> listaDeServidores = this.servidorController.listarTodos();
+
+            servidorTableModel.setServidores(listaDeServidores);
+        } catch (Exception error) {
+            JOptionPane.showMessageDialog(this, "Erro ao carregar os dados de servidores.", "Erro", JOptionPane.ERROR_MESSAGE);
+            error.printStackTrace();
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -695,6 +714,8 @@ public class ViewsSistema extends javax.swing.JFrame {
 
     private void btn_nav_servidoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_servidoresActionPerformed
         // TODO add your handling code here:
+        carregaDadosServidores(); 
+    
         appCardLayout.show(panel_telaInicial, "servidores");
         System.out.println("Mostrando painel Servidores");
         //JOptionPane.showMessageDialog(this, "Painel de Servidores ainda não implementado");
