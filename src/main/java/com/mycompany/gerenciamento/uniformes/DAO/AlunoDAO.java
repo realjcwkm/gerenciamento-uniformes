@@ -54,4 +54,36 @@ public class AlunoDAO implements AlunoInterface {
         
         return alunos;
     }
+    
+    @Override
+    public AlunoModel getByMatricula(String matricula) {
+        String sql = "SELECT * FROM Aluno WHERE matricula = ?";
+        
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+            ps.setString(1, matricula);
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    AlunoModel aluno = new AlunoModel();
+                    
+                    aluno.setId(rs.getInt("id"));
+                    aluno.setNome(rs.getString("nome"));
+                    aluno.setSobrenome(rs.getString("sobrenome"));
+                    aluno.setEmail(rs.getString("email"));
+                    aluno.setTelefone(rs.getString("telefone"));
+                    aluno.setMatricula(rs.getString("matricula"));
+                    aluno.setIdade(rs.getInt("idade"));
+                    aluno.setPeriodo(rs.getInt("periodo"));
+                    aluno.setFk_curso(rs.getInt("fk_curso"));
+                    return aluno;
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao listar aluno:");
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
 }
