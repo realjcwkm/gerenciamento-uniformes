@@ -8,6 +8,7 @@ import com.mycompany.gerenciamento.uniformes.Models.EntregaModel;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -46,13 +47,20 @@ public class EntregaTableModel extends AbstractTableModel{
         
         switch(columnIndex) {
             case 0: return entrega.getId();
-            case 1: return entrega.getFk_aluno();
-            case 2: return entrega.getFk_uniforme();
-            case 3: return entrega.getFk_uniforme();
-            case 4: return entrega.getFk_aluno();
-            case 5: return entrega.getFk_servidor();
+            case 1: return entrega.getAluno().getNome();
+            case 2: return entrega.getUniforme().getTamanho().getNome();
+            case 3: return entrega.getUniforme().getTipoUniforme().getNome();
+            case 4: return entrega.getAluno().getMatricula();
+            case 5: return entrega.getServidor().getNome();
             case 6: return entrega.getQuantidade();
-            case 7: return entrega.getData_entrega(); //Trocar para data troca
+            case 7:
+            if (entrega.getData_entrega() != null) {
+                DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                return entrega.getData_entrega().format(formatador);
+            } else {
+                return "N/A"; 
+            } //Trocar para data troca
+            
             default: return null;
         }
     }

@@ -21,6 +21,11 @@ public class EntregaModel {
     private int fk_aluno;
     private int fk_uniforme;
     
+    //Declarando os relacionamentos \
+    private ServidorModel servidor;
+    private UniformeModel uniforme;
+    private AlunoModel aluno;
+    
     //Getters e Setters 
 
     public int getId() {
@@ -94,5 +99,30 @@ public class EntregaModel {
     public void setFk_uniforme(int fk_uniforme) {
         this.fk_uniforme = fk_uniforme;
     }
+
+    public ServidorModel getServidor() {
+        return servidor;
+    }
+
+    public void setServidor(ServidorModel servidor) {
+        this.servidor = servidor;
+    }
+
+    public AlunoModel getAluno() {
+        return aluno;
+    }
+
+    public void setAluno(AlunoModel aluno) {
+        this.aluno = aluno;
+    }
+
+    public UniformeModel getUniforme() {
+        return uniforme;
+    }
+
+    public void setUniforme(UniformeModel uniforme) {
+        this.uniforme = uniforme;
+    }
+    
     
 }
