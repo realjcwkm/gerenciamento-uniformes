@@ -24,5 +24,21 @@ public class UniformeDAO {
     
     public UniformeDAO(){
     this.conn = Conexao.getConexao();
+    }
+    public void cadastrarUniforme(UniformeModel uniforme){
+        String sql = "INSERT INTO uniforme(quantidade, fk_tipo_uniforme, fk_tamanho) VALUES (?,?,?)";
+        
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, uniforme.getQuantidade());
+            ps.setInt(2, uniforme.getFk_tipo_uniforme());
+            ps.setInt(3, uniforme.getFk_tamanho());
+            
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Uniforme cadastrado com sucesso!");
+
+        }catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar uniforme: " + e.getMessage());
+            e.printStackTrace();
+        }
     }  
 }
