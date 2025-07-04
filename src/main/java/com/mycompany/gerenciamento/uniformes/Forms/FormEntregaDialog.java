@@ -4,9 +4,12 @@
  */
 package com.mycompany.gerenciamento.uniformes.Forms;
 
+import com.mycompany.gerenciamento.uniformes.DAO.TamanhoDAO;
+import com.mycompany.gerenciamento.uniformes.DAO.TipoUniformeDAO;
 import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
 import com.mycompany.gerenciamento.uniformes.Models.EntregaModel;
 import com.mycompany.gerenciamento.uniformes.Models.TamanhoModel;
+import com.mycompany.gerenciamento.uniformes.Models.TipoUniformeModel;
 import com.mycompany.gerenciamento.uniformes.Models.UniformeModel;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -29,7 +32,7 @@ public class FormEntregaDialog extends JDialog {
     
     private JTextField txtMatricula;
     private JLabel lblNomeAluno;
-    private JComboBox<UniformeModel> comboUniformes;
+    private JComboBox<TipoUniformeModel> comboUniformes;
     private JComboBox<TamanhoModel> comboTamanhos;
     private JTextField txtQuantidade;
     
@@ -63,11 +66,19 @@ public class FormEntregaDialog extends JDialog {
         gbc.gridx = 0; gbc.gridy = 4; panel.add(new JLabel("Quantidade:"), gbc);
         gbc.gridx = 1; gbc.gridy = 4; panel.add(txtQuantidade, gbc);
         
+        carregarComboBoxes();
+        
+        
         add(panel, BorderLayout.CENTER);
         JPanel buttonPanel = new JPanel();
         add(buttonPanel, BorderLayout.SOUTH);
         
         pack();
         setLocationRelativeTo(parent);
+    }
+    
+    private void carregarComboBoxes() {
+        new TipoUniformeDAO().listarTodos().forEach(comboUniformes::addItem);
+        new TamanhoDAO().listarTodos().forEach(comboTamanhos::addItem);
     }
 }
