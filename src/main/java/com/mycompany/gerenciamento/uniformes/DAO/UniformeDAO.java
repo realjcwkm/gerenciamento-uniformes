@@ -65,7 +65,7 @@ public class UniformeDAO {
             TipoUniformeModel tipoUniforme = new TipoUniformeModel();
 
             tamanho.setId(rs.getInt("id_tamanho"));
-            tamanho.setDescricao(rs.getString("tamanho")); 
+//            tamanho.setDescricao(rs.getString("tamanho")); 
 
             tipoUniforme.setId(rs.getInt("id_tipo"));
             tipoUniforme.setNome(rs.getString("tipo"));

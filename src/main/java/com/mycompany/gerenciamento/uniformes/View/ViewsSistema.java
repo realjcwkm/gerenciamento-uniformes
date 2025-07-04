@@ -1,7 +1,6 @@
 package com.mycompany.gerenciamento.uniformes.View;
 
 import com.mycompany.gerenciamento.uniformes.AuthController;
-import com.mycompany.gerenciamento.uniformes.DAO.EntregaDAO;
 import com.mycompany.gerenciamento.uniformes.EntregaController;
 import com.mycompany.gerenciamento.uniformes.Models.EntregaModel;
 import com.mycompany.gerenciamento.uniformes.Models.ServidorModel;
@@ -150,19 +149,27 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_editar = new javax.swing.JButton();
         panel_autenticacao = new javax.swing.JPanel();
         panel_login = new javax.swing.JPanel();
+        img_pl = new javax.swing.JLabel();
+        card_form_pl = new com.mycompany.gerenciamento.uniformes.Components.CardPanel();
         lb_login_pl = new javax.swing.JLabel();
         lb_matricula_pl = new javax.swing.JLabel();
-        lb_senha_pl = new javax.swing.JLabel();
         input_matricula_pl = new javax.swing.JTextField();
+        lb_senha_pl = new javax.swing.JLabel();
         input_senha_pl = new javax.swing.JPasswordField();
+        separador_pl = new javax.swing.JSeparator();
         btn_login_pl = new javax.swing.JButton();
+        btn_esq_senh_pl = new javax.swing.JButton();
         panel_primeiro_acesso = new javax.swing.JPanel();
+        img_ppa = new javax.swing.JLabel();
+        card_form_ppa = new com.mycompany.gerenciamento.uniformes.Components.CardPanel();
         lb_redefinir_senha_ppa = new javax.swing.JLabel();
         lb_senha_ppa = new javax.swing.JLabel();
-        lb_confirmar_senha_ppa = new javax.swing.JLabel();
         input_senha_ppa = new javax.swing.JPasswordField();
+        lb_confirmar_senha_ppa = new javax.swing.JLabel();
         input_confirmar_senha_ppa = new javax.swing.JPasswordField();
+        separador_ppa = new javax.swing.JSeparator();
         btn_salvar_ppa = new javax.swing.JButton();
+        btn_voltar_login_ppa = new javax.swing.JButton();
 
         jd_cadServ_Serv.setForeground(java.awt.Color.white);
         jd_cadServ_Serv.setMaximumSize(new java.awt.Dimension(600, 425));
@@ -366,22 +373,25 @@ public class ViewsSistema extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("GERENCIAMENTO DE UNIFORMES ACADÊMICOS");
-        setMaximumSize(new java.awt.Dimension(1360, 2147483647));
+        setMaximumSize(new java.awt.Dimension(1360, 760));
+        setMinimumSize(new java.awt.Dimension(1360, 760));
         setName("FrameServidores"); // NOI18N
         setPreferredSize(new java.awt.Dimension(1360, 760));
-        setSize(new java.awt.Dimension(1360, 750));
+        setSize(new java.awt.Dimension(1360, 760));
 
-        main_container.setMaximumSize(new java.awt.Dimension(1360, 2147483647));
+        main_container.setMaximumSize(new java.awt.Dimension(1360, 760));
+        main_container.setMinimumSize(new java.awt.Dimension(1360, 760));
         main_container.setPreferredSize(new java.awt.Dimension(1360, 760));
         main_container.setLayout(new java.awt.CardLayout());
 
-        panel_aplicacao.setMaximumSize(new java.awt.Dimension(1360, 2147483647));
+        panel_aplicacao.setMaximumSize(new java.awt.Dimension(1360, 760));
+        panel_aplicacao.setMinimumSize(new java.awt.Dimension(1360, 760));
         panel_aplicacao.setPreferredSize(new java.awt.Dimension(1360, 760));
         panel_aplicacao.setLayout(new java.awt.BorderLayout());
 
         panel_navbar.setBackground(new java.awt.Color(35, 91, 88));
-        panel_navbar.setMaximumSize(new java.awt.Dimension(1360, 800));
-        panel_navbar.setMinimumSize(new java.awt.Dimension(1360, 64));
+        panel_navbar.setMaximumSize(new java.awt.Dimension(1360, 80));
+        panel_navbar.setMinimumSize(new java.awt.Dimension(1360, 80));
         panel_navbar.setPreferredSize(new java.awt.Dimension(1360, 80));
         panel_navbar.setLayout(new javax.swing.BoxLayout(panel_navbar, javax.swing.BoxLayout.LINE_AXIS));
         panel_navbar.add(filler4);
@@ -484,14 +494,15 @@ public class ViewsSistema extends javax.swing.JFrame {
         panel_aplicacao.add(panel_navbar, java.awt.BorderLayout.NORTH);
 
         panel_telaInicial.setBackground(new java.awt.Color(204, 255, 102));
-        panel_telaInicial.setMaximumSize(new java.awt.Dimension(1360, 760));
-        panel_telaInicial.setPreferredSize(new java.awt.Dimension(1360, 650));
+        panel_telaInicial.setMaximumSize(new java.awt.Dimension(1360, 680));
+        panel_telaInicial.setMinimumSize(new java.awt.Dimension(1360, 680));
+        panel_telaInicial.setPreferredSize(new java.awt.Dimension(1360, 680));
         panel_telaInicial.setLayout(new java.awt.CardLayout());
 
         Inicio.setBackground(new java.awt.Color(204, 255, 153));
-        Inicio.setMaximumSize(new java.awt.Dimension(1360, 760));
-        Inicio.setMinimumSize(new java.awt.Dimension(1360, 714));
-        Inicio.setPreferredSize(new java.awt.Dimension(1360, 760));
+        Inicio.setMaximumSize(new java.awt.Dimension(1360, 680));
+        Inicio.setMinimumSize(new java.awt.Dimension(1360, 680));
+        Inicio.setPreferredSize(new java.awt.Dimension(1360, 680));
 
         jLabel1.setText("Inicio");
 
@@ -500,24 +511,24 @@ public class ViewsSistema extends javax.swing.JFrame {
         InicioLayout.setHorizontalGroup(
             InicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(InicioLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(2451, 2451, 2451)
                 .addComponent(jLabel1)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 818, Short.MAX_VALUE))
         );
         InicioLayout.setVerticalGroup(
             InicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(InicioLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 262, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 435, Short.MAX_VALUE))
         );
 
         panel_telaInicial.add(Inicio, "inicio");
 
         panel_distribuicao.setBackground(new java.awt.Color(255, 255, 255));
-        panel_distribuicao.setMaximumSize(new java.awt.Dimension(1360, 650));
-        panel_distribuicao.setMinimumSize(new java.awt.Dimension(1360, 650));
-        panel_distribuicao.setPreferredSize(new java.awt.Dimension(1360, 650));
+        panel_distribuicao.setMaximumSize(new java.awt.Dimension(1360, 680));
+        panel_distribuicao.setMinimumSize(new java.awt.Dimension(1360, 680));
+        panel_distribuicao.setPreferredSize(new java.awt.Dimension(1360, 680));
 
         tb_distribuicao.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -559,12 +570,12 @@ public class ViewsSistema extends javax.swing.JFrame {
                         .addGap(665, 665, 665)
                         .addComponent(btn_cad_distribuicao_pd))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1256, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(1991, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
         panel_distribuicaoLayout.setVerticalGroup(
             panel_distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_distribuicaoLayout.createSequentialGroup()
-                .addContainerGap(259, Short.MAX_VALUE)
+                .addContainerGap(222, Short.MAX_VALUE)
                 .addComponent(lb_titulo_pd)
                 .addGap(18, 18, 18)
                 .addGroup(panel_distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -578,6 +589,9 @@ public class ViewsSistema extends javax.swing.JFrame {
         panel_telaInicial.add(panel_distribuicao, "distribuicao");
 
         Alunos.setBackground(new java.awt.Color(255, 204, 255));
+        Alunos.setMaximumSize(new java.awt.Dimension(1360, 680));
+        Alunos.setMinimumSize(new java.awt.Dimension(1360, 680));
+        Alunos.setPreferredSize(new java.awt.Dimension(1360, 680));
 
         jLabel3.setText("Alunos");
 
@@ -601,8 +615,9 @@ public class ViewsSistema extends javax.swing.JFrame {
         panel_telaInicial.add(Alunos, "alunos");
 
         Servidores.setBackground(new java.awt.Color(255, 255, 255));
-        Servidores.setMaximumSize(new java.awt.Dimension(1360, 650));
-        Servidores.setMinimumSize(new java.awt.Dimension(1360, 650));
+        Servidores.setMaximumSize(new java.awt.Dimension(1360, 680));
+        Servidores.setMinimumSize(new java.awt.Dimension(1360, 680));
+        Servidores.setPreferredSize(new java.awt.Dimension(1360, 680));
 
         lb_titulo_serv.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
         lb_titulo_serv.setText("Controle de Servidores");
@@ -670,12 +685,15 @@ public class ViewsSistema extends javax.swing.JFrame {
                         .addComponent(lb_sub_serv)))
                 .addGap(35, 35, 35)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(111, Short.MAX_VALUE))
+                .addContainerGap(141, Short.MAX_VALUE))
         );
 
         panel_telaInicial.add(Servidores, "servidores");
 
         Uniformes.setBackground(new java.awt.Color(255, 255, 255));
+        Uniformes.setMaximumSize(new java.awt.Dimension(1360, 680));
+        Uniformes.setMinimumSize(new java.awt.Dimension(1360, 680));
+        Uniformes.setPreferredSize(new java.awt.Dimension(1360, 680));
 
         Titulo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         Titulo.setText("Controle de Uniformes");
@@ -726,7 +744,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(UniformesLayout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(1984, Short.MAX_VALUE))
+                        .addContainerGap(46, Short.MAX_VALUE))
                     .addGroup(UniformesLayout.createSequentialGroup()
                         .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(UniformesLayout.createSequentialGroup()
@@ -782,62 +800,131 @@ public class ViewsSistema extends javax.swing.JFrame {
         panel_login.setMinimumSize(new java.awt.Dimension(1360, 760));
         panel_login.setPreferredSize(new java.awt.Dimension(1360, 760));
 
-        lb_login_pl.setFont(new java.awt.Font("Noto Sans", 0, 18)); // NOI18N
+        img_pl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/imagem-tela-login-resize.png"))); // NOI18N
+
+        card_form_pl.setBackground(new java.awt.Color(255, 255, 255));
+        card_form_pl.setMaximumSize(new java.awt.Dimension(503, 633));
+        card_form_pl.setMinimumSize(new java.awt.Dimension(503, 633));
+        card_form_pl.setPreferredSize(new java.awt.Dimension(503, 633));
+
+        lb_login_pl.setBackground(new java.awt.Color(255, 255, 255));
+        lb_login_pl.setFont(new java.awt.Font("Noto Sans", 0, 32)); // NOI18N
+        lb_login_pl.setForeground(new java.awt.Color(0, 0, 0));
         lb_login_pl.setText("LOGIN");
 
+        lb_matricula_pl.setBackground(new java.awt.Color(255, 255, 255));
+        lb_matricula_pl.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lb_matricula_pl.setForeground(new java.awt.Color(0, 0, 0));
         lb_matricula_pl.setLabelFor(input_matricula_pl);
-        lb_matricula_pl.setText("Matricula");
+        lb_matricula_pl.setText("Matrícula:");
 
-        lb_senha_pl.setLabelFor(input_senha_pl);
-        lb_senha_pl.setText("Senha");
-
+        input_matricula_pl.setBackground(new java.awt.Color(255, 255, 255));
+        input_matricula_pl.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        input_matricula_pl.setForeground(new java.awt.Color(0, 0, 0));
+        input_matricula_pl.setPreferredSize(new java.awt.Dimension(331, 28));
         input_matricula_pl.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 input_matricula_plActionPerformed(evt);
             }
         });
 
-        btn_login_pl.setText("login");
+        lb_senha_pl.setBackground(new java.awt.Color(255, 255, 255));
+        lb_senha_pl.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lb_senha_pl.setForeground(new java.awt.Color(0, 0, 0));
+        lb_senha_pl.setLabelFor(input_senha_pl);
+        lb_senha_pl.setText("Senha:");
+
+        input_senha_pl.setBackground(new java.awt.Color(255, 255, 255));
+        input_senha_pl.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        input_senha_pl.setForeground(new java.awt.Color(0, 0, 0));
+        input_senha_pl.setMinimumSize(new java.awt.Dimension(331, 28));
+        input_senha_pl.setPreferredSize(new java.awt.Dimension(331, 28));
+
+        separador_pl.setPreferredSize(new java.awt.Dimension(260, 10));
+
+        btn_login_pl.setBackground(new java.awt.Color(0, 164, 55));
+        btn_login_pl.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_login_pl.setForeground(new java.awt.Color(255, 255, 255));
+        btn_login_pl.setText("ACESSAR");
+        btn_login_pl.setBorderPainted(false);
+        btn_login_pl.setPreferredSize(new java.awt.Dimension(163, 34));
         btn_login_pl.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_login_plActionPerformed(evt);
             }
         });
 
+        btn_esq_senh_pl.setBackground(new java.awt.Color(255, 255, 255));
+        btn_esq_senh_pl.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btn_esq_senh_pl.setForeground(new java.awt.Color(0, 0, 0));
+        btn_esq_senh_pl.setText("Esqueceu ou deseja alterar sua senha?");
+        btn_esq_senh_pl.setBorder(null);
+        btn_esq_senh_pl.setBorderPainted(false);
+        btn_esq_senh_pl.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        javax.swing.GroupLayout card_form_plLayout = new javax.swing.GroupLayout(card_form_pl);
+        card_form_pl.setLayout(card_form_plLayout);
+        card_form_plLayout.setHorizontalGroup(
+            card_form_plLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(card_form_plLayout.createSequentialGroup()
+                .addContainerGap(86, Short.MAX_VALUE)
+                .addGroup(card_form_plLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(lb_login_pl)
+                    .addComponent(input_matricula_pl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(input_senha_pl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(separador_pl, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_login_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_esq_senh_pl))
+                .addGap(86, 86, 86))
+            .addGroup(card_form_plLayout.createSequentialGroup()
+                .addGroup(card_form_plLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(card_form_plLayout.createSequentialGroup()
+                        .addGap(92, 92, 92)
+                        .addComponent(lb_senha_pl))
+                    .addGroup(card_form_plLayout.createSequentialGroup()
+                        .addGap(93, 93, 93)
+                        .addComponent(lb_matricula_pl)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        card_form_plLayout.setVerticalGroup(
+            card_form_plLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(card_form_plLayout.createSequentialGroup()
+                .addGap(165, 165, 165)
+                .addComponent(lb_login_pl)
+                .addGap(33, 33, 33)
+                .addComponent(lb_matricula_pl)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(input_matricula_pl, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lb_senha_pl)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(input_senha_pl, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23)
+                .addComponent(separador_pl, javax.swing.GroupLayout.PREFERRED_SIZE, 9, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btn_login_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btn_esq_senh_pl)
+                .addContainerGap(149, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout panel_loginLayout = new javax.swing.GroupLayout(panel_login);
         panel_login.setLayout(panel_loginLayout);
         panel_loginLayout.setHorizontalGroup(
             panel_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel_loginLayout.createSequentialGroup()
-                .addGap(82, 82, 82)
-                .addGroup(panel_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_login_pl)
-                    .addGroup(panel_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(input_matricula_pl, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
-                        .addComponent(input_senha_pl)
-                        .addComponent(lb_senha_pl)
-                        .addComponent(lb_matricula_pl))
-                    .addGroup(panel_loginLayout.createSequentialGroup()
-                        .addGap(77, 77, 77)
-                        .addComponent(lb_login_pl)))
-                .addContainerGap(1066, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_loginLayout.createSequentialGroup()
+                .addComponent(img_pl)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addComponent(card_form_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(62, 62, 62))
         );
         panel_loginLayout.setVerticalGroup(
             panel_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel_loginLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(lb_login_pl)
-                .addGap(18, 18, 18)
-                .addComponent(lb_matricula_pl)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(input_matricula_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lb_senha_pl)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(input_senha_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
-                .addComponent(btn_login_pl)
-                .addContainerGap(545, Short.MAX_VALUE))
+            .addComponent(img_pl)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_loginLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(card_form_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56))
         );
 
         panel_autenticacao.add(panel_login, "card_login");
@@ -845,59 +932,135 @@ public class ViewsSistema extends javax.swing.JFrame {
         panel_primeiro_acesso.setBackground(new java.awt.Color(35, 91, 88));
         panel_primeiro_acesso.setMaximumSize(new java.awt.Dimension(1360, 760));
         panel_primeiro_acesso.setMinimumSize(new java.awt.Dimension(1360, 760));
+        panel_primeiro_acesso.setPreferredSize(new java.awt.Dimension(1360, 760));
 
-        lb_redefinir_senha_ppa.setFont(new java.awt.Font("Noto Sans", 0, 18)); // NOI18N
+        img_ppa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/imagem-tela-login-resize.png"))); // NOI18N
+
+        card_form_ppa.setBackground(new java.awt.Color(255, 255, 255));
+        card_form_ppa.setMaximumSize(new java.awt.Dimension(503, 633));
+        card_form_ppa.setMinimumSize(new java.awt.Dimension(503, 633));
+        card_form_ppa.setPreferredSize(new java.awt.Dimension(503, 633));
+
+        lb_redefinir_senha_ppa.setBackground(new java.awt.Color(255, 255, 255));
+        lb_redefinir_senha_ppa.setFont(new java.awt.Font("Noto Sans", 0, 32)); // NOI18N
+        lb_redefinir_senha_ppa.setForeground(new java.awt.Color(0, 0, 0));
         lb_redefinir_senha_ppa.setText("REDEFINIR SENHA");
 
+        lb_senha_ppa.setBackground(new java.awt.Color(255, 255, 255));
+        lb_senha_ppa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lb_senha_ppa.setForeground(new java.awt.Color(0, 0, 0));
         lb_senha_ppa.setLabelFor(input_senha_ppa);
-        lb_senha_ppa.setText("Senha");
+        lb_senha_ppa.setText("Senha:");
 
-        lb_confirmar_senha_ppa.setLabelFor(input_confirmar_senha_ppa);
-        lb_confirmar_senha_ppa.setText("Confirmar Senha");
+        input_senha_ppa.setBackground(new java.awt.Color(255, 255, 255));
+        input_senha_ppa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        input_senha_ppa.setForeground(new java.awt.Color(0, 0, 0));
+        input_senha_ppa.setPreferredSize(new java.awt.Dimension(331, 28));
+        input_senha_ppa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                input_senha_ppaActionPerformed(evt);
+            }
+        });
 
-        btn_salvar_ppa.setText("Salvar");
+        lb_confirmar_senha_ppa.setBackground(new java.awt.Color(255, 255, 255));
+        lb_confirmar_senha_ppa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lb_confirmar_senha_ppa.setForeground(new java.awt.Color(0, 0, 0));
+        lb_confirmar_senha_ppa.setLabelFor(input_senha_pl);
+        lb_confirmar_senha_ppa.setText("Confirmar Senha:");
+
+        input_confirmar_senha_ppa.setBackground(new java.awt.Color(255, 255, 255));
+        input_confirmar_senha_ppa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        input_confirmar_senha_ppa.setForeground(new java.awt.Color(0, 0, 0));
+        input_confirmar_senha_ppa.setMinimumSize(new java.awt.Dimension(331, 28));
+        input_confirmar_senha_ppa.setPreferredSize(new java.awt.Dimension(331, 28));
+        input_confirmar_senha_ppa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                input_confirmar_senha_ppaActionPerformed(evt);
+            }
+        });
+
+        separador_ppa.setPreferredSize(new java.awt.Dimension(260, 10));
+
+        btn_salvar_ppa.setBackground(new java.awt.Color(0, 164, 55));
+        btn_salvar_ppa.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_salvar_ppa.setForeground(new java.awt.Color(255, 255, 255));
+        btn_salvar_ppa.setText("SALVAR");
+        btn_salvar_ppa.setBorderPainted(false);
+        btn_salvar_ppa.setPreferredSize(new java.awt.Dimension(148, 34));
         btn_salvar_ppa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_salvar_ppaActionPerformed(evt);
             }
         });
 
+        btn_voltar_login_ppa.setBackground(new java.awt.Color(255, 255, 255));
+        btn_voltar_login_ppa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btn_voltar_login_ppa.setForeground(new java.awt.Color(0, 0, 0));
+        btn_voltar_login_ppa.setText("Voltar a tela de login");
+        btn_voltar_login_ppa.setBorder(null);
+        btn_voltar_login_ppa.setBorderPainted(false);
+        btn_voltar_login_ppa.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        javax.swing.GroupLayout card_form_ppaLayout = new javax.swing.GroupLayout(card_form_ppa);
+        card_form_ppa.setLayout(card_form_ppaLayout);
+        card_form_ppaLayout.setHorizontalGroup(
+            card_form_ppaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(card_form_ppaLayout.createSequentialGroup()
+                .addGap(86, 86, 86)
+                .addGroup(card_form_ppaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(lb_redefinir_senha_ppa)
+                    .addComponent(input_senha_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(input_confirmar_senha_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(separador_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_salvar_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_voltar_login_ppa)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, card_form_ppaLayout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(lb_senha_ppa))
+                    .addComponent(lb_confirmar_senha_ppa, javax.swing.GroupLayout.Alignment.LEADING))
+                .addGap(86, 86, 86))
+        );
+        card_form_ppaLayout.setVerticalGroup(
+            card_form_ppaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(card_form_ppaLayout.createSequentialGroup()
+                .addGap(165, 165, 165)
+                .addComponent(lb_redefinir_senha_ppa)
+                .addGap(33, 33, 33)
+                .addComponent(lb_senha_ppa)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(input_senha_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lb_confirmar_senha_ppa)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(input_confirmar_senha_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23)
+                .addComponent(separador_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, 9, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btn_salvar_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btn_voltar_login_ppa)
+                .addContainerGap(149, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout panel_primeiro_acessoLayout = new javax.swing.GroupLayout(panel_primeiro_acesso);
         panel_primeiro_acesso.setLayout(panel_primeiro_acessoLayout);
         panel_primeiro_acessoLayout.setHorizontalGroup(
             panel_primeiro_acessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel_primeiro_acessoLayout.createSequentialGroup()
-                .addGroup(panel_primeiro_acessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panel_primeiro_acessoLayout.createSequentialGroup()
-                        .addGap(82, 82, 82)
-                        .addGroup(panel_primeiro_acessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn_salvar_ppa)
-                            .addGroup(panel_primeiro_acessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(input_confirmar_senha_ppa, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
-                                .addComponent(input_senha_ppa, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
-                                .addComponent(lb_confirmar_senha_ppa)
-                                .addComponent(lb_senha_ppa))))
-                    .addGroup(panel_primeiro_acessoLayout.createSequentialGroup()
-                        .addGap(114, 114, 114)
-                        .addComponent(lb_redefinir_senha_ppa)))
-                .addContainerGap(3004, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_primeiro_acessoLayout.createSequentialGroup()
+                .addComponent(img_ppa)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(card_form_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(62, 62, 62))
         );
         panel_primeiro_acessoLayout.setVerticalGroup(
             panel_primeiro_acessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_primeiro_acessoLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(lb_redefinir_senha_ppa)
-                .addGap(24, 24, 24)
-                .addComponent(lb_senha_ppa)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(input_senha_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lb_confirmar_senha_ppa)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(input_confirmar_senha_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
-                .addComponent(btn_salvar_ppa)
-                .addContainerGap(539, Short.MAX_VALUE))
+                .addComponent(img_ppa)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(panel_primeiro_acessoLayout.createSequentialGroup()
+                .addGap(71, 71, 71)
+                .addComponent(card_form_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panel_autenticacao.add(panel_primeiro_acesso, "card_primeiro_acesso");
@@ -1028,6 +1191,14 @@ public class ViewsSistema extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_sair_pnActionPerformed
 
+    private void input_confirmar_senha_ppaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_input_confirmar_senha_ppaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_input_confirmar_senha_ppaActionPerformed
+
+    private void input_senha_ppaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_input_senha_ppaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_input_senha_ppaActionPerformed
+  
     private void btn_salvar_pcadServActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salvar_pcadServActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_salvar_pcadServActionPerformed
@@ -1069,6 +1240,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JButton btn_cadastrar_serv;
     private javax.swing.JButton btn_cancelar_pcadServ;
     private javax.swing.JButton btn_editar;
+    private javax.swing.JButton btn_esq_senh_pl;
     private javax.swing.JButton btn_login_pl;
     private javax.swing.JButton btn_nav_Inicio;
     private javax.swing.JButton btn_nav_alunos;
@@ -1078,12 +1250,17 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JButton btn_sair_pn;
     private javax.swing.JButton btn_salvar_pcadServ;
     private javax.swing.JButton btn_salvar_ppa;
+    private javax.swing.JButton btn_voltar_login_ppa;
+    private com.mycompany.gerenciamento.uniformes.Components.CardPanel card_form_pl;
+    private com.mycompany.gerenciamento.uniformes.Components.CardPanel card_form_ppa;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler5;
     private javax.swing.Box.Filler filler6;
     private javax.swing.Box.Filler filler7;
+    private javax.swing.JLabel img_pl;
+    private javax.swing.JLabel img_ppa;
     private javax.swing.JPasswordField input_confirmar_senha_ppa;
     private javax.swing.JTextField input_matricula_pl;
     private javax.swing.JPasswordField input_senha_pl;
@@ -1127,6 +1304,8 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JPanel panel_navbar;
     private javax.swing.JPanel panel_primeiro_acesso;
     private javax.swing.JPanel panel_telaInicial;
+    private javax.swing.JSeparator separador_pl;
+    private javax.swing.JSeparator separador_ppa;
     private javax.swing.JLabel subtitulo;
     private javax.swing.JTable tabela_uniformes;
     private javax.swing.JTable tb_distribuicao;
