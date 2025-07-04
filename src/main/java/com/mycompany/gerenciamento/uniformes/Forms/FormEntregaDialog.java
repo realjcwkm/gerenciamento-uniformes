@@ -9,9 +9,12 @@ import com.mycompany.gerenciamento.uniformes.DAO.TamanhoDAO;
 import com.mycompany.gerenciamento.uniformes.DAO.TipoUniformeDAO;
 import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
 import com.mycompany.gerenciamento.uniformes.Models.EntregaModel;
+import com.mycompany.gerenciamento.uniformes.Models.ServidorModel;
 import com.mycompany.gerenciamento.uniformes.Models.TamanhoModel;
 import com.mycompany.gerenciamento.uniformes.Models.TipoUniformeModel;
 import com.mycompany.gerenciamento.uniformes.Models.UniformeModel;
+import com.mycompany.gerenciamento.uniformes.Session.AuthSession;
+import com.mycompany.gerenciamento.uniformes.UniformeController;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -19,6 +22,8 @@ import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.time.LocalDate;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -38,11 +43,14 @@ public class FormEntregaDialog extends JDialog {
     private JComboBox<TamanhoModel> comboTamanhos;
     private JTextField txtQuantidade;
     
-    private AlunoModel alunoSelecionado = null;
-    private EntregaModel entregaCriada = null;
+    private AlunoModel alunoSelecionado;
+    private EntregaModel entregaCriada;
+    private final UniformeController uniformeController;
     
     public FormEntregaDialog(Frame parent) {
         super(parent, "Cadastrar Nova Distribuição", true);
+        
+        this.uniformeController = new UniformeController();
         
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -72,9 +80,16 @@ public class FormEntregaDialog extends JDialog {
         
         txtMatricula.addActionListener(e -> buscarAluno());
         
+        JButton btnSalvar = new JButton("Salvar");
+        btnSalvar.addActionListener(e -> salvar());
+        JButton btnCancelar = new JButton("Cancelar");
+        btnCancelar.addActionListener(e -> dispose());
+        
         
         add(panel, BorderLayout.CENTER);
         JPanel buttonPanel = new JPanel();
+        buttonPanel.add(btnSalvar);
+        buttonPanel.add(btnCancelar);
         add(buttonPanel, BorderLayout.SOUTH);
         
         pack();
@@ -103,5 +118,56 @@ public class FormEntregaDialog extends JDialog {
             JOptionPane.showMessageDialog(this, "Nenhum aluno encontrado com a matrícula informada.", "Erro", JOptionPane.ERROR_MESSAGE);
        }
         
+    }
+    
+    private void salvar() {
+       if(alunoSelecionado == null) {
+           JOptionPane.showMessageDialog(this, "Por favor, informe uma matrícula de aluno válida.", "Erro", JOptionPane.ERROR_MESSAGE);
+           return;
+       } 
+       
+       try {
+           LocalDate hoje = LocalDate.now();
+           int anoAtual = hoje.getYear();
+           int mesAtual = hoje.getMonthValue();
+           
+           int semestreAtual = (mesAtual <= 6) ? 1 : 2;
+           
+           
+           TipoUniformeModel uniforme = (TipoUniformeModel) comboUniformes.getSelectedItem();
+           TamanhoModel tamanho = (TamanhoModel) comboTamanhos.getSelectedItem();
+           int quantidade = Integer.parseInt(txtQuantidade.getText());
+           
+           entregaCriada = new EntregaModel();
+           
+           entregaCriada.setData_entrega(hoje);
+           entregaCriada.setAno(anoAtual);
+           entregaCriada.setSemestre(semestreAtual);
+           
+           entregaCriada.setAluno(alunoSelecionado);
+           entregaCriada.setQuantidade(quantidade);
+           entregaCriada.setTrocado(false);
+           
+           UniformeModel uniformeCompleto = this.uniformeController.buscarPorTipoETamanho(uniforme.getId(), tamanho.getId());
+           entregaCriada.setUniforme(uniformeCompleto);
+           
+           AuthSession sessao = AuthSession.getInstance();
+           
+           ServidorModel servidorLogado = new ServidorModel();
+           servidorLogado.setId(sessao.getId());
+           servidorLogado.setNome(sessao.getNome());
+           servidorLogado.setMatricula(sessao.getMatricula());
+           
+           entregaCriada.setServidor(servidorLogado);
+                   
+           dispose();
+       } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Erro ao salvar: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace();
+        }
+    }
+    
+    public EntregaModel getEntregaCriada() {
+        return entregaCriada;
     }
 }
