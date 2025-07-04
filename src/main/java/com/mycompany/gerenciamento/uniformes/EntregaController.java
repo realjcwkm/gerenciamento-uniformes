@@ -22,5 +22,17 @@ public class EntregaController {
     public List<EntregaModel> listarTodos() {
         return this.entregaDAO.listarTodos();
     }
-        
+    
+    public boolean salvarEntrega(EntregaModel entrega) {
+        if(entrega.getQuantidade() <= 0) {
+            return false;
+        }
+        try {
+            entregaDAO.cadastrarEntrega(entrega);
+            return true;
+        } catch(Exception error) {
+            error.printStackTrace();
+            return false;
+        }
+    } 
 }

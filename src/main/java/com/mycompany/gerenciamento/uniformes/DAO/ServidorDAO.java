@@ -22,8 +22,8 @@ public class ServidorDAO implements ServidorInterface {
     public List<ServidorModel> listarTodos() {
         List<ServidorModel> servidores = new ArrayList<>();
         String sql = "SELECT s.*, d.nome AS nome_departamento " +
-                "FROM servidor s " +
-                "JOIN departamento d ON s.fk_departamento = d.id";
+                "FROM Servidor s " +
+                "JOIN Departamento d ON s.fk_departamento = d.id";
 
         try (PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {

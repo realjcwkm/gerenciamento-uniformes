@@ -2,6 +2,7 @@ package com.mycompany.gerenciamento.uniformes.View;
 
 import com.mycompany.gerenciamento.uniformes.AuthController;
 import com.mycompany.gerenciamento.uniformes.EntregaController;
+import com.mycompany.gerenciamento.uniformes.Forms.FormEntregaDialog;
 import com.mycompany.gerenciamento.uniformes.Models.EntregaModel;
 import com.mycompany.gerenciamento.uniformes.Models.ServidorModel;
 import com.mycompany.gerenciamento.uniformes.ServidorController;
@@ -103,6 +104,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         jbtn_inativo_pcadServ = new javax.swing.JRadioButton();
         btn_cancelar_pcadServ = new javax.swing.JButton();
         btn_salvar_pcadServ = new javax.swing.JButton();
+        jDialog = new javax.swing.JDialog();
         main_container = new javax.swing.JPanel();
         panel_aplicacao = new javax.swing.JPanel();
         panel_navbar = new javax.swing.JPanel();
@@ -172,10 +174,8 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_voltar_login_ppa = new javax.swing.JButton();
 
         jd_cadServ_Serv.setForeground(java.awt.Color.white);
-        jd_cadServ_Serv.setMaximumSize(new java.awt.Dimension(600, 425));
         jd_cadServ_Serv.setMinimumSize(new java.awt.Dimension(600, 425));
         jd_cadServ_Serv.setModal(true);
-        jd_cadServ_Serv.setPreferredSize(new java.awt.Dimension(600, 425));
         jd_cadServ_Serv.setResizable(false);
 
         panel_cadServ.setBackground(new java.awt.Color(255, 255, 255));
@@ -369,6 +369,17 @@ public class ViewsSistema extends javax.swing.JFrame {
         jd_cadServ_ServLayout.setVerticalGroup(
             jd_cadServ_ServLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panel_cadServ, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jDialogLayout = new javax.swing.GroupLayout(jDialog.getContentPane());
+        jDialog.getContentPane().setLayout(jDialogLayout);
+        jDialogLayout.setHorizontalGroup(
+            jDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jDialogLayout.setVerticalGroup(
+            jDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -809,18 +820,14 @@ public class ViewsSistema extends javax.swing.JFrame {
 
         lb_login_pl.setBackground(new java.awt.Color(255, 255, 255));
         lb_login_pl.setFont(new java.awt.Font("Noto Sans", 0, 32)); // NOI18N
-        lb_login_pl.setForeground(new java.awt.Color(0, 0, 0));
         lb_login_pl.setText("LOGIN");
 
         lb_matricula_pl.setBackground(new java.awt.Color(255, 255, 255));
         lb_matricula_pl.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lb_matricula_pl.setForeground(new java.awt.Color(0, 0, 0));
         lb_matricula_pl.setLabelFor(input_matricula_pl);
         lb_matricula_pl.setText("Matrícula:");
 
-        input_matricula_pl.setBackground(new java.awt.Color(255, 255, 255));
         input_matricula_pl.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        input_matricula_pl.setForeground(new java.awt.Color(0, 0, 0));
         input_matricula_pl.setPreferredSize(new java.awt.Dimension(331, 28));
         input_matricula_pl.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -830,13 +837,10 @@ public class ViewsSistema extends javax.swing.JFrame {
 
         lb_senha_pl.setBackground(new java.awt.Color(255, 255, 255));
         lb_senha_pl.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lb_senha_pl.setForeground(new java.awt.Color(0, 0, 0));
         lb_senha_pl.setLabelFor(input_senha_pl);
         lb_senha_pl.setText("Senha:");
 
-        input_senha_pl.setBackground(new java.awt.Color(255, 255, 255));
         input_senha_pl.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        input_senha_pl.setForeground(new java.awt.Color(0, 0, 0));
         input_senha_pl.setMinimumSize(new java.awt.Dimension(331, 28));
         input_senha_pl.setPreferredSize(new java.awt.Dimension(331, 28));
 
@@ -854,9 +858,7 @@ public class ViewsSistema extends javax.swing.JFrame {
             }
         });
 
-        btn_esq_senh_pl.setBackground(new java.awt.Color(255, 255, 255));
         btn_esq_senh_pl.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btn_esq_senh_pl.setForeground(new java.awt.Color(0, 0, 0));
         btn_esq_senh_pl.setText("Esqueceu ou deseja alterar sua senha?");
         btn_esq_senh_pl.setBorder(null);
         btn_esq_senh_pl.setBorderPainted(false);
@@ -905,7 +907,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_login_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_esq_senh_pl)
-                .addContainerGap(149, Short.MAX_VALUE))
+                .addContainerGap(145, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_loginLayout = new javax.swing.GroupLayout(panel_login);
@@ -943,18 +945,14 @@ public class ViewsSistema extends javax.swing.JFrame {
 
         lb_redefinir_senha_ppa.setBackground(new java.awt.Color(255, 255, 255));
         lb_redefinir_senha_ppa.setFont(new java.awt.Font("Noto Sans", 0, 32)); // NOI18N
-        lb_redefinir_senha_ppa.setForeground(new java.awt.Color(0, 0, 0));
         lb_redefinir_senha_ppa.setText("REDEFINIR SENHA");
 
         lb_senha_ppa.setBackground(new java.awt.Color(255, 255, 255));
         lb_senha_ppa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lb_senha_ppa.setForeground(new java.awt.Color(0, 0, 0));
         lb_senha_ppa.setLabelFor(input_senha_ppa);
         lb_senha_ppa.setText("Senha:");
 
-        input_senha_ppa.setBackground(new java.awt.Color(255, 255, 255));
         input_senha_ppa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        input_senha_ppa.setForeground(new java.awt.Color(0, 0, 0));
         input_senha_ppa.setPreferredSize(new java.awt.Dimension(331, 28));
         input_senha_ppa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -964,13 +962,10 @@ public class ViewsSistema extends javax.swing.JFrame {
 
         lb_confirmar_senha_ppa.setBackground(new java.awt.Color(255, 255, 255));
         lb_confirmar_senha_ppa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lb_confirmar_senha_ppa.setForeground(new java.awt.Color(0, 0, 0));
         lb_confirmar_senha_ppa.setLabelFor(input_senha_pl);
         lb_confirmar_senha_ppa.setText("Confirmar Senha:");
 
-        input_confirmar_senha_ppa.setBackground(new java.awt.Color(255, 255, 255));
         input_confirmar_senha_ppa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        input_confirmar_senha_ppa.setForeground(new java.awt.Color(0, 0, 0));
         input_confirmar_senha_ppa.setMinimumSize(new java.awt.Dimension(331, 28));
         input_confirmar_senha_ppa.setPreferredSize(new java.awt.Dimension(331, 28));
         input_confirmar_senha_ppa.addActionListener(new java.awt.event.ActionListener() {
@@ -993,9 +988,7 @@ public class ViewsSistema extends javax.swing.JFrame {
             }
         });
 
-        btn_voltar_login_ppa.setBackground(new java.awt.Color(255, 255, 255));
         btn_voltar_login_ppa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btn_voltar_login_ppa.setForeground(new java.awt.Color(0, 0, 0));
         btn_voltar_login_ppa.setText("Voltar a tela de login");
         btn_voltar_login_ppa.setBorder(null);
         btn_voltar_login_ppa.setBorderPainted(false);
@@ -1039,7 +1032,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_salvar_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_voltar_login_ppa)
-                .addContainerGap(149, Short.MAX_VALUE))
+                .addContainerGap(145, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_primeiro_acessoLayout = new javax.swing.GroupLayout(panel_primeiro_acesso);
@@ -1112,6 +1105,22 @@ public class ViewsSistema extends javax.swing.JFrame {
 
     private void btn_cad_distribuicao_pdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cad_distribuicao_pdActionPerformed
         // TODO add your handling code here:
+        FormEntregaDialog dialog = new FormEntregaDialog(this);
+        dialog.setVisible(true);
+        
+        EntregaModel novaEntrega = dialog.getEntregaCriada();
+        
+        if(novaEntrega != null) {
+            boolean sucesso = entregaController.salvarEntrega(novaEntrega);
+            
+            if(sucesso) {
+                JOptionPane.showMessageDialog(this, "Distribuição cadastrada com sucesso!");
+                carregaDadosDistribuicao();
+            } else {
+                JOptionPane.showMessageDialog(this, "Falha ao cadastrar a distribuição. Verifique os dados e tente novamente.", "Erro de Cadastro", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        
     }//GEN-LAST:event_btn_cad_distribuicao_pdActionPerformed
 
     private void input_matricula_plActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_input_matricula_plActionPerformed
@@ -1265,6 +1274,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JTextField input_matricula_pl;
     private javax.swing.JPasswordField input_senha_pl;
     private javax.swing.JPasswordField input_senha_ppa;
+    private javax.swing.JDialog jDialog;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel7;
