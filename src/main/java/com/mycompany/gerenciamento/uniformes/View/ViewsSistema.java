@@ -1108,6 +1108,19 @@ public class ViewsSistema extends javax.swing.JFrame {
         FormEntregaDialog dialog = new FormEntregaDialog(this);
         dialog.setVisible(true);
         
+        EntregaModel novaEntrega = dialog.getEntregaCriada();
+        
+        if(novaEntrega != null) {
+            boolean sucesso = entregaController.salvarEntrega(novaEntrega);
+            
+            if(sucesso) {
+                JOptionPane.showMessageDialog(this, "Distribuição cadastrada com sucesso!");
+                carregaDadosDistribuicao();
+            } else {
+                JOptionPane.showMessageDialog(this, "Falha ao cadastrar a distribuição. Verifique os dados e tente novamente.", "Erro de Cadastro", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        
     }//GEN-LAST:event_btn_cad_distribuicao_pdActionPerformed
 
     private void input_matricula_plActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_input_matricula_plActionPerformed
