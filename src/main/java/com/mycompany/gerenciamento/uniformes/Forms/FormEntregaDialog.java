@@ -4,6 +4,7 @@
  */
 package com.mycompany.gerenciamento.uniformes.Forms;
 
+import com.mycompany.gerenciamento.uniformes.DAO.AlunoDAO;
 import com.mycompany.gerenciamento.uniformes.DAO.TamanhoDAO;
 import com.mycompany.gerenciamento.uniformes.DAO.TipoUniformeDAO;
 import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
@@ -21,6 +22,7 @@ import java.awt.Insets;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -48,7 +50,7 @@ public class FormEntregaDialog extends JDialog {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         
         txtMatricula = new JTextField(15);
-        lblNomeAluno = new JLabel("Matrícula");
+        lblNomeAluno = new JLabel("<- Digite a matrícula e tecle Enter");
         lblNomeAluno.setFont(new Font("Segoe UI", Font.ITALIC, 12)); 
         comboUniformes = new JComboBox<>();
         comboTamanhos = new JComboBox<>();
@@ -68,6 +70,8 @@ public class FormEntregaDialog extends JDialog {
         
         carregarComboBoxes();
         
+        txtMatricula.addActionListener(e -> buscarAluno());
+        
         
         add(panel, BorderLayout.CENTER);
         JPanel buttonPanel = new JPanel();
@@ -80,5 +84,24 @@ public class FormEntregaDialog extends JDialog {
     private void carregarComboBoxes() {
         new TipoUniformeDAO().listarTodos().forEach(comboUniformes::addItem);
         new TamanhoDAO().listarTodos().forEach(comboTamanhos::addItem);
+    }
+    
+    private void buscarAluno() {
+        String matricula = txtMatricula.getText().trim();
+        if(matricula.isEmpty()) return;
+        
+        AlunoDAO dao = new AlunoDAO();
+        
+        this.alunoSelecionado = dao.getByMatricula(matricula);
+        
+        if(this.alunoSelecionado != null) {
+            lblNomeAluno.setText(this.alunoSelecionado.getNome());
+            lblNomeAluno.setFont(new Font("Segoe UI", Font.ITALIC, 12));
+        } else {
+            lblNomeAluno.setText("Aluno não encontrado!");
+            lblNomeAluno.setFont(new Font("Segoe UI", Font.ITALIC, 12));
+            JOptionPane.showMessageDialog(this, "Nenhum aluno encontrado com a matrícula informada.", "Erro", JOptionPane.ERROR_MESSAGE);
+       }
+        
     }
 }
