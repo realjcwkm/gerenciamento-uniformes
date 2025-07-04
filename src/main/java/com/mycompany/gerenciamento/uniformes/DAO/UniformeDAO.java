@@ -49,7 +49,7 @@ public class UniformeDAO {
             " u.id AS uniforme_id, " +
             " u.quantidade AS uniforme_quantidade, " +
             " t.id AS tamanho_id, " +
-            " t.descricao AS tamanho_descricao, " + 
+            " t.nome AS tamanho_nome, " + 
             " tp.id AS tipo_id, " +
             " tp.nome AS tipo_nome " + 
             "FROM Uniforme AS u " +
