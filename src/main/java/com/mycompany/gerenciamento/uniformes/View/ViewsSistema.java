@@ -531,24 +531,29 @@ public class ViewsSistema extends javax.swing.JFrame {
         panel_telaInicial.setPreferredSize(new java.awt.Dimension(1360, 680));
         panel_telaInicial.setLayout(new java.awt.CardLayout());
 
-        Inicio.setBackground(new java.awt.Color(204, 255, 153));
+        Inicio.setBackground(new java.awt.Color(255, 255, 255));
         Inicio.setMaximumSize(new java.awt.Dimension(1360, 680));
         Inicio.setMinimumSize(new java.awt.Dimension(1360, 680));
         Inicio.setPreferredSize(new java.awt.Dimension(1360, 680));
 
         jLabel1.setText("Inicio");
 
-        panelGraficoPizza.setBorder(javax.swing.BorderFactory.createTitledBorder("Entregas por tipo"));
+        panelGraficoPizza.setBackground(new java.awt.Color(255, 255, 255));
+        panelGraficoPizza.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 51, 51), 1, true));
+        panelGraficoPizza.setForeground(new java.awt.Color(255, 255, 255));
+        panelGraficoPizza.setMaximumSize(new java.awt.Dimension(450, 450));
+        panelGraficoPizza.setMinimumSize(new java.awt.Dimension(450, 450));
+        panelGraficoPizza.setPreferredSize(new java.awt.Dimension(450, 450));
 
         javax.swing.GroupLayout panelGraficoPizzaLayout = new javax.swing.GroupLayout(panelGraficoPizza);
         panelGraficoPizza.setLayout(panelGraficoPizzaLayout);
         panelGraficoPizzaLayout.setHorizontalGroup(
             panelGraficoPizzaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 462, Short.MAX_VALUE)
+            .addGap(0, 448, Short.MAX_VALUE)
         );
         panelGraficoPizzaLayout.setVerticalGroup(
             panelGraficoPizzaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 436, Short.MAX_VALUE)
+            .addGap(0, 448, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout InicioLayout = new javax.swing.GroupLayout(Inicio);
@@ -556,22 +561,22 @@ public class ViewsSistema extends javax.swing.JFrame {
         InicioLayout.setHorizontalGroup(
             InicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(InicioLayout.createSequentialGroup()
-                .addGap(139, 139, 139)
+                .addGap(95, 95, 95)
                 .addComponent(panelGraficoPizza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1850, 1850, 1850)
+                .addGap(1894, 1894, 1894)
                 .addComponent(jLabel1)
-                .addGap(0, 808, Short.MAX_VALUE))
+                .addGap(0, 830, Short.MAX_VALUE))
         );
         InicioLayout.setVerticalGroup(
             InicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(InicioLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 348, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, InicioLayout.createSequentialGroup()
-                .addContainerGap(161, Short.MAX_VALUE)
+                .addGap(0, 349, Short.MAX_VALUE))
+            .addGroup(InicioLayout.createSequentialGroup()
+                .addGap(83, 83, 83)
                 .addComponent(panelGraficoPizza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(93, 93, 93))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panel_telaInicial.add(Inicio, "inicio");
@@ -947,7 +952,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_login_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_esq_senh_pl)
-                .addContainerGap(146, Short.MAX_VALUE))
+                .addContainerGap(149, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_loginLayout = new javax.swing.GroupLayout(panel_login);
@@ -1072,7 +1077,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_salvar_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_voltar_login_ppa)
-                .addContainerGap(146, Short.MAX_VALUE))
+                .addContainerGap(149, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_primeiro_acessoLayout = new javax.swing.GroupLayout(panel_primeiro_acesso);
