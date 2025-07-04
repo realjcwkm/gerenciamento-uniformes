@@ -18,7 +18,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -30,6 +32,30 @@ public class EntregaDAO implements EntregaInterface {
    public EntregaDAO() {
        this.conn = Conexao.getConexao();
    }
+   
+   // Gráfico pizza
+   public Map<String, Integer> getContagemEntregaPorTipo() {
+        Map<String, Integer> dados = new HashMap<>();
+        String sql = "SELECT tu.nome, SUM(e.quantidade) AS quantidade " +
+                     "FROM Entrega AS e " +
+                     "JOIN Uniforme AS u ON e.fk_uniforme = u.id " +
+                     "JOIN TipoUniforme AS tu ON u.fk_tipo_uniforme = tu.id " +
+                     "GROUP BY tu.nome";
+
+        try (PreparedStatement ps = this.conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                String tipo = rs.getString("nome");
+                int quantidade = rs.getInt("quantidade");
+                dados.put(tipo, quantidade);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar dados para o gráfico: ");
+            e.printStackTrace();
+        }
+        return dados;
+    }
    
    @Override
    public List<EntregaModel> listarTodos() {
