@@ -14,7 +14,7 @@ import com.mycompany.gerenciamento.uniformes.Models.TamanhoModel;
 import com.mycompany.gerenciamento.uniformes.Models.TipoUniformeModel;
 import com.mycompany.gerenciamento.uniformes.Models.UniformeModel;
 import com.mycompany.gerenciamento.uniformes.Session.AuthSession;
-import com.mycompany.gerenciamento.uniformes.UniformeController;
+import com.mycompany.gerenciamento.uniformes.Controllers.UniformeController;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;

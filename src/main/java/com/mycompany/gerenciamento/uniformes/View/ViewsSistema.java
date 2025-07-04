@@ -1,18 +1,18 @@
 package com.mycompany.gerenciamento.uniformes.View;
 
-import com.mycompany.gerenciamento.uniformes.AuthController;
-import com.mycompany.gerenciamento.uniformes.EntregaController;
+import com.mycompany.gerenciamento.uniformes.Controllers.AuthController;
+import com.mycompany.gerenciamento.uniformes.Controllers.EntregaController;
 import com.mycompany.gerenciamento.uniformes.Forms.FormEntregaDialog;
 import com.mycompany.gerenciamento.uniformes.Models.EntregaModel;
 import com.mycompany.gerenciamento.uniformes.Models.ServidorModel;
-import com.mycompany.gerenciamento.uniformes.ServidorController;
+import com.mycompany.gerenciamento.uniformes.Controllers.ServidorController;
 import com.mycompany.gerenciamento.uniformes.TableModels.EntregaTableModel;
 import com.mycompany.gerenciamento.uniformes.TableModels.ServidorTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import com.mycompany.gerenciamento.uniformes.GraficosController;
+import com.mycompany.gerenciamento.uniformes.Controllers.GraficosController;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import org.jfree.chart.ChartPanel;
@@ -428,7 +428,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         panel_navbar.setLayout(new javax.swing.BoxLayout(panel_navbar, javax.swing.BoxLayout.LINE_AXIS));
         panel_navbar.add(filler4);
 
-        jLabel7.setIcon(new javax.swing.ImageIcon("src\\main\\java\\com\\mycompany\\gerenciamento\\uniformes\\Images\\logo-IFRO-PNG-branco.png"));
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo-IFRO-PNG-branco.png"))); // NOI18N
         panel_navbar.add(jLabel7);
         panel_navbar.add(filler1);
 
