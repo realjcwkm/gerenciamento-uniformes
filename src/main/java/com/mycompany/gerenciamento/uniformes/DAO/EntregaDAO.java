@@ -117,7 +117,7 @@ public class EntregaDAO implements EntregaInterface {
            ps.setInt(5, entrega.getQuantidade());
            ps.setInt(6, entrega.getServidor().getId());
            ps.setInt(7, entrega.getUniforme().getId());
-           ps.setInt(8, entrega.getUniforme().getId());
+           ps.setInt(8, entrega.getAluno().getId());
            
            ps.executeUpdate();
            
