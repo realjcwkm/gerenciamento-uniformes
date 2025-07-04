@@ -85,4 +85,48 @@ public class UniformeDAO {
     return uniformes;
     }
     
+    
+    public UniformeModel buscarPorTipoETamanho(int idTipo, int idTamanho) {
+        String sql = "SELECT u.id AS id_uniforme, u.quantidade AS quantidade_estoque, "
+                + "tu.id AS id_tipo, tu.nome AS tipo, "
+                + "t.id AS id_tamanho, t.nome AS tamanho "
+                + "FROM Uniforme AS u "
+                + "LEFT JOIN TipoUniforme AS tu ON u.fk_tipo_uniforme = tu.id "
+                + "LEFT JOIN Tamanho AS t ON u.fk_tamanho = t.id "
+                + "WHERE u.fk_tipo_uniforme = ? AND u.fk_tamanho = ?";
+        
+        UniformeModel uniforme = null;
+        
+        try(PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idTipo);
+            ps.setInt(2, idTamanho); 
+            
+            try (ResultSet rs = ps.executeQuery()) { 
+                if(rs.next()) {
+                    uniforme = new UniformeModel();
+                    TipoUniformeModel tipo = new TipoUniformeModel();
+                    TamanhoModel tamanho = new TamanhoModel();
+                    
+                    tipo.setId(rs.getInt("id_tipo"));
+                    tipo.setNome(rs.getString("tipo"));
+                    
+                    tamanho.setId(rs.getInt("id_tamanho"));
+                    tamanho.setNome(rs.getString("tamanho"));
+                    
+                    uniforme.setId(rs.getInt("id_uniforme"));
+                    uniforme.setQuantidade(rs.getInt("quantidade_estoque"));
+                    
+                    uniforme.setTipoUniforme(tipo);
+                    uniforme.setTamanho(tamanho);
+                }
+                
+            }
+        } catch (SQLException error) {
+            System.err.println("Erro ao buscar uniforme por tipo e tamanho: " + error.getMessage());
+            error.printStackTrace();
+        }
+        
+        return uniforme;
+    }
+    
 }
