@@ -12,6 +12,11 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import com.mycompany.gerenciamento.uniformes.GraficosController;
+import java.awt.BorderLayout;
+import javax.swing.JPanel;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
 
 /**
  * @author barbara
@@ -26,10 +31,13 @@ public class ViewsSistema extends javax.swing.JFrame {
     private final AuthController authController;
     private final EntregaController entregaController;
     private final ServidorController servidorController;
+    private GraficosController graficosController;
     private String matriculaUpdate;
     
     public ViewsSistema() {
         initComponents();
+        carregarGraficoPizza();
+        
         this.appCardLayout = (CardLayout) panel_telaInicial.getLayout();
         this.mainCardLayout = (CardLayout) main_container.getLayout();
         this.authCardLayout = (CardLayout) panel_autenticacao.getLayout();
@@ -73,6 +81,19 @@ public class ViewsSistema extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Erro ao carregar os dados de servidores.", "Erro", JOptionPane.ERROR_MESSAGE);
             error.printStackTrace();
         }
+    }
+    
+    private void carregarGraficoPizza() {
+        this.graficosController = new GraficosController();
+
+        JFreeChart graficoPizza = graficosController.criarGraficoPizzaPorTipo();
+
+        ChartPanel chartPanel = new ChartPanel(graficoPizza);
+        chartPanel.setOpaque(false);
+
+        panelGraficoPizza.setLayout(new BorderLayout());
+        panelGraficoPizza.add(chartPanel, BorderLayout.CENTER);
+        panelGraficoPizza.validate();
     }
     
     /**
@@ -125,6 +146,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         panel_telaInicial = new javax.swing.JPanel();
         Inicio = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        panelGraficoPizza = new javax.swing.JPanel();
         panel_distribuicao = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tb_distribuicao = new javax.swing.JTable();
@@ -250,7 +272,6 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_cancelar_pcadServ.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_cancelar_pcadServ.setForeground(new java.awt.Color(255, 255, 255));
         btn_cancelar_pcadServ.setText("Cancelar");
-        btn_cancelar_pcadServ.setPreferredSize(new java.awt.Dimension(88, 27));
         btn_cancelar_pcadServ.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_cancelar_pcadServActionPerformed(evt);
@@ -510,28 +531,52 @@ public class ViewsSistema extends javax.swing.JFrame {
         panel_telaInicial.setPreferredSize(new java.awt.Dimension(1360, 680));
         panel_telaInicial.setLayout(new java.awt.CardLayout());
 
-        Inicio.setBackground(new java.awt.Color(204, 255, 153));
+        Inicio.setBackground(new java.awt.Color(255, 255, 255));
         Inicio.setMaximumSize(new java.awt.Dimension(1360, 680));
         Inicio.setMinimumSize(new java.awt.Dimension(1360, 680));
         Inicio.setPreferredSize(new java.awt.Dimension(1360, 680));
 
         jLabel1.setText("Inicio");
 
+        panelGraficoPizza.setBackground(new java.awt.Color(255, 255, 255));
+        panelGraficoPizza.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 51, 51), 1, true));
+        panelGraficoPizza.setForeground(new java.awt.Color(255, 255, 255));
+        panelGraficoPizza.setMaximumSize(new java.awt.Dimension(450, 450));
+        panelGraficoPizza.setMinimumSize(new java.awt.Dimension(450, 450));
+        panelGraficoPizza.setPreferredSize(new java.awt.Dimension(450, 450));
+
+        javax.swing.GroupLayout panelGraficoPizzaLayout = new javax.swing.GroupLayout(panelGraficoPizza);
+        panelGraficoPizza.setLayout(panelGraficoPizzaLayout);
+        panelGraficoPizzaLayout.setHorizontalGroup(
+            panelGraficoPizzaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 448, Short.MAX_VALUE)
+        );
+        panelGraficoPizzaLayout.setVerticalGroup(
+            panelGraficoPizzaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 448, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout InicioLayout = new javax.swing.GroupLayout(Inicio);
         Inicio.setLayout(InicioLayout);
         InicioLayout.setHorizontalGroup(
             InicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(InicioLayout.createSequentialGroup()
-                .addGap(2451, 2451, 2451)
+                .addGap(95, 95, 95)
+                .addComponent(panelGraficoPizza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1894, 1894, 1894)
                 .addComponent(jLabel1)
-                .addGap(0, 818, Short.MAX_VALUE))
+                .addGap(0, 830, Short.MAX_VALUE))
         );
         InicioLayout.setVerticalGroup(
             InicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(InicioLayout.createSequentialGroup()
-                .addGap(0, 262, Short.MAX_VALUE)
+                .addGap(0, 348, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(0, 435, Short.MAX_VALUE))
+                .addGap(0, 349, Short.MAX_VALUE))
+            .addGroup(InicioLayout.createSequentialGroup()
+                .addGap(83, 83, 83)
+                .addComponent(panelGraficoPizza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panel_telaInicial.add(Inicio, "inicio");
@@ -907,7 +952,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_login_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_esq_senh_pl)
-                .addContainerGap(145, Short.MAX_VALUE))
+                .addContainerGap(149, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_loginLayout = new javax.swing.GroupLayout(panel_login);
@@ -1032,7 +1077,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_salvar_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_voltar_login_ppa)
-                .addContainerGap(145, Short.MAX_VALUE))
+                .addContainerGap(149, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_primeiro_acessoLayout = new javax.swing.GroupLayout(panel_primeiro_acesso);
@@ -1306,6 +1351,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JLabel lb_titulo_serv;
     private javax.swing.JPanel main_container;
     private javax.swing.JLabel nome_sistema;
+    private javax.swing.JPanel panelGraficoPizza;
     private javax.swing.JPanel panel_aplicacao;
     private javax.swing.JPanel panel_autenticacao;
     private javax.swing.JPanel panel_cadServ;
