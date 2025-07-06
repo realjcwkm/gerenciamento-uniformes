@@ -57,6 +57,21 @@ public class EntregaDAO implements EntregaInterface {
         return dados;
     }
    
+   // Quantidade total de uniformes entregues
+    public int getQuantidadeTotalGeral() {
+        String sql = "SELECT SUM(quantidade) FROM Entrega";
+        int total = 0;
+        try (PreparedStatement ps = this.conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return total;
+    }
+   
    @Override
    public List<EntregaModel> listarTodos() {
     List<EntregaModel> entregas = new ArrayList<>();
