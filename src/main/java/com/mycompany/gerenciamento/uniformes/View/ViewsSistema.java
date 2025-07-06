@@ -180,8 +180,6 @@ public class ViewsSistema extends javax.swing.JFrame {
         Inicio = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         panelGraficoPizza = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         panel_distribuicao = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tb_distribuicao = new javax.swing.JTable();
@@ -580,33 +578,15 @@ public class ViewsSistema extends javax.swing.JFrame {
         panelGraficoPizza.setMinimumSize(new java.awt.Dimension(450, 450));
         panelGraficoPizza.setPreferredSize(new java.awt.Dimension(450, 450));
 
-        jLabel2.setFont(new java.awt.Font("SansSerif", 1, 16)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel2.setText("Saída de Uniformes");
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel4.setText("Total de uniformes distribuídos");
-
         javax.swing.GroupLayout panelGraficoPizzaLayout = new javax.swing.GroupLayout(panelGraficoPizza);
         panelGraficoPizza.setLayout(panelGraficoPizzaLayout);
         panelGraficoPizzaLayout.setHorizontalGroup(
             panelGraficoPizzaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelGraficoPizzaLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(panelGraficoPizzaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel2))
-                .addContainerGap(215, Short.MAX_VALUE))
+            .addGap(0, 448, Short.MAX_VALUE)
         );
         panelGraficoPizzaLayout.setVerticalGroup(
             panelGraficoPizzaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelGraficoPizzaLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jLabel2)
-                .addGap(58, 58, 58)
-                .addComponent(jLabel4)
-                .addContainerGap(334, Short.MAX_VALUE))
+            .addGap(0, 448, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout InicioLayout = new javax.swing.GroupLayout(Inicio);
@@ -1168,7 +1148,8 @@ public class ViewsSistema extends javax.swing.JFrame {
     private void btn_nav_InicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_InicioActionPerformed
         // TODO add your handling code here:
         appCardLayout.show(panel_telaInicial, "inicio");
-        System.out.println("Mostrando painel Inicio");
+        System.out.println("Mostrando painel Inicio");        
+        carregarGraficoPizza(); 
     }//GEN-LAST:event_btn_nav_InicioActionPerformed
 
     private void btn_nav_distribuicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_distribuicaoActionPerformed
@@ -1374,9 +1355,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JPasswordField input_senha_ppa;
     private javax.swing.JDialog jDialog;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
