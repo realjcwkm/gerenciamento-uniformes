@@ -44,7 +44,7 @@ public class GraficosController {
 
         // Fábrica de gráficos (ChartFactory)
         JFreeChart graficoPizza = ChartFactory.createPieChart(
-            "Saída de Uniformes", // Título do gráfico
+            null, // Título do gráfico
             dataset, // Conjunto de dados
             true, // Exibir legenda
             true, // Gerar tooltips
@@ -91,5 +91,9 @@ public class GraficosController {
         for (int i = 0; i < chaves.size(); i++) {
             plot.setSectionPaint(chaves.get(i), verdes[i % verdes.length]);
         }
+    }
+    
+    public int getTotalUniformesDistribuidos() {
+       return this.entregaDAO.getQuantidadeTotalGeral();
     }
 }
