@@ -4,9 +4,9 @@
  */
 package com.mycompany.gerenciamento.uniformes.Forms;
 
-import com.mycompany.gerenciamento.uniformes.DAO.AlunoDAO;
-import com.mycompany.gerenciamento.uniformes.DAO.TamanhoDAO;
-import com.mycompany.gerenciamento.uniformes.DAO.TipoUniformeDAO;
+import com.mycompany.gerenciamento.uniformes.AlunoController;
+import com.mycompany.gerenciamento.uniformes.EntregaController;
+import com.mycompany.gerenciamento.uniformes.UniformeController;
 import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
 import com.mycompany.gerenciamento.uniformes.Models.EntregaModel;
 import com.mycompany.gerenciamento.uniformes.Models.ServidorModel;
@@ -14,9 +14,7 @@ import com.mycompany.gerenciamento.uniformes.Models.TamanhoModel;
 import com.mycompany.gerenciamento.uniformes.Models.TipoUniformeModel;
 import com.mycompany.gerenciamento.uniformes.Models.UniformeModel;
 import com.mycompany.gerenciamento.uniformes.Session.AuthSession;
-import com.mycompany.gerenciamento.uniformes.UniformeController;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
@@ -46,11 +44,15 @@ public class FormEntregaDialog extends JDialog {
     private AlunoModel alunoSelecionado;
     private EntregaModel entregaCriada;
     private final UniformeController uniformeController;
+    private final EntregaController entregaController;
+    private final AlunoController alunoController;
     
     public FormEntregaDialog(Frame parent) {
         super(parent, "Cadastrar Nova Distribuição", true);
         
         this.uniformeController = new UniformeController();
+        this.entregaController = new EntregaController();
+        this.alunoController = new AlunoController();
         
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -58,12 +60,14 @@ public class FormEntregaDialog extends JDialog {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         
         txtMatricula = new JTextField(15);
-        lblNomeAluno = new JLabel("<- Digite a matrícula e tecle Enter");
+        lblNomeAluno = new JLabel("<- Digite a matrícula e pressione Enter");
         lblNomeAluno.setFont(new Font("Segoe UI", Font.ITALIC, 12)); 
         comboUniformes = new JComboBox<>();
         comboTamanhos = new JComboBox<>();
         txtQuantidade = new JTextField("1");
         
+        JButton btnSalvar = new JButton("Salvar");
+        JButton btnCancelar = new JButton("Cancelar");
         
         gbc.gridx = 0; gbc.gridy = 0; panel.add(new JLabel("Matrícula Aluno:"), gbc);
         gbc.gridx = 1; gbc.gridy = 0; panel.add(txtMatricula, gbc);
@@ -79,12 +83,8 @@ public class FormEntregaDialog extends JDialog {
         carregarComboBoxes();
         
         txtMatricula.addActionListener(e -> buscarAluno());
-        
-        JButton btnSalvar = new JButton("Salvar");
         btnSalvar.addActionListener(e -> salvar());
-        JButton btnCancelar = new JButton("Cancelar");
         btnCancelar.addActionListener(e -> dispose());
-        
         
         add(panel, BorderLayout.CENTER);
         JPanel buttonPanel = new JPanel();
@@ -97,17 +97,15 @@ public class FormEntregaDialog extends JDialog {
     }
     
     private void carregarComboBoxes() {
-        new TipoUniformeDAO().listarTodos().forEach(comboUniformes::addItem);
-        new TamanhoDAO().listarTodos().forEach(comboTamanhos::addItem);
+        this.entregaController.getAllTamanhos().forEach(comboTamanhos::addItem);
+        this.entregaController.getAllTipos().forEach(comboUniformes::addItem);
     }
     
     private void buscarAluno() {
         String matricula = txtMatricula.getText().trim();
-        if(matricula.isEmpty()) return;
+        if (matricula.isEmpty()) return;
         
-        AlunoDAO dao = new AlunoDAO();
-        
-        this.alunoSelecionado = dao.getByMatricula(matricula);
+        this.alunoSelecionado = this.alunoController.getByMatricula(matricula);
         
         if(this.alunoSelecionado != null) {
             lblNomeAluno.setText(this.alunoSelecionado.getNome());
@@ -161,9 +159,9 @@ public class FormEntregaDialog extends JDialog {
            entregaCriada.setServidor(servidorLogado);
                    
            dispose();
-       } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Erro ao salvar: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-        ex.printStackTrace();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Erro ao salvar: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
         }
     }
     
