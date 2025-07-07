@@ -4,16 +4,21 @@
  */
 package com.mycompany.gerenciamento.uniformes.Models;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author rober
  */
 public class EntradaModel {
     private int id;
-    private int data_entrada;
+    private LocalDate data_entrada;
     private  int quantidade;
     private int fk_fornecedor;
     private int fk_uniforme;
+    
+    private FornecedorModel fornecedor;
+    private UniformeModel uniforme;
 
     public int getId() {
         return id;
@@ -23,11 +28,11 @@ public class EntradaModel {
         this.id = id;
     }
 
-    public int getData_entrada() {
+    public LocalDate getData_entrada() {
         return data_entrada;
     }
 
-    public void setData_entrada(int data_entrada) {
+    public void setData_entrada(LocalDate data_entrada) {
         this.data_entrada = data_entrada;
     }
 
@@ -53,5 +58,21 @@ public class EntradaModel {
 
     public void setFk_uniforme(int fk_uniforme) {
         this.fk_uniforme = fk_uniforme;
+    }
+
+    public FornecedorModel getFornecedor() {
+        return fornecedor;
+    }
+
+    public void setFornecedor(FornecedorModel fornecedor) {
+        this.fornecedor = fornecedor;
+    }
+
+    public UniformeModel getUniforme() {
+        return uniforme;
+    }
+
+    public void setUniforme(UniformeModel uniforme) {
+        this.uniforme = uniforme;
     }
 }
