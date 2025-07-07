@@ -42,17 +42,13 @@ public class FormEntregaDialog extends JDialog {
     private JTextField txtQuantidade;
     
     private AlunoModel alunoSelecionado;
-    private EntregaModel entregaCriada;
-    private final UniformeController uniformeController;
     private final EntregaController entregaController;
-    private final AlunoController alunoController;
+    private boolean salvo = false;
     
     public FormEntregaDialog(Frame parent) {
         super(parent, "Cadastrar Nova Distribuição", true);
-        
-        this.uniformeController = new UniformeController();
+
         this.entregaController = new EntregaController();
-        this.alunoController = new AlunoController();
         
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -105,67 +101,51 @@ public class FormEntregaDialog extends JDialog {
         String matricula = txtMatricula.getText().trim();
         if (matricula.isEmpty()) return;
         
-        this.alunoSelecionado = this.alunoController.getByMatricula(matricula);
+        this.alunoSelecionado = entregaController.getAlunoByMatricula(matricula);
         
         if(this.alunoSelecionado != null) {
             lblNomeAluno.setText(this.alunoSelecionado.getNome());
-            lblNomeAluno.setFont(new Font("Segoe UI", Font.ITALIC, 12));
         } else {
             lblNomeAluno.setText("Aluno não encontrado!");
-            lblNomeAluno.setFont(new Font("Segoe UI", Font.ITALIC, 12));
             JOptionPane.showMessageDialog(this, "Nenhum aluno encontrado com a matrícula informada.", "Erro", JOptionPane.ERROR_MESSAGE);
        }
         
     }
     
     private void salvar() {
-       if(alunoSelecionado == null) {
+        if(alunoSelecionado == null) {
            JOptionPane.showMessageDialog(this, "Por favor, informe uma matrícula de aluno válida.", "Erro", JOptionPane.ERROR_MESSAGE);
            return;
-       } 
+        } 
        
-       try {
-           LocalDate hoje = LocalDate.now();
-           int anoAtual = hoje.getYear();
-           int mesAtual = hoje.getMonthValue();
-           
-           int semestreAtual = (mesAtual <= 6) ? 1 : 2;
-           
-           
-           TipoUniformeModel uniforme = (TipoUniformeModel) comboUniformes.getSelectedItem();
-           TamanhoModel tamanho = (TamanhoModel) comboTamanhos.getSelectedItem();
-           int quantidade = Integer.parseInt(txtQuantidade.getText());
-           
-           entregaCriada = new EntregaModel();
-           
-           entregaCriada.setData_entrega(hoje);
-           entregaCriada.setAno(anoAtual);
-           entregaCriada.setSemestre(semestreAtual);
-           
-           entregaCriada.setAluno(alunoSelecionado);
-           entregaCriada.setQuantidade(quantidade);
-           entregaCriada.setTrocado(false);
-           
-           UniformeModel uniformeCompleto = this.uniformeController.buscarPorTipoETamanho(uniforme.getId(), tamanho.getId());
-           entregaCriada.setUniforme(uniformeCompleto);
-           
-           AuthSession sessao = AuthSession.getInstance();
-           
-           ServidorModel servidorLogado = new ServidorModel();
-           servidorLogado.setId(sessao.getId());
-           servidorLogado.setNome(sessao.getNome());
-           servidorLogado.setMatricula(sessao.getMatricula());
-           
-           entregaCriada.setServidor(servidorLogado);
-                   
-           dispose();
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Erro ao salvar: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-            ex.printStackTrace();
+        TipoUniformeModel tipo = (TipoUniformeModel) comboUniformes.getSelectedItem();
+        TamanhoModel tamanho = (TamanhoModel) comboTamanhos.getSelectedItem();
+        
+        int quantidade;
+        
+        try {
+           quantidade = Integer.parseInt(txtQuantidade.getText());
+        } catch (NumberFormatException e) {
+           JOptionPane.showMessageDialog(this, "Quantidade inválida.", "Erro", JOptionPane.ERROR_MESSAGE);
+           return;
+        }
+        
+        boolean sucesso = entregaController.cadastrarNovaEntrega(
+            this.alunoSelecionado,
+            tipo,
+            tamanho,
+            quantidade
+        );
+        
+        if (sucesso) {
+            this.salvo = true;
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Falha ao cadastrar a distribuição.", "Erro de Cadastro", JOptionPane.ERROR_MESSAGE);
         }
     }
     
-    public EntregaModel getEntregaCriada() {
-        return entregaCriada;
+    public boolean isSalvo() {
+        return this.salvo;
     }
 }
