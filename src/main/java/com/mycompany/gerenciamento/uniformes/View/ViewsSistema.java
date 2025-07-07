@@ -41,6 +41,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     public ViewsSistema() {
         initComponents();
         carregarGraficoPizza();
+        carregarGraficoBarras();
         
         this.appCardLayout = (CardLayout) panel_telaInicial.getLayout();
         this.mainCardLayout = (CardLayout) main_container.getLayout();
@@ -87,6 +88,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         }
     }
 
+    // Carrega Gráfico Pizza
     private void carregarGraficoPizza() {
         this.graficosController = new GraficosController();
         JFreeChart graficoPizza = graficosController.criarGraficoPizzaPorTipo();
@@ -127,6 +129,21 @@ public class ViewsSistema extends javax.swing.JFrame {
 
         panelGraficoPizza.revalidate();
         panelGraficoPizza.repaint();
+    }
+    
+    // Carrega Gráfico Barra
+    private void carregarGraficoBarras() {
+        this.graficosController = new GraficosController();
+        JFreeChart graficoBarras = graficosController.criarGraficoBarrasPorTurma();
+
+        ChartPanel chartPanelBarras = new ChartPanel(graficoBarras);
+
+        panelGraficoBarras.removeAll();
+        panelGraficoBarras.setLayout(new BorderLayout());
+        panelGraficoBarras.add(chartPanelBarras, BorderLayout.CENTER);
+
+        panelGraficoBarras.revalidate();
+        panelGraficoBarras.repaint();
     }
     
     /**
@@ -180,6 +197,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         Inicio = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         panelGraficoPizza = new javax.swing.JPanel();
+        panelGraficoBarras = new javax.swing.JPanel();
         panel_distribuicao = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tb_distribuicao = new javax.swing.JTable();
@@ -589,6 +607,22 @@ public class ViewsSistema extends javax.swing.JFrame {
             .addGap(0, 448, Short.MAX_VALUE)
         );
 
+        panelGraficoBarras.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panelGraficoBarras.setMaximumSize(new java.awt.Dimension(600, 450));
+        panelGraficoBarras.setMinimumSize(new java.awt.Dimension(600, 450));
+        panelGraficoBarras.setPreferredSize(new java.awt.Dimension(600, 450));
+
+        javax.swing.GroupLayout panelGraficoBarrasLayout = new javax.swing.GroupLayout(panelGraficoBarras);
+        panelGraficoBarras.setLayout(panelGraficoBarrasLayout);
+        panelGraficoBarrasLayout.setHorizontalGroup(
+            panelGraficoBarrasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 618, Short.MAX_VALUE)
+        );
+        panelGraficoBarrasLayout.setVerticalGroup(
+            panelGraficoBarrasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 448, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout InicioLayout = new javax.swing.GroupLayout(Inicio);
         Inicio.setLayout(InicioLayout);
         InicioLayout.setHorizontalGroup(
@@ -596,9 +630,11 @@ public class ViewsSistema extends javax.swing.JFrame {
             .addGroup(InicioLayout.createSequentialGroup()
                 .addGap(95, 95, 95)
                 .addComponent(panelGraficoPizza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1894, 1894, 1894)
+                .addGap(61, 61, 61)
+                .addComponent(panelGraficoBarras, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1215, 1215, 1215)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 828, Short.MAX_VALUE))
         );
         InicioLayout.setVerticalGroup(
             InicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -608,8 +644,10 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addGap(0, 332, Short.MAX_VALUE))
             .addGroup(InicioLayout.createSequentialGroup()
                 .addGap(83, 83, 83)
-                .addComponent(panelGraficoPizza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(InicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelGraficoBarras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelGraficoPizza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(180, Short.MAX_VALUE))
         );
 
         panel_telaInicial.add(Inicio, "inicio");
@@ -1149,7 +1187,8 @@ public class ViewsSistema extends javax.swing.JFrame {
         // TODO add your handling code here:
         appCardLayout.show(panel_telaInicial, "inicio");
         System.out.println("Mostrando painel Inicio");        
-        carregarGraficoPizza(); 
+        carregarGraficoPizza();
+        carregarGraficoBarras();
     }//GEN-LAST:event_btn_nav_InicioActionPerformed
 
     private void btn_nav_distribuicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_distribuicaoActionPerformed
@@ -1385,6 +1424,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JLabel lb_titulo_serv;
     private javax.swing.JPanel main_container;
     private javax.swing.JLabel nome_sistema;
+    private javax.swing.JPanel panelGraficoBarras;
     private javax.swing.JPanel panelGraficoPizza;
     private javax.swing.JPanel panel_aplicacao;
     private javax.swing.JPanel panel_autenticacao;
