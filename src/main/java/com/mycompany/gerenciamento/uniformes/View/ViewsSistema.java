@@ -1,20 +1,24 @@
 package com.mycompany.gerenciamento.uniformes.View;
 
-import com.mycompany.gerenciamento.uniformes.AuthController;
-import com.mycompany.gerenciamento.uniformes.EntregaController;
+import com.mycompany.gerenciamento.uniformes.Controllers.AuthController;
+import com.mycompany.gerenciamento.uniformes.Controllers.EntregaController;
 import com.mycompany.gerenciamento.uniformes.Forms.FormEntregaDialog;
 import com.mycompany.gerenciamento.uniformes.Models.EntregaModel;
 import com.mycompany.gerenciamento.uniformes.Models.ServidorModel;
-import com.mycompany.gerenciamento.uniformes.ServidorController;
+import com.mycompany.gerenciamento.uniformes.Controllers.ServidorController;
 import com.mycompany.gerenciamento.uniformes.TableModels.EntregaTableModel;
 import com.mycompany.gerenciamento.uniformes.TableModels.ServidorTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import com.mycompany.gerenciamento.uniformes.GraficosController;
+import com.mycompany.gerenciamento.uniformes.Controllers.GraficosController;
 import java.awt.BorderLayout;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 
@@ -37,6 +41,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     public ViewsSistema() {
         initComponents();
         carregarGraficoPizza();
+        carregarGraficoBarras();
         
         this.appCardLayout = (CardLayout) panel_telaInicial.getLayout();
         this.mainCardLayout = (CardLayout) main_container.getLayout();
@@ -82,18 +87,63 @@ public class ViewsSistema extends javax.swing.JFrame {
             error.printStackTrace();
         }
     }
-    
+
+    // Carrega Gráfico Pizza
     private void carregarGraficoPizza() {
         this.graficosController = new GraficosController();
-
         JFreeChart graficoPizza = graficosController.criarGraficoPizzaPorTipo();
+        int totalDeUniformes = graficosController.getTotalUniformesDistribuidos();
+
+        panelGraficoPizza.removeAll(); 
+        panelGraficoPizza.setLayout(new BoxLayout(panelGraficoPizza, BoxLayout.Y_AXIS));
+       
+        JLabel lb_titulo_inicio = new JLabel("Saída de Uniformes");
+        lb_titulo_inicio.setFont(new Font("SansSerif", Font.BOLD, 14));
+        lb_titulo_inicio.setAlignmentX(Component.LEFT_ALIGNMENT);
+        
+        JLabel lb_total_inicio = new JLabel(String.valueOf(totalDeUniformes));
+        lb_total_inicio.setFont(new Font("SansSerif", Font.BOLD, 18));
+        lb_total_inicio.setAlignmentX(Component.LEFT_ALIGNMENT);
+        
+        JLabel lb_descricao_inicio = new JLabel("Total de uniformes distribuídos");
+        lb_descricao_inicio.setFont(new Font("SansSerif", Font.PLAIN, 12));
+        lb_descricao_inicio.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JSeparator separador_inicio = new JSeparator();
 
         ChartPanel chartPanel = new ChartPanel(graficoPizza);
         chartPanel.setOpaque(false);
+        chartPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        panelGraficoPizza.setLayout(new BorderLayout());
-        panelGraficoPizza.add(chartPanel, BorderLayout.CENTER);
-        panelGraficoPizza.validate();
+        panelGraficoPizza.add(Box.createRigidArea(new Dimension(10, 10)));
+        panelGraficoPizza.add(lb_titulo_inicio);
+        panelGraficoPizza.add(Box.createRigidArea(new Dimension(0, 5)));
+        panelGraficoPizza.add(lb_total_inicio);
+        panelGraficoPizza.add(Box.createRigidArea(new Dimension(0, 15)));
+        panelGraficoPizza.add(lb_descricao_inicio);
+        panelGraficoPizza.add(Box.createRigidArea(new Dimension(0, 5)));
+        panelGraficoPizza.add(separador_inicio);
+        panelGraficoPizza.add(Box.createRigidArea(new Dimension(0, 15)));
+        panelGraficoPizza.add(chartPanel);
+        panelGraficoPizza.add(Box.createVerticalGlue());
+
+        panelGraficoPizza.revalidate();
+        panelGraficoPizza.repaint();
+    }
+    
+    // Carrega Gráfico Barra
+    private void carregarGraficoBarras() {
+        this.graficosController = new GraficosController();
+        JFreeChart graficoBarras = graficosController.criarGraficoBarrasPorTurma();
+
+        ChartPanel chartPanelBarras = new ChartPanel(graficoBarras);
+
+        panelGraficoBarras.removeAll();
+        panelGraficoBarras.setLayout(new BorderLayout());
+        panelGraficoBarras.add(chartPanelBarras, BorderLayout.CENTER);
+
+        panelGraficoBarras.revalidate();
+        panelGraficoBarras.repaint();
     }
     
     /**
@@ -147,6 +197,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         Inicio = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         panelGraficoPizza = new javax.swing.JPanel();
+        panelGraficoBarras = new javax.swing.JPanel();
         panel_distribuicao = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tb_distribuicao = new javax.swing.JTable();
@@ -452,7 +503,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         panel_navbar.setLayout(new javax.swing.BoxLayout(panel_navbar, javax.swing.BoxLayout.LINE_AXIS));
         panel_navbar.add(filler4);
 
-        jLabel7.setIcon(new javax.swing.ImageIcon("src\\main\\java\\com\\mycompany\\gerenciamento\\uniformes\\Images\\logo-IFRO-PNG-branco.png"));
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo-IFRO-PNG-branco.png"))); // NOI18N
         panel_navbar.add(jLabel7);
         panel_navbar.add(filler1);
 
@@ -580,6 +631,22 @@ public class ViewsSistema extends javax.swing.JFrame {
             .addGap(0, 448, Short.MAX_VALUE)
         );
 
+        panelGraficoBarras.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panelGraficoBarras.setMaximumSize(new java.awt.Dimension(600, 450));
+        panelGraficoBarras.setMinimumSize(new java.awt.Dimension(600, 450));
+        panelGraficoBarras.setPreferredSize(new java.awt.Dimension(600, 450));
+
+        javax.swing.GroupLayout panelGraficoBarrasLayout = new javax.swing.GroupLayout(panelGraficoBarras);
+        panelGraficoBarras.setLayout(panelGraficoBarrasLayout);
+        panelGraficoBarrasLayout.setHorizontalGroup(
+            panelGraficoBarrasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 618, Short.MAX_VALUE)
+        );
+        panelGraficoBarrasLayout.setVerticalGroup(
+            panelGraficoBarrasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 448, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout InicioLayout = new javax.swing.GroupLayout(Inicio);
         Inicio.setLayout(InicioLayout);
         InicioLayout.setHorizontalGroup(
@@ -587,20 +654,24 @@ public class ViewsSistema extends javax.swing.JFrame {
             .addGroup(InicioLayout.createSequentialGroup()
                 .addGap(95, 95, 95)
                 .addComponent(panelGraficoPizza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1894, 1894, 1894)
+                .addGap(61, 61, 61)
+                .addComponent(panelGraficoBarras, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1215, 1215, 1215)
                 .addComponent(jLabel1)
-                .addGap(0, 830, Short.MAX_VALUE))
+                .addGap(0, 828, Short.MAX_VALUE))
         );
         InicioLayout.setVerticalGroup(
             InicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(InicioLayout.createSequentialGroup()
-                .addGap(0, 348, Short.MAX_VALUE)
+                .addGap(0, 332, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(0, 349, Short.MAX_VALUE))
+                .addGap(0, 332, Short.MAX_VALUE))
             .addGroup(InicioLayout.createSequentialGroup()
                 .addGap(83, 83, 83)
-                .addComponent(panelGraficoPizza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(InicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelGraficoBarras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelGraficoPizza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(180, Short.MAX_VALUE))
         );
 
         panel_telaInicial.add(Inicio, "inicio");
@@ -749,7 +820,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                         .addGroup(ServidoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lb_sub_serv)
                             .addComponent(lb_titulo_serv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 2597, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 659, Short.MAX_VALUE)
                         .addComponent(btn_cadastrar_serv)))
                 .addGap(79, 79, 79))
         );
@@ -1407,7 +1478,9 @@ public class ViewsSistema extends javax.swing.JFrame {
     private void btn_nav_InicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_InicioActionPerformed
         // TODO add your handling code here:
         appCardLayout.show(panel_telaInicial, "inicio");
-        System.out.println("Mostrando painel Inicio");
+        System.out.println("Mostrando painel Inicio");        
+        carregarGraficoPizza();
+        carregarGraficoBarras();
     }//GEN-LAST:event_btn_nav_InicioActionPerformed
 
     private void btn_nav_distribuicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_distribuicaoActionPerformed
@@ -1691,6 +1764,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JLabel lb_titulo_serv;
     private javax.swing.JPanel main_container;
     private javax.swing.JLabel nome_sistema;
+    private javax.swing.JPanel panelGraficoBarras;
     private javax.swing.JPanel panelGraficoPizza;
     private javax.swing.JPanel panel_aplicacao;
     private javax.swing.JPanel panel_autenticacao;

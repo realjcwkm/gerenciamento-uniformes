@@ -34,7 +34,7 @@ public class EntregaDAO implements EntregaInterface {
    }
    
    // Gráfico pizza
-   public Map<String, Integer> getContagemEntregaPorTipo() {
+    public Map<String, Integer> getContagemEntregaPorTipo() {
         Map<String, Integer> dados = new HashMap<>();
         String sql = "SELECT tu.nome, SUM(e.quantidade) AS quantidade " +
                      "FROM Entrega AS e " +
@@ -55,6 +55,54 @@ public class EntregaDAO implements EntregaInterface {
             e.printStackTrace();
         }
         return dados;
+    }
+   
+    // Gráfico barra
+    public List<Map<String, Object>> getContagemPorTurmaETipo() {
+        List<Map<String, Object>> dados = new ArrayList<>();
+
+        String sql = "SELECT " +
+                     "CONCAT(c.nome, ' - ', a.periodo, 'º Período') AS turma, " +
+                     "tu.nome AS tipo_uniforme, " +
+                     "SUM(e.quantidade) AS quantidade " +
+                     "FROM Entrega AS e " +
+                     "JOIN Aluno AS a ON e.fk_aluno = a.id " +
+                     "JOIN Curso AS c ON a.fk_curso = c.id " +
+                     "JOIN Uniforme AS u ON e.fk_uniforme = u.id " +
+                     "JOIN TipoUniforme AS tu ON u.fk_tipo_uniforme = tu.id " +
+                     "GROUP BY c.nome, a.periodo, tu.nome " +
+                     "ORDER BY turma, tipo_uniforme";
+
+        try (PreparedStatement ps = this.conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Map<String, Object> linha = new HashMap<>();
+                linha.put("turma", rs.getString("turma"));
+                linha.put("tipo_uniforme", rs.getString("tipo_uniforme"));
+                linha.put("quantidade", rs.getInt("quantidade"));
+                dados.add(linha);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar dados para o gráfico de barras: ");
+            e.printStackTrace();
+        }
+        return dados;
+    }
+   
+   // Quantidade total de uniformes entregues
+    public int getQuantidadeTotalGeral() {
+        String sql = "SELECT SUM(quantidade) FROM Entrega";
+        int total = 0;
+        try (PreparedStatement ps = this.conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return total;
     }
    
    @Override
