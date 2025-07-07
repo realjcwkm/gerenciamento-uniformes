@@ -49,5 +49,61 @@ private final Connection conn;
             JOptionPane.showMessageDialog(null, "Erro ao cadastrar entrada: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+        
+      
+    public List<EntradaModel> listarTodos() {
+        List<EntradaModel> listaDeEntradas = new ArrayList<>();
+        String sql = "SELECT " +
+            "e.id AS entrada_id, e.data_entrada, e.quantidade, " +
+            "f.id AS fornecedor_id, f.nome AS fornecedor_nome, " +
+            "u.id AS uniforme_id, " +
+            "tu.nome AS tipo_uniforme_nome, " +
+            "t.nome AS tamanho_nome" +
+            "FROM " +
+            "Entrada e " +
+            "JOIN Fornecedor f ON e.fk_fornecedor = f.id " +
+            "JOIN Uniforme u ON e.fk_uniforme = u.id " +
+            "JOIN TipoUniforme tu ON u.fk_tipo_uniforme = tu.id " +
+            "JOIN Tamanho t ON u.fk_tamanho = t.id " +
+            "ORDER BY e.data_entrada DESC";
+
+            try (PreparedStatement ps = conn.prepareStatement(sql);
+                 ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) { 
+                    // Cria todos os objetos necessários para representar a linha
+                    EntradaModel entrada = new EntradaModel();
+                    FornecedorModel fornecedor = new FornecedorModel();
+                    UniformeModel uniforme = new UniformeModel();
+                    TipoUniformeModel tipo = new TipoUniformeModel();
+                    TamanhoModel tamanho = new TamanhoModel();
+
+                    fornecedor.setId(rs.getInt("fornecedor_id"));
+                    fornecedor.setNome(rs.getString("fornecedor_nome"));
+
+                    tipo.setNome(rs.getString("tipo_uniforme_nome"));
+                    tamanho.setNome(rs.getString("Nome_uniforme"));
+
+                    uniforme.setId(rs.getInt("uniforme_id"));
+                    uniforme.setTipoUniforme(tipo);
+                    uniforme.setTamanho(tamanho);
+
+                    entrada.setId(rs.getInt("entrada_id"));
+                    entrada.setData_entrada(rs.getDate("data_entrada").toLocalDate());
+                    entrada.setQuantidade(rs.getInt("quantidade"));
+                    entrada.setFornecedor(fornecedor);
+                    entrada.setUniforme(uniforme);
+
+                    // Adiciona a entrada completa à lista
+                    listaDeEntradas.add(entrada);
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Erro ao listar entradas: " + e.getMessage());
+                e.printStackTrace();
+            }
+
+            return listaDeEntradas;
+        }
     } 
-}
+
