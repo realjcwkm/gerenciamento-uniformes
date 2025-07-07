@@ -13,9 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import com.mycompany.gerenciamento.uniformes.Controllers.GraficosController;
+import com.mycompany.gerenciamento.uniformes.View.Utils.ButtonColumnRendererEditor;
 import java.awt.BorderLayout;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
@@ -54,7 +56,50 @@ public class ViewsSistema extends javax.swing.JFrame {
         this.entregaTableModel = new EntregaTableModel(new ArrayList<>()); //Cria modelo com uma lista vazia
         this.servidorTableModel = new ServidorTableModel(new ArrayList<>());
         
-        this.tb_distribuicao.setModel(entregaTableModel); //Conecta o Jtable ao criado pelo netbeans
+        this.tb_distribuicao.setModel(entregaTableModel);//Conecta o Jtable ao criado pelo netbeans
+
+        final int TROCA_COLUMN_INDEX = 8; 
+
+        ImageIcon trocaIcon = null;
+        try {
+            ImageIcon originalIcon = new ImageIcon(getClass().getResource("/images/troca-icon.png"));
+
+            Image image = originalIcon.getImage();
+
+            Image scaledImage = image.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+
+            trocaIcon = new ImageIcon(scaledImage);
+
+        } catch (Exception e) {
+            System.err.println("Erro ao carregar ou redimensionar o ícone de troca: " + e.getMessage());
+        }
+
+        ButtonColumnRendererEditor trocaButtonEditor = new ButtonColumnRendererEditor(this.tb_distribuicao, trocaIcon);
+
+        trocaButtonEditor.getButton().addActionListener(e -> {
+            if (tb_distribuicao.isEditing()) {
+                tb_distribuicao.getCellEditor().stopCellEditing();
+            }
+            int modelRow = tb_distribuicao.convertRowIndexToModel(tb_distribuicao.getSelectedRow());
+            if (modelRow == -1) return; 
+
+            EntregaModel entregaParaTrocar = entregaTableModel.getEntregaAt(modelRow);
+
+            if (entregaParaTrocar.isTrocado()) {
+                JOptionPane.showMessageDialog(this, "Esta entrega já foi trocada.");
+                return;
+            }
+
+//            iniciarFluxoDeTroca(entregaParaTrocar);
+        });
+
+        this.tb_distribuicao.getColumnModel().getColumn(TROCA_COLUMN_INDEX).setCellRenderer(trocaButtonEditor);
+        this.tb_distribuicao.getColumnModel().getColumn(TROCA_COLUMN_INDEX).setCellEditor(trocaButtonEditor);
+
+        this.tb_distribuicao.getColumnModel().getColumn(TROCA_COLUMN_INDEX).setPreferredWidth(40);
+        this.tb_distribuicao.getColumnModel().getColumn(TROCA_COLUMN_INDEX).setMaxWidth(40);
+        
+        
         this.tb_servidores.setModel(servidorTableModel);
         
         System.out.println("Painéis disponíveis:");
