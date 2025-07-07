@@ -1883,7 +1883,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
-                  <CardConstraints cardName="card_login"/>
+                  <CardConstraints cardName="card_solicitacao_codigo"/>
                 </Constraint>
               </Constraints>
 
@@ -2107,7 +2107,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
-                  <CardConstraints cardName="card_primeiro_acesso"/>
+                  <CardConstraints cardName="card_redefinir_senha"/>
                 </Constraint>
               </Constraints>
 

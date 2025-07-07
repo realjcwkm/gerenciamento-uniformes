@@ -1317,7 +1317,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addGap(56, 56, 56))
         );
 
-        panel_autenticacao.add(panel_solicitacao_codigo, "card_login");
+        panel_autenticacao.add(panel_solicitacao_codigo, "card_solicitacao_codigo");
 
         panel_redefinir_senha.setBackground(new java.awt.Color(35, 91, 88));
         panel_redefinir_senha.setMaximumSize(new java.awt.Dimension(1360, 760));
@@ -1464,7 +1464,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        panel_autenticacao.add(panel_redefinir_senha, "card_primeiro_acesso");
+        panel_autenticacao.add(panel_redefinir_senha, "card_redefinir_senha");
 
         main_container.add(panel_autenticacao, "card_autenticacao");
 
