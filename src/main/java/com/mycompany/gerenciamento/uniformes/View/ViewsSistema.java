@@ -879,7 +879,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Tipo", "Status", "Entrada", "Saída", "Tamanho", "Data Entrega"
+                "Tipo", "Status", "Entrada", "Saída", "Tamanho", "Data Entrada"
             }
         ));
         jScrollPane3.setViewportView(tabela_uniformes);
