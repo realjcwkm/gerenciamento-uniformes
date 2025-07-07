@@ -5,12 +5,16 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.Shape;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.labels.PieSectionLabelGenerator;
+import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot;
@@ -83,7 +87,6 @@ public class GraficosController {
         plot.setShadowPaint(null);     // Remove a sombra
         plot.setOutlineVisible(false); // Remove a borda
         
-        
         LegendTitle legenda = grafico.getLegend();
         if (legenda != null) {
             legenda.setPosition(RectangleEdge.RIGHT);
@@ -107,7 +110,7 @@ public class GraficosController {
 
     // Gráfico Barra
     public JFreeChart criarGraficoBarrasPorTurma() {
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();        
         List<Map<String, Object>> dados = this.entregaDAO.getContagemPorTurmaETipo();
         for (Map<String, Object> linha : dados) {
             Number quantidade = (Number) linha.get("quantidade");
@@ -116,10 +119,16 @@ public class GraficosController {
             dataset.addValue(quantidade, tipoUniforme, turma);
         }
         
+        // Fábrica de gráficos (ChartFactory)
         JFreeChart graficoBarras = ChartFactory.createStackedBarChart(
-                "Uniformes Distribuídos por Turma", "Turma", "Quantidade",
-                dataset, PlotOrientation.VERTICAL, true, true, false
+            null,
+            "Turma", // Label do eixo X
+            "Quantidade", // Label do eixo Y
+            dataset,
+            PlotOrientation.VERTICAL,
+            true, true, false
         );
+        
         customizarGraficoBarras(graficoBarras);
         return graficoBarras;
     }
@@ -128,11 +137,30 @@ public class GraficosController {
     private void customizarGraficoBarras(JFreeChart grafico) {
         CategoryPlot plot = grafico.getCategoryPlot();
         BarRenderer renderer = (BarRenderer) plot.getRenderer();
+
+        // Layout do gráfico
         plot.setBackgroundPaint(Color.WHITE);
         plot.setInsets(new RectangleInsets(10.0, 20.0, 10.0, 20.0));
+        plot.setOutlineVisible(false);
+        
+        // Estilização das barras
         renderer.setMaximumBarWidth(0.10);
-        renderer.setDefaultItemLabelGenerator(new org.jfree.chart.labels.StandardCategoryItemLabelGenerator());
-        renderer.setDefaultItemLabelsVisible(true);
+
+        // Números nas barras
+        //renderer.setDefaultItemLabelGenerator(new org.jfree.chart.labels.StandardCategoryItemLabelGenerator());
+        //renderer.setDefaultItemLabelsVisible(true);
+
+        // Estilização dos tooltips que aparecem ao passar o mouse
+        String formatoTooltip = "<html><b>Turma:</b> {1}<br><b>Uniforme:</b> {0}<br><b>Quantidade:</b> {2}</html>";
+        StandardCategoryToolTipGenerator geradorDeTooltip = new StandardCategoryToolTipGenerator(
+            formatoTooltip, new DecimalFormat("0")
+        );
+        renderer.setDefaultToolTipGenerator(geradorDeTooltip);
+
+        LegendTitle legenda = grafico.getLegend();
+        if (legenda != null) {
+            legenda.setPosition(RectangleEdge.RIGHT);
+        }
 
         CategoryDataset dataset = plot.getDataset();
         if (dataset != null) {
