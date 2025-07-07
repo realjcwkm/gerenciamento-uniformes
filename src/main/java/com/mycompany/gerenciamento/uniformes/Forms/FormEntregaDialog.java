@@ -4,9 +4,9 @@
  */
 package com.mycompany.gerenciamento.uniformes.Forms;
 
-import com.mycompany.gerenciamento.uniformes.AlunoController;
-import com.mycompany.gerenciamento.uniformes.EntregaController;
-import com.mycompany.gerenciamento.uniformes.UniformeController;
+import com.mycompany.gerenciamento.uniformes.Controllers.AlunoController;
+import com.mycompany.gerenciamento.uniformes.Controllers.EntregaController;
+import com.mycompany.gerenciamento.uniformes.Controllers.UniformeController;
 import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
 import com.mycompany.gerenciamento.uniformes.Models.EntregaModel;
 import com.mycompany.gerenciamento.uniformes.Models.ServidorModel;
