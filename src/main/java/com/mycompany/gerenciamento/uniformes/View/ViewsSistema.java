@@ -182,7 +182,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         input_senha_pl = new javax.swing.JPasswordField();
         separador_pl = new javax.swing.JSeparator();
         btn_login_pl = new javax.swing.JButton();
-        btn_esq_senh_pl = new javax.swing.JButton();
+        btn_esq_senh_pl = new javax.swing.JLabel();
         panel_primeiro_acesso = new javax.swing.JPanel();
         img_ppa = new javax.swing.JLabel();
         card_form_ppa = new com.mycompany.gerenciamento.uniformes.Components.CardPanel();
@@ -193,7 +193,18 @@ public class ViewsSistema extends javax.swing.JFrame {
         input_confirmar_senha_ppa = new javax.swing.JPasswordField();
         separador_ppa = new javax.swing.JSeparator();
         btn_salvar_ppa = new javax.swing.JButton();
-        btn_voltar_login_ppa = new javax.swing.JButton();
+        btn_voltar_ppa = new javax.swing.JLabel();
+        panel_solicitacao_codigo = new javax.swing.JPanel();
+        img_psc = new javax.swing.JLabel();
+        card_form_psc = new com.mycompany.gerenciamento.uniformes.Components.CardPanel();
+        lb_solicitar_codigo_psc = new javax.swing.JLabel();
+        lb_matricula_psc = new javax.swing.JLabel();
+        input_matricula_psc = new javax.swing.JTextField();
+        lb_email_psc = new javax.swing.JLabel();
+        input_email_psc = new javax.swing.JTextField();
+        separador_psc = new javax.swing.JSeparator();
+        btn_enviar_psc = new javax.swing.JButton();
+        btn_voltar_psc = new javax.swing.JLabel();
 
         jd_cadServ_Serv.setForeground(java.awt.Color.white);
         jd_cadServ_Serv.setMinimumSize(new java.awt.Dimension(600, 425));
@@ -565,14 +576,14 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(panelGraficoPizza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1894, 1894, 1894)
                 .addComponent(jLabel1)
-                .addGap(0, 830, Short.MAX_VALUE))
+                .addGap(javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         InicioLayout.setVerticalGroup(
             InicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(InicioLayout.createSequentialGroup()
-                .addGap(0, 348, Short.MAX_VALUE)
+                .addGap(0, 331, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(0, 349, Short.MAX_VALUE))
+                .addGap(0, 331, Short.MAX_VALUE))
             .addGroup(InicioLayout.createSequentialGroup()
                 .addGap(83, 83, 83)
                 .addComponent(panelGraficoPizza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -631,7 +642,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         panel_distribuicaoLayout.setVerticalGroup(
             panel_distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_distribuicaoLayout.createSequentialGroup()
-                .addContainerGap(222, Short.MAX_VALUE)
+                .addContainerGap(226, Short.MAX_VALUE)
                 .addComponent(lb_titulo_pd)
                 .addGap(18, 18, 18)
                 .addGroup(panel_distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -725,7 +736,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                         .addGroup(ServidoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lb_sub_serv)
                             .addComponent(lb_titulo_serv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 2597, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 597, Short.MAX_VALUE)
                         .addComponent(btn_cadastrar_serv)))
                 .addGap(79, 79, 79))
         );
@@ -741,7 +752,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                         .addComponent(lb_sub_serv)))
                 .addGap(35, 35, 35)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addContainerGap(139, Short.MAX_VALUE))
         );
 
         panel_telaInicial.add(Servidores, "servidores");
@@ -903,11 +914,9 @@ public class ViewsSistema extends javax.swing.JFrame {
             }
         });
 
-        btn_esq_senh_pl.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btn_esq_senh_pl.setBackground(new java.awt.Color(255, 255, 255));
+        btn_esq_senh_pl.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         btn_esq_senh_pl.setText("Esqueceu ou deseja alterar sua senha?");
-        btn_esq_senh_pl.setBorder(null);
-        btn_esq_senh_pl.setBorderPainted(false);
-        btn_esq_senh_pl.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout card_form_plLayout = new javax.swing.GroupLayout(card_form_pl);
         card_form_pl.setLayout(card_form_plLayout);
@@ -952,7 +961,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_login_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_esq_senh_pl)
-                .addContainerGap(149, Short.MAX_VALUE))
+                .addContainerGap(145, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_loginLayout = new javax.swing.GroupLayout(panel_login);
@@ -1033,11 +1042,9 @@ public class ViewsSistema extends javax.swing.JFrame {
             }
         });
 
-        btn_voltar_login_ppa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btn_voltar_login_ppa.setText("Voltar a tela de login");
-        btn_voltar_login_ppa.setBorder(null);
-        btn_voltar_login_ppa.setBorderPainted(false);
-        btn_voltar_login_ppa.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btn_voltar_ppa.setBackground(new java.awt.Color(255, 255, 255));
+        btn_voltar_ppa.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        btn_voltar_ppa.setText("Voltar a tela de login");
 
         javax.swing.GroupLayout card_form_ppaLayout = new javax.swing.GroupLayout(card_form_ppa);
         card_form_ppa.setLayout(card_form_ppaLayout);
@@ -1051,11 +1058,11 @@ public class ViewsSistema extends javax.swing.JFrame {
                     .addComponent(input_confirmar_senha_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(separador_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_salvar_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_voltar_login_ppa)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, card_form_ppaLayout.createSequentialGroup()
                         .addGap(1, 1, 1)
                         .addComponent(lb_senha_ppa))
-                    .addComponent(lb_confirmar_senha_ppa, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(lb_confirmar_senha_ppa, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_voltar_ppa))
                 .addGap(86, 86, 86))
         );
         card_form_ppaLayout.setVerticalGroup(
@@ -1076,8 +1083,8 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(btn_salvar_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btn_voltar_login_ppa)
-                .addContainerGap(149, Short.MAX_VALUE))
+                .addComponent(btn_voltar_ppa)
+                .addContainerGap(145, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_primeiro_acessoLayout = new javax.swing.GroupLayout(panel_primeiro_acesso);
@@ -1102,6 +1109,131 @@ public class ViewsSistema extends javax.swing.JFrame {
         );
 
         panel_autenticacao.add(panel_primeiro_acesso, "card_primeiro_acesso");
+
+        panel_solicitacao_codigo.setBackground(new java.awt.Color(35, 91, 88));
+        panel_solicitacao_codigo.setMaximumSize(new java.awt.Dimension(1360, 760));
+        panel_solicitacao_codigo.setMinimumSize(new java.awt.Dimension(1360, 760));
+
+        img_psc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/imagem-tela-login-resize.png"))); // NOI18N
+
+        card_form_psc.setBackground(new java.awt.Color(255, 255, 255));
+        card_form_psc.setMaximumSize(new java.awt.Dimension(503, 633));
+        card_form_psc.setMinimumSize(new java.awt.Dimension(503, 633));
+
+        lb_solicitar_codigo_psc.setBackground(new java.awt.Color(255, 255, 255));
+        lb_solicitar_codigo_psc.setFont(new java.awt.Font("Noto Sans", 0, 32)); // NOI18N
+        lb_solicitar_codigo_psc.setText("SOLICITAR CÓDIGO");
+
+        lb_matricula_psc.setBackground(new java.awt.Color(255, 255, 255));
+        lb_matricula_psc.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lb_matricula_psc.setLabelFor(input_matricula_pl);
+        lb_matricula_psc.setText("Matrícula:");
+
+        input_matricula_psc.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        input_matricula_psc.setPreferredSize(new java.awt.Dimension(331, 28));
+        input_matricula_psc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                input_matricula_pscActionPerformed(evt);
+            }
+        });
+
+        lb_email_psc.setBackground(new java.awt.Color(255, 255, 255));
+        lb_email_psc.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lb_email_psc.setLabelFor(input_senha_pl);
+        lb_email_psc.setText("E-mail:");
+
+        input_email_psc.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        input_email_psc.setPreferredSize(new java.awt.Dimension(331, 28));
+        input_email_psc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                input_email_pscActionPerformed(evt);
+            }
+        });
+
+        separador_psc.setPreferredSize(new java.awt.Dimension(260, 10));
+
+        btn_enviar_psc.setBackground(new java.awt.Color(0, 164, 55));
+        btn_enviar_psc.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btn_enviar_psc.setForeground(new java.awt.Color(255, 255, 255));
+        btn_enviar_psc.setText("ENVIAR");
+        btn_enviar_psc.setBorderPainted(false);
+        btn_enviar_psc.setPreferredSize(new java.awt.Dimension(148, 34));
+        btn_enviar_psc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_enviar_pscActionPerformed(evt);
+            }
+        });
+
+        btn_voltar_psc.setBackground(new java.awt.Color(255, 255, 255));
+        btn_voltar_psc.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        btn_voltar_psc.setText("Voltar a tela de login");
+
+        javax.swing.GroupLayout card_form_pscLayout = new javax.swing.GroupLayout(card_form_psc);
+        card_form_psc.setLayout(card_form_pscLayout);
+        card_form_pscLayout.setHorizontalGroup(
+            card_form_pscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(card_form_pscLayout.createSequentialGroup()
+                .addContainerGap(86, Short.MAX_VALUE)
+                .addGroup(card_form_pscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(lb_solicitar_codigo_psc)
+                    .addComponent(input_matricula_psc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(separador_psc, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_enviar_psc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(input_email_psc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_voltar_psc))
+                .addGap(86, 86, 86))
+            .addGroup(card_form_pscLayout.createSequentialGroup()
+                .addGroup(card_form_pscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(card_form_pscLayout.createSequentialGroup()
+                        .addGap(92, 92, 92)
+                        .addComponent(lb_email_psc))
+                    .addGroup(card_form_pscLayout.createSequentialGroup()
+                        .addGap(93, 93, 93)
+                        .addComponent(lb_matricula_psc)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        card_form_pscLayout.setVerticalGroup(
+            card_form_pscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(card_form_pscLayout.createSequentialGroup()
+                .addGap(165, 165, 165)
+                .addComponent(lb_solicitar_codigo_psc)
+                .addGap(33, 33, 33)
+                .addComponent(lb_matricula_psc)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(input_matricula_psc, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lb_email_psc)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(input_email_psc, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23)
+                .addComponent(separador_psc, javax.swing.GroupLayout.PREFERRED_SIZE, 9, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btn_enviar_psc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btn_voltar_psc)
+                .addContainerGap(145, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout panel_solicitacao_codigoLayout = new javax.swing.GroupLayout(panel_solicitacao_codigo);
+        panel_solicitacao_codigo.setLayout(panel_solicitacao_codigoLayout);
+        panel_solicitacao_codigoLayout.setHorizontalGroup(
+            panel_solicitacao_codigoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_solicitacao_codigoLayout.createSequentialGroup()
+                .addComponent(img_psc)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addComponent(card_form_psc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(62, 62, 62))
+        );
+        panel_solicitacao_codigoLayout.setVerticalGroup(
+            panel_solicitacao_codigoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(img_psc)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_solicitacao_codigoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(card_form_psc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56))
+        );
+
+        panel_autenticacao.add(panel_solicitacao_codigo, "card_login");
 
         main_container.add(panel_autenticacao, "card_autenticacao");
 
@@ -1278,6 +1410,18 @@ public class ViewsSistema extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jbtn_inativo_pcadServActionPerformed
 
+    private void input_matricula_pscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_input_matricula_pscActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_input_matricula_pscActionPerformed
+
+    private void btn_enviar_pscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_enviar_pscActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_enviar_pscActionPerformed
+
+    private void input_email_pscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_input_email_pscActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_input_email_pscActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1294,7 +1438,8 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JButton btn_cadastrar_serv;
     private javax.swing.JButton btn_cancelar_pcadServ;
     private javax.swing.JButton btn_editar;
-    private javax.swing.JButton btn_esq_senh_pl;
+    private javax.swing.JButton btn_enviar_psc;
+    private javax.swing.JLabel btn_esq_senh_pl;
     private javax.swing.JButton btn_login_pl;
     private javax.swing.JButton btn_nav_Inicio;
     private javax.swing.JButton btn_nav_alunos;
@@ -1304,9 +1449,11 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JButton btn_sair_pn;
     private javax.swing.JButton btn_salvar_pcadServ;
     private javax.swing.JButton btn_salvar_ppa;
-    private javax.swing.JButton btn_voltar_login_ppa;
+    private javax.swing.JLabel btn_voltar_ppa;
+    private javax.swing.JLabel btn_voltar_psc;
     private com.mycompany.gerenciamento.uniformes.Components.CardPanel card_form_pl;
     private com.mycompany.gerenciamento.uniformes.Components.CardPanel card_form_ppa;
+    private com.mycompany.gerenciamento.uniformes.Components.CardPanel card_form_psc;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
@@ -1315,8 +1462,11 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler7;
     private javax.swing.JLabel img_pl;
     private javax.swing.JLabel img_ppa;
+    private javax.swing.JLabel img_psc;
     private javax.swing.JPasswordField input_confirmar_senha_ppa;
+    private javax.swing.JTextField input_email_psc;
     private javax.swing.JTextField input_matricula_pl;
+    private javax.swing.JTextField input_matricula_psc;
     private javax.swing.JPasswordField input_senha_pl;
     private javax.swing.JPasswordField input_senha_ppa;
     private javax.swing.JDialog jDialog;
@@ -1334,15 +1484,18 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JLabel lb_confirmar_senha_ppa;
     private javax.swing.JLabel lb_dep_pcadServ;
     private javax.swing.JLabel lb_email_pcadServ;
+    private javax.swing.JLabel lb_email_psc;
     private javax.swing.JLabel lb_login_pl;
     private javax.swing.JLabel lb_matricula_pcadServ;
     private javax.swing.JLabel lb_matricula_pl;
+    private javax.swing.JLabel lb_matricula_psc;
     private javax.swing.JLabel lb_nome_pcadServ;
     private javax.swing.JLabel lb_redefinir_senha_ppa;
     private javax.swing.JLabel lb_satus_pcadServ;
     private javax.swing.JLabel lb_senha_pl;
     private javax.swing.JLabel lb_senha_ppa;
     private javax.swing.JLabel lb_sobrenome_pcadServ;
+    private javax.swing.JLabel lb_solicitar_codigo_psc;
     private javax.swing.JLabel lb_sub_serv;
     private javax.swing.JLabel lb_subtitulo_pd;
     private javax.swing.JLabel lb_telefone_pcadServ;
@@ -1359,9 +1512,11 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JPanel panel_login;
     private javax.swing.JPanel panel_navbar;
     private javax.swing.JPanel panel_primeiro_acesso;
+    private javax.swing.JPanel panel_solicitacao_codigo;
     private javax.swing.JPanel panel_telaInicial;
     private javax.swing.JSeparator separador_pl;
     private javax.swing.JSeparator separador_ppa;
+    private javax.swing.JSeparator separador_psc;
     private javax.swing.JLabel subtitulo;
     private javax.swing.JTable tabela_uniformes;
     private javax.swing.JTable tb_distribuicao;
