@@ -89,6 +89,23 @@ public class EntregaDAO implements EntregaInterface {
         }
         return dados;
     }
+    
+    // Todos os tipos de uniforme para relacionar uma cor a eles
+    public List<String> getTodosOsTiposDeUniforme() {
+        List<String> tipos = new ArrayList<>();
+        String sql = "SELECT nome FROM TipoUniforme ORDER BY nome";
+
+        try (PreparedStatement ps = this.conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                tipos.add(rs.getString("nome"));
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar todos os tipos de uniforme: ");
+            e.printStackTrace();
+        }
+        return tipos;
+    }
    
    // Quantidade total de uniformes entregues
     public int getQuantidadeTotalGeral() {
