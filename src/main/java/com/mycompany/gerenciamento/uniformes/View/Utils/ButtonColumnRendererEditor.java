@@ -16,8 +16,7 @@ import java.awt.event.ActionListener;
  * @author geinfo
  */
 public class ButtonColumnRendererEditor extends AbstractCellEditor implements TableCellRenderer, TableCellEditor, ActionListener {
-    
-//    private final JButton renderButton;
+  
     private final JButton button;
     private final JTable table;
     private boolean isPushed;

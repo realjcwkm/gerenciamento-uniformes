@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
  */
 public class EntregaTableModel extends AbstractTableModel{
     private List<EntregaModel> entregas;
-    private String [] colunas = {"ID", "Nome", "Tamanho", "Uniforme", "Matrícula", "Servidor Responsável", "Quantidade", "Data de Troca"};
+    private String [] colunas = {"ID", "Nome", "Tamanho", "Uniforme", "Matrícula", "Servidor Responsável", "Quantidade", "Data de Troca", "Ações"};
     
     public EntregaTableModel() {
         this.entregas = new ArrayList<>();
@@ -60,7 +60,7 @@ public class EntregaTableModel extends AbstractTableModel{
             } else {
                 return "N/A"; 
             } //Trocar para data troca
-            
+            case 8: return  "Trocar";
             default: return null;
         }
     }
@@ -73,6 +73,15 @@ public class EntregaTableModel extends AbstractTableModel{
     public void setEntregas(List<EntregaModel> novasEntregas) {
         this.entregas = novasEntregas;
         fireTableDataChanged();
+    }
+    
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return columnIndex == 8;
+    }
+    
+    public EntregaModel getEntregaAt(int row) {
+        return entregas.get(row);
     }
     
 }
