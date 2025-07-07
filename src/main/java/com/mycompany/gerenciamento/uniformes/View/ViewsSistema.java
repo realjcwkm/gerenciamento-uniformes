@@ -133,14 +133,32 @@ public class ViewsSistema extends javax.swing.JFrame {
     
     // Carrega Gráfico Barra
     private void carregarGraficoBarras() {
-        this.graficosController = new GraficosController();
         JFreeChart graficoBarras = graficosController.criarGraficoBarrasPorTurma();
+        int totalDeUniformes = graficosController.getTotalUniformesDistribuidos();
 
-        ChartPanel chartPanelBarras = new ChartPanel(graficoBarras);
+        panelGraficoBarras.removeAll(); 
+        panelGraficoBarras.setLayout(new BoxLayout(panelGraficoBarras, BoxLayout.Y_AXIS));
+        panelGraficoBarras.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        panelGraficoBarras.removeAll();
-        panelGraficoBarras.setLayout(new BorderLayout());
-        panelGraficoBarras.add(chartPanelBarras, BorderLayout.CENTER);
+        JLabel lblTitulo = new JLabel("Saída de Uniformes");
+        lblTitulo.setFont(new Font("SansSerif", Font.BOLD, 14));
+        lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel lblDescricao = new JLabel("Total de uniformes distribuídos");
+        lblDescricao.setFont(new Font("SansSerif", Font.PLAIN, 12));
+        lblDescricao.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JSeparator separador = new JSeparator();
+
+        ChartPanel chartPanel = new ChartPanel(graficoBarras);
+        chartPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        panelGraficoBarras.add(lblTitulo);
+        panelGraficoBarras.add(lblDescricao);
+        panelGraficoBarras.add(Box.createRigidArea(new Dimension(0, 5)));
+        panelGraficoBarras.add(separador);
+        panelGraficoBarras.add(Box.createRigidArea(new Dimension(0, 5)));
+        panelGraficoBarras.add(chartPanel);
 
         panelGraficoBarras.revalidate();
         panelGraficoBarras.repaint();
@@ -631,7 +649,8 @@ public class ViewsSistema extends javax.swing.JFrame {
             .addGap(0, 448, Short.MAX_VALUE)
         );
 
-        panelGraficoBarras.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panelGraficoBarras.setBackground(new java.awt.Color(255, 255, 255));
+        panelGraficoBarras.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         panelGraficoBarras.setMaximumSize(new java.awt.Dimension(600, 450));
         panelGraficoBarras.setMinimumSize(new java.awt.Dimension(600, 450));
         panelGraficoBarras.setPreferredSize(new java.awt.Dimension(600, 450));
