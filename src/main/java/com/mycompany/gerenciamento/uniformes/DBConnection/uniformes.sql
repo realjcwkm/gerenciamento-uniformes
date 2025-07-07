@@ -247,6 +247,13 @@ CREATE TABLE IF NOT EXISTS `uniformes`.`Entradas` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- INICIO INSERTS
+INSERT INTO `uniformes`.`Tamanho` (`nome`) VALUES ('P'), ('M'), ('G'), ('GG');
+INSERT INTO `uniformes`.`Departamento` (`nome`) VALUES ('DEPAE'), ('DAPE'), ('DG');
+INSERT INTO `uniformes`.`TipoUniforme` (`nome`) VALUES ('Camisa Branca'), ('Camisa Verde'), ('Regata Verde'), ('Calça'), ('Bermuda');
+INSERT INTO `uniformes`.`Curso` (`nome`, `n_periodos`) VALUES ('Química', '3'), ('Eletrotécnica', '3'), ('Informática', '3'), ('Edificações', '3');
+-- FIM INSERTS
+
 -- INICIO TRIGGERS
 DROP TRIGGER IF EXISTS Tgr_Insert_Troca;
 DROP TRIGGER IF EXISTS Tgr_Insert_Entrada;
