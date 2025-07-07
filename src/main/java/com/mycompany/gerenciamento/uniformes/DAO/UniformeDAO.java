@@ -7,8 +7,10 @@ package com.mycompany.gerenciamento.uniformes.DAO;
 import com.mycompany.gerenciamento.uniformes.DBConnection.Conexao;
 import com.mycompany.gerenciamento.uniformes.Models.TamanhoModel;
 import com.mycompany.gerenciamento.uniformes.Models.TipoUniformeModel;
+import com.mycompany.gerenciamento.uniformes.Models.UniformeEstoqueModel;
 import com.mycompany.gerenciamento.uniformes.Models.UniformeModel;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -127,6 +129,63 @@ public class UniformeDAO {
         }
         
         return uniforme;
+    }
+    
+    public List<UniformeEstoqueModel> TabelaEstoqueUniforme () {
+        List<UniformeEstoqueModel> relatorio = new ArrayList<>();
+        
+        // Query que junta todas as tabelas e calcula os totais
+        String sql = "SELECT " +
+        "    tu.nome AS tipo_uniforme, " +
+        "    t.nome AS tamanho_uniforme, " +
+        "    COALESCE(SUM(entradas.quantidade), 0) AS total_entradas, " +
+        "    COALESCE(SUM(entregas.quantidade), 0) AS total_saidas, " +
+        "    MAX(entregas.data_entrega) as ultima_data_entrega " +
+        "FROM " +
+        "    Uniforme u " +
+        "JOIN TipoUniforme tu ON u.fk_tipo_uniforme = tu.id " +
+        "JOIN Tamanho t ON u.fk_tamanho = t.id " +
+        "LEFT JOIN Entradas entradas ON u.id = entradas.fk_uniforme " +
+        "LEFT JOIN Entrega entregas ON u.id = entregas.fk_uniforme " +
+        "GROUP BY " +
+        "    u.id, tu.nome, t.nome " +
+        "ORDER BY " +
+        "    tu.nome, t.nome";
+
+        try (Statement stmt = this.conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                UniformeEstoqueModel item = new UniformeEstoqueModel();
+                
+                int totalEntradas = rs.getInt("total_entradas");
+                int totalSaidas = rs.getInt("total_saidas");
+                int estoqueAtual = totalEntradas - totalSaidas;
+                Date EntradaSql = rs.getDate("data_entrada");
+
+                item.setTipo(rs.getString("tipo_uniforme"));
+                item.setTamanho(rs.getString("tamanho_uniforme"));
+                item.setEntrada(totalEntradas);
+                item.setSaida(totalSaidas);
+
+                if (estoqueAtual > 0) {
+                    item.setStatus("Disponível");
+                } else {
+                    item.setStatus("Indisponível");
+                }
+                
+                if (EntradaSql != null) {
+                    item.setData_entrada(EntradaSql.toLocalDate());
+                }
+
+                relatorio.add(item);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao gerar relatório de estoque: " + e.getMessage());
+            e.printStackTrace();
+        }
+        
+        return relatorio;
     }
     
 }
