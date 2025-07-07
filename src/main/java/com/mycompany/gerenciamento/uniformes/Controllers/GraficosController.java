@@ -15,11 +15,16 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.PieSectionLabelGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.ui.RectangleEdge;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
+import org.jfree.chart.ui.RectangleInsets;
 
 /**
  *
@@ -33,6 +38,7 @@ public class GraficosController {
         this.entregaDAO = new EntregaDAO();
     }
 
+    // Gráfico Pizza
     public JFreeChart criarGraficoPizzaPorTipo() {
         // dados do DAO
         Map<String, Integer> dados = this.entregaDAO.getContagemEntregaPorTipo();
@@ -55,6 +61,7 @@ public class GraficosController {
         return graficoPizza;
     }
     
+    // Customizar gráfico pizza
     private void customizarGrafico(JFreeChart grafico) {
         PiePlot plot = (PiePlot) grafico.getPlot();
         
@@ -91,6 +98,25 @@ public class GraficosController {
         for (int i = 0; i < chaves.size(); i++) {
             plot.setSectionPaint(chaves.get(i), verdes[i % verdes.length]);
         }
+    }
+    
+    // Gráfico Barra
+    public JFreeChart criarGraficoBarrasPorTurma() {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        List<Map<String, Object>> dados = this.entregaDAO.getContagemPorTurmaETipo();
+
+        for (Map<String, Object> linha : dados) {
+            Number quantidade = (Number) linha.get("quantidade");
+            String tipoUniforme = (String) linha.get("tipo_uniforme");
+            String turma = (String) linha.get("turma");
+            dataset.addValue(quantidade, tipoUniforme, turma);
+        }
+
+        JFreeChart graficoBarras = ChartFactory.createStackedBarChart(
+            "Uniformes Distribuídos por Turma", "Turma", "Quantidade",
+            dataset, PlotOrientation.VERTICAL, true, true, false
+        );
+        return graficoBarras;
     }
     
     public int getTotalUniformesDistribuidos() {
