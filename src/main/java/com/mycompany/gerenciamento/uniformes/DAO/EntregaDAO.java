@@ -106,6 +106,27 @@ public class EntregaDAO implements EntregaInterface {
         }
         return tipos;
     }
+    
+    // Entregas por curso
+    public Map<String, Integer> getContagemPorCurso() {
+        Map<String, Integer> dados = new HashMap<>();
+        String sql = "SELECT c.nome, SUM(e.quantidade) AS quantidade " +
+                     "FROM Entrega AS e " +
+                     "JOIN Aluno AS a ON e.fk_aluno = a.id " +
+                     "JOIN Curso AS c ON a.fk_curso = c.id " +
+                     "GROUP BY c.nome";
+
+        try (PreparedStatement ps = this.conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                dados.put(rs.getString("nome"), rs.getInt("quantidade"));
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar contagem por curso: ");
+            e.printStackTrace();
+        }
+        return dados;
+    }
    
    // Quantidade total de uniformes entregues
     public int getQuantidadeTotalGeral() {
