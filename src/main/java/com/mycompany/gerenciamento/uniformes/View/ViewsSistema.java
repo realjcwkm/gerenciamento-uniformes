@@ -46,8 +46,27 @@ public class ViewsSistema extends javax.swing.JFrame {
     private GraficosController graficosController;
     private String matriculaUpdate;
     
+    private int paginaAtual = 1;
+    private int totalDePaginas = 0;
+    private final int ITENS_POR_PAGINA = 10;
+    
     public ViewsSistema() {
         initComponents();
+
+        btn_anterior_pd.addActionListener(e -> {
+            if (paginaAtual > 1) {
+                paginaAtual--; 
+                atualizarTabelaEControles(); 
+            }
+        });
+
+        btn_proximo_pd.addActionListener(e -> {
+            if (paginaAtual < totalDePaginas) {
+                paginaAtual++; 
+                atualizarTabelaEControles(); 
+            }
+        });
+        
         carregarGraficoPizza();
         carregarGraficoBarras();
         
@@ -273,6 +292,16 @@ public class ViewsSistema extends javax.swing.JFrame {
         } 
     }
     
+    private void atualizarTabelaEControles() {
+        List<EntregaModel> listaPaginada = entregaController.listarPagina(paginaAtual, ITENS_POR_PAGINA);
+        
+        entregaTableModel.setEntregas(listaPaginada);
+        
+        lb_status_paginacao_pd.setText("Página " + paginaAtual + " de " + totalDePaginas);
+        
+        btn_anterior_pd.setEnabled(paginaAtual > 1);
+        btn_proximo_pd.setEnabled(paginaAtual < totalDePaginas);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -331,6 +360,10 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_cad_distribuicao_pd = new javax.swing.JButton();
         lb_titulo_pd = new javax.swing.JLabel();
         lb_subtitulo_pd = new javax.swing.JLabel();
+        panel1 = new java.awt.Panel();
+        lb_status_paginacao_pd = new javax.swing.JLabel();
+        btn_proximo_pd = new javax.swing.JButton();
+        btn_anterior_pd = new javax.swing.JButton();
         Alunos = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         Servidores = new javax.swing.JPanel();
@@ -836,33 +869,73 @@ public class ViewsSistema extends javax.swing.JFrame {
 
         lb_subtitulo_pd.setText("Tenha controle em tempo real das distribuições de uniformes.");
 
+        lb_status_paginacao_pd.setText("jLabel2");
+        lb_status_paginacao_pd.setPreferredSize(new java.awt.Dimension(18, 18));
+
+        btn_proximo_pd.setText("Próxima");
+        btn_proximo_pd.setMargin(new java.awt.Insets(8, 14, 8, 14));
+
+        btn_anterior_pd.setText("Anterior");
+        btn_anterior_pd.setMargin(new java.awt.Insets(8, 14, 8, 14));
+        btn_anterior_pd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_anterior_pdActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
+        panel1.setLayout(panel1Layout);
+        panel1Layout.setHorizontalGroup(
+            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel1Layout.createSequentialGroup()
+                .addComponent(lb_status_paginacao_pd, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 839, Short.MAX_VALUE)
+                .addComponent(btn_anterior_pd)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_proximo_pd)
+                .addContainerGap())
+        );
+        panel1Layout.setVerticalGroup(
+            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel1Layout.createSequentialGroup()
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_proximo_pd, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_anterior_pd, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lb_status_paginacao_pd, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36))
+        );
+
         javax.swing.GroupLayout panel_distribuicaoLayout = new javax.swing.GroupLayout(panel_distribuicao);
         panel_distribuicao.setLayout(panel_distribuicaoLayout);
         panel_distribuicaoLayout.setHorizontalGroup(
             panel_distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_distribuicaoLayout.createSequentialGroup()
-                .addGap(51, 51, 51)
+                .addGap(33, 33, 33)
                 .addGroup(panel_distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lb_titulo_pd)
-                    .addGroup(panel_distribuicaoLayout.createSequentialGroup()
-                        .addComponent(lb_subtitulo_pd)
-                        .addGap(665, 665, 665)
-                        .addComponent(btn_cad_distribuicao_pd))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1256, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(53, Short.MAX_VALUE))
+                    .addGroup(panel_distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(panel_distribuicaoLayout.createSequentialGroup()
+                            .addComponent(lb_subtitulo_pd)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_cad_distribuicao_pd))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1256, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 71, Short.MAX_VALUE))
         );
         panel_distribuicaoLayout.setVerticalGroup(
             panel_distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_distribuicaoLayout.createSequentialGroup()
-                .addContainerGap(222, Short.MAX_VALUE)
+                .addGap(99, 99, 99)
                 .addComponent(lb_titulo_pd)
-                .addGap(18, 18, 18)
-                .addGroup(panel_distribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_cad_distribuicao_pd, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lb_subtitulo_pd))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lb_subtitulo_pd)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addComponent(btn_cad_distribuicao_pd, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(55, 55, 55)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19))
         );
 
         panel_telaInicial.add(panel_distribuicao, "distribuicao");
@@ -1126,7 +1199,6 @@ public class ViewsSistema extends javax.swing.JFrame {
             }
         });
 
-        btn_esq_senha_pl.setBackground(new java.awt.Color(255, 255, 255));
         btn_esq_senha_pl.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         btn_esq_senha_pl.setText("Esqueceu ou deseja alterar sua senha?");
         btn_esq_senha_pl.setBorder(null);
@@ -1146,24 +1218,19 @@ public class ViewsSistema extends javax.swing.JFrame {
         card_form_plLayout.setHorizontalGroup(
             card_form_plLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(card_form_plLayout.createSequentialGroup()
-                .addContainerGap(86, Short.MAX_VALUE)
+                .addGap(86, 86, 86)
                 .addGroup(card_form_plLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(lb_login_pl)
-                    .addComponent(input_matricula_pl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(input_senha_pl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(separador_pl, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(input_matricula_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(separador_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_login_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_esq_senha_pl))
-                .addGap(86, 86, 86))
-            .addGroup(card_form_plLayout.createSequentialGroup()
-                .addGroup(card_form_plLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(card_form_plLayout.createSequentialGroup()
-                        .addGap(92, 92, 92)
-                        .addComponent(lb_senha_pl))
-                    .addGroup(card_form_plLayout.createSequentialGroup()
-                        .addGap(93, 93, 93)
-                        .addComponent(lb_matricula_pl)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btn_esq_senha_pl)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, card_form_plLayout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(lb_matricula_pl))
+                    .addComponent(input_senha_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lb_senha_pl, javax.swing.GroupLayout.Alignment.LEADING))
+                .addContainerGap(86, Short.MAX_VALUE))
         );
         card_form_plLayout.setVerticalGroup(
             card_form_plLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1173,18 +1240,18 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addGap(33, 33, 33)
                 .addComponent(lb_matricula_pl)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(input_matricula_pl, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(input_matricula_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lb_senha_pl)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(input_senha_pl, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(input_senha_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23)
-                .addComponent(separador_pl, javax.swing.GroupLayout.PREFERRED_SIZE, 9, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(separador_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_login_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(8, 8, 8)
                 .addComponent(btn_esq_senha_pl)
-                .addContainerGap(145, Short.MAX_VALUE))
+                .addContainerGap(154, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_loginLayout = new javax.swing.GroupLayout(panel_login);
@@ -1265,7 +1332,6 @@ public class ViewsSistema extends javax.swing.JFrame {
             }
         });
 
-        btn_voltar_ppa.setBackground(new java.awt.Color(255, 255, 255));
         btn_voltar_ppa.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         btn_voltar_ppa.setText("Voltar a tela de login");
         btn_voltar_ppa.setBorder(null);
@@ -1316,9 +1382,9 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(separador_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, 9, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_salvar_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(8, 8, 8)
                 .addComponent(btn_voltar_ppa)
-                .addContainerGap(145, Short.MAX_VALUE))
+                .addContainerGap(155, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_primeiro_acessoLayout = new javax.swing.GroupLayout(panel_primeiro_acesso);
@@ -1398,7 +1464,6 @@ public class ViewsSistema extends javax.swing.JFrame {
             }
         });
 
-        btn_voltar_psc.setBackground(new java.awt.Color(255, 255, 255));
         btn_voltar_psc.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         btn_voltar_psc.setText("Voltar a tela de login");
         btn_voltar_psc.setBorder(null);
@@ -1456,7 +1521,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_enviar_psc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_voltar_psc)
-                .addContainerGap(145, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_solicitacao_codigoLayout = new javax.swing.GroupLayout(panel_solicitacao_codigo);
@@ -1548,7 +1613,6 @@ public class ViewsSistema extends javax.swing.JFrame {
             }
         });
 
-        btn_voltar_prs.setBackground(new java.awt.Color(255, 255, 255));
         btn_voltar_prs.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         btn_voltar_prs.setText("Voltar a tela de login");
         btn_voltar_prs.setBorder(null);
@@ -1612,7 +1676,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_salvar_prs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_voltar_prs)
-                .addContainerGap(123, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_redefinir_senhaLayout = new javax.swing.GroupLayout(panel_redefinir_senha);
@@ -1657,7 +1721,13 @@ public class ViewsSistema extends javax.swing.JFrame {
 
     private void btn_nav_distribuicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_distribuicaoActionPerformed
         // TODO add your handling code here:
-        carregaDadosDistribuicao();
+        totalDePaginas = entregaController.getTotalDeEntregas(ITENS_POR_PAGINA);
+        
+        paginaAtual = 1;
+        
+        atualizarTabelaEControles();
+        
+//        carregaDadosDistribuicao();
         appCardLayout.show(panel_telaInicial, "distribuicao");
         System.out.println("Mostrando painel Distribuicao");
     }//GEN-LAST:event_btn_nav_distribuicaoActionPerformed
@@ -1906,6 +1976,10 @@ public class ViewsSistema extends javax.swing.JFrame {
         authCardLayout.show(panel_autenticacao, "card_login");
     }//GEN-LAST:event_btn_voltar_ppaActionPerformed
 
+    private void btn_anterior_pdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_anterior_pdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_anterior_pdActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1917,6 +1991,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JLabel Titulo;
     private javax.swing.JPanel Uniformes;
     private javax.swing.JButton btn_Add_Uniforme;
+    private javax.swing.JButton btn_anterior_pd;
     private javax.swing.JButton btn_buscar;
     private javax.swing.JButton btn_cad_distribuicao_pd;
     private javax.swing.JButton btn_cadastrar_serv;
@@ -1930,6 +2005,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JButton btn_nav_distribuicao;
     private javax.swing.JButton btn_nav_servidores;
     private javax.swing.JButton btn_nav_uniformes;
+    private javax.swing.JButton btn_proximo_pd;
     private javax.swing.JButton btn_sair_pn;
     private javax.swing.JButton btn_salvar_pcadServ;
     private javax.swing.JButton btn_salvar_ppa;
@@ -1991,6 +2067,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JLabel lb_senha_prs;
     private javax.swing.JLabel lb_sobrenome_pcadServ;
     private javax.swing.JLabel lb_solicitar_codigo_psc;
+    private javax.swing.JLabel lb_status_paginacao_pd;
     private javax.swing.JLabel lb_sub_serv;
     private javax.swing.JLabel lb_subtitulo_pd;
     private javax.swing.JLabel lb_telefone_pcadServ;
@@ -1999,6 +2076,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JLabel lb_titulo_serv;
     private javax.swing.JPanel main_container;
     private javax.swing.JLabel nome_sistema;
+    private java.awt.Panel panel1;
     private javax.swing.JPanel panelGraficoBarras;
     private javax.swing.JPanel panelGraficoPizza;
     private javax.swing.JPanel panel_aplicacao;
