@@ -14,6 +14,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import com.mycompany.gerenciamento.uniformes.Controllers.GraficosController;
 import java.awt.BorderLayout;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -133,14 +134,66 @@ public class ViewsSistema extends javax.swing.JFrame {
     
     // Carrega Gráfico Barra
     private void carregarGraficoBarras() {
-        this.graficosController = new GraficosController();
         JFreeChart graficoBarras = graficosController.criarGraficoBarrasPorTurma();
+        List<String> porcentagens = graficosController.getPorcentagensPorCurso();
 
-        ChartPanel chartPanelBarras = new ChartPanel(graficoBarras);
-
+        // Panel geral
         panelGraficoBarras.removeAll();
-        panelGraficoBarras.setLayout(new BorderLayout());
-        panelGraficoBarras.add(chartPanelBarras, BorderLayout.CENTER);
+        panelGraficoBarras.setLayout(new BoxLayout(panelGraficoBarras, BoxLayout.Y_AXIS));
+        panelGraficoBarras.setBackground(Color.WHITE);
+        panelGraficoBarras.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(Color.BLACK),
+            BorderFactory.createEmptyBorder(20, 20, 20, 20)
+        ));
+
+        // Panel títulos
+        JPanel panelTitulos = new JPanel(new BorderLayout());
+        panelTitulos.setOpaque(false);
+
+        JLabel lblTitulo = new JLabel("Saída de Uniformes");
+        lblTitulo.setFont(new Font("SansSerif", Font.BOLD, 16));
+        panelTitulos.add(lblTitulo, BorderLayout.NORTH);
+
+        JLabel lblDescricao = new JLabel("Total de uniformes distribuídos por turma");
+        lblDescricao.setFont(new Font("SansSerif", Font.PLAIN, 12));
+        lblDescricao.setForeground(Color.GRAY);
+        panelTitulos.add(lblDescricao, BorderLayout.CENTER);
+
+        // Panel porcentagens
+        JPanel panelContainerPorcentagens = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        panelContainerPorcentagens.setOpaque(false);
+
+        for (String linhaPorcentagem : porcentagens) {
+            JPanel cardPanel = new JPanel();
+            cardPanel.setBackground(Color.WHITE);
+            cardPanel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(220, 220, 220)),
+                BorderFactory.createEmptyBorder(5, 10, 5, 10)
+            ));
+
+            JLabel lblLinha = new JLabel(linhaPorcentagem);
+            lblLinha.setFont(new Font("SansSerif", Font.BOLD, 12));
+            cardPanel.add(lblLinha);
+
+            panelContainerPorcentagens.add(cardPanel);
+        }
+
+        // Panel gráfico
+        ChartPanel chartPanel = new ChartPanel(graficoBarras);
+        chartPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Adiciona ao panel geral
+        panelGraficoBarras.add(panelTitulos);
+        panelGraficoBarras.add(Box.createRigidArea(new Dimension(0, 15)));
+
+        JSeparator separador = new JSeparator();
+        separador.setMaximumSize(new Dimension(Integer.MAX_VALUE, 2));
+        panelGraficoBarras.add(separador);
+
+        panelGraficoBarras.add(Box.createRigidArea(new Dimension(0, 15)));
+        panelGraficoBarras.add(panelContainerPorcentagens);
+        panelGraficoBarras.add(Box.createRigidArea(new Dimension(0, 15)));
+        panelGraficoBarras.add(chartPanel);
 
         panelGraficoBarras.revalidate();
         panelGraficoBarras.repaint();
@@ -631,7 +684,8 @@ public class ViewsSistema extends javax.swing.JFrame {
             .addGap(0, 448, Short.MAX_VALUE)
         );
 
-        panelGraficoBarras.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panelGraficoBarras.setBackground(new java.awt.Color(255, 255, 255));
+        panelGraficoBarras.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         panelGraficoBarras.setMaximumSize(new java.awt.Dimension(600, 450));
         panelGraficoBarras.setMinimumSize(new java.awt.Dimension(600, 450));
         panelGraficoBarras.setPreferredSize(new java.awt.Dimension(600, 450));
