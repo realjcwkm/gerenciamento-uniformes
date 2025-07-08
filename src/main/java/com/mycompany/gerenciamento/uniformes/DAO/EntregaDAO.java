@@ -216,7 +216,7 @@ public class EntregaDAO implements EntregaInterface {
    }
    
    @Override
-   public boolean cadastrarEntrega(EntregaModel entrega) {
+   public int cadastrarEntrega(EntregaModel entrega) throws SQLException {
        String sql = "INSERT INTO Entrega "
                + "(semestre, ano, data_entrega, trocado, quantidade, fk_servidor, fk_uniforme, fk_aluno) "
                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -233,11 +233,14 @@ public class EntregaDAO implements EntregaInterface {
            
            ps.executeUpdate();
            
-           return true;
-       } catch(SQLException error) {
-           System.err.println("Erro ao inserir entrega: ");
-           error.printStackTrace();
-           return false;
-       }
+           try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1); 
+                } else {
+                    throw new SQLException("Falha ao obter o ID da nova entrega.");
+                }
+            }
+           
+       } 
    }
 }

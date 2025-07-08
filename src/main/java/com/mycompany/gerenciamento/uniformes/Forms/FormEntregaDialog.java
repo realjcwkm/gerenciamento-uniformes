@@ -4,23 +4,16 @@
  */
 package com.mycompany.gerenciamento.uniformes.Forms;
 
-import com.mycompany.gerenciamento.uniformes.Controllers.AlunoController;
 import com.mycompany.gerenciamento.uniformes.Controllers.EntregaController;
-import com.mycompany.gerenciamento.uniformes.Controllers.UniformeController;
 import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
-import com.mycompany.gerenciamento.uniformes.Models.EntregaModel;
-import com.mycompany.gerenciamento.uniformes.Models.ServidorModel;
 import com.mycompany.gerenciamento.uniformes.Models.TamanhoModel;
 import com.mycompany.gerenciamento.uniformes.Models.TipoUniformeModel;
-import com.mycompany.gerenciamento.uniformes.Models.UniformeModel;
-import com.mycompany.gerenciamento.uniformes.Session.AuthSession;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.time.LocalDate;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -37,6 +30,7 @@ public class FormEntregaDialog extends JDialog {
     
     private JTextField txtMatricula;
     private JLabel lblNomeAluno;
+    private JLabel lblCursoAluno;
     private JComboBox<TipoUniformeModel> comboUniformes;
     private JComboBox<TamanhoModel> comboTamanhos;
     private JTextField txtQuantidade;
@@ -57,7 +51,7 @@ public class FormEntregaDialog extends JDialog {
         
         txtMatricula = new JTextField(15);
         lblNomeAluno = new JLabel("<- Digite a matrícula e pressione Enter");
-        lblNomeAluno.setFont(new Font("Segoe UI", Font.ITALIC, 12)); 
+        lblCursoAluno= new JLabel("");
         comboUniformes = new JComboBox<>();
         comboTamanhos = new JComboBox<>();
         txtQuantidade = new JTextField("1");
@@ -69,12 +63,14 @@ public class FormEntregaDialog extends JDialog {
         gbc.gridx = 1; gbc.gridy = 0; panel.add(txtMatricula, gbc);
         gbc.gridx = 0; gbc.gridy = 1; panel.add(new JLabel("Nome do Aluno:"), gbc);
         gbc.gridx = 1; gbc.gridy = 1; panel.add(lblNomeAluno, gbc);
-        gbc.gridx = 0; gbc.gridy = 2; panel.add(new JLabel("Uniforme:"), gbc);
-        gbc.gridx = 1; gbc.gridy = 2; panel.add(comboUniformes, gbc);
-        gbc.gridx = 0; gbc.gridy = 3; panel.add(new JLabel("Tamanho:"), gbc);
-        gbc.gridx = 1; gbc.gridy = 3; panel.add(comboTamanhos, gbc);
-        gbc.gridx = 0; gbc.gridy = 4; panel.add(new JLabel("Quantidade:"), gbc);
-        gbc.gridx = 1; gbc.gridy = 4; panel.add(txtQuantidade, gbc);
+        gbc.gridx = 0; gbc.gridy = 2; panel.add(new JLabel("Curso do Aluno:"), gbc);
+        gbc.gridx = 1; gbc.gridy = 2; panel.add(lblCursoAluno, gbc);
+        gbc.gridx = 0; gbc.gridy = 3; panel.add(new JLabel("Uniforme:"), gbc);
+        gbc.gridx = 1; gbc.gridy = 3; panel.add(comboUniformes, gbc);
+        gbc.gridx = 0; gbc.gridy = 4; panel.add(new JLabel("Tamanho:"), gbc);
+        gbc.gridx = 1; gbc.gridy = 4; panel.add(comboTamanhos, gbc);
+        gbc.gridx = 0; gbc.gridy = 5; panel.add(new JLabel("Quantidade:"), gbc);
+        gbc.gridx = 1; gbc.gridy = 5; panel.add(txtQuantidade, gbc);
         
         carregarComboBoxes();
         
@@ -104,9 +100,16 @@ public class FormEntregaDialog extends JDialog {
         this.alunoSelecionado = entregaController.getAlunoByMatricula(matricula);
         
         if(this.alunoSelecionado != null) {
-            lblNomeAluno.setText(this.alunoSelecionado.getNome());
+           lblNomeAluno.setText(this.alunoSelecionado.getNome());
+            
+           if (this.alunoSelecionado.getCurso() != null && this.alunoSelecionado.getCurso().getNome() != null) {
+                lblCursoAluno.setText(this.alunoSelecionado.getCurso().getNome());
+            } else {
+                lblCursoAluno.setText("Sem curso definido");
+            }
         } else {
             lblNomeAluno.setText("Aluno não encontrado!");
+            lblCursoAluno.setText(" ");
             JOptionPane.showMessageDialog(this, "Nenhum aluno encontrado com a matrícula informada.", "Erro", JOptionPane.ERROR_MESSAGE);
        }
         

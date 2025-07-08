@@ -5,6 +5,7 @@
 package com.mycompany.gerenciamento.uniformes.Interfaces;
 
 import com.mycompany.gerenciamento.uniformes.Models.EntregaModel;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -13,5 +14,5 @@ import java.util.List;
  */
 public interface EntregaInterface {
     public List<EntregaModel> listarTodos();
-    public boolean cadastrarEntrega(EntregaModel entrega);
+    public int cadastrarEntrega(EntregaModel entrega) throws SQLException;
 }
