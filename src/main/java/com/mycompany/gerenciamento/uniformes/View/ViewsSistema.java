@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import com.mycompany.gerenciamento.uniformes.Controllers.GraficosController;
+import com.mycompany.gerenciamento.uniformes.Controllers.TrocaController;
+import com.mycompany.gerenciamento.uniformes.Forms.ConfirmacaoTroca;
+import com.mycompany.gerenciamento.uniformes.Forms.FormSelecaoUniforme;
+import com.mycompany.gerenciamento.uniformes.Models.UniformeModel;
 import com.mycompany.gerenciamento.uniformes.View.Utils.ButtonColumnRendererEditor;
 import java.awt.BorderLayout;
 import javax.swing.Box;
@@ -37,6 +41,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private final AuthController authController;
     private final EntregaController entregaController;
     private final ServidorController servidorController;
+    private final TrocaController trocaController;
     private GraficosController graficosController;
     private String matriculaUpdate;
     
@@ -52,6 +57,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         this.authController = new AuthController();
         this.entregaController = new EntregaController();
         this.servidorController = new ServidorController();
+        this.trocaController = new TrocaController();
                 
         this.entregaTableModel = new EntregaTableModel(new ArrayList<>()); //Cria modelo com uma lista vazia
         this.servidorTableModel = new ServidorTableModel(new ArrayList<>());
@@ -83,14 +89,14 @@ public class ViewsSistema extends javax.swing.JFrame {
             int modelRow = tb_distribuicao.convertRowIndexToModel(tb_distribuicao.getSelectedRow());
             if (modelRow == -1) return; 
 
-            EntregaModel entregaParaTrocar = entregaTableModel.getEntregaAt(modelRow);
+            EntregaModel entregaAntiga = entregaTableModel.getEntregaAt(modelRow);
 
-            if (entregaParaTrocar.isTrocado()) {
+            if (entregaAntiga.isTrocado()) {
                 JOptionPane.showMessageDialog(this, "Esta entrega já foi trocada.");
                 return;
             }
 
-//            iniciarFluxoDeTroca(entregaParaTrocar);
+            iniciaFluxoDeTroca(entregaAntiga);
         });
 
         this.tb_distribuicao.getColumnModel().getColumn(TROCA_COLUMN_INDEX).setCellRenderer(trocaButtonEditor);
@@ -189,6 +195,29 @@ public class ViewsSistema extends javax.swing.JFrame {
 
         panelGraficoBarras.revalidate();
         panelGraficoBarras.repaint();
+    }
+    
+    private void iniciaFluxoDeTroca(EntregaModel entregaAntiga) {
+        FormSelecaoUniforme selecaoDialog = new FormSelecaoUniforme(this);
+        selecaoDialog.setVisible(true);
+    
+        UniformeModel uniformeNovo = selecaoDialog.getUniformeSelecionado();
+
+        if (uniformeNovo != null) {
+            ConfirmacaoTroca confirmacaoDialog = new ConfirmacaoTroca(this, entregaAntiga, uniformeNovo);
+            confirmacaoDialog.setVisible(true);
+            
+            if (confirmacaoDialog.isConfirmado()) {
+                boolean sucesso = trocaController.realizarTroca(entregaAntiga, uniformeNovo);
+
+                if (sucesso) {
+                    JOptionPane.showMessageDialog(this, "Troca de Uniforme realizada com sucesso!");
+                    carregaDadosDistribuicao(); 
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ocorreu um erro ao realizar a troca.", "Erro de Transação", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } 
     }
     
     /**
@@ -1564,7 +1593,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         dialog.setVisible(true);
         
         if (dialog.isSalvo()) {
-            JOptionPane.showMessageDialog(this, "Distribuição cadastrada com sucesso!");
+            JOptionPane.showMessageDialog(this, "Distribuição realizada com sucesso!");
             carregaDadosDistribuicao();
         }
         
