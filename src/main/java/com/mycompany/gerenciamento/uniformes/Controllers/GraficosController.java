@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -172,6 +173,34 @@ public class GraficosController {
                 }
             }
         }
+    }
+    
+    // Porcentagem por curso do gráfico em barra
+    public List<String> getPorcentagensPorCurso() {
+        List<String> resultadoFormatado = new ArrayList<>();
+        int totalGeral = this.entregaDAO.getQuantidadeTotalGeral();
+        Map<String, Integer> totaisPorCurso = this.entregaDAO.getContagemPorCurso();
+
+        System.out.println("Dados de contagem por curso recebidos do DAO: " + totaisPorCurso);
+        
+        if (totalGeral == 0) {
+            resultadoFormatado.add("Nenhuma entrega registrada.");
+            return resultadoFormatado;
+        }
+
+        DecimalFormat formatador = new DecimalFormat("0.0'%'");
+
+        for (Map.Entry<String, Integer> entry : totaisPorCurso.entrySet()) {
+            String nomeCurso = entry.getKey();
+            int totalCurso = entry.getValue();
+
+            double porcentagem = (double) totalCurso / totalGeral; 
+
+            String linha = nomeCurso + ": " + formatador.format(porcentagem * 100);
+            resultadoFormatado.add(linha);
+        }
+
+        return resultadoFormatado;
     }
     
     public int getTotalUniformesDistribuidos() {
