@@ -14,6 +14,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import com.mycompany.gerenciamento.uniformes.Controllers.GraficosController;
 import java.awt.BorderLayout;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -134,30 +135,64 @@ public class ViewsSistema extends javax.swing.JFrame {
     // Carrega Gráfico Barra
     private void carregarGraficoBarras() {
         JFreeChart graficoBarras = graficosController.criarGraficoBarrasPorTurma();
-        int totalDeUniformes = graficosController.getTotalUniformesDistribuidos();
+        List<String> porcentagens = graficosController.getPorcentagensPorCurso();
 
-        panelGraficoBarras.removeAll(); 
+        // Panel geral
+        panelGraficoBarras.removeAll();
         panelGraficoBarras.setLayout(new BoxLayout(panelGraficoBarras, BoxLayout.Y_AXIS));
-        panelGraficoBarras.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panelGraficoBarras.setBackground(Color.WHITE);
+        panelGraficoBarras.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(Color.BLACK),
+            BorderFactory.createEmptyBorder(20, 20, 20, 20)
+        ));
+
+        // Panel títulos
+        JPanel panelTitulos = new JPanel(new BorderLayout());
+        panelTitulos.setOpaque(false);
 
         JLabel lblTitulo = new JLabel("Saída de Uniformes");
-        lblTitulo.setFont(new Font("SansSerif", Font.BOLD, 14));
-        lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lblTitulo.setFont(new Font("SansSerif", Font.BOLD, 16));
+        panelTitulos.add(lblTitulo, BorderLayout.NORTH);
 
-        JLabel lblDescricao = new JLabel("Total de uniformes distribuídos");
+        JLabel lblDescricao = new JLabel("Total de uniformes distribuídos por turma");
         lblDescricao.setFont(new Font("SansSerif", Font.PLAIN, 12));
-        lblDescricao.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lblDescricao.setForeground(Color.GRAY);
+        panelTitulos.add(lblDescricao, BorderLayout.CENTER);
 
-        JSeparator separador = new JSeparator();
+        // Panel porcentagens
+        JPanel panelContainerPorcentagens = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        panelContainerPorcentagens.setOpaque(false);
 
+        for (String linhaPorcentagem : porcentagens) {
+            JPanel cardPanel = new JPanel();
+            cardPanel.setBackground(Color.WHITE);
+            cardPanel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(220, 220, 220)),
+                BorderFactory.createEmptyBorder(5, 10, 5, 10)
+            ));
+
+            JLabel lblLinha = new JLabel(linhaPorcentagem);
+            lblLinha.setFont(new Font("SansSerif", Font.BOLD, 12));
+            cardPanel.add(lblLinha);
+
+            panelContainerPorcentagens.add(cardPanel);
+        }
+
+        // Panel gráfico
         ChartPanel chartPanel = new ChartPanel(graficoBarras);
         chartPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        panelGraficoBarras.add(lblTitulo);
-        panelGraficoBarras.add(lblDescricao);
-        panelGraficoBarras.add(Box.createRigidArea(new Dimension(0, 5)));
+        // Adiciona ao panel geral
+        panelGraficoBarras.add(panelTitulos);
+        panelGraficoBarras.add(Box.createRigidArea(new Dimension(0, 15)));
+
+        JSeparator separador = new JSeparator();
+        separador.setMaximumSize(new Dimension(Integer.MAX_VALUE, 2));
         panelGraficoBarras.add(separador);
-        panelGraficoBarras.add(Box.createRigidArea(new Dimension(0, 5)));
+
+        panelGraficoBarras.add(Box.createRigidArea(new Dimension(0, 15)));
+        panelGraficoBarras.add(panelContainerPorcentagens);
+        panelGraficoBarras.add(Box.createRigidArea(new Dimension(0, 15)));
         panelGraficoBarras.add(chartPanel);
 
         panelGraficoBarras.revalidate();
