@@ -243,4 +243,19 @@ public class EntregaDAO implements EntregaInterface {
            
        } 
    }
+   
+   public int getTotalDeEntregas() {
+       String sql = "SELECT COUNT(*) FROM Entrega";
+       try(PreparedStatement ps = conn.prepareStatement(sql)) {
+           ResultSet rs = ps.executeQuery();
+           
+           if(rs.next()) {
+               return rs.getInt(1);
+           } 
+       } catch(SQLException error) {
+           error.printStackTrace();
+       }
+       
+       return 0;
+   }
 }
