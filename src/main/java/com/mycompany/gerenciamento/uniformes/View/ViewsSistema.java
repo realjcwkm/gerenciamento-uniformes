@@ -46,6 +46,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private final TrocaController trocaController;
     private GraficosController graficosController;
     private String matriculaUpdate;
+    private String termoBuscaAtualServidores = "";
     
     private int paginaAtual = 1;
     private int totalDePaginas = 0;
@@ -87,6 +88,10 @@ public class ViewsSistema extends javax.swing.JFrame {
                 atualizarTabelaServidoresEControles();
             }
         });
+        
+        // Campo pesquisa servidor
+        btn_buscar_serv.addActionListener(e -> realizarBuscaServidores());
+        tx_pesquisa_serv.addActionListener(e -> realizarBuscaServidores());
         
         carregarGraficoPizza();
         carregarGraficoBarras();
@@ -325,13 +330,23 @@ public class ViewsSistema extends javax.swing.JFrame {
     }
     
     private void atualizarTabelaServidoresEControles() {
-        List<ServidorModel> listaPaginada = servidorController.listarPagina(paginaAtualServidores, ITENS_POR_PAGINA);
+        List<ServidorModel> listaPaginada = servidorController.listarPagina(paginaAtualServidores, ITENS_POR_PAGINA, termoBuscaAtualServidores);
 
         servidorTableModel.setServidores(listaPaginada);
+
         lb_status_paginacao_serv.setText("Página " + paginaAtualServidores + " de " + totalDePaginasServidores);
 
         btn_anterior_serv.setEnabled(paginaAtualServidores > 1);
         btn_proximo_serv.setEnabled(paginaAtualServidores < totalDePaginasServidores);
+    }
+    
+    private void realizarBuscaServidores() {
+        termoBuscaAtualServidores = tx_pesquisa_serv.getText(); // Texto do campo de pesquisa
+
+        paginaAtualServidores = 1;
+        totalDePaginasServidores = servidorController.getTotalDePaginas(ITENS_POR_PAGINA, termoBuscaAtualServidores);
+
+        atualizarTabelaServidoresEControles();
     }
     
     /**
@@ -388,6 +403,8 @@ public class ViewsSistema extends javax.swing.JFrame {
         lb_status_paginacao_serv = new javax.swing.JLabel();
         btn_proximo_serv = new javax.swing.JButton();
         btn_anterior_serv = new javax.swing.JButton();
+        tx_pesquisa_serv = new javax.swing.JTextField();
+        btn_buscar_serv = new javax.swing.JButton();
         Uniformes = new javax.swing.JPanel();
         Titulo = new javax.swing.JLabel();
         subtitulo = new javax.swing.JLabel();
@@ -864,38 +881,54 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addGap(36, 36, 36))
         );
 
+        tx_pesquisa_serv.setText("Busque um servidor...");
+        tx_pesquisa_serv.setMaximumSize(new java.awt.Dimension(130, 30));
+        tx_pesquisa_serv.setMinimumSize(new java.awt.Dimension(130, 30));
+        tx_pesquisa_serv.setPreferredSize(new java.awt.Dimension(130, 30));
+
+        btn_buscar_serv.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btn_buscar_serv.setText("Buscar");
+        btn_buscar_serv.setMaximumSize(new java.awt.Dimension(70, 30));
+        btn_buscar_serv.setMinimumSize(new java.awt.Dimension(70, 30));
+        btn_buscar_serv.setPreferredSize(new java.awt.Dimension(70, 30));
+
         javax.swing.GroupLayout ServidoresLayout = new javax.swing.GroupLayout(Servidores);
         Servidores.setLayout(ServidoresLayout);
         ServidoresLayout.setHorizontalGroup(
             ServidoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ServidoresLayout.createSequentialGroup()
-                .addGap(86, 86, 86)
+                .addGap(95, 95, 95)
                 .addGroup(ServidoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2)
                     .addGroup(ServidoresLayout.createSequentialGroup()
-                        .addGroup(ServidoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lb_sub_serv)
-                            .addComponent(lb_titulo_serv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 659, Short.MAX_VALUE)
+                        .addGroup(ServidoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lb_sub_serv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lb_titulo_serv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tx_pesquisa_serv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_buscar_serv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 568, Short.MAX_VALUE)
                         .addComponent(btn_cadastrar_serv)))
                 .addGap(79, 79, 79))
         );
         ServidoresLayout.setVerticalGroup(
             ServidoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ServidoresLayout.createSequentialGroup()
-                .addGap(93, 93, 93)
-                .addGroup(ServidoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btn_cadastrar_serv, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(ServidoresLayout.createSequentialGroup()
-                        .addComponent(lb_titulo_serv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lb_sub_serv)))
-                .addGap(35, 35, 35)
+                .addGap(57, 57, 57)
+                .addComponent(lb_titulo_serv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lb_sub_serv)
+                .addGap(18, 18, 18)
+                .addGroup(ServidoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tx_pesquisa_serv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_buscar_serv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_cadastrar_serv, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25)
                 .addComponent(panel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(101, Short.MAX_VALUE))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
 
         panel_telaInicial.add(Servidores, "servidores");
@@ -1599,12 +1632,15 @@ public class ViewsSistema extends javax.swing.JFrame {
 
     private void btn_nav_servidoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_servidoresActionPerformed
         // TODO add your handling code here:
-        totalDePaginasServidores = servidorController.getTotalDePaginas(ITENS_POR_PAGINA);
+        termoBuscaAtualServidores = "";
+        tx_pesquisa_serv.setText("");
+
+        totalDePaginasServidores = servidorController.getTotalDePaginas(ITENS_POR_PAGINA, termoBuscaAtualServidores);
         paginaAtualServidores = 1;
         atualizarTabelaServidoresEControles();
-        appCardLayout.show(panel_telaInicial, "servidores");
         
-        System.out.println("Mostrando painel Servidores com paginação");
+        appCardLayout.show(panel_telaInicial, "servidores");
+        System.out.println("Mostrando painel Servidores com paginação e busca.");
         //JOptionPane.showMessageDialog(this, "Painel de Servidores ainda não implementado");
     }//GEN-LAST:event_btn_nav_servidoresActionPerformed
 
@@ -1838,6 +1874,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JButton btn_anterior_pd;
     private javax.swing.JButton btn_anterior_serv;
     private javax.swing.JButton btn_buscar;
+    private javax.swing.JButton btn_buscar_serv;
     private javax.swing.JButton btn_cad_distribuicao_pd;
     private javax.swing.JButton btn_cadastrar_serv;
     private javax.swing.JButton btn_editar;
@@ -1931,5 +1968,6 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JTable tb_distribuicao;
     private javax.swing.JTable tb_servidores;
     private javax.swing.JTextField tx_pesquisa;
+    private javax.swing.JTextField tx_pesquisa_serv;
     // End of variables declaration//GEN-END:variables
 }
