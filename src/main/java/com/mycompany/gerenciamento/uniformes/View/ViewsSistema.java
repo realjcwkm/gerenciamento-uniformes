@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import com.mycompany.gerenciamento.uniformes.Controllers.GraficosController;
+import com.mycompany.gerenciamento.uniformes.Controllers.UniformeController;
+import com.mycompany.gerenciamento.uniformes.Models.UniformeEstoqueModel;
+import com.mycompany.gerenciamento.uniformes.TableModels.UniformeTableModel;
 import com.mycompany.gerenciamento.uniformes.Controllers.TrocaController;
 import com.mycompany.gerenciamento.uniformes.Forms.ConfirmacaoTroca;
 import com.mycompany.gerenciamento.uniformes.Forms.FormSelecaoUniforme;
@@ -39,9 +42,11 @@ public class ViewsSistema extends javax.swing.JFrame {
     private final CardLayout appCardLayout;
     private final EntregaTableModel entregaTableModel; // Declara a tableModel
     private final ServidorTableModel servidorTableModel;
+    private final UniformeTableModel uniformeTableModel;
     private final AuthController authController;
     private final EntregaController entregaController;
     private final ServidorController servidorController;
+    private final UniformeController uniformeController; 
     private final TrocaController trocaController;
     private GraficosController graficosController;
     private String matriculaUpdate;
@@ -77,10 +82,12 @@ public class ViewsSistema extends javax.swing.JFrame {
         this.authController = new AuthController();
         this.entregaController = new EntregaController();
         this.servidorController = new ServidorController();
+        this.uniformeController = new UniformeController();
         this.trocaController = new TrocaController();
                 
         this.entregaTableModel = new EntregaTableModel(new ArrayList<>()); //Cria modelo com uma lista vazia
         this.servidorTableModel = new ServidorTableModel(new ArrayList<>());
+        this.uniformeTableModel = new UniformeTableModel();
         
         this.tb_distribuicao.setModel(entregaTableModel);//Conecta o Jtable ao criado pelo netbeans
 
@@ -127,6 +134,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         
         
         this.tb_servidores.setModel(servidorTableModel);
+        this.tabela_uniformes.setModel(uniformeTableModel);
         
         System.out.println("Painéis disponíveis:");
         for (Component comp : panel_telaInicial.getComponents()) {
@@ -158,6 +166,19 @@ public class ViewsSistema extends javax.swing.JFrame {
             error.printStackTrace();
         }
     }
+    private void carregaDadosUniformes() {
+    try {
+        // Chama o Controller, que por sua vez chama o DAO
+        List<UniformeEstoqueModel> listaUniformes = this.uniformeController.TabelaEstoque();
+        
+        // Passa a lista de dados para o TableModel, que irá atualizar a JTable
+        uniformeTableModel.setUniformes(listaUniformes); // Use o método que você criou no seu TableModel
+        
+    } catch (Exception error) {
+        JOptionPane.showMessageDialog(this, "Erro ao carregar os dados de uniformes.", "Erro", JOptionPane.ERROR_MESSAGE);
+        error.printStackTrace();
+    }
+}
 
     // Carrega Gráfico Pizza
     private void carregarGraficoPizza() {
@@ -1080,7 +1101,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Tipo", "Status", "Entrada", "Saída", "Tamanho", "Data Entrega"
+                "Tipo", "Status", "Entrada", "Saída", "Tamanho", "Data Entrada"
             }
         ));
         jScrollPane3.setViewportView(tabela_uniformes);
@@ -1750,6 +1771,7 @@ public class ViewsSistema extends javax.swing.JFrame {
 
     private void btn_nav_uniformesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_uniformesActionPerformed
         // TODO add your handling code here:
+        carregaDadosUniformes();
         appCardLayout.show(panel_telaInicial, "uniformes");
         System.out.println("Mostrando painel Uniformes");
         //JOptionPane.showMessageDialog(this, "Painel de Uniformes ainda não implementado");

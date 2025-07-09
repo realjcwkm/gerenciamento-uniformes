@@ -7,8 +7,10 @@ package com.mycompany.gerenciamento.uniformes.DAO;
 import com.mycompany.gerenciamento.uniformes.DBConnection.Conexao;
 import com.mycompany.gerenciamento.uniformes.Models.TamanhoModel;
 import com.mycompany.gerenciamento.uniformes.Models.TipoUniformeModel;
+import com.mycompany.gerenciamento.uniformes.Models.UniformeEstoqueModel;
 import com.mycompany.gerenciamento.uniformes.Models.UniformeModel;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,7 +25,7 @@ import javax.swing.JOptionPane;
  */
 public class UniformeDAO {
     private Connection conn;
-    
+    private Object EntregaSql;
     public UniformeDAO(){
     this.conn = Conexao.getConexao();
     }
@@ -129,4 +131,57 @@ public class UniformeDAO {
         return uniforme;
     }
     
+ 
+    public List<UniformeEstoqueModel> TabelaEstoque() {
+        List<UniformeEstoqueModel> relatorio = new ArrayList<>();
+        
+        // Query ajustada para buscar a data da última ENTRADA
+        String sql = """
+            SELECT tu.nome AS Tipo,
+            CASE
+            	WHEN (COALESCE(SUM(entradas.quantidade), 0) - COALESCE(SUM(entrega.quantidade), 0)) > 0
+            	THEN CONCAT('Disponível (', (COALESCE(SUM(entradas.quantidade), 0) - COALESCE(SUM(entrega.quantidade), 0)), ')')
+            	ELSE 'Indisponível'
+            END AS Status,
+            entradas.quantidade AS Entradas,
+            COALESCE(SUM(entrega.quantidade), 0) AS Saida,
+            t.nome AS Tamanho,
+            MAX(entradas.data_entrada) AS DataEntrada
+            FROM Uniforme u
+            JOIN TipoUniforme tu ON u.fk_tipo_uniforme = tu.id
+            JOIN Tamanho t ON u.fk_tamanho = t.id
+            LEFT JOIN Entradas entradas ON u.id = entradas.fk_uniforme
+            LEFT JOIN Entrega entrega ON u.id = entrega.fk_uniforme
+            GROUP BY u.id, tu.nome, t.nome
+            ORDER BY tu.nome, t.nome;
+                     
+            """;
+
+
+        try (Statement stmt = this.conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                UniformeEstoqueModel item = new UniformeEstoqueModel();
+
+                item.setTipo(rs.getString("Tipo"));
+                item.setStatus(rs.getString("Status"));
+                item.setTotalEntrada(rs.getInt("Entradas"));
+                item.setTotalSaida(rs.getInt("Saida"));
+                item.setTamanho(rs.getString("Tamanho"));
+                
+                Date dataEntradaSql = rs.getDate("DataEntrada");
+                if (dataEntradaSql != null) {
+                    item.setDataUltimaEntrada(dataEntradaSql.toLocalDate());
+                }
+
+                relatorio.add(item);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao gerar relatório de estoque: " + e.getMessage());
+            e.printStackTrace();
+        }
+        
+        return relatorio;
+    }
 }
