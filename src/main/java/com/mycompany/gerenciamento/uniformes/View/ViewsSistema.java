@@ -1529,6 +1529,7 @@ public class ViewsSistema extends javax.swing.JFrame {
 
     private void btn_nav_uniformesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_uniformesActionPerformed
         // TODO add your handling code here:
+        carregaDadosUniformes();
         appCardLayout.show(panel_telaInicial, "uniformes");
         System.out.println("Mostrando painel Uniformes");
         //JOptionPane.showMessageDialog(this, "Painel de Uniformes ainda não implementado");
