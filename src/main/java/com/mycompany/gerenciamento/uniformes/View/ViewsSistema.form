@@ -514,38 +514,45 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lb_titulo_pd" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <Component id="lb_subtitulo_pd" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="btn_cad_distribuicao_pd" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace pref="38" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                          <Component id="tx_pesquisa_dis_pd" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="lb_subtitulo_pd" alignment="0" max="32767" attributes="0"/>
                                       </Group>
-                                      <Component id="jScrollPane1" min="-2" pref="1256" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                                      <Component id="btn_buscar_dis_pd" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace pref="568" max="32767" attributes="0"/>
+                                      <Component id="btn_cad_distribuicao_pd" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="panel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lb_titulo_pd" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jScrollPane1" max="32767" attributes="0"/>
+                                  <Component id="panel1" alignment="0" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace min="0" pref="71" max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="99" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
                               <Component id="lb_titulo_pd" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="lb_subtitulo_pd" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="19" max="32767" attributes="0"/>
-                              <Component id="btn_cad_distribuicao_pd" min="-2" pref="38" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
-                              <Component id="jScrollPane1" min="-2" pref="310" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="tx_pesquisa_dis_pd" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btn_buscar_dis_pd" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="btn_cad_distribuicao_pd" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="jScrollPane1" min="-2" pref="299" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                               <Component id="panel1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -572,6 +579,7 @@
                                 <Column editable="true" title="" type="java.lang.Object"/>
                               </Table>
                             </Property>
+                            <Property name="autoscrolls" type="boolean" value="false"/>
                             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                               <TableColumnModel selectionModel="0">
                                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
@@ -616,6 +624,14 @@
                                 </Column>
                               </TableColumnModel>
                             </Property>
+                            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                              <Dimension value="[1360, 0]"/>
+                            </Property>
+                            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                              <Dimension value="[1360, 0]"/>
+                            </Property>
+                            <Property name="rowHeight" type="int" value="27"/>
+                            <Property name="showHorizontalLines" type="boolean" value="true"/>
                             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                             </Property>
@@ -647,6 +663,9 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="lb_subtitulo_pd">
                       <Properties>
+                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="58" green="5b" red="23" type="rgb"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Tenha controle em tempo real das distribui&#xe7;&#xf5;es de uniformes."/>
                       </Properties>
                     </Component>
@@ -657,7 +676,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="lb_status_paginacao_pd" min="-2" pref="226" max="-2" attributes="0"/>
-                                  <EmptySpace pref="839" max="32767" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                                   <Component id="btn_anterior_pd" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="btn_proximo_pd" min="-2" max="-2" attributes="0"/>
@@ -673,7 +692,7 @@
                                       <Component id="btn_anterior_pd" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
                                       <Component id="lb_status_paginacao_pd" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                                  <EmptySpace pref="36" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -694,6 +713,9 @@
                               <Insets value="[8, 14, 8, 14]"/>
                             </Property>
                           </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_proximo_pdActionPerformed"/>
+                          </Events>
                         </Component>
                         <Component class="javax.swing.JButton" name="btn_anterior_pd">
                           <Properties>
@@ -708,6 +730,28 @@
                         </Component>
                       </SubComponents>
                     </Container>
+                    <Component class="javax.swing.JTextField" name="tx_pesquisa_dis_pd">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Busque uma entrega..."/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[130, 30]"/>
+                        </Property>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tx_pesquisa_dis_pdActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="btn_buscar_dis_pd">
+                      <Properties>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Liberation Sans" size="12" style="1"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="Buscar"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_buscar_dis_pdActionPerformed"/>
+                      </Events>
+                    </Component>
                   </SubComponents>
                 </Container>
                 <Container class="javax.swing.JPanel" name="Alunos">
@@ -796,7 +840,7 @@
                                       </Group>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="btn_buscar_serv" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace pref="568" max="32767" attributes="0"/>
+                                      <EmptySpace pref="442" max="32767" attributes="0"/>
                                       <Component id="btn_cadastrar_serv" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -818,10 +862,10 @@
                                   <Component id="btn_cadastrar_serv" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                              <Component id="jScrollPane2" min="-2" pref="298" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                              <Component id="jScrollPane2" min="-2" pref="295" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                               <Component id="panel2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="90" max="32767" attributes="0"/>
+                              <EmptySpace pref="88" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -897,6 +941,9 @@
                               <Dimension value="[1360, 0]"/>
                             </Property>
                             <Property name="name" type="java.lang.String" value="" noResource="true"/>
+                            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                              <Dimension value="[300, 80]"/>
+                            </Property>
                             <Property name="rowHeight" type="int" value="27"/>
                             <Property name="showGrid" type="boolean" value="false"/>
                             <Property name="showHorizontalLines" type="boolean" value="true"/>
@@ -949,6 +996,9 @@
                               <Insets value="[8, 14, 8, 14]"/>
                             </Property>
                           </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_proximo_servActionPerformed"/>
+                          </Events>
                         </Component>
                         <Component class="javax.swing.JButton" name="btn_anterior_serv">
                           <Properties>
@@ -976,6 +1026,9 @@
                           <Dimension value="[130, 30]"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tx_pesquisa_servActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="btn_buscar_serv">
                       <Properties>
@@ -993,6 +1046,9 @@
                           <Dimension value="[70, 30]"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_buscar_servActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>

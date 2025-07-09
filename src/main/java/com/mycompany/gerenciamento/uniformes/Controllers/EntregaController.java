@@ -99,12 +99,12 @@ public class EntregaController {
         }
     }
     
-    public List<EntregaModel> listarPagina(int pagina, int itensPorPagina) {
-        return this.entregaDAO.listarPagina(pagina, itensPorPagina);
+    public List<EntregaModel> listarPagina(int pagina, int itensPorPagina, String termoBusca) {
+        return this.entregaDAO.listarPagina(pagina, itensPorPagina, termoBusca);
     }
     
-    public int getTotalDeEntregas(int itensPorPagina) {
-        int totalDeItens = this.entregaDAO.getTotalDeEntregas();
+    public int getTotalDeEntregas(int itensPorPagina, String termoBusca) {
+        int totalDeItens = this.entregaDAO.getTotalDeEntregas(termoBusca);
         
         int totalPaginas = (int) Math.ceil((double) totalDeItens / itensPorPagina);
         
