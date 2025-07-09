@@ -59,15 +59,15 @@ public class ServidorController {
         }
     }
     
-    // PAGINAÇÃO
-    public List<ServidorModel> listarPagina(int pagina, int itensPorPagina) {
-        return this.servidorDAO.listarPagina(pagina, itensPorPagina);
+    // PAGINAÇÃO E BUSCA
+    public List<ServidorModel> listarPagina(int pagina, int itensPorPagina, String termoBusca) {
+        return this.servidorDAO.listarPagina(pagina, itensPorPagina, termoBusca);
     }
 
-    public int getTotalDePaginas(int itensPorPagina) {
-        int totalDeItens = this.servidorDAO.getTotalDeServidores();
+    public int getTotalDePaginas(int itensPorPagina, String termoBusca) {
+        int totalDeItens = this.servidorDAO.getTotalDeServidores(termoBusca);
         int totalPaginas = (int) Math.ceil((double) totalDeItens / itensPorPagina);
         return Math.max(totalPaginas, 1);
     }
-    // PAGINAÇÃO
+    // PAGINAÇÃO E BUSCA
 }
