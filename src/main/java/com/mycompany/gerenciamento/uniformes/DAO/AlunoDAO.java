@@ -7,6 +7,7 @@ package com.mycompany.gerenciamento.uniformes.DAO;
 import com.mycompany.gerenciamento.uniformes.DBConnection.Conexao;
 import com.mycompany.gerenciamento.uniformes.Interfaces.AlunoInterface;
 import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
+import com.mycompany.gerenciamento.uniformes.Models.CursoModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -57,7 +58,11 @@ public class AlunoDAO implements AlunoInterface {
     
     @Override
     public AlunoModel getByMatricula(String matricula) {
-        String sql = "SELECT * FROM Aluno WHERE matricula = ?";
+        String sql = "SELECT a.id, a.nome, a.sobrenome, a.email, a.telefone, a.matricula, a.idade, a.periodo,"
+                + "c.id AS id_curso, c.nome AS curso, c.n_periodos AS n_periodos "
+                + "FROM Aluno AS a "
+                + "LEFT JOIN Curso AS c ON a.fk_curso = c.id "
+                + "WHERE a.matricula = ?";
         
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             
@@ -66,6 +71,12 @@ public class AlunoDAO implements AlunoInterface {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     AlunoModel aluno = new AlunoModel();
+                    CursoModel curso = new CursoModel();
+                    
+                    curso.setId(rs.getInt("id"));
+                    curso.setNome(rs.getString("curso"));
+                    curso.setN_periodos(rs.getInt("n_periodos"));
+                    
                     
                     aluno.setId(rs.getInt("id"));
                     aluno.setNome(rs.getString("nome"));
@@ -75,7 +86,9 @@ public class AlunoDAO implements AlunoInterface {
                     aluno.setMatricula(rs.getString("matricula"));
                     aluno.setIdade(rs.getInt("idade"));
                     aluno.setPeriodo(rs.getInt("periodo"));
-                    aluno.setFk_curso(rs.getInt("fk_curso"));
+                    
+                    aluno.setCurso(curso);
+                    
                     return aluno;
                 }
             }

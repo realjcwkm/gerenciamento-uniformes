@@ -15,6 +15,9 @@ public class TrocaModel {
     private LocalDate data_troca;
     private int fk_entrega_antiga;
     private int fk_entrega_nova;
+    
+    private EntregaModel entregaAntiga;
+    private EntregaModel entregaNova;
 
     public int getId() {
         return id;
@@ -46,6 +49,22 @@ public class TrocaModel {
 
     public void setFk_entrega_nova(int fk_entrega_nova) {
         this.fk_entrega_nova = fk_entrega_nova;
+    }
+
+    public EntregaModel getEntregaAntiga() {
+        return entregaAntiga;
+    }
+
+    public void setEntregaAntiga(EntregaModel entregaAntiga) {
+        this.entregaAntiga = entregaAntiga;
+    }
+
+    public EntregaModel getEntregaNova() {
+        return entregaNova;
+    }
+
+    public void setEntregaNova(EntregaModel entregaNova) {
+        this.entregaNova = entregaNova;
     }
     
     

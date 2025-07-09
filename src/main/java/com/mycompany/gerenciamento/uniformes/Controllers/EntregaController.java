@@ -98,4 +98,16 @@ public class EntregaController {
             return false;
         }
     }
+    
+    public List<EntregaModel> listarPagina(int pagina, int itensPorPagina) {
+        return this.entregaDAO.listarPagina(pagina, itensPorPagina);
+    }
+    
+    public int getTotalDeEntregas(int itensPorPagina) {
+        int totalDeItens = this.entregaDAO.getTotalDeEntregas();
+        
+        int totalPaginas = (int) Math.ceil((double) totalDeItens / itensPorPagina);
+        
+        return Math.max(totalPaginas, 1);
+    }
 }
