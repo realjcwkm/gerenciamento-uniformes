@@ -10,58 +10,28 @@ package com.mycompany.gerenciamento.uniformes.Models;
  */
 public class UniformeEstoqueModel {
     private String tipo;
-    private String status;
-    private int Entrada;
-    private int Saida;
     private String tamanho;
-    private LocalDate data_entrada;
+    private String status;
+    private int totalEntrada;
+    private int totalSaida;
+    private LocalDate dataUltimaEntrada;
 
-    public String getTipo() {
-        return tipo;
-    }
+    // Getters e Setters correspondentes (também em camelCase)
+    public String getTipo() { return tipo; }
+    public void setTipo(String tipo) { this.tipo = tipo; }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
+    public String getTamanho() { return tamanho; }
+    public void setTamanho(String tamanho) { this.tamanho = tamanho; }
+    
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
-    public String getStatus() {
-        return status;
-    }
+    public int getTotalEntrada() { return totalEntrada; }
+    public void setTotalEntrada(int totalEntrada) { this.totalEntrada = totalEntrada; }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    public int getTotalSaida() { return totalSaida; }
+    public void setTotalSaida(int totalSaida) { this.totalSaida = totalSaida; }
 
-    public int getEntrada() {
-        return Entrada;
-    }
-
-    public void setEntrada(int Entrada) {
-        this.Entrada = Entrada;
-    }
-
-    public int getSaida() {
-        return Saida;
-    }
-
-    public void setSaida(int Saida) {
-        this.Saida = Saida;
-    }
-
-    public String getTamanho() {
-        return tamanho;
-    }
-
-    public void setTamanho(String tamanho) {
-        this.tamanho = tamanho;
-    }
-
-    public LocalDate getData_entrada() {
-        return data_entrada;
-    }
-
-    public void setData_entrada(LocalDate data_entrada) {
-        this.data_entrada = data_entrada;
-    }
-  
+    public LocalDate getDataUltimaEntrada() { return dataUltimaEntrada; }
+    public void setDataUltimaEntrada(LocalDate dataUltimaEntrada) { this.dataUltimaEntrada = dataUltimaEntrada; }
 }
