@@ -42,7 +42,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private final CardLayout mainCardLayout;
     private final CardLayout authCardLayout;
     private final CardLayout appCardLayout;
-    private final EntregaTableModel entregaTableModel; // Declara a tableModel
+    private final EntregaTableModel entregaTableModel; 
     private final ServidorTableModel servidorTableModel;
     private final UniformeTableModel uniformeTableModel;
     private final AuthController authController;
@@ -310,7 +310,7 @@ public class ViewsSistema extends javax.swing.JFrame {
 
                 if (sucesso) {
                     JOptionPane.showMessageDialog(this, "Troca de Uniforme realizada com sucesso!");
-                    carregaDadosDistribuicao(); 
+                    atualizarTabelaEControles();
                 } else {
                     JOptionPane.showMessageDialog(this, "Ocorreu um erro ao realizar a troca.", "Erro de Transação", JOptionPane.ERROR_MESSAGE);
                 }
@@ -1721,7 +1721,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         
         if (dialog.isSalvo()) {
             JOptionPane.showMessageDialog(this, "Distribuição realizada com sucesso!");
-            carregaDadosDistribuicao();
+            atualizarTabelaEControles();
         }
         
     }//GEN-LAST:event_btn_cad_distribuicao_pdActionPerformed
