@@ -26,15 +26,18 @@ public class ServidorController {
 
     public boolean cadastrarNovoServidor(String nome, String sobrenome, String email, String telefone, String matricula, boolean isAtivo, DepartamentoModel departamento) {
         if (nome == null || nome.trim().isEmpty() ||
+            sobrenome == null || sobrenome.trim().isEmpty() ||
+            email == null || email.trim().isEmpty() ||
+            telefone == null || telefone.trim().isEmpty() ||
             matricula == null || matricula.trim().isEmpty() ||
             departamento == null) {
-            System.err.println("Erro de validação: Nome, matrícula e departamento são obrigatórios.");
+
+            System.err.println("Tentativa de cadastrar servidor com dados nulos ou vazios.");
             return false;
         }
 
         try {
             String senhaPadraoPura = "senha" + matricula;
-
             String senhaComHash = BCrypt.hashpw(senhaPadraoPura, BCrypt.gensalt());
 
             ServidorModel novoServidor = new ServidorModel();
@@ -55,4 +58,16 @@ public class ServidorController {
             return false;
         }
     }
+    
+    // PAGINAÇÃO
+    public List<ServidorModel> listarPagina(int pagina, int itensPorPagina) {
+        return this.servidorDAO.listarPagina(pagina, itensPorPagina);
+    }
+
+    public int getTotalDePaginas(int itensPorPagina) {
+        int totalDeItens = this.servidorDAO.getTotalDeServidores();
+        int totalPaginas = (int) Math.ceil((double) totalDeItens / itensPorPagina);
+        return Math.max(totalPaginas, 1);
+    }
+    // PAGINAÇÃO
 }

@@ -49,6 +49,11 @@ public class ViewsSistema extends javax.swing.JFrame {
     
     private int paginaAtual = 1;
     private int totalDePaginas = 0;
+    
+    // Paginação servidores
+    private int paginaAtualServidores = 1;
+    private int totalDePaginasServidores = 0;
+    
     private final int ITENS_POR_PAGINA = 10;
     
     public ViewsSistema() {
@@ -65,6 +70,21 @@ public class ViewsSistema extends javax.swing.JFrame {
             if (paginaAtual < totalDePaginas) {
                 paginaAtual++; 
                 atualizarTabelaEControles(); 
+            }
+        });
+        
+        // Botão paginação servidores
+        btn_anterior_serv.addActionListener(e -> {
+            if (paginaAtualServidores > 1) {
+                paginaAtualServidores--;
+                atualizarTabelaServidoresEControles();
+            }
+        });
+        
+        btn_proximo_serv.addActionListener(e -> {
+            if (paginaAtualServidores < totalDePaginasServidores) {
+                paginaAtualServidores++;
+                atualizarTabelaServidoresEControles();
             }
         });
         
@@ -303,6 +323,17 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_anterior_pd.setEnabled(paginaAtual > 1);
         btn_proximo_pd.setEnabled(paginaAtual < totalDePaginas);
     }
+    
+    private void atualizarTabelaServidoresEControles() {
+        List<ServidorModel> listaPaginada = servidorController.listarPagina(paginaAtualServidores, ITENS_POR_PAGINA);
+
+        servidorTableModel.setServidores(listaPaginada);
+        lb_status_paginacao_serv.setText("Página " + paginaAtualServidores + " de " + totalDePaginasServidores);
+
+        btn_anterior_serv.setEnabled(paginaAtualServidores > 1);
+        btn_proximo_serv.setEnabled(paginaAtualServidores < totalDePaginasServidores);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -353,6 +384,10 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_cadastrar_serv = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tb_servidores = new javax.swing.JTable();
+        panel2 = new java.awt.Panel();
+        lb_status_paginacao_serv = new javax.swing.JLabel();
+        btn_proximo_serv = new javax.swing.JButton();
+        btn_anterior_serv = new javax.swing.JButton();
         Uniformes = new javax.swing.JPanel();
         Titulo = new javax.swing.JLabel();
         subtitulo = new javax.swing.JLabel();
@@ -774,7 +809,6 @@ public class ViewsSistema extends javax.swing.JFrame {
             }
         });
 
-        tb_servidores.setAutoCreateRowSorter(true);
         tb_servidores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -783,17 +817,52 @@ public class ViewsSistema extends javax.swing.JFrame {
                 "Nome", "Setor", "Matrícula", "Status"
             }
         ));
+        tb_servidores.setAutoscrolls(false);
         tb_servidores.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tb_servidores.setMaximumSize(new java.awt.Dimension(1360, 0));
         tb_servidores.setMinimumSize(new java.awt.Dimension(1360, 0));
         tb_servidores.setName(""); // NOI18N
         tb_servidores.setRowHeight(27);
-        tb_servidores.setRowSorter(null);
-        tb_servidores.setSelectionBackground(new java.awt.Color(255, 255, 255));
-        tb_servidores.setSelectionForeground(new java.awt.Color(255, 255, 255));
         tb_servidores.setShowGrid(false);
         tb_servidores.setShowHorizontalLines(true);
         jScrollPane2.setViewportView(tb_servidores);
+
+        lb_status_paginacao_serv.setText("jLabel2");
+        lb_status_paginacao_serv.setPreferredSize(new java.awt.Dimension(18, 18));
+
+        btn_proximo_serv.setText("Próxima");
+        btn_proximo_serv.setMargin(new java.awt.Insets(8, 14, 8, 14));
+
+        btn_anterior_serv.setText("Anterior");
+        btn_anterior_serv.setMargin(new java.awt.Insets(8, 14, 8, 14));
+        btn_anterior_serv.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_anterior_servActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
+        panel2.setLayout(panel2Layout);
+        panel2Layout.setHorizontalGroup(
+            panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lb_status_paginacao_serv, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_anterior_serv)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_proximo_serv)
+                .addContainerGap())
+        );
+        panel2Layout.setVerticalGroup(
+            panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel2Layout.createSequentialGroup()
+                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_proximo_serv, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_anterior_serv, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lb_status_paginacao_serv, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36))
+        );
 
         javax.swing.GroupLayout ServidoresLayout = new javax.swing.GroupLayout(Servidores);
         Servidores.setLayout(ServidoresLayout);
@@ -802,6 +871,7 @@ public class ViewsSistema extends javax.swing.JFrame {
             .addGroup(ServidoresLayout.createSequentialGroup()
                 .addGap(86, 86, 86)
                 .addGroup(ServidoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2)
                     .addGroup(ServidoresLayout.createSequentialGroup()
                         .addGroup(ServidoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -822,8 +892,10 @@ public class ViewsSistema extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lb_sub_serv)))
                 .addGap(35, 35, 35)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25)
+                .addComponent(panel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(101, Short.MAX_VALUE))
         );
 
         panel_telaInicial.add(Servidores, "servidores");
@@ -1037,7 +1109,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_login_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
                 .addComponent(btn_esq_senha_pl)
-                .addContainerGap(154, Short.MAX_VALUE))
+                .addContainerGap(158, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_loginLayout = new javax.swing.GroupLayout(panel_login);
@@ -1170,7 +1242,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_salvar_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
                 .addComponent(btn_voltar_ppa)
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addContainerGap(159, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_primeiro_acessoLayout = new javax.swing.GroupLayout(panel_primeiro_acesso);
@@ -1527,10 +1599,12 @@ public class ViewsSistema extends javax.swing.JFrame {
 
     private void btn_nav_servidoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_servidoresActionPerformed
         // TODO add your handling code here:
-        carregaDadosServidores(); 
-    
+        totalDePaginasServidores = servidorController.getTotalDePaginas(ITENS_POR_PAGINA);
+        paginaAtualServidores = 1;
+        atualizarTabelaServidoresEControles();
         appCardLayout.show(panel_telaInicial, "servidores");
-        System.out.println("Mostrando painel Servidores");
+        
+        System.out.println("Mostrando painel Servidores com paginação");
         //JOptionPane.showMessageDialog(this, "Painel de Servidores ainda não implementado");
     }//GEN-LAST:event_btn_nav_servidoresActionPerformed
 
@@ -1746,6 +1820,10 @@ public class ViewsSistema extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_anterior_pdActionPerformed
 
+    private void btn_anterior_servActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_anterior_servActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_anterior_servActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1758,6 +1836,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JPanel Uniformes;
     private javax.swing.JButton btn_Add_Uniforme;
     private javax.swing.JButton btn_anterior_pd;
+    private javax.swing.JButton btn_anterior_serv;
     private javax.swing.JButton btn_buscar;
     private javax.swing.JButton btn_cad_distribuicao_pd;
     private javax.swing.JButton btn_cadastrar_serv;
@@ -1771,6 +1850,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JButton btn_nav_servidores;
     private javax.swing.JButton btn_nav_uniformes;
     private javax.swing.JButton btn_proximo_pd;
+    private javax.swing.JButton btn_proximo_serv;
     private javax.swing.JButton btn_sair_pn;
     private javax.swing.JButton btn_salvar_ppa;
     private javax.swing.JButton btn_salvar_prs;
@@ -1822,6 +1902,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JLabel lb_senha_prs;
     private javax.swing.JLabel lb_solicitar_codigo_psc;
     private javax.swing.JLabel lb_status_paginacao_pd;
+    private javax.swing.JLabel lb_status_paginacao_serv;
     private javax.swing.JLabel lb_sub_serv;
     private javax.swing.JLabel lb_subtitulo_pd;
     private javax.swing.JLabel lb_titulo_pd;
@@ -1829,6 +1910,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JPanel main_container;
     private javax.swing.JLabel nome_sistema;
     private java.awt.Panel panel1;
+    private java.awt.Panel panel2;
     private javax.swing.JPanel panelGraficoBarras;
     private javax.swing.JPanel panelGraficoPizza;
     private javax.swing.JPanel panel_aplicacao;
