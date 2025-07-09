@@ -18,6 +18,7 @@ public class AlunoModel {
     private int idade;
     private int periodo;
     private int fk_curso;
+    private String nomeCurso;
     
     private CursoModel curso;
 
@@ -49,11 +50,10 @@ public class AlunoModel {
     public int getFk_curso() { return fk_curso; }
     public void setFk_curso(int fk_curso) { this.fk_curso = fk_curso; }
 
-    public CursoModel getCurso() {return curso;}
-
-    public void setCurso(CursoModel curso) {this.curso = curso;}
+    public CursoModel getCurso() { return curso; }
+    public void setCurso(CursoModel curso) { this.curso = curso; }
     
-    
-    
+    public String getNomeCurso() { return nomeCurso; }
+    public void setNomeCurso(String nomeCurso) { this.nomeCurso = nomeCurso; }
     
 }
