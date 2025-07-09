@@ -61,7 +61,7 @@ private final Connection conn;
             "tu.nome AS tipo_uniforme_nome, " +
             "t.nome AS tamanho_nome" +
             "FROM " +
-            "Entrada e " +
+            "Entradas e " +
             "JOIN Fornecedor f ON e.fk_fornecedor = f.id " +
             "JOIN Uniforme u ON e.fk_uniforme = u.id " +
             "JOIN TipoUniforme tu ON u.fk_tipo_uniforme = tu.id " +

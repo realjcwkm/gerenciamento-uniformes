@@ -5,7 +5,9 @@
 package com.mycompany.gerenciamento.uniformes.Controllers;
 
 import com.mycompany.gerenciamento.uniformes.DAO.UniformeDAO;
+import com.mycompany.gerenciamento.uniformes.Models.UniformeEstoqueModel;
 import com.mycompany.gerenciamento.uniformes.Models.UniformeModel;
+import java.util.List;
 
 /**
  *
@@ -20,5 +22,9 @@ public class UniformeController {
     
     public UniformeModel buscarPorTipoETamanho(int idTipo, int idTamanho) {
         return this.uniformeDAO.buscarPorTipoETamanho(idTipo, idTamanho);
+    }
+    
+    public List<UniformeEstoqueModel> TabelaEstoque (){
+        return this.uniformeDAO.TabelaEstoque();
     }
 }
