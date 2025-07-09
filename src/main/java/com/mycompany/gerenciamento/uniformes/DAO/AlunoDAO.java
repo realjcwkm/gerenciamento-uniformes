@@ -30,7 +30,8 @@ public class AlunoDAO implements AlunoInterface {
     @Override
     public List<AlunoModel> listarTodos() {
         List<AlunoModel> alunos = new ArrayList<>();
-        String sql = "SELECT * FROM Aluno";
+        String sql = "SELECT a.*, c.id AS id_curso, c.nome AS nome_curso, c.n_periodos AS periodos_curso FROM Aluno AS a "
+                   + "LEFT JOIN Curso AS c ON a.fk_curso = c.id";
         
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery(sql);
@@ -46,6 +47,13 @@ public class AlunoDAO implements AlunoInterface {
                 aluno.setIdade(rs.getInt("idade"));
                 aluno.setPeriodo(rs.getInt("periodo"));
                 aluno.setFk_curso(rs.getInt("fk_curso"));
+                
+                CursoModel curso = new CursoModel();
+                curso.setId(rs.getInt("id_curso"));
+                curso.setNome(rs.getString("nome_curso"));
+                curso.setN_periodos(rs.getInt("periodos_curso"));
+                
+                aluno.setCurso(curso);
                 
                 alunos.add(aluno);
             }
