@@ -3,10 +3,15 @@ package com.mycompany.gerenciamento.uniformes.Forms;
 import com.mycompany.gerenciamento.uniformes.Controllers.ServidorController;
 import com.mycompany.gerenciamento.uniformes.Models.DepartamentoModel;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,79 +27,150 @@ public class FormServidorDialog extends JDialog {
     private JTextField tfNome, tfSobrenome, tfEmail, tfTelefone, tfMatricula;
     private JComboBox<DepartamentoModel> cbDepartamentos;
     private JRadioButton rbAtivo, rbInativo;
-    private ButtonGroup statusGroup;
 
     private final ServidorController servidorController;
     private boolean salvo = false;
 
     public FormServidorDialog(Frame parent) {
-        super(parent, "Cadastrar Novo Servidor", true); // 'true' para ser modal
-
+        super(parent, "Cadastrar Servidor", true);
         this.servidorController = new ServidorController();
 
-        // Layout
-        JPanel panel = new JPanel(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        setResizable(false);
+        setLayout(new BorderLayout());
 
-        // Inicializando Componentes
-        tfNome = new JTextField(20);
-        tfSobrenome = new JTextField(20);
-        tfMatricula = new JTextField(15);
-        tfEmail = new JTextField(20);
-        tfTelefone = new JTextField(15);
+        JPanel panelPai = new JPanel(new GridBagLayout());
+        panelPai.setBackground(Color.WHITE);
+        panelPai.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40)); 
+
+        // Fontes e Cores
+        Font fonteTitulo = new Font("Segoe UI", Font.BOLD, 22);
+        Font fonteLabel = new Font("Segoe UI", Font.BOLD, 14);
+        Font fonteBotao = new Font("Segoe UI", Font.BOLD, 14);
+        Color corBotaoSalvar = new Color(0, 164, 55);
+        Color corBotaoCancelar = new Color(238, 63, 63);
+
+        // Componentes
+        Dimension tamanhoCampo = new Dimension(250, 35);
+        tfNome = new JTextField();
+        tfNome.setPreferredSize(tamanhoCampo);
+        tfSobrenome = new JTextField();
+        tfSobrenome.setPreferredSize(tamanhoCampo);
+        tfEmail = new JTextField();
+        tfEmail.setPreferredSize(tamanhoCampo);
+        tfTelefone = new JTextField();
+        tfTelefone.setPreferredSize(tamanhoCampo);
         cbDepartamentos = new JComboBox<>();
-        rbAtivo = new JRadioButton("Ativo", true);
+        cbDepartamentos.setPreferredSize(tamanhoCampo);
+        tfMatricula = new JTextField();
+        tfMatricula.setPreferredSize(tamanhoCampo);
+
+        rbAtivo = new JRadioButton("Ativo");
+        rbAtivo.setFont(fonteLabel);
+        rbAtivo.setBackground(Color.WHITE);
+        rbAtivo.setSelected(true);
+
         rbInativo = new JRadioButton("Inativo");
-        statusGroup = new ButtonGroup();
+        rbInativo.setFont(fonteLabel);
+        rbInativo.setBackground(Color.WHITE);
+
+        ButtonGroup statusGroup = new ButtonGroup();
         statusGroup.add(rbAtivo);
         statusGroup.add(rbInativo);
-        JPanel statusPanel = new JPanel();
+
+        JPanel statusPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        statusPanel.setBackground(Color.WHITE);
         statusPanel.add(rbAtivo);
         statusPanel.add(rbInativo);
 
-        // Adicionando componentes ao painel
-        gbc.gridx = 0; gbc.gridy = 0; panel.add(new JLabel("Nome:"), gbc);
-        gbc.gridx = 1; gbc.gridy = 0; panel.add(tfNome, gbc);
-        
-        gbc.gridx = 0; gbc.gridy = 1; panel.add(new JLabel("Sobrenome:"), gbc);
-        gbc.gridx = 1; gbc.gridy = 1; panel.add(tfSobrenome, gbc);
+        // Layout
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 0.5;
 
-        gbc.gridx = 0; gbc.gridy = 2; panel.add(new JLabel("Matrícula:"), gbc);
-        gbc.gridx = 1; gbc.gridy = 2; panel.add(tfMatricula, gbc);
+        // Título
+        gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 20, 0);
+        JLabel lblTitulo = new JLabel("Cadastrar Servidor");
+        lblTitulo.setFont(fonteTitulo);
+        panelPai.add(lblTitulo, gbc);
 
-        gbc.gridx = 0; gbc.gridy = 3; panel.add(new JLabel("Email:"), gbc);
-        gbc.gridx = 1; gbc.gridy = 3; panel.add(tfEmail, gbc);
-        
-        gbc.gridx = 0; gbc.gridy = 4; panel.add(new JLabel("Telefone:"), gbc);
-        gbc.gridx = 1; gbc.gridy = 4; panel.add(tfTelefone, gbc);
-        
-        gbc.gridx = 0; gbc.gridy = 5; panel.add(new JLabel("Departamento:"), gbc);
-        gbc.gridx = 1; gbc.gridy = 5; panel.add(cbDepartamentos, gbc);
-        
-        gbc.gridx = 0; gbc.gridy = 6; panel.add(new JLabel("Status:"), gbc);
-        gbc.gridx = 1; gbc.gridy = 6; panel.add(statusPanel, gbc);
-        
-        carregarComboBoxDepartamentos();
+        gbc.gridwidth = 1;
 
-        JButton btnSalvar = new JButton("Salvar");
-        JButton btnCancelar = new JButton("Cancelar");
+        // Formulário
+        addFormField(panelPai, gbc, "Nome:", tfNome, fonteLabel, 0, 1);
+        addFormField(panelPai, gbc, "Sobrenome:", tfSobrenome, fonteLabel, 1, 1);
+        addFormField(panelPai, gbc, "E-mail:", tfEmail, fonteLabel, 0, 3);
+        addFormField(panelPai, gbc, "Telefone:", tfTelefone, fonteLabel, 1, 3);
+        addFormField(panelPai, gbc, "Departamento:", cbDepartamentos, fonteLabel, 0, 5);
+        addFormField(panelPai, gbc, "Matrícula:", tfMatricula, fonteLabel, 1, 5);
 
+        // Status
+        gbc.gridx = 0; gbc.gridy = 7;
+        gbc.insets = new Insets(15, 0, 5, 0);
+        JLabel lblStatus = new JLabel("Status:");
+        lblStatus.setFont(fonteLabel);
+        panelPai.add(lblStatus, gbc);
+
+        gbc.gridx = 0; gbc.gridy = 8;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        panelPai.add(statusPanel, gbc);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
+        buttonPanel.setBackground(Color.WHITE);
+
+        Dimension tamanhoBotao = new Dimension(120, 40);
+        JButton btnSalvar = createStyledButton("Salvar", corBotaoSalvar, fonteBotao, tamanhoBotao);
         btnSalvar.addActionListener(e -> salvar());
+
+        JButton btnCancelar = createStyledButton("Cancelar", corBotaoCancelar, fonteBotao, tamanhoBotao);
         btnCancelar.addActionListener(e -> dispose());
 
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.add(btnSalvar);
         buttonPanel.add(btnCancelar);
+        buttonPanel.add(btnSalvar);
 
-        add(panel, BorderLayout.CENTER);
-        add(buttonPanel, BorderLayout.SOUTH);
+        gbc.gridx = 0;
+        gbc.gridy = 9;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(20, 0, 0, 0);
+        panelPai.add(buttonPanel, gbc);
+
+        carregarComboBoxDepartamentos();
+        add(panelPai, BorderLayout.CENTER);
 
         pack();
         setLocationRelativeTo(parent);
     }
-
+    
+    // Botões estilizados
+    private JButton createStyledButton(String text, Color background, Font font, Dimension size) {
+        JButton button = new JButton(text);
+        button.setFont(font);
+        button.setPreferredSize(size);
+        button.setBackground(background);
+        button.setForeground(Color.WHITE);
+        button.setOpaque(false);
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        return button;
+    }
+    
+    private void addFormField(JPanel panel, GridBagConstraints gbc, String labelText, java.awt.Component component, Font font, int gridx, int gridy) {
+        // Labels
+        gbc.gridx = gridx;
+        gbc.gridy = gridy;
+        gbc.insets = new Insets(10, 0, 5, 0);
+        JLabel label = new JLabel(labelText);
+        label.setFont(font);
+        panel.add(label, gbc);
+        
+        // Componente (TextField, ComboBox)
+        gbc.gridy = gridy + 1;
+        gbc.insets = new Insets(0, 0, 0, 20);
+        panel.add(component, gbc);
+    }
+    
     private void carregarComboBoxDepartamentos() {
         this.servidorController.getAllDepartamentos().forEach(cbDepartamentos::addItem);
     }
@@ -109,13 +185,11 @@ public class FormServidorDialog extends JDialog {
         DepartamentoModel departamento = (DepartamentoModel) cbDepartamentos.getSelectedItem();
 
         if (nome.isEmpty() || matricula.isEmpty() || departamento == null) {
-            JOptionPane.showMessageDialog(this, "Nome, Matrícula e Departamento são obrigatórios!", "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios!", "Erro de Validação", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        boolean sucesso = servidorController.cadastrarNovoServidor(
-                nome, sobrenome, email, telefone, matricula, isAtivo, departamento
-        );
+        boolean sucesso = servidorController.cadastrarNovoServidor(nome, sobrenome, email, telefone, matricula, isAtivo, departamento);
 
         if (sucesso) {
             this.salvo = true;
