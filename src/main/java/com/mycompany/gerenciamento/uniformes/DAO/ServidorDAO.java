@@ -31,6 +31,43 @@ public class ServidorDAO implements ServidorInterface {
         }
         return 0;
     }
+    
+    public List<ServidorModel> listarPagina(int pagina, int itensPorPagina) {
+        List<ServidorModel> servidores = new ArrayList<>();
+        String sql = "SELECT s.*, d.nome AS nome_departamento " +
+                     "FROM Servidor s " +
+                     "JOIN Departamento d ON s.fk_departamento = d.id " +
+                     "ORDER BY s.id DESC " +
+                     "LIMIT ? OFFSET ?";
+        
+        int offset = (pagina - 1) * itensPorPagina;
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, itensPorPagina);
+            ps.setInt(2, offset);
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    ServidorModel servidor = new ServidorModel();
+                    servidor.setId(rs.getInt("id"));
+                    servidor.setNome(rs.getString("nome"));
+                    servidor.setSobrenome(rs.getString("sobrenome"));
+                    servidor.setEmail(rs.getString("email"));
+                    servidor.setTelefone(rs.getString("telefone"));
+                    servidor.setMatricula(rs.getString("matricula"));
+                    servidor.setSenha(rs.getString("senha"));
+                    servidor.setAtivo(rs.getBoolean("ativo"));
+                    servidor.setAcesso(rs.getBoolean("primeiro_acesso"));
+                    servidor.setFk_departamento(rs.getInt("fk_departamento"));                
+                    servidor.setNomeDepartamento(rs.getString("nome_departamento"));
+                    servidores.add(servidor);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao listar servidores por página: " + e.getMessage());
+        }
+        return servidores;
+    }
     // PAGINAÇÃO
     
     @Override
