@@ -42,7 +42,7 @@ public class AlunoTableModel extends AbstractTableModel {
         switch (columnIndex) {
             case 0: return aluno.getId();
             case 1: return aluno.getNome();
-            case 2: return aluno.getNomeCurso();
+            case 2: return aluno.getCurso().getNome();
             case 3: return aluno.getMatricula();
             case 4: return aluno.getPeriodo();
             default: return null;
