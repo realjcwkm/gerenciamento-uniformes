@@ -9,6 +9,7 @@ import com.mycompany.gerenciamento.uniformes.DAO.CursoDAO;
 import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
 import com.mycompany.gerenciamento.uniformes.Models.CursoModel;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -33,5 +34,25 @@ public class AlunoController {
     
     public List<CursoModel> getAllCursos() {
         return this.cursoDAO.listarTodos();
+    }
+    
+    public boolean cadastrar(String nome, String sobrenome, String email, String telefone, String matricula, int idade, CursoModel curso, int periodo) {
+        try {
+            AlunoModel aluno = new AlunoModel();
+            
+            aluno.setNome(nome);
+            aluno.setSobrenome(sobrenome);
+            aluno.setEmail(email);
+            aluno.setTelefone(telefone);
+            aluno.setMatricula(matricula);
+            aluno.setIdade(idade);
+            aluno.setCurso(curso);
+            aluno.setPeriodo(periodo);
+            
+            return this.alunoDAO.create(aluno);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
