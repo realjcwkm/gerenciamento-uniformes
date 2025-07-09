@@ -18,6 +18,21 @@ public class ServidorDAO implements ServidorInterface {
         this.conn = Conexao.getConexao();
     }
     
+    // PAGINAÇÃO
+    public int getTotalDeServidores() {
+        String sql = "SELECT COUNT(*) FROM Servidor";
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException error) {
+            System.err.println("Erro ao contar o total de servidores: " + error.getMessage());
+        }
+        return 0;
+    }
+    // PAGINAÇÃO
+    
     @Override
     public List<ServidorModel> listarTodos() {
         List<ServidorModel> servidores = new ArrayList<>();
