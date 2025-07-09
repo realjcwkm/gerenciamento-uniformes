@@ -1024,7 +1024,7 @@
                               <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <Component id="jScrollPane3" min="-2" pref="1280" max="-2" attributes="0"/>
+                                      <Component id="barra_rolagem" min="-2" pref="1280" max="-2" attributes="0"/>
                                       <EmptySpace pref="46" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
@@ -1034,7 +1034,7 @@
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="tx_pesquisa" min="-2" pref="192" max="-2" attributes="0"/>
                                               <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
-                                              <Component id="jcb_filtros" min="-2" pref="91" max="-2" attributes="0"/>
+                                              <Component id="filtro_tipo" min="-2" pref="91" max="-2" attributes="0"/>
                                               <EmptySpace max="32767" attributes="0"/>
                                               <Component id="btn_editar" min="-2" max="-2" attributes="0"/>
                                           </Group>
@@ -1070,10 +1070,10 @@
                                   <Component id="btn_editar" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="btn_buscar" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="tx_pesquisa" alignment="3" max="32767" attributes="0"/>
-                                  <Component id="jcb_filtros" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="filtro_tipo" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-                              <Component id="jScrollPane3" min="-2" max="-2" attributes="0"/>
+                              <Component id="barra_rolagem" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="132" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -1106,14 +1106,14 @@
                         <Property name="text" type="java.lang.String" value="BUSCAR"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JComboBox" name="jcb_filtros">
+                    <Component class="javax.swing.JComboBox" name="filtro_tipo">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                           <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;Camisa&quot;, &quot;Cal&#xe7;a&quot;, &quot;Bermuda&quot;, &quot;Tamanho P&quot;, &quot;Tamanho M&quot;, &quot;Tamanho G&quot; })" type="code"/>
                         </Property>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jcb_filtrosActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="filtro_tipoActionPerformed"/>
                       </Events>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -1130,7 +1130,7 @@
                         <Property name="text" type="java.lang.String" value="+ Adicionar Uniforme"/>
                       </Properties>
                     </Component>
-                    <Container class="javax.swing.JScrollPane" name="jScrollPane3">
+                    <Container class="javax.swing.JScrollPane" name="barra_rolagem">
                       <AuxValues>
                         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
                       </AuxValues>

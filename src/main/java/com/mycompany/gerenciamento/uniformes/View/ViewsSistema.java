@@ -198,8 +198,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         List<UniformeEstoqueModel> listaUniformes = this.uniformeController.TabelaEstoque();
         
         // Passa a lista de dados para o TableModel, que irá atualizar a JTable
-        uniformeTableModel.setUniformes(listaUniformes); // Use o método que você criou no seu TableModel
-        
+        uniformeTableModel.setUniformes(listaUniformes); 
     } catch (Exception error) {
         JOptionPane.showMessageDialog(this, "Erro ao carregar os dados de uniformes.", "Erro", JOptionPane.ERROR_MESSAGE);
         error.printStackTrace();
@@ -431,9 +430,9 @@ public class ViewsSistema extends javax.swing.JFrame {
         subtitulo = new javax.swing.JLabel();
         tx_pesquisa = new javax.swing.JTextField();
         btn_buscar = new javax.swing.JButton();
-        jcb_filtros = new javax.swing.JComboBox<>();
+        filtro_tipo = new javax.swing.JComboBox<>();
         btn_Add_Uniforme = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
+        barra_rolagem = new javax.swing.JScrollPane();
         tabela_uniformes = new javax.swing.JTable();
         btn_editar = new javax.swing.JButton();
         panel_autenticacao = new javax.swing.JPanel();
@@ -973,10 +972,10 @@ public class ViewsSistema extends javax.swing.JFrame {
 
         btn_buscar.setText("BUSCAR");
 
-        jcb_filtros.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Camisa", "Calça", "Bermuda", "Tamanho P", "Tamanho M", "Tamanho G" }));
-        jcb_filtros.addActionListener(new java.awt.event.ActionListener() {
+        filtro_tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Camisa", "Calça", "Bermuda", "Tamanho P", "Tamanho M", "Tamanho G" }));
+        filtro_tipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcb_filtrosActionPerformed(evt);
+                filtro_tipoActionPerformed(evt);
             }
         });
 
@@ -995,7 +994,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 "Tipo", "Status", "Entrada", "Saída", "Tamanho", "Data Entrada"
             }
         ));
-        jScrollPane3.setViewportView(tabela_uniformes);
+        barra_rolagem.setViewportView(tabela_uniformes);
 
         btn_editar.setText("EDITAR");
 
@@ -1007,7 +1006,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addGap(34, 34, 34)
                 .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(UniformesLayout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(barra_rolagem, javax.swing.GroupLayout.PREFERRED_SIZE, 1280, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(46, Short.MAX_VALUE))
                     .addGroup(UniformesLayout.createSequentialGroup()
                         .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -1016,7 +1015,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(tx_pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(92, 92, 92)
-                                .addComponent(jcb_filtros, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(filtro_tipo, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btn_editar))
                             .addGroup(UniformesLayout.createSequentialGroup()
@@ -1042,9 +1041,9 @@ public class ViewsSistema extends javax.swing.JFrame {
                     .addComponent(btn_editar)
                     .addComponent(btn_buscar)
                     .addComponent(tx_pesquisa)
-                    .addComponent(jcb_filtros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(filtro_tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(barra_rolagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(132, 132, 132))
         );
 
@@ -1751,9 +1750,9 @@ public class ViewsSistema extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tx_pesquisaActionPerformed
 
-    private void jcb_filtrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_filtrosActionPerformed
+    private void filtro_tipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtro_tipoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jcb_filtrosActionPerformed
+    }//GEN-LAST:event_filtro_tipoActionPerformed
 
     private void btn_sair_pnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sair_pnActionPerformed
         boolean confirm = this.authController.sair();
@@ -1891,6 +1890,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JPanel Servidores;
     private javax.swing.JLabel Titulo;
     private javax.swing.JPanel Uniformes;
+    private javax.swing.JScrollPane barra_rolagem;
     private javax.swing.JButton btn_Add_Uniforme;
     private javax.swing.JButton btn_anterior_pd;
     private javax.swing.JButton btn_anterior_serv;
@@ -1925,6 +1925,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler5;
     private javax.swing.Box.Filler filler6;
     private javax.swing.Box.Filler filler7;
+    private javax.swing.JComboBox<String> filtro_tipo;
     private javax.swing.JLabel img_pl;
     private javax.swing.JLabel img_ppa;
     private javax.swing.JLabel img_prs;
@@ -1944,8 +1945,6 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JComboBox<String> jcb_filtros;
     private javax.swing.JLabel lb_codigo_prs;
     private javax.swing.JLabel lb_confirmar_senha_ppa;
     private javax.swing.JLabel lb_confirmar_senha_prs;
