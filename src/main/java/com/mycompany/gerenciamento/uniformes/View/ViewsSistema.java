@@ -68,12 +68,12 @@ public class ViewsSistema extends javax.swing.JFrame {
         initComponents();
         
         // Campo pesquisa servidor
-        btn_buscar_serv.addActionListener(e -> realizarBuscaServidores());
-        tx_pesquisa_serv.addActionListener(e -> realizarBuscaServidores());
+//        btn_buscar_serv.addActionListener(e -> realizarBuscaServidores());
+//        tx_pesquisa_serv.addActionListener(e -> realizarBuscaServidores());
         
-        // Campo pesquisa Entrega
-        btn_buscar_dis_pd.addActionListener(e -> realizarBuscaDistribuicao());
-        tx_pesquisa_dis_pd.addActionListener(e -> realizarBuscaDistribuicao());
+//        // Campo pesquisa Entrega
+//        btn_buscar_dis_pd.addActionListener(e -> realizarBuscaDistribuicao());
+//        tx_pesquisa_dis_pd.addActionListener(e -> realizarBuscaDistribuicao());
         
 
         carregarGraficoPizza();
@@ -1948,19 +1948,24 @@ public class ViewsSistema extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_proximo_servActionPerformed
 
     private void btn_buscar_servActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscar_servActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here
+        realizarBuscaServidores();
     }//GEN-LAST:event_btn_buscar_servActionPerformed
 
     private void tx_pesquisa_servActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tx_pesquisa_servActionPerformed
         // TODO add your handling code here:
+        realizarBuscaServidores();
     }//GEN-LAST:event_tx_pesquisa_servActionPerformed
 
     private void tx_pesquisa_dis_pdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tx_pesquisa_dis_pdActionPerformed
         // TODO add your handling code here:
+        realizarBuscaDistribuicao();
+
     }//GEN-LAST:event_tx_pesquisa_dis_pdActionPerformed
 
     private void btn_buscar_dis_pdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscar_dis_pdActionPerformed
         // TODO add your handling code here:
+        realizarBuscaDistribuicao();
     }//GEN-LAST:event_btn_buscar_dis_pdActionPerformed
 
     /**
