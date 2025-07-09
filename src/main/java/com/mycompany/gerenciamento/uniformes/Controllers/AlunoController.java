@@ -9,7 +9,6 @@ import com.mycompany.gerenciamento.uniformes.DAO.CursoDAO;
 import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
 import com.mycompany.gerenciamento.uniformes.Models.CursoModel;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -49,7 +48,7 @@ public class AlunoController {
             aluno.setCurso(curso);
             aluno.setPeriodo(periodo);
             
-            return this.alunoDAO.create(aluno);
+            return this.alunoDAO.cadastrar(aluno);
         } catch (Exception e) {
             e.printStackTrace();
             return false;
