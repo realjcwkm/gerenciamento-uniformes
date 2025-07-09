@@ -47,4 +47,8 @@ public class UniformeTableModel  extends AbstractTableModel{
             default: return null;
         }
     }
+        public void setUniformes (List<UniformeEstoqueModel> novosUniformes) {
+        this.listaUniformes = novosUniformes;
+        this.fireTableDataChanged();
+    }
 }
