@@ -9,11 +9,15 @@ import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
 import com.mycompany.gerenciamento.uniformes.Models.TamanhoModel;
 import com.mycompany.gerenciamento.uniformes.Models.TipoUniformeModel;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -29,8 +33,8 @@ import javax.swing.JTextField;
 public class FormEntregaDialog extends JDialog {
     
     private JTextField txtMatricula;
-    private JLabel lblNomeAluno;
-    private JLabel lblCursoAluno;
+    private JTextField lblNomeAluno;
+    private JTextField lblCursoAluno;
     private JComboBox<TipoUniformeModel> comboUniformes;
     private JComboBox<TamanhoModel> comboTamanhos;
     private JTextField txtQuantidade;
@@ -44,48 +48,112 @@ public class FormEntregaDialog extends JDialog {
 
         this.entregaController = new EntregaController();
         
+        setResizable(false);
+        setLayout(new BorderLayout());
+        
         JPanel panel = new JPanel(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel.setBackground(Color.WHITE);
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
         
-        txtMatricula = new JTextField(15);
-        lblNomeAluno = new JLabel("<- Digite a matrícula e pressione Enter");
-        lblCursoAluno= new JLabel("");
+        // Fontes e Cores
+        Font fonteTitulo = new Font("Segoe UI", Font.BOLD, 22);
+        Font fonteLabel = new Font("Segoe UI", Font.BOLD, 14);
+        Font fonteBotao = new Font("Segoe UI", Font.BOLD, 14);
+        Color corBotaoSalvar = new Color(0, 164, 55);
+        Color corBotaoCancelar = new Color(238, 63, 63);
+        
+        Dimension tamanhoCampo = new Dimension(250, 35);
+        txtMatricula = new JTextField();
+        txtMatricula.setPreferredSize(tamanhoCampo);
+        lblNomeAluno = new JTextField("<- Digite a matrícula e pressione Enter");
+        lblNomeAluno.setPreferredSize(tamanhoCampo);
+        lblCursoAluno = new JTextField("");
+        lblCursoAluno.setPreferredSize(tamanhoCampo);
         comboUniformes = new JComboBox<>();
+        comboUniformes.setPreferredSize(tamanhoCampo);
         comboTamanhos = new JComboBox<>();
+        comboTamanhos.setPreferredSize(tamanhoCampo);
         txtQuantidade = new JTextField("1");
+        txtQuantidade.setPreferredSize(tamanhoCampo);
         
-        JButton btnSalvar = new JButton("Salvar");
-        JButton btnCancelar = new JButton("Cancelar");
+        //Layout
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 0.5;
         
-        gbc.gridx = 0; gbc.gridy = 0; panel.add(new JLabel("Matrícula Aluno:"), gbc);
-        gbc.gridx = 1; gbc.gridy = 0; panel.add(txtMatricula, gbc);
-        gbc.gridx = 0; gbc.gridy = 1; panel.add(new JLabel("Nome do Aluno:"), gbc);
-        gbc.gridx = 1; gbc.gridy = 1; panel.add(lblNomeAluno, gbc);
-        gbc.gridx = 0; gbc.gridy = 2; panel.add(new JLabel("Curso do Aluno:"), gbc);
-        gbc.gridx = 1; gbc.gridy = 2; panel.add(lblCursoAluno, gbc);
-        gbc.gridx = 0; gbc.gridy = 3; panel.add(new JLabel("Uniforme:"), gbc);
-        gbc.gridx = 1; gbc.gridy = 3; panel.add(comboUniformes, gbc);
-        gbc.gridx = 0; gbc.gridy = 4; panel.add(new JLabel("Tamanho:"), gbc);
-        gbc.gridx = 1; gbc.gridy = 4; panel.add(comboTamanhos, gbc);
-        gbc.gridx = 0; gbc.gridy = 5; panel.add(new JLabel("Quantidade:"), gbc);
-        gbc.gridx = 1; gbc.gridy = 5; panel.add(txtQuantidade, gbc);
+        //Titulo
+        gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 20, 0);
+        JLabel lblTitulo = new JLabel("Cadastrar Entrega");
+        lblTitulo.setFont(fonteTitulo);
+        panel.add(lblTitulo, gbc);
         
-        carregarComboBoxes();
+        gbc.gridwidth = 1;
+        
+        //Formulario
+        addFormField(panel, gbc, "Matrícula Aluno:", txtMatricula, fonteLabel, 0, 1);
+        addFormField(panel, gbc, "Nome:", lblNomeAluno, fonteLabel, 1, 1);
+        addFormField(panel, gbc, "Curso:", lblCursoAluno, fonteLabel, 0, 3);
+        addFormField(panel, gbc, "Uniforme:", comboUniformes, fonteLabel, 1, 3);
+        addFormField(panel, gbc, "Tamanho:", comboTamanhos, fonteLabel, 0, 5);
+        addFormField(panel, gbc, "Quantidade:", txtQuantidade, fonteLabel, 1, 5);
         
         txtMatricula.addActionListener(e -> buscarAluno());
+        
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
+        buttonPanel.setBackground(Color.WHITE);
+        
+        Dimension tamanhoBotao = new Dimension(120, 40);
+        JButton btnSalvar = createStyledButton("Salvar", corBotaoSalvar, fonteBotao, tamanhoBotao);
         btnSalvar.addActionListener(e -> salvar());
+        
+        JButton btnCancelar = createStyledButton("Cancelar", corBotaoCancelar, fonteBotao, tamanhoBotao);
         btnCancelar.addActionListener(e -> dispose());
         
-        add(panel, BorderLayout.CENTER);
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.add(btnSalvar);
         buttonPanel.add(btnCancelar);
-        add(buttonPanel, BorderLayout.SOUTH);
+        buttonPanel.add(btnSalvar);
         
+        gbc.gridx = 0;
+        gbc.gridy = 9;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(20, 0, 0, 0);
+        panel.add(buttonPanel, gbc);
+        
+        carregarComboBoxes();
+        add(panel, BorderLayout.CENTER);
+
         pack();
         setLocationRelativeTo(parent);
+    }
+    
+    // Botões estilizados
+    private JButton createStyledButton(String text, Color background, Font font, Dimension size) {
+        JButton button = new JButton(text);
+        button.setFont(font);
+        button.setPreferredSize(size);
+        button.setBackground(background);
+        button.setForeground(Color.WHITE);
+        button.setOpaque(false);
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        return button;
+    }
+    
+    private void addFormField(JPanel panel, GridBagConstraints gbc, String labelText, java.awt.Component component, Font font, int gridx, int gridy) {
+        // Labels
+        gbc.gridx = gridx;
+        gbc.gridy = gridy;
+        gbc.insets = new Insets(10, 0, 5, 0);
+        JLabel label = new JLabel(labelText);
+        label.setFont(font);
+        panel.add(label, gbc);
+        
+        // Componente (TextField, ComboBox)
+        gbc.gridy = gridy + 1;
+        gbc.insets = new Insets(0, 0, 0, 20);
+        panel.add(component, gbc);
     }
     
     private void carregarComboBoxes() {

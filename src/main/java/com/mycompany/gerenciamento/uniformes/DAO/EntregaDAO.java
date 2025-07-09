@@ -17,6 +17,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -311,11 +312,11 @@ public class EntregaDAO implements EntregaInterface {
    
    @Override
    public int cadastrarEntrega(EntregaModel entrega) throws SQLException {
-       String sql = "INSERT INTO Entrega "
+        String sql = "INSERT INTO Entrega "
                + "(semestre, ano, data_entrega, trocado, quantidade, fk_servidor, fk_uniforme, fk_aluno) "
                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
        
-       try(PreparedStatement ps = conn.prepareStatement(sql)) {
+        try(PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
            ps.setInt(1, entrega.getSemestre()); //mudar
            ps.setInt(2, entrega.getAno());
            ps.setDate(3, java.sql.Date.valueOf(entrega.getData_entrega()));
@@ -335,7 +336,10 @@ public class EntregaDAO implements EntregaInterface {
                 }
             }
            
-       } 
+        } catch (SQLException error) {
+            System.err.println("Erro ao cadastrar entrega: " + error.getMessage());
+            throw error; 
+        }
    }
    
    public int getTotalDeEntregas(String termoBusca) {
