@@ -1,5 +1,6 @@
 package com.mycompany.gerenciamento.uniformes.View;
 
+import com.mycompany.gerenciamento.uniformes.Controllers.AlunoController;
 import com.mycompany.gerenciamento.uniformes.Controllers.AuthController;
 import com.mycompany.gerenciamento.uniformes.Controllers.EntregaController;
 import com.mycompany.gerenciamento.uniformes.Forms.FormEntregaDialog;
@@ -20,7 +21,9 @@ import com.mycompany.gerenciamento.uniformes.Controllers.TrocaController;
 import com.mycompany.gerenciamento.uniformes.Forms.ConfirmacaoTroca;
 import com.mycompany.gerenciamento.uniformes.Forms.FormSelecaoUniforme;
 import com.mycompany.gerenciamento.uniformes.Forms.FormServidorDialog;
+import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
 import com.mycompany.gerenciamento.uniformes.Models.UniformeModel;
+import com.mycompany.gerenciamento.uniformes.TableModels.AlunoTableModel;
 import com.mycompany.gerenciamento.uniformes.View.Utils.ButtonColumnRendererEditor;
 import java.awt.BorderLayout;
 import javax.swing.BorderFactory;
@@ -41,15 +44,20 @@ public class ViewsSistema extends javax.swing.JFrame {
     private final CardLayout mainCardLayout;
     private final CardLayout authCardLayout;
     private final CardLayout appCardLayout;
-    private final EntregaTableModel entregaTableModel; // Declara a tableModel
+    
+    private final EntregaTableModel entregaTableModel;
+    private final AlunoTableModel alunoTableModel;
     private final ServidorTableModel servidorTableModel;
     private final UniformeTableModel uniformeTableModel;
+    
     private final AuthController authController;
     private final EntregaController entregaController;
+    private final AlunoController alunoController;
     private final ServidorController servidorController;
     private final UniformeController uniformeController; 
     private final TrocaController trocaController;
     private GraficosController graficosController;
+    
     private String matriculaUpdate;
     private String termoBuscaAtualServidores = "";
     
@@ -107,11 +115,13 @@ public class ViewsSistema extends javax.swing.JFrame {
         
         this.authController = new AuthController();
         this.entregaController = new EntregaController();
+        this.alunoController = new AlunoController();
         this.servidorController = new ServidorController();
         this.uniformeController = new UniformeController();
         this.trocaController = new TrocaController();
                 
         this.entregaTableModel = new EntregaTableModel(new ArrayList<>()); //Cria modelo com uma lista vazia
+        this.alunoTableModel = new AlunoTableModel(new ArrayList<>());
         this.servidorTableModel = new ServidorTableModel(new ArrayList<>());
         this.uniformeTableModel = new UniformeTableModel();
         
@@ -159,6 +169,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         this.tb_distribuicao.getColumnModel().getColumn(TROCA_COLUMN_INDEX).setMaxWidth(40);
         
         
+        this.tb_alunos.setModel(alunoTableModel);
         this.tb_servidores.setModel(servidorTableModel);
         this.tabela_uniformes.setModel(uniformeTableModel);
         
@@ -179,6 +190,17 @@ public class ViewsSistema extends javax.swing.JFrame {
         } catch (Exception error) {
             JOptionPane.showMessageDialog(this, "Erro ao carregar os dados de distribuição.", "Erro", JOptionPane.ERROR_MESSAGE);
             error.printStackTrace();
+        }
+    }
+    
+    private void carregaDadosAluno() {
+        try {
+            List<AlunoModel> listaDeAlunos = this.alunoController.listarTodos();
+            
+            alunoTableModel.setAlunos(listaDeAlunos);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao carregar os dados de alunos.", "Erro", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
     }
 
@@ -1753,6 +1775,7 @@ public class ViewsSistema extends javax.swing.JFrame {
 
     private void btn_nav_alunosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_alunosActionPerformed
         // TODO add your handling code here:
+        carregaDadosAluno();
         appCardLayout.show(panel_telaInicial, "alunos");
         System.out.println("Mostrando painel Alunos");
         //JOptionPane.showMessageDialog(this, "Painel de Alunos ainda não implementado");
