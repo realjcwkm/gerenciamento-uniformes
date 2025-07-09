@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import com.mycompany.gerenciamento.uniformes.Controllers.GraficosController;
+import com.mycompany.gerenciamento.uniformes.Controllers.UniformeController;
+import com.mycompany.gerenciamento.uniformes.Models.UniformeEstoqueModel;
+import com.mycompany.gerenciamento.uniformes.TableModels.UniformeTableModel;
 import java.awt.BorderLayout;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -32,9 +35,11 @@ public class ViewsSistema extends javax.swing.JFrame {
     private final CardLayout appCardLayout;
     private final EntregaTableModel entregaTableModel; // Declara a tableModel
     private final ServidorTableModel servidorTableModel;
+    private final UniformeTableModel uniformeTableModel;
     private final AuthController authController;
     private final EntregaController entregaController;
     private final ServidorController servidorController;
+    private final UniformeController uniformeController; 
     private GraficosController graficosController;
     private String matriculaUpdate;
     
@@ -50,12 +55,15 @@ public class ViewsSistema extends javax.swing.JFrame {
         this.authController = new AuthController();
         this.entregaController = new EntregaController();
         this.servidorController = new ServidorController();
+        this.uniformeController = new UniformeController();
                 
         this.entregaTableModel = new EntregaTableModel(new ArrayList<>()); //Cria modelo com uma lista vazia
         this.servidorTableModel = new ServidorTableModel(new ArrayList<>());
+        this.uniformeTableModel = new UniformeTableModel();
         
         this.tb_distribuicao.setModel(entregaTableModel); //Conecta o Jtable ao criado pelo netbeans
         this.tb_servidores.setModel(servidorTableModel);
+        this.tabela_uniformes.setModel(uniformeTableModel);
         
         System.out.println("Painéis disponíveis:");
         for (Component comp : panel_telaInicial.getComponents()) {
@@ -87,6 +95,19 @@ public class ViewsSistema extends javax.swing.JFrame {
             error.printStackTrace();
         }
     }
+    private void carregaDadosUniformes() {
+    try {
+        // Chama o Controller, que por sua vez chama o DAO
+        List<UniformeEstoqueModel> listaUniformes = this.uniformeController.TabelaEstoque();
+        
+        // Passa a lista de dados para o TableModel, que irá atualizar a JTable
+        uniformeTableModel.setUniformes(listaUniformes); // Use o método que você criou no seu TableModel
+        
+    } catch (Exception error) {
+        JOptionPane.showMessageDialog(this, "Erro ao carregar os dados de uniformes.", "Erro", JOptionPane.ERROR_MESSAGE);
+        error.printStackTrace();
+    }
+}
 
     // Carrega Gráfico Pizza
     private void carregarGraficoPizza() {
