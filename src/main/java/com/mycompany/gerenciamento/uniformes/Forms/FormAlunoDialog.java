@@ -16,8 +16,6 @@ import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.HashMap;
-import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -32,9 +30,9 @@ import javax.swing.JTextField;
  * @author geinfo
  */
 public class FormAlunoDialog extends JDialog {
-    private JTextField tfNome, tfSobrenome, tfEmail, tfTelefone, tfMatricula, tfIdade;
-    private JComboBox<CursoModel> cbCurso;
-    private JComboBox<Integer> cbPeriodo;
+    private final JTextField tfNome, tfSobrenome, tfEmail, tfTelefone, tfMatricula, tfIdade;
+    private final JComboBox<CursoModel> cbCurso;
+    private final JComboBox<Integer> cbPeriodo;
     
     private final AlunoController alunoController;
     private boolean salvo = false;
@@ -183,6 +181,16 @@ public class FormAlunoDialog extends JDialog {
             curso, 
             periodo
         );
+        
+        if (sucesso) {
+            this.salvo = true;
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Falha ao cadastrar o aluno.", "Erro de Cadastro", JOptionPane.ERROR_MESSAGE);
+        }
     }
     
+    public boolean isSalvo() {
+        return this.salvo;
+    }
 }
