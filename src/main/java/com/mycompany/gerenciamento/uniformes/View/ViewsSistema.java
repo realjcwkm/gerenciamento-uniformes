@@ -880,7 +880,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addGap(36, 36, 36))
         );
 
-        tx_pesquisa_alunos.setText("Busque um servidor...");
+        tx_pesquisa_alunos.setText("Busque um aluno...");
         tx_pesquisa_alunos.setMaximumSize(new java.awt.Dimension(130, 30));
         tx_pesquisa_alunos.setMinimumSize(new java.awt.Dimension(130, 30));
         tx_pesquisa_alunos.setPreferredSize(new java.awt.Dimension(130, 30));

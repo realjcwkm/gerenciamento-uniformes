@@ -904,7 +904,7 @@
                     </Container>
                     <Component class="javax.swing.JTextField" name="tx_pesquisa_alunos">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Busque um servidor..."/>
+                        <Property name="text" type="java.lang.String" value="Busque um aluno..."/>
                         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[130, 30]"/>
                         </Property>
