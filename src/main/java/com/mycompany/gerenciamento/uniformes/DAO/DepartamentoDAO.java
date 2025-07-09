@@ -18,7 +18,7 @@ public class DepartamentoDAO {
     
     public List<DepartamentoModel> listarTodos() {
         List<DepartamentoModel> departamentos = new ArrayList<>();
-        String sql = "SELECT id, nome FROM departamento ORDER BY nome";
+        String sql = "SELECT id, nome FROM Departamento ORDER BY nome";
 
         try (PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
@@ -37,7 +37,7 @@ public class DepartamentoDAO {
     }
 
     public void cadastrarDepartamento(DepartamentoModel departamento) {
-        String sql = "INSERT INTO departamento (nome) VALUES (?)";
+        String sql = "INSERT INTO Departamento (nome) VALUES (?)";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, departamento.getNome());

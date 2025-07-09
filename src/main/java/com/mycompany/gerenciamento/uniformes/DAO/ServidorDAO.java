@@ -169,7 +169,7 @@ public class ServidorDAO implements ServidorInterface {
     
     @Override
     public boolean cadastrarServidor(ServidorModel servidor) {
-        String sql = "INSERT INTO servidor (nome, sobrenome, email, telefone, matricula, senha, ativo, fk_departamento) "
+        String sql = "INSERT INTO Servidor (nome, sobrenome, email, telefone, matricula, senha, ativo, fk_departamento) "
                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
         try {
@@ -239,7 +239,7 @@ public class ServidorDAO implements ServidorInterface {
     
     @Override
     public boolean verificarDepartamento(int idDepartamento) throws SQLException {
-        String sql = "SELECT id FROM departamento WHERE id = ?";
+        String sql = "SELECT id FROM Departamento WHERE id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, idDepartamento);
             try (ResultSet rs = ps.executeQuery()) {
