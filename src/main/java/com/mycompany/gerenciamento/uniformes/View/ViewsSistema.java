@@ -68,16 +68,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     
     public ViewsSistema() {
         initComponents();
-
-        // === CAMPO PESQUISA SERVIDOR ===
-        btn_buscar_serv.addActionListener(e -> realizarBuscaServidores());
-        tx_pesquisa_serv.addActionListener(e -> realizarBuscaServidores());
         
-        // === CAMPO PESQUISA ENTREGA ===
-        btn_buscar_dis_pd.addActionListener(e -> realizarBuscaDistribuicao());
-        tx_pesquisa_dis_pd.addActionListener(e -> realizarBuscaDistribuicao());
-        
-
         carregarGraficoPizza(); // === GRÁFICO PIZZA ===
         carregarGraficoBarras(); // === GRÁFICO BARRAS ===
         
@@ -100,7 +91,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         this.tb_distribuicao.setDefaultRenderer(Object.class, new CustomCellRenderer());
         tb_distribuicao.setFillsViewportHeight(true);         
         
-        final int TROCA_COLUMN_INDEX = 8; 
+        final int TROCA_COLUMN_INDEX = 7; 
         
         ImageIcon trocaIcon = null;
         try {
@@ -1967,19 +1958,24 @@ public class ViewsSistema extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_proximo_servActionPerformed
 
     private void btn_buscar_servActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscar_servActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here
+        realizarBuscaServidores();
     }//GEN-LAST:event_btn_buscar_servActionPerformed
 
     private void tx_pesquisa_servActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tx_pesquisa_servActionPerformed
         // TODO add your handling code here:
+        realizarBuscaServidores();
     }//GEN-LAST:event_tx_pesquisa_servActionPerformed
 
     private void tx_pesquisa_dis_pdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tx_pesquisa_dis_pdActionPerformed
         // TODO add your handling code here:
+        realizarBuscaDistribuicao();
+
     }//GEN-LAST:event_tx_pesquisa_dis_pdActionPerformed
 
     private void btn_buscar_dis_pdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscar_dis_pdActionPerformed
         // TODO add your handling code here:
+        realizarBuscaDistribuicao();
     }//GEN-LAST:event_btn_buscar_dis_pdActionPerformed
 
     /**
