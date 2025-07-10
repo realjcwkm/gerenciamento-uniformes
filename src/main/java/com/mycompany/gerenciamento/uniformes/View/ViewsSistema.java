@@ -19,6 +19,7 @@ import com.mycompany.gerenciamento.uniformes.Models.UniformeEstoqueModel;
 import com.mycompany.gerenciamento.uniformes.TableModels.UniformeTableModel;
 import com.mycompany.gerenciamento.uniformes.Controllers.TrocaController;
 import com.mycompany.gerenciamento.uniformes.Forms.ConfirmacaoTroca;
+import com.mycompany.gerenciamento.uniformes.Forms.FormAlunoDialog;
 import com.mycompany.gerenciamento.uniformes.Forms.FormSelecaoUniforme;
 import com.mycompany.gerenciamento.uniformes.Forms.FormServidorDialog;
 import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
@@ -2014,6 +2015,14 @@ public class ViewsSistema extends javax.swing.JFrame {
 
     private void btn_cadastrar_alunosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cadastrar_alunosActionPerformed
         // TODO add your handling code here:
+        FormAlunoDialog dialog = new FormAlunoDialog(this);
+        
+        dialog.setVisible(true);
+        
+        if (dialog.isSalvo()) {
+            JOptionPane.showMessageDialog(this, "Aluno cadastrado com sucesso!");
+            carregaDadosAluno();
+        }
     }//GEN-LAST:event_btn_cadastrar_alunosActionPerformed
 
     private void btn_anterior_alunosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_anterior_alunosActionPerformed
