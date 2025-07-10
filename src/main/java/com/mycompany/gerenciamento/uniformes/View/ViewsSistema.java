@@ -414,14 +414,17 @@ public class ViewsSistema extends javax.swing.JFrame {
         nome_sistema = new javax.swing.JLabel();
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(80, 80), new java.awt.Dimension(450, 800));
         btn_nav_Inicio = new javax.swing.JButton();
-        filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(80, 80), new java.awt.Dimension(20, 800));
+        filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(10, 80), new java.awt.Dimension(10, 80));
         btn_nav_distribuicao = new javax.swing.JButton();
-        filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(80, 80), new java.awt.Dimension(10, 800));
+        filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(10, 80), new java.awt.Dimension(10, 80));
         btn_nav_alunos = new javax.swing.JButton();
+        filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(10, 80), new java.awt.Dimension(10, 80));
         btn_nav_servidores = new javax.swing.JButton();
+        filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(10, 80), new java.awt.Dimension(10, 80));
         btn_nav_uniformes = new javax.swing.JButton();
-        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(80, 80), new java.awt.Dimension(20, 800));
+        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(20, 80), new java.awt.Dimension(20, 80));
         btn_sair_pn = new javax.swing.JButton();
+        filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(30, 80), new java.awt.Dimension(30, 80));
         panel_telaInicial = new javax.swing.JPanel();
         Inicio = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -570,10 +573,11 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_nav_Inicio.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_nav_Inicio.setForeground(new java.awt.Color(255, 255, 255));
         btn_nav_Inicio.setText("Inicio");
-        btn_nav_Inicio.setBorder(null);
         btn_nav_Inicio.setBorderPainted(false);
         btn_nav_Inicio.setContentAreaFilled(false);
-        btn_nav_Inicio.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btn_nav_Inicio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_nav_Inicio.setMaximumSize(new java.awt.Dimension(80, 20));
+        btn_nav_Inicio.setMinimumSize(new java.awt.Dimension(80, 20));
         btn_nav_Inicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_nav_InicioActionPerformed(evt);
@@ -586,10 +590,9 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_nav_distribuicao.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_nav_distribuicao.setForeground(new java.awt.Color(255, 255, 255));
         btn_nav_distribuicao.setText("Distribuição");
-        btn_nav_distribuicao.setBorder(null);
         btn_nav_distribuicao.setBorderPainted(false);
         btn_nav_distribuicao.setContentAreaFilled(false);
-        btn_nav_distribuicao.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btn_nav_distribuicao.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_nav_distribuicao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_nav_distribuicaoActionPerformed(evt);
@@ -602,15 +605,20 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_nav_alunos.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_nav_alunos.setForeground(new java.awt.Color(255, 255, 255));
         btn_nav_alunos.setText("Alunos");
+        btn_nav_alunos.setBorder(null);
         btn_nav_alunos.setBorderPainted(false);
         btn_nav_alunos.setContentAreaFilled(false);
-        btn_nav_alunos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btn_nav_alunos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_nav_alunos.setMaximumSize(new java.awt.Dimension(80, 20));
+        btn_nav_alunos.setMinimumSize(new java.awt.Dimension(80, 20));
+        btn_nav_alunos.setPreferredSize(new java.awt.Dimension(80, 20));
         btn_nav_alunos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_nav_alunosActionPerformed(evt);
             }
         });
         panel_navbar.add(btn_nav_alunos);
+        panel_navbar.add(filler8);
 
         btn_nav_servidores.setBackground(new java.awt.Color(35, 91, 88));
         btn_nav_servidores.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -618,13 +626,14 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_nav_servidores.setText("Servidores");
         btn_nav_servidores.setBorderPainted(false);
         btn_nav_servidores.setContentAreaFilled(false);
-        btn_nav_servidores.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btn_nav_servidores.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_nav_servidores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_nav_servidoresActionPerformed(evt);
             }
         });
         panel_navbar.add(btn_nav_servidores);
+        panel_navbar.add(filler9);
 
         btn_nav_uniformes.setBackground(new java.awt.Color(35, 91, 88));
         btn_nav_uniformes.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -632,7 +641,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_nav_uniformes.setText("Uniformes");
         btn_nav_uniformes.setBorderPainted(false);
         btn_nav_uniformes.setContentAreaFilled(false);
-        btn_nav_uniformes.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btn_nav_uniformes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_nav_uniformes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_nav_uniformesActionPerformed(evt);
@@ -642,14 +651,19 @@ public class ViewsSistema extends javax.swing.JFrame {
         panel_navbar.add(filler5);
 
         btn_sair_pn.setBackground(new java.awt.Color(0, 164, 55));
+        btn_sair_pn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btn_sair_pn.setForeground(new java.awt.Color(255, 255, 255));
         btn_sair_pn.setText("SAIR");
+        btn_sair_pn.setMaximumSize(new java.awt.Dimension(70, 30));
+        btn_sair_pn.setMinimumSize(new java.awt.Dimension(70, 30));
+        btn_sair_pn.setPreferredSize(new java.awt.Dimension(70, 30));
         btn_sair_pn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_sair_pnActionPerformed(evt);
             }
         });
         panel_navbar.add(btn_sair_pn);
+        panel_navbar.add(filler10);
 
         panel_aplicacao.add(panel_navbar, java.awt.BorderLayout.NORTH);
 
@@ -2169,11 +2183,14 @@ public class ViewsSistema extends javax.swing.JFrame {
     private com.mycompany.gerenciamento.uniformes.Components.CardPanel card_form_prs;
     private com.mycompany.gerenciamento.uniformes.Components.CardPanel card_form_psc;
     private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler10;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler5;
     private javax.swing.Box.Filler filler6;
     private javax.swing.Box.Filler filler7;
+    private javax.swing.Box.Filler filler8;
+    private javax.swing.Box.Filler filler9;
     private javax.swing.JScrollPane frame_tb_alunos;
     private javax.swing.JLabel img_pl;
     private javax.swing.JLabel img_ppa;
