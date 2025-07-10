@@ -28,23 +28,46 @@ public class AlunoDAO implements AlunoInterface {
     }
     
     @Override
-    public List<AlunoModel> listarTodos(int pagina, int itensPorPagina) {
+    public List<AlunoModel> listarTodos(int pagina, int itensPorPagina, String busca) {
         List<AlunoModel> alunos = new ArrayList<>();
-        String sql = "SELECT a.*, "
-                          + "c.id AS id_curso, "
-                          + "c.nome AS nome_curso, "
-                          + "c.n_periodos AS periodos_curso "
-                   + "FROM Aluno AS a "
-                   + "LEFT JOIN Curso AS c "
-                   + "ON a.fk_curso = c.id "
-                   + "ORDER BY a.id DESC "
-                   + "LIMIT ? OFFSET ?";
+        
+        StringBuilder sqlBuilder = new StringBuilder(
+         "SELECT a.*, "
+            + "c.id AS id_curso, "
+            + "c.nome AS nome_curso, "
+            + "c.n_periodos AS periodos_curso "
+         + "FROM Aluno AS a "
+         + "LEFT JOIN Curso AS c "
+         + "ON a.fk_curso = c.id "
+        );
+        
+        if (busca != null && !busca.trim().isEmpty()) {
+            sqlBuilder.append(
+                " WHERE UPPER(a.nome) LIKE ?"
+             + " OR UPPER(a.sobrenome) LIKE ?"
+             + " OR UPPER(a.matricula) LIKE ?"
+             + " OR UPPER(c.nome) LIKE ?"
+            );
+        } 
+        
+        sqlBuilder.append(" ORDER BY a.id DESC LIMIT ? OFFSET ?");
+        
+        String sql = sqlBuilder.toString();
         
         int offset = (pagina - 1) * itensPorPagina;
         
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, itensPorPagina);
-            ps.setInt(2, offset);
+            int index = 1;
+            if (busca != null && !busca.trim().isEmpty()) {
+                busca = "%" + busca.toUpperCase() + "%";
+                ps.setString(index++, busca);
+                ps.setString(index++, busca);
+                ps.setString(index++, busca);
+                ps.setString(index++, busca);
+            }
+            
+            ps.setInt(index++, itensPorPagina);
+            ps.setInt(index++, offset);
             
             ResultSet rs = ps.executeQuery();
             
@@ -78,10 +101,35 @@ public class AlunoDAO implements AlunoInterface {
     }
     
     @Override
-    public int getTotal() {
-        String sql = "SELECT COUNT(*) FROM Aluno";
-        try (PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery()) {
+    public int getTotal(String busca) {
+        StringBuilder sqlBuilder = new StringBuilder(
+         "SELECT COUNT(*) FROM Aluno AS a "
+         + "LEFT JOIN Curso AS c "
+         + "ON a.fk_curso = c.id"
+        );
+        
+        if (busca != null && !busca.trim().isEmpty()) {
+            sqlBuilder.append(
+                " WHERE UPPER(a.nome) LIKE ?"
+             + " OR UPPER(a.sobrenome) LIKE ?"
+             + " OR UPPER(a.matricula) LIKE ?"
+             + " OR UPPER(c.nome) LIKE ?"
+            );
+        }
+        
+        String sql = sqlBuilder.toString();
+        
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            if (busca != null && !busca.trim().isEmpty()) {
+                busca = "%" + busca.toUpperCase() + "%";
+                ps.setString(1, busca);
+                ps.setString(2, busca);
+                ps.setString(3, busca);
+                ps.setString(4, busca);
+            }
+
+            ResultSet rs = ps.executeQuery();
+
             if (rs.next()) {
                 return rs.getInt(1);
             }

@@ -1013,6 +1013,9 @@
                           <Dimension value="[130, 30]"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tx_pesquisa_alunosActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="btn_buscar_alunos">
                       <Properties>
@@ -1030,6 +1033,9 @@
                           <Dimension value="[70, 30]"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_buscar_alunosActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
