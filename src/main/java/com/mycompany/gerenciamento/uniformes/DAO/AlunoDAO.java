@@ -66,6 +66,20 @@ public class AlunoDAO implements AlunoInterface {
     }
     
     @Override
+    public int getTotal() {
+        String sql = "SELECT COUNT(*) FROM Aluno";
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException error) {
+            System.err.println("Erro ao contar o total de alunos: " + error.getMessage());
+        }
+        return 0;
+    }
+    
+    @Override
     public AlunoModel getByMatricula(String matricula) {
         String sql = "SELECT a.id, a.nome, a.sobrenome, a.email, a.telefone, a.matricula, a.idade, a.periodo,"
                 + "c.id AS id_curso, c.nome AS curso, c.n_periodos AS n_periodos "
