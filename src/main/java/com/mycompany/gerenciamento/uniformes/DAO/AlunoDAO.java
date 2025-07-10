@@ -122,9 +122,9 @@ public class AlunoDAO implements AlunoInterface {
             ps.setString(5, aluno.getMatricula());
             ps.setInt(6, aluno.getIdade());
             ps.setInt(7, aluno.getPeriodo());
-            ps.setInt(8, aluno.getFk_curso());
+            ps.setInt(8, aluno.getCurso().getId());
             
-            int linhasAfetadas = ps.executeUpdate(sql);
+            int linhasAfetadas = ps.executeUpdate();
             
             if (linhasAfetadas == 1) {
                 try (ResultSet rs = ps.getGeneratedKeys()) {
