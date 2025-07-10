@@ -98,10 +98,29 @@ public class AlunoDAO implements AlunoInterface {
     }
     
     @Override
-    public int getTotal() {
-        String sql = "SELECT COUNT(*) FROM Aluno";
-        try (PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery()) {
+    public int getTotal(String busca) {
+        String sql = "SELECT COUNT(*) FROM Aluno AS a "
+                   + "LEFT JOIN Curso AS c "
+                   + "ON a.fk_curso = c.id";
+        
+        if (busca != null && !busca.trim().isEmpty()) {
+            sql += " WHERE UPPER(a.nome) LIKE ?"
+                 + " OR UPPER(a.sobrenome) LIKE ?"
+                 + " OR UPPER(a.matricula) LIKE ?"
+                 + " OR UPPER(c.nome) LIKE ?";
+        }
+        
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            if (busca != null && !busca.trim().isEmpty()) {
+                busca = "%" + busca.toUpperCase() + "%";
+                ps.setString(1, busca);
+                ps.setString(2, busca);
+                ps.setString(3, busca);
+                ps.setString(4, busca);
+            }
+
+            ResultSet rs = ps.executeQuery();
+
             if (rs.next()) {
                 return rs.getInt(1);
             }
