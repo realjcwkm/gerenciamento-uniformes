@@ -49,11 +49,7 @@ public class AlunoModel {
     public int getFk_curso() { return fk_curso; }
     public void setFk_curso(int fk_curso) { this.fk_curso = fk_curso; }
 
-    public CursoModel getCurso() {return curso;}
-
-    public void setCurso(CursoModel curso) {this.curso = curso;}
-    
-    
-    
+    public CursoModel getCurso() { return curso; }
+    public void setCurso(CursoModel curso) { this.curso = curso; }
     
 }
