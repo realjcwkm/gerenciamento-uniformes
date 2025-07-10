@@ -23,8 +23,14 @@ public class AlunoController {
         this.cursoDAO = new CursoDAO();
     }
     
-    public List<AlunoModel> listarTodos() {
-        return this.alunoDAO.listarTodos();
+    public List<AlunoModel> listarTodos(int pagina, int itensPorPagina) {
+        return this.alunoDAO.listarTodos(pagina, itensPorPagina);
+    }
+    
+    public int getTotalDePaginas(int itensPorPagina) {
+        int totalDeItens = this.alunoDAO.getTotal();
+        int totalPaginas = (int) Math.ceil((double) totalDeItens / itensPorPagina);
+        return Math.max(totalPaginas, 1);
     }
     
     public AlunoModel getByMatricula(String matricula) {
