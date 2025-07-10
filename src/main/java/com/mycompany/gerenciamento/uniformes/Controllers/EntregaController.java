@@ -11,6 +11,7 @@ import com.mycompany.gerenciamento.uniformes.DAO.TipoUniformeDAO;
 import com.mycompany.gerenciamento.uniformes.DAO.UniformeDAO;
 import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
 import com.mycompany.gerenciamento.uniformes.Models.EntregaModel;
+import com.mycompany.gerenciamento.uniformes.Models.FiltroModel;
 import com.mycompany.gerenciamento.uniformes.Models.ServidorModel;
 import com.mycompany.gerenciamento.uniformes.Models.TamanhoModel;
 import com.mycompany.gerenciamento.uniformes.Models.TipoUniformeModel;
@@ -32,10 +33,6 @@ public class EntregaController {
         this.entregaDAO = new EntregaDAO();
         this.tipoUniformeDAO = new TipoUniformeDAO();
         this.tamanhoDAO = new TamanhoDAO();
-    }
-    
-    public List<EntregaModel> listarTodos() {
-        return this.entregaDAO.listarTodos();
     }
     
     public AlunoModel getAlunoByMatricula(String matricula) {
@@ -88,7 +85,6 @@ public class EntregaController {
             novaEntrega.setSemestre(semestreAtual);
             novaEntrega.setTrocado(false);
 
-            EntregaDAO entregaDAO = new EntregaDAO();
             entregaDAO.cadastrarEntrega(novaEntrega);
             
             return true; 
@@ -99,12 +95,12 @@ public class EntregaController {
         }
     }
     
-    public List<EntregaModel> listarPagina(int pagina, int itensPorPagina, String termoBusca) {
-        return this.entregaDAO.listarPagina(pagina, itensPorPagina, termoBusca);
+    public List<EntregaModel> listarPagina(int pagina, int itensPorPagina, String termoBusca, FiltroModel filtro) {
+        return this.entregaDAO.listarPagina(pagina, itensPorPagina, termoBusca, filtro);
     }
     
-    public int getTotalDeEntregas(int itensPorPagina, String termoBusca) {
-        int totalDeItens = this.entregaDAO.getTotalDeEntregas(termoBusca);
+    public int getTotal(int itensPorPagina, String termoBusca, FiltroModel filtro) {
+        int totalDeItens = this.entregaDAO.getTotal(termoBusca, filtro);
         
         int totalPaginas = (int) Math.ceil((double) totalDeItens / itensPorPagina);
         
