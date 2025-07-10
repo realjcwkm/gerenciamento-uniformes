@@ -1496,9 +1496,9 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(separador_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, 9, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_salvar_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8)
+                .addGap(18, 18, 18)
                 .addComponent(btn_voltar_ppa)
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addContainerGap(145, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_primeiro_acessoLayout = new javax.swing.GroupLayout(panel_primeiro_acesso);
@@ -1609,11 +1609,11 @@ public class ViewsSistema extends javax.swing.JFrame {
             .addGroup(card_form_pscLayout.createSequentialGroup()
                 .addGroup(card_form_pscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(card_form_pscLayout.createSequentialGroup()
-                        .addGap(92, 92, 92)
-                        .addComponent(lb_email_psc))
+                        .addGap(86, 86, 86)
+                        .addComponent(lb_matricula_psc))
                     .addGroup(card_form_pscLayout.createSequentialGroup()
-                        .addGap(93, 93, 93)
-                        .addComponent(lb_matricula_psc)))
+                        .addGap(87, 87, 87)
+                        .addComponent(lb_email_psc)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         card_form_pscLayout.setVerticalGroup(
@@ -1635,7 +1635,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_enviar_psc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_voltar_psc)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(145, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_solicitacao_codigoLayout = new javax.swing.GroupLayout(panel_solicitacao_codigo);
@@ -1789,7 +1789,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_salvar_prs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_voltar_prs)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(123, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_redefinir_senhaLayout = new javax.swing.GroupLayout(panel_redefinir_senha);
