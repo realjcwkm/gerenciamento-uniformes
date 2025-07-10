@@ -5,12 +5,15 @@
 package com.mycompany.gerenciamento.uniformes.DAO;
 
 import com.mycompany.gerenciamento.uniformes.DBConnection.Conexao;
+import com.mycompany.gerenciamento.uniformes.Models.EntregaModel;
 import com.mycompany.gerenciamento.uniformes.Models.TrocaModel;
+import com.mycompany.gerenciamento.uniformes.Models.UniformeModel;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,6 +59,53 @@ public class TrocaDAO {
             ps.setInt(2, troca.getEntregaAntiga().getId());
             ps.setInt(3, troca.getEntregaNova().getId());
             ps.executeUpdate();
+        }
+    }
+    
+    public boolean realizarTroca(EntregaModel entregaAntiga, UniformeModel uniformeNovo) {  
+        
+        EntregaDAO entregaDAO = new EntregaDAO();
+        
+        try {
+            conn.setAutoCommit(false);
+            
+            EntregaModel entregaNova = new EntregaModel();
+            entregaNova.setAluno(entregaAntiga.getAluno());
+            entregaNova.setServidor(entregaAntiga.getServidor()); 
+            entregaNova.setUniforme(uniformeNovo);
+            entregaNova.setQuantidade(entregaAntiga.getQuantidade()); 
+            entregaNova.setData_entrega(LocalDate.now()); 
+            entregaNova.setAno(LocalDate.now().getYear());
+            entregaNova.setSemestre(LocalDate.now().getMonthValue() <= 6 ? 1 : 2);
+            entregaNova.setTrocado(false); 
+            
+            int idNovaEntrega = entregaDAO.cadastrarEntrega(entregaNova);
+            entregaNova.setId(idNovaEntrega);
+
+            TrocaModel novaTroca = new TrocaModel();
+            novaTroca.setData_troca(LocalDate.now());
+            novaTroca.setEntregaAntiga(entregaAntiga);
+            novaTroca.setEntregaNova(entregaNova);
+            this.cadastrarTroca(novaTroca);
+            
+            conn.commit();
+            return true;
+
+        } catch (SQLException e) {
+            System.err.println("Erro na transação de troca. Desfazendo operações.");
+            e.printStackTrace();
+            try {
+                conn.rollback();
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
+            return false;
+        } finally {
+            try {
+                conn.setAutoCommit(true);
+            } catch (SQLException finalEx) {
+                finalEx.printStackTrace();
+            }
         }
     }
 }
