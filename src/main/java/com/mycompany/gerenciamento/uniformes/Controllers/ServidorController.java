@@ -37,7 +37,7 @@ public class ServidorController {
         }
 
         try {
-            String senhaPadraoPura = "senha" + matricula;
+            String senhaPadraoPura = "ifro" + matricula;
             String senhaComHash = BCrypt.hashpw(senhaPadraoPura, BCrypt.gensalt());
 
             ServidorModel novoServidor = new ServidorModel();
