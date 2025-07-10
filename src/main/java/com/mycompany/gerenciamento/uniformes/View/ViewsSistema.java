@@ -68,10 +68,14 @@ public class ViewsSistema extends javax.swing.JFrame {
     private int paginaAtual = 1;
     private int totalDePaginas = 0;
     
-    // === PAGINAÇÃO SERVIDORES === 
+    // === PAGINAÇÃO ALUNOS === 
+    private int paginaAtualAlunos = 1;
+    private int totalDePaginasAlunos = 0;
+    
+// === PAGINAÇÃO SERVIDORES === 
     private int paginaAtualServidores = 1;
     private int totalDePaginasServidores = 0;
-    
+        
     // === PADRÃO 10 LINHAS POR PÁGINA ===
     private final int ITENS_POR_PAGINA = 10;
     
@@ -191,17 +195,6 @@ public class ViewsSistema extends javax.swing.JFrame {
         
         mainCardLayout.show(main_container, "card_autenticacao");
         authCardLayout.show(panel_autenticacao, "card_login");
-    }
-
-    private void carregaDadosAluno() {
-        try {
-            List<AlunoModel> listaDeAlunos = this.alunoController.listarTodos();
-            
-            alunoTableModel.setAlunos(listaDeAlunos);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erro ao carregar os dados de alunos.", "Erro", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        }
     }
 
     private void carregaDadosUniformes() {
@@ -364,7 +357,18 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_proximo_pd.setEnabled(paginaAtual < totalDePaginas);
     }
     
-    // === APLICA PAGINAÇÃO SERVIDORES ===
+    private void atualizarTabelaAlunos() {
+        List<AlunoModel> listaDeAlunos = this.alunoController.listarTodos(paginaAtualAlunos, ITENS_POR_PAGINA);
+        
+        alunoTableModel.setAlunos(listaDeAlunos);
+        
+        lb_status_paginacao_alunos.setText("Página " + paginaAtualAlunos + " de " + totalDePaginasAlunos);
+        
+        btn_anterior_alunos.setEnabled(paginaAtualAlunos > 1);
+        btn_proximo_alunos.setEnabled(paginaAtualAlunos < totalDePaginasAlunos);
+    }
+
+// === APLICA PAGINAÇÃO SERVIDORES ===
     private void atualizarTabelaServidoresEControles() {
         List<ServidorModel> listaPaginada = servidorController.listarPagina(paginaAtualServidores, ITENS_POR_PAGINA, termoBuscaAtualServidores);
         servidorTableModel.setServidores(listaPaginada);
@@ -930,6 +934,11 @@ public class ViewsSistema extends javax.swing.JFrame {
 
         btn_proximo_alunos.setText("Próxima");
         btn_proximo_alunos.setMargin(new java.awt.Insets(8, 14, 8, 14));
+        btn_proximo_alunos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_proximo_alunosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout paginacao_alunosLayout = new javax.swing.GroupLayout(paginacao_alunos);
         paginacao_alunos.setLayout(paginacao_alunosLayout);
@@ -995,13 +1004,11 @@ public class ViewsSistema extends javax.swing.JFrame {
                     .addComponent(btn_buscar_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_cadastrar_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
-                .addComponent(frame_tb_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(frame_tb_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25)
                 .addComponent(paginacao_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(88, Short.MAX_VALUE))
+                .addContainerGap(86, Short.MAX_VALUE))
         );
-
-        btn_cadastrar_alunos.getAccessibleContext().setAccessibleName("+ Cadastrar Aluno");
 
         panel_telaInicial.add(Alunos, "alunos");
 
@@ -1358,7 +1365,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_login_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
                 .addComponent(btn_esq_senha_pl)
-                .addContainerGap(158, Short.MAX_VALUE))
+                .addContainerGap(154, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_loginLayout = new javax.swing.GroupLayout(panel_login);
@@ -1491,7 +1498,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_salvar_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
                 .addComponent(btn_voltar_ppa)
-                .addContainerGap(159, Short.MAX_VALUE))
+                .addContainerGap(155, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_primeiro_acessoLayout = new javax.swing.GroupLayout(panel_primeiro_acesso);
@@ -1843,7 +1850,10 @@ public class ViewsSistema extends javax.swing.JFrame {
 
     private void btn_nav_alunosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_alunosActionPerformed
         // TODO add your handling code here:
-        carregaDadosAluno();
+        totalDePaginasAlunos = alunoController.getTotalDePaginas(ITENS_POR_PAGINA);
+        paginaAtualAlunos = 1;
+        atualizarTabelaAlunos();
+        
         appCardLayout.show(panel_telaInicial, "alunos");
         System.out.println("Mostrando painel Alunos");
         //JOptionPane.showMessageDialog(this, "Painel de Alunos ainda não implementado");
@@ -2094,12 +2104,16 @@ public class ViewsSistema extends javax.swing.JFrame {
         
         if (dialog.isSalvo()) {
             JOptionPane.showMessageDialog(this, "Aluno cadastrado com sucesso!");
-            carregaDadosAluno();
+            atualizarTabelaAlunos();
         }
     }//GEN-LAST:event_btn_cadastrar_alunosActionPerformed
 
     private void btn_anterior_alunosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_anterior_alunosActionPerformed
         // TODO add your handling code here:
+        if (paginaAtualAlunos > 1) {
+            paginaAtualAlunos--;
+            atualizarTabelaAlunos();
+        }
     }//GEN-LAST:event_btn_anterior_alunosActionPerformed
   
     private void btn_proximo_pdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_proximo_pdActionPerformed
@@ -2138,6 +2152,14 @@ public class ViewsSistema extends javax.swing.JFrame {
         // TODO add your handling code here:
         realizarBuscaDistribuicao();
     }//GEN-LAST:event_btn_buscar_dis_pdActionPerformed
+
+    private void btn_proximo_alunosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_proximo_alunosActionPerformed
+        // TODO add your handling code here:
+        if (paginaAtualAlunos < totalDePaginasAlunos) {
+            paginaAtualAlunos++;
+            atualizarTabelaAlunos();
+        }
+    }//GEN-LAST:event_btn_proximo_alunosActionPerformed
 
     /**
      * @param args the command line arguments

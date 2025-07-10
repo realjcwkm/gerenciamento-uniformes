@@ -46,7 +46,7 @@ public class AlunoDAO implements AlunoInterface {
             ps.setInt(1, itensPorPagina);
             ps.setInt(2, offset);
             
-            ResultSet rs = ps.executeQuery(sql);
+            ResultSet rs = ps.executeQuery();
             
             while (rs.next()) {
                 AlunoModel aluno = new AlunoModel();
