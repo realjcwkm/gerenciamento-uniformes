@@ -68,8 +68,9 @@ public class ViewsSistema extends javax.swing.JFrame {
     private GraficosController graficosController;
     
     private String matriculaUpdate;
-    private String termoBuscaAtualServidores = "";
     private String termoBuscaAtualDistribuicao = "";
+    private String termoBuscaAtualAluno = "";
+    private String termoBuscaAtualServidores = "";
     
     // === PAGINAÇÃO ENTREGAS ===
     private int paginaAtualDistribuicao = 1;
@@ -390,7 +391,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     }
     
     private void atualizarTabelaAlunos() {
-        List<AlunoModel> listaDeAlunos = this.alunoController.listarTodos(paginaAtualAlunos, ITENS_POR_PAGINA);
+        List<AlunoModel> listaDeAlunos = this.alunoController.listarTodos(paginaAtualAlunos, ITENS_POR_PAGINA, termoBuscaAtualAluno);
         
         alunoTableModel.setAlunos(listaDeAlunos);
         
@@ -432,6 +433,15 @@ public class ViewsSistema extends javax.swing.JFrame {
         totalDePaginasDistribuicao = entregaController.getTotal(ITENS_POR_PAGINA, termoBuscaAtualDistribuicao, filtro);
         
         atualizarTabelaDistribuicao();
+    }
+    
+    private void realizarBuscaAlunos() {
+        termoBuscaAtualAluno = tx_pesquisa_alunos.getText();
+        
+        paginaAtualAlunos = 1;
+        totalDePaginasAlunos = alunoController.getTotalDePaginas(ITENS_POR_PAGINA, termoBuscaAtualAluno);
+        
+        atualizarTabelaAlunos();
     }
     
     /**
@@ -1013,12 +1023,22 @@ public class ViewsSistema extends javax.swing.JFrame {
         tx_pesquisa_alunos.setMaximumSize(new java.awt.Dimension(130, 30));
         tx_pesquisa_alunos.setMinimumSize(new java.awt.Dimension(130, 30));
         tx_pesquisa_alunos.setPreferredSize(new java.awt.Dimension(130, 30));
+        tx_pesquisa_alunos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tx_pesquisa_alunosActionPerformed(evt);
+            }
+        });
 
         btn_buscar_alunos.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btn_buscar_alunos.setText("Buscar");
         btn_buscar_alunos.setMaximumSize(new java.awt.Dimension(70, 30));
         btn_buscar_alunos.setMinimumSize(new java.awt.Dimension(70, 30));
         btn_buscar_alunos.setPreferredSize(new java.awt.Dimension(70, 30));
+        btn_buscar_alunos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_buscar_alunosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout AlunosLayout = new javax.swing.GroupLayout(Alunos);
         Alunos.setLayout(AlunosLayout);
@@ -1901,7 +1921,10 @@ public class ViewsSistema extends javax.swing.JFrame {
 
     private void btn_nav_alunosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_alunosActionPerformed
         // TODO add your handling code here:
-        totalDePaginasAlunos = alunoController.getTotalDePaginas(ITENS_POR_PAGINA);
+        termoBuscaAtualAluno = "";
+        tx_pesquisa_alunos.setText("");
+        
+        totalDePaginasAlunos = alunoController.getTotalDePaginas(ITENS_POR_PAGINA, termoBuscaAtualAluno);
         paginaAtualAlunos = 1;
         atualizarTabelaAlunos();
         
@@ -2217,6 +2240,14 @@ public class ViewsSistema extends javax.swing.JFrame {
         tx_pesquisa_dis_pd.setText(""); 
         realizarBuscaDistribuicao();
     }//GEN-LAST:event_jcb_filtro_dis_pdActionPerformed
+
+    private void tx_pesquisa_alunosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tx_pesquisa_alunosActionPerformed
+    }//GEN-LAST:event_tx_pesquisa_alunosActionPerformed
+
+    private void btn_buscar_alunosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscar_alunosActionPerformed
+        realizarBuscaAlunos();
+    }//GEN-LAST:event_btn_buscar_alunosActionPerformed
+
 
     /**
      * @param args the command line arguments
