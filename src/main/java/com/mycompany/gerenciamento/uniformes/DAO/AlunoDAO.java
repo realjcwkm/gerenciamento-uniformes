@@ -60,7 +60,6 @@ public class AlunoDAO implements AlunoInterface {
             int index = 1;
             if (busca != null && !busca.trim().isEmpty()) {
                 busca = "%" + busca.toUpperCase() + "%";
-                System.out.println(busca);
                 ps.setString(index++, busca);
                 ps.setString(index++, busca);
                 ps.setString(index++, busca);
