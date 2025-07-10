@@ -27,8 +27,8 @@ public class AlunoController {
         return this.alunoDAO.listarTodos(pagina, itensPorPagina, busca);
     }
     
-    public int getTotalDePaginas(int itensPorPagina) {
-        int totalDeItens = this.alunoDAO.getTotal();
+    public int getTotalDePaginas(int itensPorPagina, String busca) {
+        int totalDeItens = this.alunoDAO.getTotal(busca);
         int totalPaginas = (int) Math.ceil((double) totalDeItens / itensPorPagina);
         return Math.max(totalPaginas, 1);
     }
