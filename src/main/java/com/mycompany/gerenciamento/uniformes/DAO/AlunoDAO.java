@@ -28,12 +28,24 @@ public class AlunoDAO implements AlunoInterface {
     }
     
     @Override
-    public List<AlunoModel> listarTodos() {
+    public List<AlunoModel> listarTodos(int pagina, int itensPorPagina) {
         List<AlunoModel> alunos = new ArrayList<>();
-        String sql = "SELECT a.*, c.id AS id_curso, c.nome AS nome_curso, c.n_periodos AS periodos_curso FROM Aluno AS a "
-                   + "LEFT JOIN Curso AS c ON a.fk_curso = c.id";
+        String sql = "SELECT a.*, "
+                          + "c.id AS id_curso, "
+                          + "c.nome AS nome_curso, "
+                          + "c.n_periodos AS periodos_curso "
+                   + "FROM Aluno AS a "
+                   + "LEFT JOIN Curso AS c "
+                   + "ON a.fk_curso = c.id "
+                   + "ORDER BY a.id DESC "
+                   + "LIMIT ? OFFSET ?";
+        
+        int offset = (pagina - 1) * itensPorPagina;
         
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, itensPorPagina);
+            ps.setInt(2, offset);
+            
             ResultSet rs = ps.executeQuery(sql);
             
             while (rs.next()) {
