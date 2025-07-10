@@ -12,6 +12,8 @@ import java.util.List;
  * @author geinfo
  */
 public interface AlunoInterface {
-    public List<AlunoModel> listarTodos();
+    public List<AlunoModel> listarTodos(int pagina, int intesPorPagina, String busca);
+    public int getTotal(String busca);
     public AlunoModel getByMatricula(String matricula);
+    public boolean cadastrar(AlunoModel aluno);
 }

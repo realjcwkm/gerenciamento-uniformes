@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,12 +28,48 @@ public class AlunoDAO implements AlunoInterface {
     }
     
     @Override
-    public List<AlunoModel> listarTodos() {
+    public List<AlunoModel> listarTodos(int pagina, int itensPorPagina, String busca) {
         List<AlunoModel> alunos = new ArrayList<>();
-        String sql = "SELECT * FROM Aluno";
+        
+        StringBuilder sqlBuilder = new StringBuilder(
+         "SELECT a.*, "
+            + "c.id AS id_curso, "
+            + "c.nome AS nome_curso, "
+            + "c.n_periodos AS periodos_curso "
+         + "FROM Aluno AS a "
+         + "LEFT JOIN Curso AS c "
+         + "ON a.fk_curso = c.id "
+        );
+        
+        if (busca != null && !busca.trim().isEmpty()) {
+            sqlBuilder.append(
+                " WHERE UPPER(a.nome) LIKE ?"
+             + " OR UPPER(a.sobrenome) LIKE ?"
+             + " OR UPPER(a.matricula) LIKE ?"
+             + " OR UPPER(c.nome) LIKE ?"
+            );
+        } 
+        
+        sqlBuilder.append(" ORDER BY a.id DESC LIMIT ? OFFSET ?");
+        
+        String sql = sqlBuilder.toString();
+        
+        int offset = (pagina - 1) * itensPorPagina;
         
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ResultSet rs = ps.executeQuery(sql);
+            int index = 1;
+            if (busca != null && !busca.trim().isEmpty()) {
+                busca = "%" + busca.toUpperCase() + "%";
+                ps.setString(index++, busca);
+                ps.setString(index++, busca);
+                ps.setString(index++, busca);
+                ps.setString(index++, busca);
+            }
+            
+            ps.setInt(index++, itensPorPagina);
+            ps.setInt(index++, offset);
+            
+            ResultSet rs = ps.executeQuery();
             
             while (rs.next()) {
                 AlunoModel aluno = new AlunoModel();
@@ -46,6 +83,13 @@ public class AlunoDAO implements AlunoInterface {
                 aluno.setPeriodo(rs.getInt("periodo"));
                 aluno.setFk_curso(rs.getInt("fk_curso"));
                 
+                CursoModel curso = new CursoModel();
+                curso.setId(rs.getInt("id_curso"));
+                curso.setNome(rs.getString("nome_curso"));
+                curso.setN_periodos(rs.getInt("periodos_curso"));
+                
+                aluno.setCurso(curso);
+                
                 alunos.add(aluno);
             }
         } catch (SQLException e) {
@@ -54,6 +98,45 @@ public class AlunoDAO implements AlunoInterface {
         }
         
         return alunos;
+    }
+    
+    @Override
+    public int getTotal(String busca) {
+        StringBuilder sqlBuilder = new StringBuilder(
+         "SELECT COUNT(*) FROM Aluno AS a "
+         + "LEFT JOIN Curso AS c "
+         + "ON a.fk_curso = c.id"
+        );
+        
+        if (busca != null && !busca.trim().isEmpty()) {
+            sqlBuilder.append(
+                " WHERE UPPER(a.nome) LIKE ?"
+             + " OR UPPER(a.sobrenome) LIKE ?"
+             + " OR UPPER(a.matricula) LIKE ?"
+             + " OR UPPER(c.nome) LIKE ?"
+            );
+        }
+        
+        String sql = sqlBuilder.toString();
+        
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            if (busca != null && !busca.trim().isEmpty()) {
+                busca = "%" + busca.toUpperCase() + "%";
+                ps.setString(1, busca);
+                ps.setString(2, busca);
+                ps.setString(3, busca);
+                ps.setString(4, busca);
+            }
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException error) {
+            System.err.println("Erro ao contar o total de alunos: " + error.getMessage());
+        }
+        return 0;
     }
     
     @Override
@@ -98,5 +181,39 @@ public class AlunoDAO implements AlunoInterface {
         }
         
         return null;
+    }
+    
+    @Override
+    public boolean cadastrar(AlunoModel aluno) {
+        String sql = "INSERT INTO Aluno (nome, sobrenome, email, telefone, matricula, idade, periodo, fk_curso) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, aluno.getNome());
+            ps.setString(2, aluno.getSobrenome());
+            ps.setString(3, aluno.getEmail());
+            ps.setString(4, aluno.getTelefone());
+            ps.setString(5, aluno.getMatricula());
+            ps.setInt(6, aluno.getIdade());
+            ps.setInt(7, aluno.getPeriodo());
+            ps.setInt(8, aluno.getCurso().getId());
+            
+            int linhasAfetadas = ps.executeUpdate();
+            
+            if (linhasAfetadas == 1) {
+                try (ResultSet rs = ps.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        aluno.setId(rs.getInt(1));
+                        System.out.println("Aluno Cadastrado com ID: " + aluno.getId());
+                        return true;
+                    }
+                }
+            }
+            return true;
+        } catch (SQLException e) {
+            System.err.println("Erro ao cadastrar aluno:");
+            e.printStackTrace();
+            return false;
+        }
     }
 }
