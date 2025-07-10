@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
  */
 public class EntregaTableModel extends AbstractTableModel{
     private List<EntregaModel> entregas;
-    private String [] colunas = {"ID", "Nome", "Tamanho", "Uniforme", "Matrícula", "Servidor Responsável", "Quantidade", "Data de Troca", "Ações"};
+    private String [] colunas = {"Nome", "Tamanho", "Uniforme", "Matrícula", "Servidor Responsável", "Quantidade", "Data de Entrega", "Ações"};
     
     public EntregaTableModel() {
         this.entregas = new ArrayList<>();
@@ -46,21 +46,20 @@ public class EntregaTableModel extends AbstractTableModel{
         EntregaModel entrega = entregas.get(rowIndex);
         
         switch(columnIndex) {
-            case 0: return entrega.getId();
-            case 1: return entrega.getAluno().getNome();
-            case 2: return entrega.getUniforme().getTamanho().getNome();
-            case 3: return entrega.getUniforme().getTipoUniforme().getNome();
-            case 4: return entrega.getAluno().getMatricula();
-            case 5: return entrega.getServidor().getNome();
-            case 6: return entrega.getQuantidade();
-            case 7:
+            case 0: return entrega.getAluno().getNome();
+            case 1: return entrega.getUniforme().getTamanho().getNome();
+            case 2: return entrega.getUniforme().getTipoUniforme().getNome();
+            case 3: return entrega.getAluno().getMatricula();
+            case 4: return entrega.getServidor().getNome();
+            case 5: return entrega.getQuantidade();
+            case 6:
             if (entrega.getData_entrega() != null) {
                 DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 return entrega.getData_entrega().format(formatador);
             } else {
                 return "N/A"; 
-            } //Trocar para data troca
-            case 8: return  "Trocar";
+            } 
+            case 7: return  "Trocar";
             default: return null;
         }
     }
@@ -77,7 +76,7 @@ public class EntregaTableModel extends AbstractTableModel{
     
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return columnIndex == 8;
+        return columnIndex == 7;
     }
     
     public EntregaModel getEntregaAt(int row) {

@@ -17,6 +17,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -143,9 +144,9 @@ public class EntregaDAO implements EntregaInterface {
         return total;
     }
    
-    public List<EntregaModel> listarPagina(int pagina, int itensPorPagina) {
+    public List<EntregaModel> listarPagina(int pagina, int itensPorPagina, String termoBusca) {
         List<EntregaModel> entregas = new ArrayList<>();
-        String sql = "SELECT e.id, e.semestre, e.ano, e.data_entrega, e.trocado, e.quantidade, "
+        StringBuilder sql = new StringBuilder("SELECT e.id, e.semestre, e.ano, e.data_entrega, e.trocado, e.quantidade, "
             + "s.id AS id_servidor, s.nome AS nome_servidor, "
             + "u.id AS id_uniforme, u.quantidade AS quantidade_uniforme, "
             + "a.id AS id_aluno, a.matricula AS matricula_aluno, a.nome AS nome_aluno, "
@@ -158,15 +159,37 @@ public class EntregaDAO implements EntregaInterface {
             + "LEFT JOIN Aluno AS a ON e.fk_aluno = a.id "
             + "LEFT JOIN Tamanho AS t ON u.fk_tamanho = t.id "
             + "LEFT JOIN TipoUniforme AS tu ON u.fk_tipo_uniforme = tu.id "
-            + "LEFT JOIN Troca AS tr ON tr.fk_entrega_antiga = e.id "
-            + "ORDER BY e.id DESC "
-            + "LIMIT ? OFFSET ?";
+            + "LEFT JOIN Troca AS tr ON tr.fk_entrega_antiga = e.id");
         
+        if(termoBusca != null && !termoBusca.trim().isEmpty()) {
+            sql.append(" WHERE LOWER(a.nome) LIKE ? OR LOWER(tu.nome) LIKE ? OR LOWER(a.matricula) LIKE ? OR LOWER(s.nome) LIKE ? "
+                    + "OR LOWER(t.nome) LIKE ? "
+                    + "OR LOWER(e.quantidade) LIKE ? "
+                    + "OR LOWER(e.data_entrega) LIKE ?");
+        }
+        
+        sql.append(" ORDER BY e.id DESC LIMIT ? OFFSET ?");
+       
         int offset = (pagina - 1) * itensPorPagina;
         
-        try(PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, itensPorPagina);
-            ps.setInt(2, offset);
+        try(PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+            int paramIndex = 1;
+            
+            if(termoBusca != null && !termoBusca.trim().isEmpty()) {
+                String termoLike = "%" + termoBusca.toLowerCase() + "%";
+                ps.setString(paramIndex++, termoLike);
+                ps.setString(paramIndex++, termoLike);
+                ps.setString(paramIndex++, termoLike);
+                ps.setString(paramIndex++, termoLike);
+                ps.setString(paramIndex++, termoLike);
+                ps.setString(paramIndex++, termoLike);
+                ps.setString(paramIndex++, termoLike);
+                
+            }
+            
+            ps.setInt(paramIndex++, itensPorPagina);
+            ps.setInt(paramIndex++, offset);
+            
             try (ResultSet rs = ps.executeQuery()) {
                 
                 while(rs.next()) {
@@ -210,7 +233,7 @@ public class EntregaDAO implements EntregaInterface {
                 }
             }  
         } catch(SQLException error) {
-            System.err.println("Erro ao listar entregas: ");
+            System.err.println("Erro ao listar entregas com filtro: ");
             error.printStackTrace();
         }
         
@@ -289,11 +312,11 @@ public class EntregaDAO implements EntregaInterface {
    
    @Override
    public int cadastrarEntrega(EntregaModel entrega) throws SQLException {
-       String sql = "INSERT INTO Entrega "
+        String sql = "INSERT INTO Entrega "
                + "(semestre, ano, data_entrega, trocado, quantidade, fk_servidor, fk_uniforme, fk_aluno) "
                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
        
-       try(PreparedStatement ps = conn.prepareStatement(sql)) {
+        try(PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
            ps.setInt(1, entrega.getSemestre()); //mudar
            ps.setInt(2, entrega.getAno());
            ps.setDate(3, java.sql.Date.valueOf(entrega.getData_entrega()));
@@ -313,19 +336,46 @@ public class EntregaDAO implements EntregaInterface {
                 }
             }
            
-       } 
+        } catch (SQLException error) {
+            System.err.println("Erro ao cadastrar entrega: " + error.getMessage());
+            throw error; 
+        }
    }
    
-   public int getTotalDeEntregas() {
-       String sql = "SELECT COUNT(*) FROM Entrega";
-       try(PreparedStatement ps = conn.prepareStatement(sql)) {
-           ResultSet rs = ps.executeQuery();
-           
-           if(rs.next()) {
-               return rs.getInt(1);
-           } 
+   public int getTotalDeEntregas(String termoBusca) {
+       StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM Entrega AS e "
+               + "LEFT JOIN Servidor AS s ON e.fk_servidor = s.id "
+               + "LEFT JOIN Aluno AS a ON e.fk_aluno = a.id "
+               + "LEFT JOIN Uniforme AS u ON e.fk_uniforme = u.id "
+               + "LEFT JOIN TipoUniforme AS tu ON u.fk_tipo_uniforme = tu.id "
+               + "LEFT JOIN Tamanho AS t ON u.fk_tamanho = t.id");
+       
+       if(termoBusca != null && !termoBusca.trim().isEmpty()) {
+           sql.append(" WHERE LOWER(a.nome) LIKE ? OR LOWER(tu.nome) LIKE ? OR LOWER(a.matricula) LIKE ? OR LOWER(s.nome) LIKE ? "
+                    + "OR LOWER(t.nome) LIKE ? "
+                    + "OR LOWER(e.quantidade) LIKE ? "
+                    + "OR LOWER(e.data_entrega) LIKE ?");
+       }
+       
+       try(PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+           if(termoBusca != null && !termoBusca.trim().isEmpty()) {
+               String termoLike = "%" + termoBusca.toLowerCase() + "%";
+               ps.setString(1, termoLike);
+               ps.setString(2, termoLike);
+               ps.setString(3, termoLike);
+               ps.setString(4, termoLike);
+               ps.setString(5, termoLike);
+               ps.setString(6, termoLike);
+               ps.setString(7, termoLike);
+               
+           }
+           try(ResultSet rs = ps.executeQuery()){
+                if(rs.next()) {
+                    return rs.getInt(1);
+                } 
+           }     
        } catch(SQLException error) {
-           error.printStackTrace();
+           System.err.println("Erro ao contar o total de entregas com filtro: " + error.getMessage());
        }
        
        return 0;

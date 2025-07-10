@@ -252,6 +252,8 @@ INSERT INTO `uniformes`.`Tamanho` (`nome`) VALUES ('P'), ('M'), ('G'), ('GG');
 INSERT INTO `uniformes`.`Departamento` (`nome`) VALUES ('DEPAE'), ('DAPE'), ('DG');
 INSERT INTO `uniformes`.`TipoUniforme` (`nome`) VALUES ('Camisa Branca'), ('Camisa Verde'), ('Regata Verde'), ('Calça'), ('Bermuda');
 INSERT INTO `uniformes`.`Curso` (`nome`, `n_periodos`) VALUES ('Química', '3'), ('Eletrotécnica', '3'), ('Informática', '3'), ('Edificações', '3');
+INSERT INTO `uniformes`.`Fornecedor` (`nome`) VALUES ('Uniformes LTDA'), ('Confecção & Uniformes'), ('Uniformes & Cia LTDA');
+INSERT INTO `uniformes`.`Servidor` (`nome`, `sobrenome`, `email`, `telefone`, `matricula`, `senha`, `ativo`, `primeiro_acesso`, `fk_departamento`) VALUES ('Admin', 'Sistema', 'admin@sistema.com', '00000000000', 'admin01', '$2a$12$BZfrVc0ENzsPz2TJq6h4fOivZaMlLUE0DTulOXM6wgOYTa/pnh6oi', 1, 0, 1);
 -- FIM INSERTS
 
 -- INICIO TRIGGERS
