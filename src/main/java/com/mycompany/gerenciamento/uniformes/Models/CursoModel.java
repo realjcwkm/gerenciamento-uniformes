@@ -37,4 +37,9 @@ public class CursoModel {
         this.n_periodos = n_periodos;
     }
     
+    @Override
+    public String toString() {
+        return this.nome;
+    }
+    
 }
