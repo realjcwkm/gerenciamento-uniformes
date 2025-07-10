@@ -68,27 +68,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     
     public ViewsSistema() {
         initComponents();
-<<<<<<< HEAD
         
-        // Campo pesquisa servidor
-//        btn_buscar_serv.addActionListener(e -> realizarBuscaServidores());
-//        tx_pesquisa_serv.addActionListener(e -> realizarBuscaServidores());
-        
-//        // Campo pesquisa Entrega
-//        btn_buscar_dis_pd.addActionListener(e -> realizarBuscaDistribuicao());
-//        tx_pesquisa_dis_pd.addActionListener(e -> realizarBuscaDistribuicao());
-=======
-
-        // === CAMPO PESQUISA SERVIDOR ===
-        btn_buscar_serv.addActionListener(e -> realizarBuscaServidores());
-        tx_pesquisa_serv.addActionListener(e -> realizarBuscaServidores());
-        
-        // === CAMPO PESQUISA ENTREGA ===
-        btn_buscar_dis_pd.addActionListener(e -> realizarBuscaDistribuicao());
-        tx_pesquisa_dis_pd.addActionListener(e -> realizarBuscaDistribuicao());
->>>>>>> develop
-        
-
         carregarGraficoPizza(); // === GRÁFICO PIZZA ===
         carregarGraficoBarras(); // === GRÁFICO BARRAS ===
         
@@ -111,7 +91,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         this.tb_distribuicao.setDefaultRenderer(Object.class, new CustomCellRenderer());
         tb_distribuicao.setFillsViewportHeight(true);         
         
-        final int TROCA_COLUMN_INDEX = 8; 
+        final int TROCA_COLUMN_INDEX = 7; 
         
         ImageIcon trocaIcon = null;
         try {
