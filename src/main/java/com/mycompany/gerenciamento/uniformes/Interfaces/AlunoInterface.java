@@ -12,7 +12,7 @@ import java.util.List;
  * @author geinfo
  */
 public interface AlunoInterface {
-    public List<AlunoModel> listarTodos(int pagina, int intesPorPagina);
+    public List<AlunoModel> listarTodos(int pagina, int intesPorPagina, String busca);
     public int getTotal();
     public AlunoModel getByMatricula(String matricula);
     public boolean cadastrar(AlunoModel aluno);
