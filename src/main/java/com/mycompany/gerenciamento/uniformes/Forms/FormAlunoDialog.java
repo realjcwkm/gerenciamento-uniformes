@@ -16,6 +16,7 @@ import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ItemEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -92,8 +93,8 @@ public class FormAlunoDialog extends JDialog {
         addFormField(panelPai, gbc, "Nome:", tfNome, fonteLabel, 0, 1);
         addFormField(panelPai, gbc, "Sobrenome:", tfSobrenome, fonteLabel, 1, 1);
         addFormField(panelPai, gbc, "E-mail", tfEmail, fonteLabel, 0, 3);
-        addFormField(panelPai, gbc, "Telefone", tfEmail, fonteLabel, 1, 3);
-        addFormField(panelPai, gbc, "Matrícula", tfTelefone, fonteLabel, 0, 5);
+        addFormField(panelPai, gbc, "Telefone", tfTelefone, fonteLabel, 1, 3);
+        addFormField(panelPai, gbc, "Matrícula", tfMatricula, fonteLabel, 0, 5);
         addFormField(panelPai, gbc, "Idade", tfIdade, fonteLabel, 1, 5);
         addFormField(panelPai, gbc, "Curso", cbCurso, fonteLabel, 0, 7);
         addFormField(panelPai, gbc, "Período", cbPeriodo, fonteLabel, 1, 7);
@@ -107,6 +108,13 @@ public class FormAlunoDialog extends JDialog {
         
         JButton btnCancelar = createStyledButton("Cancelar", corBotaoCancelar, fonteBotao, tamanhoBotao);
         btnCancelar.addActionListener(e -> dispose());
+        
+        cbCurso.addItemListener((ItemEvent e) -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                CursoModel cursoSelecionado = (CursoModel) e.getItem();
+                carregarComboBoxPeriodos(cursoSelecionado);
+            }
+        });
         
         buttonPanel.add(btnCancelar);
         buttonPanel.add(btnSalvar);
@@ -154,6 +162,13 @@ public class FormAlunoDialog extends JDialog {
 
     private void carregarComboBoxCursos() {
         this.alunoController.getAllCursos().forEach(cbCurso::addItem);
+    }
+    
+    private void carregarComboBoxPeriodos(CursoModel curso) {
+        cbPeriodo.removeAllItems();
+        for(int p = 1; p <= curso.getN_periodos(); p++ ) {
+            cbPeriodo.addItem(p);
+        }
     }
     
     private void salvar() {
