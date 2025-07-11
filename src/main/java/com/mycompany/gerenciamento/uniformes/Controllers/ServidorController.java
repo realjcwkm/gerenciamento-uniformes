@@ -70,4 +70,8 @@ public class ServidorController {
         return Math.max(totalPaginas, 1);
     }
     // PAGINAÇÃO E BUSCA
+    
+    public void atualizarServidor(ServidorModel servidor) {      
+        servidorDAO.editServidor(servidor);
+    }
 }
