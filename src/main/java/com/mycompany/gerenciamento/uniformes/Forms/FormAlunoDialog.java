@@ -186,7 +186,7 @@ public class FormAlunoDialog extends JDialog {
             return;
         }
         
-        boolean sucesso = this.alunoController.cadastrar(
+        String cadastro = this.alunoController.cadastrar(
             nome, 
             sobrenome,
             email, 
@@ -197,11 +197,13 @@ public class FormAlunoDialog extends JDialog {
             periodo
         );
         
-        if (sucesso) {
+        if (cadastro.equals("sucesso")) {
             this.salvo = true;
             dispose();
-        } else {
-            JOptionPane.showMessageDialog(this, "Falha ao cadastrar o aluno.", "Erro de Cadastro", JOptionPane.ERROR_MESSAGE);
+        } else if (cadastro.equals("erro")) {
+            JOptionPane.showMessageDialog(this, "Falha inesperada ao cadastrar o aluno.", "Erro de Cadastro", JOptionPane.ERROR_MESSAGE);
+        } else if (cadastro.equals("repetido")) {
+            JOptionPane.showMessageDialog(this, "Falha ao cadastrar o aluno.\nMatricula já cadastrada no banco de dados!", "Erro de Cadastro", JOptionPane.ERROR_MESSAGE);
         }
     }
     
