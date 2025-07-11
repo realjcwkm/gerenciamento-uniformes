@@ -41,7 +41,7 @@ public class AlunoController {
         return this.cursoDAO.listarTodos();
     }
     
-    public boolean cadastrar(String nome, String sobrenome, String email, String telefone, String matricula, int idade, CursoModel curso, int periodo) {
+    public String cadastrar(String nome, String sobrenome, String email, String telefone, String matricula, int idade, CursoModel curso, int periodo) {
         try {
             AlunoModel aluno = new AlunoModel();
             
@@ -54,10 +54,19 @@ public class AlunoController {
             aluno.setCurso(curso);
             aluno.setPeriodo(periodo);
             
-            return this.alunoDAO.cadastrar(aluno);
+            AlunoModel repetido = this.alunoDAO.getByMatricula(matricula);
+            
+            if (repetido != null) {
+                return "repetido";
+            }
+            
+            if (this.alunoDAO.cadastrar(aluno)) {
+                return "sucesso";
+            }
+            return "erro";
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return "erro";
         }
     }
 }
