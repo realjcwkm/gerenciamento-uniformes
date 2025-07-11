@@ -16,7 +16,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class ServidorTableModel extends AbstractTableModel {
     private List<ServidorModel> servidores;
-    private String[] colunas = {"ID","Nome", "Matrícula", "Departamento","Status","Ações"};
+    private String[] colunas = {"Nome", "Matrícula", "Departamento","Status","Ações"};
 
     public ServidorTableModel(List<ServidorModel> servidores) {
         this.servidores = servidores;
@@ -42,12 +42,11 @@ public class ServidorTableModel extends AbstractTableModel {
         ServidorModel servidor = servidores.get(rowIndex);
 
         switch (columnIndex) {
-            case 0: return servidor.getId();
-            case 1: return servidor.getNome() + " " + servidor.getSobrenome();
-            case 2: return servidor.getMatricula();
-            case 3: return servidor.getNomeDepartamento();
-            case 4: return servidor.isAtivo() ? "Ativo" : "Inativo";
-            case 5: return "Editar";
+            case 0: return servidor.getNome() + " " + servidor.getSobrenome();
+            case 1: return servidor.getMatricula();
+            case 2: return servidor.getNomeDepartamento();
+            case 3: return servidor.isAtivo() ? "Ativo" : "Inativo";
+            case 4: return "Editar";
             default: return null;
         }
     }
@@ -59,7 +58,7 @@ public class ServidorTableModel extends AbstractTableModel {
     
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return columnIndex == 5;
+        return columnIndex == 4;
     }
     
     public ServidorModel getServidorAt(int row) {
