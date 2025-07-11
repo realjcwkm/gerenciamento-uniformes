@@ -24,6 +24,7 @@ import com.mycompany.gerenciamento.uniformes.Forms.ConfirmacaoTroca;
 import com.mycompany.gerenciamento.uniformes.Forms.FormAlunoDialog;
 import com.mycompany.gerenciamento.uniformes.Forms.FormSelecaoUniforme;
 import com.mycompany.gerenciamento.uniformes.Forms.FormServidorDialog;
+import com.mycompany.gerenciamento.uniformes.Forms.FormUniforme;
 import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
 import com.mycompany.gerenciamento.uniformes.Models.FiltroModel;
 import com.mycompany.gerenciamento.uniformes.Models.TamanhoModel;
@@ -520,7 +521,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         subtitulo = new javax.swing.JLabel();
         tx_pesquisa = new javax.swing.JTextField();
         btn_buscar = new javax.swing.JButton();
-        JComboBox filtro_tipo = new javax.swing.JComboBox<>();
+        filtro_tipo = new javax.swing.JComboBox<>();
         btn_Add_Uniforme = new javax.swing.JButton();
         barra_rolagem = new javax.swing.JScrollPane();
         tabela_uniformes = new javax.swing.JTable();
@@ -1251,6 +1252,11 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_Add_Uniforme.setBackground(new java.awt.Color(0, 153, 102));
         btn_Add_Uniforme.setForeground(new java.awt.Color(255, 255, 255));
         btn_Add_Uniforme.setText("+ Adicionar Uniforme");
+        btn_Add_Uniforme.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_Add_UniformeActionPerformed(evt);
+            }
+        });
 
         tabela_uniformes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1951,7 +1957,6 @@ public class ViewsSistema extends javax.swing.JFrame {
         carregaDadosUniformes();
         appCardLayout.show(panel_telaInicial, "uniformes");
         System.out.println("Mostrando painel Uniformes");
-        //JOptionPane.showMessageDialog(this, "Painel de Uniformes ainda não implementado");
     }//GEN-LAST:event_btn_nav_uniformesActionPerformed
 
     private void btn_cad_distribuicao_pdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cad_distribuicao_pdActionPerformed
@@ -2248,6 +2253,9 @@ public class ViewsSistema extends javax.swing.JFrame {
         realizarBuscaAlunos();
     }//GEN-LAST:event_btn_buscar_alunosActionPerformed
 
+    private void btn_Add_UniformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Add_UniformeActionPerformed
+ 
+    }//GEN-LAST:event_btn_Add_UniformeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2303,6 +2311,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler7;
     private javax.swing.Box.Filler filler8;
     private javax.swing.Box.Filler filler9;
+    private javax.swing.JComboBox<String> filtro_tipo;
     private javax.swing.JScrollPane frame_tb_alunos;
     private javax.swing.JLabel img_pl;
     private javax.swing.JLabel img_ppa;
@@ -2322,9 +2331,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JComboBox<com.mycompany.gerenciamento.uniformes.Models.FiltroModel> jcb_filtro_dis_pd;
-    private javax.swing.JComboBox<String> jcb_filtros;
     private javax.swing.JLabel lb_codigo_prs;
     private javax.swing.JLabel lb_confirmar_senha_ppa;
     private javax.swing.JLabel lb_confirmar_senha_prs;
