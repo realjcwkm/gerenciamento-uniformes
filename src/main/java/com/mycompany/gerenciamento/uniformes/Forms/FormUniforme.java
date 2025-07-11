@@ -101,7 +101,7 @@ public class FormUniforme extends JDialog {
 
         Dimension tamanhoBotao = new Dimension(120, 40);
         JButton btnSalvar = createStyledButton("Salvar", corBotaoSalvar, fonteBotao, tamanhoBotao);
-        //btnSalvar.addActionListener(e -> salvar());
+        btnSalvar.addActionListener(e -> salvar());
 
         JButton btnCancelar = createStyledButton("Cancelar", corBotaoCancelar, fonteBotao, tamanhoBotao);
         btnCancelar.addActionListener(e -> dispose());
@@ -156,5 +156,50 @@ public class FormUniforme extends JDialog {
         fornecedorDAO.listarTodos().forEach(cbFornecedor::addItem);
     }
     
+    // Método para salvar a ENTRADA de um uniforme
+    private void salvar() {
+        try {
+            TipoUniformeModel tipoSelecionado = (TipoUniformeModel) cbTipoUniforme.getSelectedItem();
+            TamanhoModel tamanhoSelecionado = (TamanhoModel) cbTamanho.getSelectedItem();
+            FornecedorModel fornecedorSelecionado = (FornecedorModel) cbFornecedor.getSelectedItem();
+            
+            int quantidade = Integer.parseInt(tfQuantidade.getText().trim());
+            LocalDate dataEntrada = LocalDate.parse(tfDataEntrada.getText().trim(), DateTimeFormatter.ISO_LOCAL_DATE);
+
+            if (tipoSelecionado == null || tamanhoSelecionado == null || fornecedorSelecionado == null || tfQuantidade.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios!", "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            UniformeModel uniforme = uniformeDAO.buscarPorTipoETamanho(tipoSelecionado.getId(), tamanhoSelecionado.getId());
+            if (uniforme == null) {
+                JOptionPane.showMessageDialog(this, "Esta combinação de Tipo e Tamanho de uniforme não existe.\nCadastre o uniforme primeiro na tela de Tipos/Tamanhos.", "Erro", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            EntradaModel novaEntrada = new EntradaModel();
+            novaEntrada.setQuantidade(quantidade);
+            novaEntrada.setData_entrada(dataEntrada);
+            novaEntrada.setFornecedor(fornecedorSelecionado);
+            novaEntrada.setUniforme(uniforme);
+
+            entradaDAO.cadastrarEntrada(novaEntrada);
+            
+            this.salvo = true;
+            dispose();
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "A quantidade deve ser um número válido.", "Erro de Formato", JOptionPane.ERROR_MESSAGE);
+        } catch (DateTimeParseException e) {
+            JOptionPane.showMessageDialog(this, "A data deve estar no formato DD-MM-AAAA.", "Erro de Formato", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ocorreu um erro inesperado: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+    
+    public boolean isSalvo() {
+        return this.salvo;
+    }
 }
 
