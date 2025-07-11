@@ -37,6 +37,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
@@ -519,7 +520,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         subtitulo = new javax.swing.JLabel();
         tx_pesquisa = new javax.swing.JTextField();
         btn_buscar = new javax.swing.JButton();
-        filtro_tipo = new javax.swing.JComboBox<>();
+        JComboBox filtro_tipo = new javax.swing.JComboBox<>();
         btn_Add_Uniforme = new javax.swing.JButton();
         barra_rolagem = new javax.swing.JScrollPane();
         tabela_uniformes = new javax.swing.JTable();
