@@ -69,4 +69,8 @@ public class AlunoController {
             return "erro";
         }
     }
+    
+    public void atualizar(AlunoModel aluno) {
+        alunoDAO.editar(aluno);
+    }
 }
