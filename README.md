@@ -42,15 +42,22 @@ public class DBConfig {
 }
 ```
 
-## ➡️ Acesso ao Sistema
+## 🔑 Acesso ao Sistema
 
-### Autenticação
+### 1. Acesso Inicial (Administrador)
 
-Após a instalação, você pode acessar o sistema utilizando um usuário servidor padrão, que é criado automaticamente pelo script `uniformes.sql`.
+Após a instalação, você pode acessar o sistema pela primeira vez utilizando um usuário administrador, criado automaticamente pelo script `uniformes.sql`.
 
 Use as seguintes credenciais para fazer o login:
 
 * **Matrícula:** `admin01`
 * **Senha:** `admin`
 
-Após seguir estes passos, o sistema estará pronto para ser utilizado.
+### 2. Cadastro de Novos Servidores:
+
+Após o acesso inicial, você pode cadastrar novos servidores:
+
+* A senha padrão para o primeiro acesso de um novo servidor segue o formato: `"ifro+matricula"`.
+* **Exemplo:** Para um servidor cadastrado com a matrícula `100123`, sua senha de primeiro acesso será `ifro100123`.
+
+**Após seguir estes passos, o sistema estará pronto para ser utilizado.**
