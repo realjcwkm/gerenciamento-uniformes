@@ -22,6 +22,7 @@ import com.mycompany.gerenciamento.uniformes.TableModels.UniformeTableModel;
 import com.mycompany.gerenciamento.uniformes.Controllers.TrocaController;
 import com.mycompany.gerenciamento.uniformes.Forms.ConfirmacaoTroca;
 import com.mycompany.gerenciamento.uniformes.Forms.FormAlunoDialog;
+import com.mycompany.gerenciamento.uniformes.Forms.FormEditarAlunoDialog;
 import com.mycompany.gerenciamento.uniformes.Forms.FormSelecaoUniforme;
 import com.mycompany.gerenciamento.uniformes.Forms.FormServidorDialog;
 import com.mycompany.gerenciamento.uniformes.Forms.FormEditarServidorDialog;
@@ -205,6 +206,48 @@ public class ViewsSistema extends javax.swing.JFrame {
         this.tb_servidores.getColumnModel().getColumn(EDIT_COLUMN_INDEX).setCellEditor(editButtonEditor);
         this.tb_servidores.getColumnModel().getColumn(EDIT_COLUMN_INDEX).setPreferredWidth(90);
         this.tb_servidores.getColumnModel().getColumn(EDIT_COLUMN_INDEX).setMaxWidth(90); 
+        // === FIM ADICIONA EDIT ICON NA TABELA ===
+        
+        // === INICIO ADICIONA EDIT ICON NA TABELA DE ALUNOS ===
+        this.tb_alunos.setModel(alunoTableModel);
+        this.tb_alunos.setDefaultRenderer(Object.class, new CustomCellRenderer());
+        tb_alunos.setFillsViewportHeight(true); 
+
+        final int EDIT_AlUNO_COLUMN_INDEX = 4;
+
+        try {
+            ImageIcon originalIcon = new ImageIcon(getClass().getResource("/images/edit-icon.png"));
+            Image image = originalIcon.getImage();
+            Image scaledImage = image.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+            editIcon = new ImageIcon(scaledImage);
+        } catch (Exception e) {
+            System.err.println("Erro ao carregar o ícone de edição: " + e.getMessage());
+        }
+
+        ButtonColumnRendererEditor editAlunoButtonEditor = new ButtonColumnRendererEditor(this.tb_alunos, editIcon);
+
+        editAlunoButtonEditor.getButton().addActionListener(e -> {
+            if (tb_alunos.isEditing()) {
+                tb_alunos.getCellEditor().stopCellEditing();
+            }
+            int modelRow = tb_alunos.convertRowIndexToModel(tb_alunos.getSelectedRow());
+            if (modelRow == -1) return;
+
+            AlunoModel alunoParaEditar = alunoTableModel.getAlunoAt(modelRow);
+
+            FormEditarAlunoDialog dialog = new FormEditarAlunoDialog(ViewsSistema.this, alunoParaEditar);
+            dialog.setVisible(true);
+
+            if (dialog.isSalvo()) {
+                JOptionPane.showMessageDialog(ViewsSistema.this, "Aluno atualizado com sucesso!");
+                atualizarTabelaAlunos();
+            }
+        });
+
+        this.tb_alunos.getColumnModel().getColumn(EDIT_AlUNO_COLUMN_INDEX).setCellRenderer(editAlunoButtonEditor);
+        this.tb_alunos.getColumnModel().getColumn(EDIT_AlUNO_COLUMN_INDEX).setCellEditor(editAlunoButtonEditor);
+        this.tb_alunos.getColumnModel().getColumn(EDIT_AlUNO_COLUMN_INDEX).setPreferredWidth(90);
+        this.tb_alunos.getColumnModel().getColumn(EDIT_AlUNO_COLUMN_INDEX).setMaxWidth(90); 
         // === FIM ADICIONA EDIT ICON NA TABELA ===
         
         
