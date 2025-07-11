@@ -24,6 +24,7 @@ import com.mycompany.gerenciamento.uniformes.Forms.ConfirmacaoTroca;
 import com.mycompany.gerenciamento.uniformes.Forms.FormAlunoDialog;
 import com.mycompany.gerenciamento.uniformes.Forms.FormSelecaoUniforme;
 import com.mycompany.gerenciamento.uniformes.Forms.FormServidorDialog;
+import com.mycompany.gerenciamento.uniformes.Forms.FormEditarServidorDialog;
 import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
 import com.mycompany.gerenciamento.uniformes.Models.FiltroModel;
 import com.mycompany.gerenciamento.uniformes.Models.TamanhoModel;
@@ -159,30 +160,24 @@ public class ViewsSistema extends javax.swing.JFrame {
         this.tb_distribuicao.getColumnModel().getColumn(TROCA_COLUMN_INDEX).setPreferredWidth(40);
         this.tb_distribuicao.getColumnModel().getColumn(TROCA_COLUMN_INDEX).setMaxWidth(40);        
         // === FIM ADICIONA TROCA ICON NA TABELA ===
-       
+
         // === INICIO ADICIONA EDIT ICON NA TABELA ===
-        this.tabela_uniformes.setModel(uniformeTableModel);
-        this.tb_alunos.setModel(alunoTableModel);
         this.tb_servidores.setModel(servidorTableModel);
         this.tb_servidores.setDefaultRenderer(Object.class, new CustomCellRenderer());
         tb_servidores.setFillsViewportHeight(true); 
-        
-        final int EDIT_COLUMN_INDEX = 5;
-        
+
+        final int EDIT_COLUMN_INDEX = 4;
+
         ImageIcon editIcon = null;
         try {
             ImageIcon originalIcon = new ImageIcon(getClass().getResource("/images/edit-icon.png"));
-
             Image image = originalIcon.getImage();
-
             Image scaledImage = image.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
-
             editIcon = new ImageIcon(scaledImage);
-
         } catch (Exception e) {
-            System.err.println("Erro ao carregar ou redimensionar o ícone de troca: " + e.getMessage());
+            System.err.println("Erro ao carregar o ícone de edição: " + e.getMessage());
         }
-        
+
         ButtonColumnRendererEditor editButtonEditor = new ButtonColumnRendererEditor(this.tb_servidores, editIcon);
 
         editButtonEditor.getButton().addActionListener(e -> {
@@ -190,14 +185,23 @@ public class ViewsSistema extends javax.swing.JFrame {
                 tb_servidores.getCellEditor().stopCellEditing();
             }
             int modelRow = tb_servidores.convertRowIndexToModel(tb_servidores.getSelectedRow());
-            if (modelRow == -1) return; 
+            if (modelRow == -1) return;
+
+            ServidorModel servidorParaEditar = servidorTableModel.getServidorAt(modelRow);
+
+            FormEditarServidorDialog dialog = new FormEditarServidorDialog(ViewsSistema.this, servidorParaEditar);
+            dialog.setVisible(true);
+
+            if (dialog.isSalvo()) {
+                JOptionPane.showMessageDialog(ViewsSistema.this, "Servidor atualizado com sucesso!");
+                atualizarTabelaServidoresEControles();
+            }
         });
 
         this.tb_servidores.getColumnModel().getColumn(EDIT_COLUMN_INDEX).setCellRenderer(editButtonEditor);
         this.tb_servidores.getColumnModel().getColumn(EDIT_COLUMN_INDEX).setCellEditor(editButtonEditor);
-
-        this.tb_servidores.getColumnModel().getColumn(EDIT_COLUMN_INDEX).setPreferredWidth(40);
-        this.tb_servidores.getColumnModel().getColumn(EDIT_COLUMN_INDEX).setMaxWidth(40);        
+        this.tb_servidores.getColumnModel().getColumn(EDIT_COLUMN_INDEX).setPreferredWidth(90);
+        this.tb_servidores.getColumnModel().getColumn(EDIT_COLUMN_INDEX).setMaxWidth(90); 
         // === FIM ADICIONA EDIT ICON NA TABELA ===
         
         
@@ -435,6 +439,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         atualizarTabelaDistribuicao();
     }
     
+    // === BUSCA ALUNOS ===
     private void realizarBuscaAlunos() {
         termoBuscaAtualAluno = tx_pesquisa_alunos.getText();
         
