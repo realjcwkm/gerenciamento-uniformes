@@ -16,5 +16,5 @@ public interface AlunoInterface {
     public int getTotal(String busca);
     public AlunoModel getByMatricula(String matricula);
     public boolean cadastrar(AlunoModel aluno);
-    public void editar(AlunoModel aluno);
+    public boolean editar(AlunoModel aluno);
 }
