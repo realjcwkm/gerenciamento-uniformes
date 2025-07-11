@@ -114,6 +114,9 @@ public class ViewsSistema extends javax.swing.JFrame {
         
         carregarFiltrosDeDistribuicao();
         
+        this.tb_alunos.setModel(alunoTableModel);
+        this.tabela_uniformes.setModel(uniformeTableModel);
+        
         
         // === INICIO ADICIONA TROCA ICON NA TABELA ===
         this.tb_distribuicao.setModel(entregaTableModel);
@@ -880,6 +883,8 @@ public class ViewsSistema extends javax.swing.JFrame {
 
         tx_pesquisa_dis_pd.setText("Busque uma entrega...");
         tx_pesquisa_dis_pd.setPreferredSize(new java.awt.Dimension(130, 30));
+        tx_pesquisa_dis_pd.setSelectionEnd(18);
+        tx_pesquisa_dis_pd.setSelectionStart(18);
         tx_pesquisa_dis_pd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tx_pesquisa_dis_pdActionPerformed(evt);
@@ -888,6 +893,9 @@ public class ViewsSistema extends javax.swing.JFrame {
 
         btn_buscar_dis_pd.setFont(new java.awt.Font("Liberation Sans", 1, 12)); // NOI18N
         btn_buscar_dis_pd.setText("Buscar");
+        btn_buscar_dis_pd.setMaximumSize(new java.awt.Dimension(70, 30));
+        btn_buscar_dis_pd.setMinimumSize(new java.awt.Dimension(70, 30));
+        btn_buscar_dis_pd.setPreferredSize(new java.awt.Dimension(70, 30));
         btn_buscar_dis_pd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_buscar_dis_pdActionPerformed(evt);
@@ -910,13 +918,13 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addGroup(DistribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(DistribuicaoLayout.createSequentialGroup()
                         .addGroup(DistribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(tx_pesquisa_dis_pd, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(tx_pesquisa_dis_pd, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lb_subtitulo_pd, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(12, 12, 12)
-                        .addComponent(btn_buscar_dis_pd)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(5, 5, 5)
+                        .addComponent(btn_buscar_dis_pd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
                         .addComponent(jcb_filtro_dis_pd, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(309, 309, 309)
+                        .addGap(325, 325, 325)
                         .addComponent(btn_cad_distribuicao_pd))
                     .addComponent(lb_titulo_pd)
                     .addComponent(jScrollPane1)
@@ -933,11 +941,11 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(DistribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tx_pesquisa_dis_pd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_buscar_dis_pd, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_buscar_dis_pd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_cad_distribuicao_pd, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jcb_filtro_dis_pd, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(56, 56, 56))
