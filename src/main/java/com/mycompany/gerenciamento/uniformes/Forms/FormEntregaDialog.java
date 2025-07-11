@@ -66,8 +66,10 @@ public class FormEntregaDialog extends JDialog {
         txtMatricula = new JTextField();
         txtMatricula.setPreferredSize(tamanhoCampo);
         lblNomeAluno = new JTextField("<- Digite a matrícula e pressione Enter");
+        lblNomeAluno.setEditable(false);
         lblNomeAluno.setPreferredSize(tamanhoCampo);
         lblCursoAluno = new JTextField("");
+        lblCursoAluno.setEditable(false);
         lblCursoAluno.setPreferredSize(tamanhoCampo);
         comboUniformes = new JComboBox<>();
         comboUniformes.setPreferredSize(tamanhoCampo);
