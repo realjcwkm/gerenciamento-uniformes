@@ -113,6 +113,21 @@ public class ViewsSistema extends javax.swing.JFrame {
         carregarGraficoPizza(); // === GRÁFICO PIZZA ===
         carregarGraficoBarras(); // === GRÁFICO BARRAS ===
         
+        // === EXPORTAR LISTA SERVIDOR ===
+        btn_exportar_serv.addActionListener(e -> {
+            iniciarExportacao(tb_servidores, "Relatorio_de_Servidores", true);
+        });        
+        
+        // === EXPORTAR LISTA DISTRIBUIÇÃO ===
+        btn_exportar_distribuicao.addActionListener(e -> {
+            iniciarExportacao(tb_distribuicao, "Relatorio_de_Distribuicao", true);
+        });
+        
+        // === EXPORTAR LISTA ALUNOS ===
+        btn_exportar_alunos.addActionListener(e -> {
+            iniciarExportacao(tb_alunos, "Relatorio_Alunos", true);
+        });
+
         this.appCardLayout = (CardLayout) panel_telaInicial.getLayout();
         this.mainCardLayout = (CardLayout) main_container.getLayout();
         this.authCardLayout = (CardLayout) panel_autenticacao.getLayout();
