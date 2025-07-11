@@ -2254,7 +2254,13 @@ public class ViewsSistema extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_buscar_alunosActionPerformed
 
     private void btn_Add_UniformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Add_UniformeActionPerformed
- 
+        FormUniforme formDialog = new FormUniforme(this);
+        formDialog.setVisible(true);
+    
+        if (formDialog.isSalvo()) {
+        System.out.println("Atualizando a tabela de uniformes...");
+        carregaDadosUniformes(); 
+        }
     }//GEN-LAST:event_btn_Add_UniformeActionPerformed
 
     /**
