@@ -58,7 +58,7 @@ public class ServidorDAO implements ServidorInterface {
             sql.append(" WHERE LOWER(s.nome) LIKE ? OR LOWER(s.sobrenome) LIKE ? OR LOWER(s.matricula) LIKE ? OR LOWER(d.nome) LIKE ?");
         }
 
-        sql.append(" ORDER BY s.id DESC LIMIT ? OFFSET ?");
+        sql.append(" ORDER BY s.id ASC LIMIT ? OFFSET ?");
 
         int offset = (pagina - 1) * itensPorPagina;
 
@@ -245,6 +245,26 @@ public class ServidorDAO implements ServidorInterface {
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next();
             }
+        }
+    }
+    
+    @Override
+    public void editServidor(ServidorModel servidor) {
+        String sql = "UPDATE Servidor SET nome = ?, sobrenome = ?, email = ?, telefone = ?, fk_departamento = ?, ativo = ? WHERE id = ?";
+
+        try (PreparedStatement ps = this.conn.prepareStatement(sql)) {
+
+            ps.setString(1, servidor.getNome());
+            ps.setString(2, servidor.getSobrenome());
+            ps.setString(3, servidor.getEmail());
+            ps.setString(4, servidor.getTelefone());
+            ps.setInt(5, servidor.getFk_departamento());
+            ps.setBoolean(6, servidor.isAtivo());
+            ps.setInt(7, servidor.getId());
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao atualizar servidor no banco de dados: " + e.getMessage(), e);
         }
     }
 }
