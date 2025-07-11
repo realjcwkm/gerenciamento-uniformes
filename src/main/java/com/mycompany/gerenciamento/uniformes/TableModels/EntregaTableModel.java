@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
  */
 public class EntregaTableModel extends AbstractTableModel{
     private List<EntregaModel> entregas;
-    private String [] colunas = {"Nome", "Tamanho", "Uniforme", "Matrícula", "Servidor Responsável", "Quantidade", "Data de Entrega", "Ações"};
+    private String [] colunas = {"Nome", "Tamanho", "Uniforme", "Matrícula", "Servidor Responsável", "Quantidade", "Data de Entrega", ""};
     
     public EntregaTableModel() {
         this.entregas = new ArrayList<>();

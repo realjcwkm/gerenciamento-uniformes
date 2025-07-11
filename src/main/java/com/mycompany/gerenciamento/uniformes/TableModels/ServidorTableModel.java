@@ -16,7 +16,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class ServidorTableModel extends AbstractTableModel {
     private List<ServidorModel> servidores;
-    private String[] colunas = {"Nome", "Matrícula", "Departamento","Status","Ações"};
+    private String[] colunas = {"Nome", "Matrícula", "Departamento","Status",""};
 
     public ServidorTableModel(List<ServidorModel> servidores) {
         this.servidores = servidores;
