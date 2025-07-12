@@ -4,8 +4,10 @@
  */
 package com.mycompany.gerenciamento.uniformes.TableModels;
 
+import com.mycompany.gerenciamento.uniformes.Models.ServidorModel;
 import com.mycompany.gerenciamento.uniformes.Models.UniformeEstoqueModel;
 import com.mycompany.gerenciamento.uniformes.Models.UniformeModel;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -16,10 +18,11 @@ import javax.swing.table.AbstractTableModel;
  */
 public class UniformeTableModel  extends AbstractTableModel{
     private List<UniformeEstoqueModel> listaUniformes;
-    private String[] colunas = {"Tipo","Status","Entrada","Saída","Tamanho","Data Entrada"};
+    private String[] colunas = {"Tipo","Status","Entrada","Saída","Tamanho","Data Entrada",""};
+    private final DateTimeFormatter formatadorData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     
-     public UniformeTableModel() {
-        this.listaUniformes = new ArrayList();
+     public UniformeTableModel(List<UniformeModel> uniformes) {
+        this.listaUniformes = listaUniformes;
     }
     
     public int getRowCount() {
@@ -44,11 +47,18 @@ public class UniformeTableModel  extends AbstractTableModel{
             case 3: return uniforme.getTotalSaida();
             case 4: return uniforme.getTamanho();
             case 5: return uniforme.getDataUltimaEntrada();
+            case 6: return "Editar";
             default: return null;
         }
     }
         public void setUniformes (List<UniformeEstoqueModel> novosUniformes) {
         this.listaUniformes = novosUniformes;
         this.fireTableDataChanged();
+    }
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return columnIndex == 6;
+        }
+        public UniformeEstoqueModel getUniformeAt(int row) {
+            return listaUniformes.get(row);
     }
 }

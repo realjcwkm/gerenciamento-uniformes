@@ -25,8 +25,8 @@ import com.mycompany.gerenciamento.uniformes.Forms.FormAlunoDialog;
 import com.mycompany.gerenciamento.uniformes.Forms.FormEditarAlunoDialog;
 import com.mycompany.gerenciamento.uniformes.Forms.FormSelecaoUniforme;
 import com.mycompany.gerenciamento.uniformes.Forms.FormServidorDialog;
-import com.mycompany.gerenciamento.uniformes.Forms.FormEditarServidorDialog;
 import com.mycompany.gerenciamento.uniformes.Forms.FormUniforme;
+import com.mycompany.gerenciamento.uniformes.Forms.FormEditarServidorDialog;
 import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
 import com.mycompany.gerenciamento.uniformes.Models.FiltroModel;
 import com.mycompany.gerenciamento.uniformes.Models.TamanhoModel;
@@ -113,7 +113,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         this.entregaTableModel = new EntregaTableModel(new ArrayList<>());
         this.alunoTableModel = new AlunoTableModel(new ArrayList<>());
         this.servidorTableModel = new ServidorTableModel(new ArrayList<>());
-        this.uniformeTableModel = new UniformeTableModel();
+        this.uniformeTableModel = new UniformeTableModel(new ArrayList<>());
         
         carregarFiltrosDeDistribuicao();
         
@@ -177,8 +177,11 @@ public class ViewsSistema extends javax.swing.JFrame {
         ImageIcon editIcon = null;
         try {
             ImageIcon originalIcon = new ImageIcon(getClass().getResource("/images/edit-icon.png"));
+            
             Image image = originalIcon.getImage();
+            
             Image scaledImage = image.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+            
             editIcon = new ImageIcon(scaledImage);
         } catch (Exception e) {
             System.err.println("Erro ao carregar o ícone de edição: " + e.getMessage());
