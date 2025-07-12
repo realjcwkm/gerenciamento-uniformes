@@ -38,6 +38,7 @@ public class FormEntregaDialog extends JDialog {
     private JComboBox<TipoUniformeModel> comboUniformes;
     private JComboBox<TamanhoModel> comboTamanhos;
     private JTextField txtQuantidade;
+    private JLabel lblAvisoMatricula;
     
     private AlunoModel alunoSelecionado;
     private final EntregaController entregaController;
@@ -58,6 +59,7 @@ public class FormEntregaDialog extends JDialog {
         // Fontes e Cores
         Font fonteTitulo = new Font("Segoe UI", Font.BOLD, 22);
         Font fonteLabel = new Font("Segoe UI", Font.BOLD, 14);
+        Font fonteAviso = new Font("Segoe UI", Font.ITALIC, 11);
         Font fonteBotao = new Font("Segoe UI", Font.BOLD, 14);
         Color corBotaoSalvar = new Color(0, 164, 55);
         Color corBotaoCancelar = new Color(238, 63, 63);
@@ -65,9 +67,11 @@ public class FormEntregaDialog extends JDialog {
         Dimension tamanhoCampo = new Dimension(250, 35);
         txtMatricula = new JTextField();
         txtMatricula.setPreferredSize(tamanhoCampo);
-        lblNomeAluno = new JTextField("<- Digite a matrícula e pressione Enter");
+        lblNomeAluno = new JTextField("");
+        lblNomeAluno.setEditable(false);
         lblNomeAluno.setPreferredSize(tamanhoCampo);
         lblCursoAluno = new JTextField("");
+        lblCursoAluno.setEditable(false);
         lblCursoAluno.setPreferredSize(tamanhoCampo);
         comboUniformes = new JComboBox<>();
         comboUniformes.setPreferredSize(tamanhoCampo);
@@ -75,6 +79,10 @@ public class FormEntregaDialog extends JDialog {
         comboTamanhos.setPreferredSize(tamanhoCampo);
         txtQuantidade = new JTextField("1");
         txtQuantidade.setPreferredSize(tamanhoCampo);
+        
+        lblAvisoMatricula = new JLabel("Digite a matrícula e pressione Enter.");
+        lblAvisoMatricula.setFont(fonteAviso);
+        lblAvisoMatricula.setForeground(Color.GRAY);
         
         //Layout
         GridBagConstraints gbc = new GridBagConstraints();
@@ -92,12 +100,28 @@ public class FormEntregaDialog extends JDialog {
         gbc.gridwidth = 1;
         
         //Formulario
-        addFormField(panel, gbc, "Matrícula Aluno:", txtMatricula, fonteLabel, 0, 1);
         addFormField(panel, gbc, "Nome:", lblNomeAluno, fonteLabel, 1, 1);
-        addFormField(panel, gbc, "Curso:", lblCursoAluno, fonteLabel, 0, 3);
-        addFormField(panel, gbc, "Uniforme:", comboUniformes, fonteLabel, 1, 3);
-        addFormField(panel, gbc, "Tamanho:", comboTamanhos, fonteLabel, 0, 5);
-        addFormField(panel, gbc, "Quantidade:", txtQuantidade, fonteLabel, 1, 5);
+        addFormField(panel, gbc, "Curso:", lblCursoAluno, fonteLabel, 0, 4);
+        addFormField(panel, gbc, "Uniforme:", comboUniformes, fonteLabel, 1, 4);
+        addFormField(panel, gbc, "Tamanho:", comboTamanhos, fonteLabel, 0, 6);
+        addFormField(panel, gbc, "Quantidade:", txtQuantidade, fonteLabel, 1, 6);
+        
+        // Matrícula
+        gbc.gridx = 0; gbc.gridy = 1;
+        gbc.insets = new Insets(0, 0, 1, 0);
+        JLabel lblMatricula = new JLabel("Matrícula Aluno:");
+        lblMatricula.setFont(fonteLabel);
+        panel.add(lblMatricula, gbc);
+        
+        // Campo de Texto da Matrícula
+        gbc.gridy = 2;
+        gbc.insets = new Insets(0, 0, 0, 20);
+        panel.add(txtMatricula, gbc);
+
+        // Label de Aviso
+        gbc.gridy = 3;
+        gbc.insets = new Insets(0, 0, 0, 2);
+        panel.add(lblAvisoMatricula, gbc);
         
         txtMatricula.addActionListener(e -> buscarAluno());
         

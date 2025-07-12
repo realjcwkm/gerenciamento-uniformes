@@ -37,7 +37,7 @@ public class ServidorController {
         }
 
         try {
-            String senhaPadraoPura = "senha" + matricula;
+            String senhaPadraoPura = "ifro" + matricula;
             String senhaComHash = BCrypt.hashpw(senhaPadraoPura, BCrypt.gensalt());
 
             ServidorModel novoServidor = new ServidorModel();
@@ -70,4 +70,8 @@ public class ServidorController {
         return Math.max(totalPaginas, 1);
     }
     // PAGINAÇÃO E BUSCA
+    
+    public void atualizarServidor(ServidorModel servidor) {      
+        servidorDAO.editServidor(servidor);
+    }
 }

@@ -14,7 +14,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class AlunoTableModel extends AbstractTableModel {
     private List<AlunoModel> alunos;
-    private String[] colunas = {"ID", "Nome", "Turma", "Matricula", "Periodo"};
+    private String[] colunas = {"Nome", "Turma", "Matricula", "Periodo", ""};
     
     public AlunoTableModel(List<AlunoModel> alunos) {
         this.alunos = alunos;
@@ -40,13 +40,22 @@ public class AlunoTableModel extends AbstractTableModel {
         AlunoModel aluno = alunos.get(rowIndex);
         
         switch (columnIndex) {
-            case 0: return aluno.getId();
-            case 1: return aluno.getNome();
-            case 2: return aluno.getCurso().getNome();
-            case 3: return aluno.getMatricula();
-            case 4: return aluno.getPeriodo();
+            case 0: return aluno.getNome() + " " + aluno.getSobrenome();
+            case 1: return aluno.getCurso().getNome();
+            case 2: return aluno.getMatricula();
+            case 3: return aluno.getPeriodo();
+            case 4: return "Editar";
             default: return null;
         }
+    }
+    
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return columnIndex == 4;
+    }
+    
+    public AlunoModel getAlunoAt(int row) {
+        return alunos.get(row);
     }
     
     public void setAlunos(List<AlunoModel> alunos) {

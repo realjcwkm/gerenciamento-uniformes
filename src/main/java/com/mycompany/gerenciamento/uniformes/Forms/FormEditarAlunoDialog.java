@@ -5,14 +5,15 @@
 package com.mycompany.gerenciamento.uniformes.Forms;
 
 import com.mycompany.gerenciamento.uniformes.Controllers.AlunoController;
+import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
 import com.mycompany.gerenciamento.uniformes.Models.CursoModel;
+import com.mycompany.gerenciamento.uniformes.View.ViewsSistema;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -30,31 +31,34 @@ import javax.swing.JTextField;
  *
  * @author geinfo
  */
-public class FormAlunoDialog extends JDialog {
+public class FormEditarAlunoDialog extends JDialog{
     private final JTextField tfNome, tfSobrenome, tfEmail, tfTelefone, tfMatricula, tfIdade;
     private final JComboBox<CursoModel> cbCurso;
     private final JComboBox<Integer> cbPeriodo;
     
     private final AlunoController alunoController;
+    private final AlunoModel alunoParaEditar;
     private boolean salvo = false;
-    
-    public FormAlunoDialog(Frame parent) {
-        super(parent, "Cadastrar Aluno", true);
+
+    public FormEditarAlunoDialog(ViewsSistema parent, AlunoModel aluno) {
+        super(parent, "Editar Aluno", true);
         this.alunoController = new AlunoController();
         
+        this.alunoParaEditar = aluno;
+
         setResizable(false);
         setLayout(new BorderLayout());
-        
         JPanel panelPai = new JPanel(new GridBagLayout());
         panelPai.setBackground(Color.WHITE);
         panelPai.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
         
+        // Fontes e Cores
         Font fonteTitulo = new Font("Segoe UI", Font.BOLD, 22);
         Font fonteLabel = new Font("Segoe UI", Font.BOLD, 14);
         Font fonteBotao = new Font("Segoe UI", Font.BOLD, 14);
         Color corBotaoSalvar = new Color(0, 164, 55);
         Color corBotaoCancelar = new Color(238, 63, 63);
-        
+
         // Campos
         Dimension tamanhoCampo = new Dimension(250, 35);
         tfNome = new JTextField();
@@ -78,17 +82,16 @@ public class FormAlunoDialog extends JDialog {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 0.5;
+        gbc.anchor = GridBagConstraints.WEST;
         
         // Título
         gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(0, 0, 20, 0);
-        JLabel lblTitulo = new JLabel("Cadastrar Aluno");
+        JLabel lblTitulo = new JLabel("Editar Informações do Aluno");
         lblTitulo.setFont(fonteTitulo);
         panelPai.add(lblTitulo, gbc);
-        
         gbc.gridwidth = 1;
-        
+
         // Formulário
         addFormField(panelPai, gbc, "Nome:", tfNome, fonteLabel, 0, 1);
         addFormField(panelPai, gbc, "Sobrenome:", tfSobrenome, fonteLabel, 1, 1);
@@ -125,41 +128,93 @@ public class FormAlunoDialog extends JDialog {
         gbc.anchor = GridBagConstraints.EAST;
         gbc.insets = new Insets(20, 0, 0, 0);
         panelPai.add(buttonPanel, gbc);
-        
-        carregarComboBoxCursos();
+
+        // Finalização
         add(panelPai, BorderLayout.CENTER);
-        
+        carregarComboBoxCursos();
+        preencherFormulario();
         pack();
         setLocationRelativeTo(parent);
     }
     
-    private JButton createStyledButton(String text, Color background, Font font, Dimension size) {
-        JButton button = new JButton(text);
-        button.setFont(font);
-        button.setPreferredSize(size);
-        button.setBackground(background);
-        button.setForeground(Color.WHITE);
-        button.setOpaque(false);
-        button.setBorderPainted(false);
-        button.setFocusPainted(false);
-        return button;
-    }
-
-    private void addFormField(JPanel panel, GridBagConstraints gbc, String labelText, Component component, Font font, int gridx, int gridy) {
-        // Labels
-        gbc.gridx = gridx;
-        gbc.gridy = gridy;
-        gbc.insets = new Insets(10, 0, 5, 0);
-        JLabel label = new JLabel(labelText);
-        label.setFont(font);
-        panel.add(label, gbc);
+    private void preencherFormulario() {
+        tfNome.setText(alunoParaEditar.getNome());
+        tfSobrenome.setText(alunoParaEditar.getSobrenome());
+        tfEmail.setText(alunoParaEditar.getEmail());
+        tfTelefone.setText(alunoParaEditar.getTelefone());
+        tfMatricula.setText(alunoParaEditar.getMatricula());
+        tfIdade.setText(String.valueOf(alunoParaEditar.getIdade()));
         
-        // Componente (TextField, ComboBox)
-        gbc.gridy = gridy + 1;
-        gbc.insets = new Insets(0, 0, 0, 20);
-        panel.add(component, gbc);
+        int periodo = alunoParaEditar.getPeriodo();
+        
+        System.out.println(periodo);
+        
+        cbPeriodo.setSelectedItem(periodo);
+        
+        CursoModel cursoAtual = null;
+        for (int i = 0; i < cbCurso.getItemCount(); i++) {
+            if (cbCurso.getItemAt(i).getId() == alunoParaEditar.getFk_curso()) {
+                cursoAtual = cbCurso.getItemAt(i);
+                break;
+            }
+        }
+        if (cursoAtual != null) {
+            cbCurso.setSelectedItem(cursoAtual);
+        }
+        
+        
     }
+    
+    private void salvar() {
+        String nome = tfNome.getText().trim();
+        String sobrenome = tfSobrenome.getText().trim();
+        String email = tfEmail.getText().trim();
+        String telefone = tfTelefone.getText().trim();
+        String matricula = tfMatricula.getText().trim();       
+        int idade = Integer.parseInt(tfIdade.getText());
+        int periodo = (Integer) cbPeriodo.getSelectedItem();
+        CursoModel cursoSelecionado = (CursoModel) cbCurso.getSelectedItem();
 
+        boolean houveMudanca = 
+                !nome.equals(alunoParaEditar.getNome()) ||
+                !sobrenome.equals(alunoParaEditar.getSobrenome()) ||
+                !email.equals(alunoParaEditar.getEmail()) ||
+                !telefone.equals(alunoParaEditar.getTelefone()) ||
+                !matricula.equals(alunoParaEditar.getMatricula()) ||
+                idade != (alunoParaEditar.getIdade()) ||
+                periodo != (alunoParaEditar.getPeriodo()) ||
+                (cursoSelecionado != null && cursoSelecionado.getId() != alunoParaEditar.getFk_curso());
+
+        if (!houveMudanca) {
+            dispose();
+            return;
+        }
+        
+
+        alunoParaEditar.setNome(nome);
+        alunoParaEditar.setSobrenome(sobrenome);
+        alunoParaEditar.setEmail(email);
+        alunoParaEditar.setTelefone(telefone);
+        alunoParaEditar.setMatricula(matricula);
+        alunoParaEditar.setIdade(idade);
+        alunoParaEditar.setPeriodo(periodo);
+        if (cursoSelecionado != null) {
+            alunoParaEditar.setFk_curso(cursoSelecionado.getId());
+        }
+
+        try {
+            alunoController.atualizar(alunoParaEditar);
+            this.salvo = true;
+            dispose();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Erro ao salvar no banco de dados.\nVerifique se o e-mail já está em uso.", 
+                "", 
+                JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+    
     private void carregarComboBoxCursos() {
         this.alunoController.getAllCursos().forEach(cbCurso::addItem);
     }
@@ -171,43 +226,32 @@ public class FormAlunoDialog extends JDialog {
         }
     }
     
-    private void salvar() {
-        String nome = tfNome.getText().trim();
-        String sobrenome = tfSobrenome.getText().trim();
-        String email = tfEmail.getText().trim();
-        String telefone = tfTelefone.getText().trim();
-        String matricula = tfMatricula.getText().trim();
-        int idade = Integer.parseInt(tfIdade.getText().trim());
-        CursoModel curso = (CursoModel) cbCurso.getSelectedItem();
-        int periodo = (Integer) cbPeriodo.getSelectedItem();
-        
-        if (nome.isEmpty() || sobrenome.isEmpty() || email.isEmpty() || telefone.isEmpty() || idade <= 0 || matricula.isEmpty() || curso == null || periodo <= 0) {
-            JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios!", "Erro de Validação", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        String cadastro = this.alunoController.cadastrar(
-            nome, 
-            sobrenome,
-            email, 
-            telefone, 
-            matricula, 
-            idade, 
-            curso, 
-            periodo
-        );
-        
-        if (cadastro.equals("sucesso")) {
-            this.salvo = true;
-            dispose();
-        } else if (cadastro.equals("erro")) {
-            JOptionPane.showMessageDialog(this, "Falha inesperada ao cadastrar o aluno.", "Erro de Cadastro", JOptionPane.ERROR_MESSAGE);
-        } else if (cadastro.equals("repetido")) {
-            JOptionPane.showMessageDialog(this, "Falha ao cadastrar o aluno.\nMatricula já cadastrada no banco de dados!", "Erro de Cadastro", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    
     public boolean isSalvo() {
         return this.salvo;
+    }
+    
+    private void addFormField(JPanel panel, GridBagConstraints gbc, String labelText, Component component, Font font, int gridx, int gridy) {
+        gbc.gridx = gridx; gbc.gridy = gridy;
+        gbc.insets = new Insets(10, 0, 5, 0);
+        gbc.anchor = GridBagConstraints.WEST;
+        JLabel label = new JLabel(labelText);
+        label.setFont(font);
+        panel.add(label, gbc);
+        gbc.gridy = gridy + 1;
+        gbc.insets = new Insets(0, 0, 0, 20);
+        panel.add(component, gbc);
+    }
+    
+    // Botões estilizados
+    private JButton createStyledButton(String text, Color background, Font font, Dimension size) {
+        JButton button = new JButton(text);
+        button.setFont(font);
+        button.setPreferredSize(size);
+        button.setBackground(background);
+        button.setForeground(Color.WHITE);
+        button.setOpaque(false);
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        return button;
     }
 }

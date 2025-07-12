@@ -216,4 +216,38 @@ public class AlunoDAO implements AlunoInterface {
             return false;
         }
     }
+    
+    @Override
+    public boolean editar(AlunoModel aluno) {
+        String sql = "UPDATE Aluno SET nome = ?, sobrenome = ?, email = ?, telefone = ?, matricula = ?, idade = ?, periodo = ?, fk_curso = ? WHERE id = ?";
+        
+        try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, aluno.getNome());
+            ps.setString(2, aluno.getSobrenome());
+            ps.setString(3, aluno.getEmail());
+            ps.setString(4, aluno.getTelefone());
+            ps.setString(5, aluno.getMatricula());
+            ps.setInt(6, aluno.getIdade());
+            ps.setInt(7, aluno.getPeriodo());
+            ps.setInt(8, aluno.getCurso().getId());
+            ps.setInt(9, aluno.getId());
+            
+            int linhasAfetadas = ps.executeUpdate();
+            
+            if (linhasAfetadas == 1) {
+                try (ResultSet rs = ps.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        aluno.setId(rs.getInt(1));
+                        System.out.println("Aluno Atualizado com ID: " + aluno.getId());
+                        return true;
+                    }
+                }
+            }
+            return true;
+        } catch (SQLException e) {
+            System.err.println("Erro ao atualizar aluno:");
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

@@ -153,9 +153,9 @@ public class EntregaDAO implements EntregaInterface {
     public List<EntregaModel> listarPagina(int pagina, int itensPorPagina, String termoBusca, FiltroModel filtro) {
         List<EntregaModel> entregas = new ArrayList<>();
         StringBuilder sql = new StringBuilder("SELECT e.id, e.semestre, e.ano, e.data_entrega, e.trocado, e.quantidade, "
-            + "s.id AS id_servidor, s.nome AS nome_servidor, "
+            + "s.id AS id_servidor, s.nome AS nome_servidor, s.sobrenome AS sobrenome_servidor, "
             + "u.id AS id_uniforme, u.quantidade AS quantidade_uniforme, "
-            + "a.id AS id_aluno, a.matricula AS matricula_aluno, a.nome AS nome_aluno, "
+            + "a.id AS id_aluno, a.matricula AS matricula_aluno, a.nome AS nome_aluno, a.sobrenome AS sobrenome_aluno, "
             + "t.id AS id_tamanho, t.nome AS tamanho, "
             + "tu.id AS id_tipo, tu.nome AS tipo,"
             + "tr.id AS id_troca, tr.data_troca AS data_troca "
@@ -238,9 +238,11 @@ public class EntregaDAO implements EntregaInterface {
 
                     servidor.setId(rs.getInt("id_servidor"));
                     servidor.setNome(rs.getString("nome_servidor"));
+                    servidor.setSobrenome(rs.getString("sobrenome_servidor"));
 
                     aluno.setId(rs.getInt("id_aluno"));
                     aluno.setNome(rs.getString("nome_aluno"));
+                    aluno.setSobrenome(rs.getString("sobrenome_aluno"));
                     aluno.setMatricula(rs.getString("matricula_aluno"));
 
                     tamanho.setId(rs.getInt("id_tamanho"));

@@ -22,8 +22,10 @@ import com.mycompany.gerenciamento.uniformes.TableModels.UniformeTableModel;
 import com.mycompany.gerenciamento.uniformes.Controllers.TrocaController;
 import com.mycompany.gerenciamento.uniformes.Forms.ConfirmacaoTroca;
 import com.mycompany.gerenciamento.uniformes.Forms.FormAlunoDialog;
+import com.mycompany.gerenciamento.uniformes.Forms.FormEditarAlunoDialog;
 import com.mycompany.gerenciamento.uniformes.Forms.FormSelecaoUniforme;
 import com.mycompany.gerenciamento.uniformes.Forms.FormServidorDialog;
+import com.mycompany.gerenciamento.uniformes.Forms.FormEditarServidorDialog;
 import com.mycompany.gerenciamento.uniformes.Forms.FormUniforme;
 import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
 import com.mycompany.gerenciamento.uniformes.Models.FiltroModel;
@@ -115,6 +117,9 @@ public class ViewsSistema extends javax.swing.JFrame {
         
         carregarFiltrosDeDistribuicao();
         
+        this.tb_alunos.setModel(alunoTableModel);
+        this.tabela_uniformes.setModel(uniformeTableModel);
+        
         
         // === INICIO ADICIONA TROCA ICON NA TABELA ===
         this.tb_distribuicao.setModel(entregaTableModel);
@@ -161,30 +166,24 @@ public class ViewsSistema extends javax.swing.JFrame {
         this.tb_distribuicao.getColumnModel().getColumn(TROCA_COLUMN_INDEX).setPreferredWidth(40);
         this.tb_distribuicao.getColumnModel().getColumn(TROCA_COLUMN_INDEX).setMaxWidth(40);        
         // === FIM ADICIONA TROCA ICON NA TABELA ===
-       
+
         // === INICIO ADICIONA EDIT ICON NA TABELA ===
-        this.tabela_uniformes.setModel(uniformeTableModel);
-        this.tb_alunos.setModel(alunoTableModel);
         this.tb_servidores.setModel(servidorTableModel);
         this.tb_servidores.setDefaultRenderer(Object.class, new CustomCellRenderer());
         tb_servidores.setFillsViewportHeight(true); 
-        
-        final int EDIT_COLUMN_INDEX = 5;
-        
+
+        final int EDIT_COLUMN_INDEX = 4;
+
         ImageIcon editIcon = null;
         try {
             ImageIcon originalIcon = new ImageIcon(getClass().getResource("/images/edit-icon.png"));
-
             Image image = originalIcon.getImage();
-
             Image scaledImage = image.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
-
             editIcon = new ImageIcon(scaledImage);
-
         } catch (Exception e) {
-            System.err.println("Erro ao carregar ou redimensionar o ícone de troca: " + e.getMessage());
+            System.err.println("Erro ao carregar o ícone de edição: " + e.getMessage());
         }
-        
+
         ButtonColumnRendererEditor editButtonEditor = new ButtonColumnRendererEditor(this.tb_servidores, editIcon);
 
         editButtonEditor.getButton().addActionListener(e -> {
@@ -192,14 +191,65 @@ public class ViewsSistema extends javax.swing.JFrame {
                 tb_servidores.getCellEditor().stopCellEditing();
             }
             int modelRow = tb_servidores.convertRowIndexToModel(tb_servidores.getSelectedRow());
-            if (modelRow == -1) return; 
+            if (modelRow == -1) return;
+
+            ServidorModel servidorParaEditar = servidorTableModel.getServidorAt(modelRow);
+
+            FormEditarServidorDialog dialog = new FormEditarServidorDialog(ViewsSistema.this, servidorParaEditar);
+            dialog.setVisible(true);
+
+            if (dialog.isSalvo()) {
+                JOptionPane.showMessageDialog(ViewsSistema.this, "Servidor atualizado com sucesso!");
+                atualizarTabelaServidoresEControles();
+            }
         });
 
         this.tb_servidores.getColumnModel().getColumn(EDIT_COLUMN_INDEX).setCellRenderer(editButtonEditor);
         this.tb_servidores.getColumnModel().getColumn(EDIT_COLUMN_INDEX).setCellEditor(editButtonEditor);
+        this.tb_servidores.getColumnModel().getColumn(EDIT_COLUMN_INDEX).setPreferredWidth(90);
+        this.tb_servidores.getColumnModel().getColumn(EDIT_COLUMN_INDEX).setMaxWidth(90); 
+        // === FIM ADICIONA EDIT ICON NA TABELA ===
+        
+        // === INICIO ADICIONA EDIT ICON NA TABELA DE ALUNOS ===
+        this.tb_alunos.setModel(alunoTableModel);
+        this.tb_alunos.setDefaultRenderer(Object.class, new CustomCellRenderer());
+        tb_alunos.setFillsViewportHeight(true); 
 
-        this.tb_servidores.getColumnModel().getColumn(EDIT_COLUMN_INDEX).setPreferredWidth(40);
-        this.tb_servidores.getColumnModel().getColumn(EDIT_COLUMN_INDEX).setMaxWidth(40);        
+        final int EDIT_AlUNO_COLUMN_INDEX = 4;
+
+        try {
+            ImageIcon originalIcon = new ImageIcon(getClass().getResource("/images/edit-icon.png"));
+            Image image = originalIcon.getImage();
+            Image scaledImage = image.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+            editIcon = new ImageIcon(scaledImage);
+        } catch (Exception e) {
+            System.err.println("Erro ao carregar o ícone de edição: " + e.getMessage());
+        }
+
+        ButtonColumnRendererEditor editAlunoButtonEditor = new ButtonColumnRendererEditor(this.tb_alunos, editIcon);
+
+        editAlunoButtonEditor.getButton().addActionListener(e -> {
+            if (tb_alunos.isEditing()) {
+                tb_alunos.getCellEditor().stopCellEditing();
+            }
+            int modelRow = tb_alunos.convertRowIndexToModel(tb_alunos.getSelectedRow());
+            if (modelRow == -1) return;
+
+            AlunoModel alunoParaEditar = alunoTableModel.getAlunoAt(modelRow);
+
+            FormEditarAlunoDialog dialog = new FormEditarAlunoDialog(ViewsSistema.this, alunoParaEditar);
+            dialog.setVisible(true);
+
+            if (dialog.isSalvo()) {
+                JOptionPane.showMessageDialog(ViewsSistema.this, "Aluno atualizado com sucesso!");
+                atualizarTabelaAlunos();
+            }
+        });
+
+        this.tb_alunos.getColumnModel().getColumn(EDIT_AlUNO_COLUMN_INDEX).setCellRenderer(editAlunoButtonEditor);
+        this.tb_alunos.getColumnModel().getColumn(EDIT_AlUNO_COLUMN_INDEX).setCellEditor(editAlunoButtonEditor);
+        this.tb_alunos.getColumnModel().getColumn(EDIT_AlUNO_COLUMN_INDEX).setPreferredWidth(90);
+        this.tb_alunos.getColumnModel().getColumn(EDIT_AlUNO_COLUMN_INDEX).setMaxWidth(90); 
         // === FIM ADICIONA EDIT ICON NA TABELA ===
         
         
@@ -436,6 +486,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         atualizarTabelaDistribuicao();
     }
     
+    // === BUSCA ALUNOS ===
     private void realizarBuscaAlunos() {
         termoBuscaAtualAluno = tx_pesquisa_alunos.getText();
         
@@ -876,6 +927,8 @@ public class ViewsSistema extends javax.swing.JFrame {
 
         tx_pesquisa_dis_pd.setText("Busque uma entrega...");
         tx_pesquisa_dis_pd.setPreferredSize(new java.awt.Dimension(130, 30));
+        tx_pesquisa_dis_pd.setSelectionEnd(18);
+        tx_pesquisa_dis_pd.setSelectionStart(18);
         tx_pesquisa_dis_pd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tx_pesquisa_dis_pdActionPerformed(evt);
@@ -884,6 +937,9 @@ public class ViewsSistema extends javax.swing.JFrame {
 
         btn_buscar_dis_pd.setFont(new java.awt.Font("Liberation Sans", 1, 12)); // NOI18N
         btn_buscar_dis_pd.setText("Buscar");
+        btn_buscar_dis_pd.setMaximumSize(new java.awt.Dimension(70, 30));
+        btn_buscar_dis_pd.setMinimumSize(new java.awt.Dimension(70, 30));
+        btn_buscar_dis_pd.setPreferredSize(new java.awt.Dimension(70, 30));
         btn_buscar_dis_pd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_buscar_dis_pdActionPerformed(evt);
@@ -906,13 +962,13 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addGroup(DistribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(DistribuicaoLayout.createSequentialGroup()
                         .addGroup(DistribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(tx_pesquisa_dis_pd, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(tx_pesquisa_dis_pd, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lb_subtitulo_pd, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(12, 12, 12)
-                        .addComponent(btn_buscar_dis_pd)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(5, 5, 5)
+                        .addComponent(btn_buscar_dis_pd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
                         .addComponent(jcb_filtro_dis_pd, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(309, 309, 309)
+                        .addGap(325, 325, 325)
                         .addComponent(btn_cad_distribuicao_pd))
                     .addComponent(lb_titulo_pd)
                     .addComponent(jScrollPane1)
@@ -929,11 +985,11 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(DistribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tx_pesquisa_dis_pd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_buscar_dis_pd, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_buscar_dis_pd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_cad_distribuicao_pd, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jcb_filtro_dis_pd, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(56, 56, 56))

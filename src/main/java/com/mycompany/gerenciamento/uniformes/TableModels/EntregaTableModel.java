@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
  */
 public class EntregaTableModel extends AbstractTableModel{
     private List<EntregaModel> entregas;
-    private String [] colunas = {"Nome", "Tamanho", "Uniforme", "Matrícula", "Servidor Responsável", "Quantidade", "Data de Entrega", "Ações"};
+    private String [] colunas = {"Nome", "Tamanho", "Uniforme", "Matrícula", "Servidor Responsável", "Quantidade", "Data de Entrega", ""};
     
     public EntregaTableModel() {
         this.entregas = new ArrayList<>();
@@ -46,11 +46,11 @@ public class EntregaTableModel extends AbstractTableModel{
         EntregaModel entrega = entregas.get(rowIndex);
         
         switch(columnIndex) {
-            case 0: return entrega.getAluno().getNome();
+            case 0: return entrega.getAluno().getNome()+ " " + entrega.getAluno().getSobrenome();
             case 1: return entrega.getUniforme().getTamanho().getNome();
             case 2: return entrega.getUniforme().getTipoUniforme().getNome();
             case 3: return entrega.getAluno().getMatricula();
-            case 4: return entrega.getServidor().getNome();
+            case 4: return entrega.getServidor().getNome() + " " + entrega.getServidor().getSobrenome();
             case 5: return entrega.getQuantidade();
             case 6:
             if (entrega.getData_entrega() != null) {
