@@ -185,8 +185,8 @@ public class UniformeDAO {
         return relatorio;
     }
     
-    
-        public void editarEntrada(UniformeModel uniformes) throws SQLException {
+        
+        public void editarEntrada(UniformeModel uniformes){
         String sql = "UPDATE Uniforme SET fk_tipo_uniforme = ?, fk_tamanho = ?, quantidade = ? WHERE id = ?";
 
         try (PreparedStatement ps = this.conn.prepareStatement(sql)) {

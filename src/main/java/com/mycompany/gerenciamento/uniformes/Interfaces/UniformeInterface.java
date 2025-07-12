@@ -14,6 +14,6 @@ import java.util.List;
  */
 public interface UniformeInterface {
     public List<UniformeModel> listarTodos();
-    void editarEntrada(EntradaModel entrada);
+    void editarEntrada(UniformeModel uniformes);
 }
 
