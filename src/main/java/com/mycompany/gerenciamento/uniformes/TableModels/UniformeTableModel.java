@@ -53,8 +53,13 @@ public class UniformeTableModel  extends AbstractTableModel{
         public void setUniformes (List<UniformeEstoqueModel> novosUniformes) {
         this.listaUniformes = novosUniformes;
         this.fireTableDataChanged();
-    }
+    }   
+        @Override
         public boolean isCellEditable(int rowIndex, int columnIndex) {
         return columnIndex == 6;
+        }
+    
+        public UniformeEstoqueModel getUniformeAt(int row) {
+            return this.listaUniformes.get(row);
         }
 }
