@@ -4,7 +4,6 @@
  */
 package com.mycompany.gerenciamento.uniformes.TableModels;
 
-import com.mycompany.gerenciamento.uniformes.Models.ServidorModel;
 import com.mycompany.gerenciamento.uniformes.Models.UniformeEstoqueModel;
 import com.mycompany.gerenciamento.uniformes.Models.UniformeModel;
 import java.time.format.DateTimeFormatter;
@@ -21,8 +20,8 @@ public class UniformeTableModel  extends AbstractTableModel{
     private String[] colunas = {"Tipo","Status","Entrada","Saída","Tamanho","Data Entrada",""};
     private final DateTimeFormatter formatadorData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     
-     public UniformeTableModel(List<UniformeModel> uniformes) {
-        this.listaUniformes = listaUniformes;
+     public UniformeTableModel() {
+        this.listaUniformes = new ArrayList();
     }
     
     public int getRowCount() {
@@ -58,7 +57,4 @@ public class UniformeTableModel  extends AbstractTableModel{
         public boolean isCellEditable(int rowIndex, int columnIndex) {
         return columnIndex == 6;
         }
-        public UniformeEstoqueModel getUniformeAt(int row) {
-            return listaUniformes.get(row);
-    }
 }

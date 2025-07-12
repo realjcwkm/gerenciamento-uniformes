@@ -113,7 +113,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         this.entregaTableModel = new EntregaTableModel(new ArrayList<>());
         this.alunoTableModel = new AlunoTableModel(new ArrayList<>());
         this.servidorTableModel = new ServidorTableModel(new ArrayList<>());
-        this.uniformeTableModel = new UniformeTableModel(new ArrayList<>());
+        this.uniformeTableModel = new UniformeTableModel();
         
         carregarFiltrosDeDistribuicao();
         
