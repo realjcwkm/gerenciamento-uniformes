@@ -34,7 +34,7 @@ private final Connection conn;
     /*Cadastra uma nova entrada de uniforme no banco de dados.*/
 
     public void cadastrarEntrada(EntradaModel entrada) {
-        String sql = "INSERT INTO Entrada (data_entrada, quantidade, fk_fornecedor, fk_uniforme) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Entradas (data_entrada, quantidade, fk_fornecedor, fk_uniforme) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setDate(1, Date.valueOf(entrada.getData_entrada()));
