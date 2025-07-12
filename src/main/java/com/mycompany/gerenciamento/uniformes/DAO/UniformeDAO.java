@@ -184,4 +184,20 @@ public class UniformeDAO {
         
         return relatorio;
     }
+    
+    
+        public void editarEntrada(UniformeModel uniformes) throws SQLException {
+        String sql = "UPDATE Uniforme SET fk_tipo_uniforme = ?, fk_tamanho = ?, quantidade = ? WHERE id = ?";
+
+        try (PreparedStatement ps = this.conn.prepareStatement(sql)) {
+
+            ps.setInt(1, uniformes.getFk_tipo_uniforme()); 
+            ps.setInt(2, uniformes.getFk_tamanho());  
+            ps.setInt(3, uniformes.getQuantidade());
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao atualizar entrada no banco de dados: " + e.getMessage(), e);
+        }
+    }
 }
