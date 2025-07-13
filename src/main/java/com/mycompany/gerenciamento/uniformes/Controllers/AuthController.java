@@ -36,6 +36,9 @@ public class AuthController {
         ServidorModel servidor = this.servidorDAO.getByMatricula(matricula);
         
         if (servidor != null) {
+            if (!servidor.isAtivo()) {
+                return "inativo";
+            }
             String hash = servidor.getSenha();
             if (BCrypt.checkpw(senha, hash)) {
                 if (servidor.isPrimeiroAcesso()) {

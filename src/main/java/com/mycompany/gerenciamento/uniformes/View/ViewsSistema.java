@@ -2107,6 +2107,9 @@ public class ViewsSistema extends javax.swing.JFrame {
             case "n_autenticado":
                 JOptionPane.showMessageDialog(this, "Matrícula ou senha inválida!", "Erro", JOptionPane.ERROR_MESSAGE);
                 break;
+            case "inativo":
+                JOptionPane.showMessageDialog(this, "Usuário desativado!", "Erro", JOptionPane.ERROR_MESSAGE);
+                break;
         }
     }//GEN-LAST:event_btn_login_plActionPerformed
 
