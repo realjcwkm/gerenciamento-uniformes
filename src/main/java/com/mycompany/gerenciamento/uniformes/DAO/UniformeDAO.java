@@ -135,7 +135,7 @@ public class UniformeDAO {
     public List<UniformeEstoqueModel> TabelaEstoque() {
         List<UniformeEstoqueModel> relatorio = new ArrayList<>();
         
-        // Query ajustada para buscar a data da última ENTRADA
+        // Query ajustada para
         String sql = """
             SELECT tu.nome AS Tipo,
             CASE

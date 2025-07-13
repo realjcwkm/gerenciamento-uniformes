@@ -62,4 +62,5 @@ public class UniformeTableModel  extends AbstractTableModel{
         public UniformeEstoqueModel getUniformeAt(int row) {
             return this.listaUniformes.get(row);
         }
+        
 }
