@@ -36,6 +36,7 @@ import com.mycompany.gerenciamento.uniformes.Forms.FormSelecaoUniforme;
 import com.mycompany.gerenciamento.uniformes.Forms.FormServidorDialog;
 import com.mycompany.gerenciamento.uniformes.Forms.FormUniforme;
 import com.mycompany.gerenciamento.uniformes.Forms.FormEditarServidorDialog;
+import com.mycompany.gerenciamento.uniformes.Forms.FormMensagemConfirmacao;
 import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
 import com.mycompany.gerenciamento.uniformes.Models.FiltroModel;
 import com.mycompany.gerenciamento.uniformes.Models.TamanhoModel;
@@ -197,7 +198,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         this.tb_distribuicao.getColumnModel().getColumn(TROCA_COLUMN_INDEX).setCellEditor(trocaButtonEditor);      
         // === FIM ADICIONA TROCA ICON NA TABELA ===
 
-        // === INICIO ADICIONA EDIT ICON NA TABELA ===
+        // === INICIO ADICIONA EDIT ICON NA TABELA SERVIDORES ===
         this.tb_servidores.setModel(servidorTableModel);
         this.tb_servidores.setDefaultRenderer(Object.class, new CustomCellRenderer());
         tb_servidores.setFillsViewportHeight(true); 
@@ -241,7 +242,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         this.tb_servidores.getColumnModel().getColumn(EDIT_COLUMN_INDEX).setCellEditor(editButtonEditor);
         this.tb_servidores.getColumnModel().getColumn(EDIT_COLUMN_INDEX).setPreferredWidth(90);
         this.tb_servidores.getColumnModel().getColumn(EDIT_COLUMN_INDEX).setMaxWidth(90); 
-        // === FIM ADICIONA EDIT ICON NA TABELA ===
+        // === FIM ADICIONA EDIT ICON NA TABELA SERVIDORES ===
         
         // === INICIO ADICIONA EDIT ICON NA TABELA DE ALUNOS ===
         this.tb_alunos.setModel(alunoTableModel);
@@ -283,8 +284,69 @@ public class ViewsSistema extends javax.swing.JFrame {
         this.tb_alunos.getColumnModel().getColumn(EDIT_AlUNO_COLUMN_INDEX).setCellEditor(editAlunoButtonEditor);
         this.tb_alunos.getColumnModel().getColumn(EDIT_AlUNO_COLUMN_INDEX).setPreferredWidth(90);
         this.tb_alunos.getColumnModel().getColumn(EDIT_AlUNO_COLUMN_INDEX).setMaxWidth(90); 
-        // === FIM ADICIONA EDIT ICON NA TABELA ===
+        // === FIM ADICIONA EDIT ICON NA TABELA DE ALUNOS ===
         
+        // === INICIO ADICIONA BOTÃO DE EXCLUSÃO NA TABELA SERVIDORES ===
+        final int DELETE_COLUMN_INDEX = 5;
+
+        ImageIcon deleteIcon = null;
+        try {
+            ImageIcon originalIcon = new ImageIcon(getClass().getResource("/images/delete-icon.png"));
+            Image image = originalIcon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+            deleteIcon = new ImageIcon(image);
+        } catch (Exception e) {
+            System.err.println("Erro ao carregar o ícone de exclusão: " + e.getMessage());
+        }
+
+        ButtonColumnRendererEditor deleteButtonEditor = new ButtonColumnRendererEditor(this.tb_servidores, deleteIcon);
+
+        deleteButtonEditor.getButton().addActionListener(e -> {
+            if (tb_servidores.isEditing()) {
+                tb_servidores.getCellEditor().stopCellEditing();
+            }
+            int modelRow = tb_servidores.convertRowIndexToModel(tb_servidores.getSelectedRow());
+            if (modelRow == -1) return;
+
+            ServidorModel servidorParaExcluir = servidorTableModel.getServidorAt(modelRow);
+            String erroValidacao = servidorController.validarExclusao(servidorParaExcluir);
+
+            // VALIDAÇÃO
+            if (!erroValidacao.isEmpty()) {
+                // Se servidor ativo
+                FormMensagemConfirmacao dialogoAviso = new FormMensagemConfirmacao(
+                    this,
+                    "Servidor Ativo",
+                    erroValidacao,
+                    "OK", 
+                    ""
+                );
+                dialogoAviso.setVisible(true);
+                return;
+            }
+
+            String titulo = "Confirmar Exclusão";
+            String mensagem = "Tem certeza que deseja excluir o servidor:<br><b>" + servidorParaExcluir.getNome() + "</b>?";
+
+            FormMensagemConfirmacao dialogoConfirmacao = new FormMensagemConfirmacao(this, titulo, mensagem, "Sim, Excluir", "Cancelar");
+            dialogoConfirmacao.setVisible(true);
+
+            if (dialogoConfirmacao.isConfirmado()) {
+                boolean sucesso = servidorController.excluirServidor(servidorParaExcluir.getId());
+
+                if (sucesso) {
+                    JOptionPane.showMessageDialog(this, "Servidor excluído com sucesso.");
+                    realizarBuscaServidores();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ocorreu um erro ao excluir o servidor.", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        this.tb_servidores.getColumnModel().getColumn(DELETE_COLUMN_INDEX).setCellRenderer(deleteButtonEditor);
+        this.tb_servidores.getColumnModel().getColumn(DELETE_COLUMN_INDEX).setCellEditor(deleteButtonEditor);
+        this.tb_servidores.getColumnModel().getColumn(DELETE_COLUMN_INDEX).setPreferredWidth(60);
+        this.tb_servidores.getColumnModel().getColumn(DELETE_COLUMN_INDEX).setMaxWidth(60);
+        // === FIM ADICIONA BOTÃO DE EXCLUSÃO NA TABELA SERVIDORES ===
         
         System.out.println("Painéis disponíveis:");
         for (Component comp : panel_telaInicial.getComponents()) {
