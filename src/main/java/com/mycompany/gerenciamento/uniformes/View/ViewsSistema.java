@@ -139,6 +139,17 @@ public class ViewsSistema extends javax.swing.JFrame {
             iniciarExportacao(tb_alunos, "Relatorio_Alunos", true);
         });
 
+        applyHandCursors(this);
+        
+        // Tabela de Servidores (colunas 4 e 5)
+        addHandCursorListenerToTable(tb_servidores, 4, 5);
+
+        // Tabela de Distribuição (coluna 7)
+        addHandCursorListenerToTable(tb_distribuicao, 7);
+
+        // Tabela de Alunos (colunas 4 e 5)
+        addHandCursorListenerToTable(tb_alunos, 4, 5);
+
         this.appCardLayout = (CardLayout) panel_telaInicial.getLayout();
         this.mainCardLayout = (CardLayout) main_container.getLayout();
         this.authCardLayout = (CardLayout) panel_autenticacao.getLayout();
@@ -469,6 +480,41 @@ public class ViewsSistema extends javax.swing.JFrame {
         authCardLayout.show(panel_autenticacao, "card_login");
     }
 
+    // HAND_CURSOR nas colunas de ações das tabelas
+    private void addHandCursorListenerToTable(javax.swing.JTable table, int... activeColumns) {
+        table.addMouseMotionListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseMoved(java.awt.event.MouseEvent e) {
+                int column = table.columnAtPoint(e.getPoint());
+                boolean isOverActiveColumn = false;
+
+                for (int activeCol : activeColumns) {
+                    if (column == activeCol) {
+                        isOverActiveColumn = true;
+                        break; 
+                    }
+                }
+
+                if (isOverActiveColumn) {
+                    table.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+                } else {
+                    table.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+                }
+            }
+        });
+    }
+    
+    private void applyHandCursors(java.awt.Container container) {
+        for (java.awt.Component c : container.getComponents()) {
+            if (c instanceof javax.swing.JButton || c instanceof javax.swing.JComboBox) {
+                c.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            }
+            else if (c instanceof java.awt.Container) {
+                applyHandCursors((java.awt.Container) c);
+            }
+        }
+    }
+    
     private void carregaDadosUniformes() {
         try {
             // Chama o Controller, que por sua vez chama o DAO
@@ -919,7 +965,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         nome_sistema = new javax.swing.JLabel();
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(80, 80), new java.awt.Dimension(450, 800));
         btn_nav_Inicio = new javax.swing.JButton();
-        filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(10, 80), new java.awt.Dimension(10, 80));
+        filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(10, 80), new java.awt.Dimension(5, 80));
         btn_nav_distribuicao = new javax.swing.JButton();
         filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(10, 80), new java.awt.Dimension(10, 80));
         btn_nav_alunos = new javax.swing.JButton();
@@ -2036,7 +2082,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_login_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_esq_senha_pl)
-                .addContainerGap(144, Short.MAX_VALUE))
+                .addContainerGap(148, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_loginLayout = new javax.swing.GroupLayout(panel_login);
@@ -2166,7 +2212,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_salvar_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_voltar_ppa)
-                .addContainerGap(145, Short.MAX_VALUE))
+                .addContainerGap(149, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_primeiro_acessoLayout = new javax.swing.GroupLayout(panel_primeiro_acesso);
@@ -2300,7 +2346,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_enviar_psc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_voltar_psc)
-                .addContainerGap(145, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_solicitacao_codigoLayout = new javax.swing.GroupLayout(panel_solicitacao_codigo);
@@ -2451,7 +2497,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_salvar_prs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_voltar_prs)
-                .addContainerGap(123, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_redefinir_senhaLayout = new javax.swing.GroupLayout(panel_redefinir_senha);
