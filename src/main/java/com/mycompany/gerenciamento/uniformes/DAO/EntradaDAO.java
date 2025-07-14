@@ -112,7 +112,6 @@ public class EntradaDAO {
                 JOptionPane.showMessageDialog(null, "Erro ao listar entradas: " + e.getMessage());
                 e.printStackTrace();
             }
-
             return listaDeEntradas;
         }
 

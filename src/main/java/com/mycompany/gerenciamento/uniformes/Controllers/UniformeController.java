@@ -41,7 +41,7 @@ public class UniformeController {
     public List<Object[]> gerarDadosParaTabelaEstoque() {
        
         List<EntradaModel> todasEntradas = entradaDAO.listarTodos();
-        List<EntregaModel> todasSaidas = entregaDAO.listarTodos(); 
+        List<EntregaModel> todasSaidas = entregaDAO.listarTodasAsEntregas(); 
         List<UniformeModel> todosUniformes = uniformeDAO.listarTodos(); 
 
         Map<Integer, Integer> entradasPorUniformeId = new HashMap<>();

@@ -67,7 +67,7 @@ public class UniformeDAO {
             error.printStackTrace();
 
         }
-
+        
         return uniformes;
     }
     
