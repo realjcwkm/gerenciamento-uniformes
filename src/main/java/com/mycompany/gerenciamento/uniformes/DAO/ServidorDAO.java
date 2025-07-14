@@ -218,7 +218,7 @@ public class ServidorDAO implements ServidorInterface {
     // EXCLUIR SERVIDOR
     @Override
     public boolean excluirServidor(int id) {
-        String sql = "DELETE FROM servidor WHERE id = ?";
+        String sql = "DELETE FROM Servidor WHERE id = ?";
         try {
             if (this.conn == null || this.conn.isClosed()) {
                 this.conn = Conexao.getConexao();
