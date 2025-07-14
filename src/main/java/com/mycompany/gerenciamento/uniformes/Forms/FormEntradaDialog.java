@@ -4,18 +4,12 @@
  */
 package com.mycompany.gerenciamento.uniformes.Forms;
 
-
-
-
-// Imports necessários para a lógica
-import com.mycompany.gerenciamento.uniformes.DAO.*;
 import com.mycompany.gerenciamento.uniformes.Models.*;
 import com.mycompany.gerenciamento.uniformes.Controllers.*;
 import java.awt.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.List;
 import javax.swing.*;
 
 
@@ -23,30 +17,22 @@ import javax.swing.*;
  * @author rober
  */
 
-public class FormUniforme extends JDialog {
-    // Campos do formulário
+public class FormEntradaDialog extends JDialog {
+    
     private final JTextField tfQuantidade;
     private final JTextField tfDataEntrada;
     private final JComboBox<TipoUniformeModel> cbTipoUniforme;
     private final JComboBox<TamanhoModel> cbTamanho;
     private final JComboBox<FornecedorModel> cbFornecedor;
 
-    private final EntradaDAO entradaDAO;
-    private final UniformeDAO uniformeDAO;
-    private final TipoUniformeDAO tipoUniformeDAO;
-    private final TamanhoDAO tamanhoDAO;
-    private final FornecedorDAO fornecedorDAO;
+    private final EntradaController entradaController;
     
     private boolean salvo = false;
 
-    public FormUniforme(Frame parent) {
-        super(parent, "Cadastrar Uniforme", true);
+    public FormEntradaDialog(Frame parent) {
+        super(parent, "Cadastrar Entrada", true);
         
-        this.entradaDAO = new EntradaDAO();
-        this.uniformeDAO = new UniformeDAO();
-        this.tipoUniformeDAO = new TipoUniformeDAO();
-        this.tamanhoDAO = new TamanhoDAO();
-        this.fornecedorDAO = new FornecedorDAO();
+        this.entradaController = new EntradaController();
         
         setResizable(false);
         setLayout(new BorderLayout());
@@ -116,7 +102,7 @@ public class FormUniforme extends JDialog {
         gbc.insets = new Insets(20, 0, 0, 0);
         panelPai.add(buttonPanel, gbc);
 
-        carregarComboBoxUniformes();
+        carregarComboBoxes();
         add(panelPai, BorderLayout.CENTER);
 
         pack();
@@ -149,45 +135,35 @@ public class FormUniforme extends JDialog {
         panel.add(component, gbc);
     }
 
-    // Método para carregar os ComboBoxes
-    private void carregarComboBoxUniformes() {
-        tipoUniformeDAO.listarTodos().forEach(cbTipoUniforme::addItem);
-        tamanhoDAO.listarTodos().forEach(cbTamanho::addItem);
-        fornecedorDAO.listarTodos().forEach(cbFornecedor::addItem);
+    private void carregarComboBoxes() {
+        entradaController.getAllTipos().forEach(cbTipoUniforme::addItem);
+        entradaController.getAllTamanhos().forEach(cbTamanho::addItem);
+        entradaController.getAllFornecedores().forEach(cbFornecedor::addItem);
     }
     
     // Método para salvar a ENTRADA de um uniforme
     private void salvar() {
         try {
-            TipoUniformeModel tipoSelecionado = (TipoUniformeModel) cbTipoUniforme.getSelectedItem();
-            TamanhoModel tamanhoSelecionado = (TamanhoModel) cbTamanho.getSelectedItem();
-            FornecedorModel fornecedorSelecionado = (FornecedorModel) cbFornecedor.getSelectedItem();
+            TipoUniformeModel tipoUniforme = (TipoUniformeModel) cbTipoUniforme.getSelectedItem();
+            TamanhoModel tamanho = (TamanhoModel) cbTamanho.getSelectedItem();
+            FornecedorModel fornecedor = (FornecedorModel) cbFornecedor.getSelectedItem();
             
             int quantidade = Integer.parseInt(tfQuantidade.getText().trim());
             LocalDate dataEntrada = LocalDate.parse(tfDataEntrada.getText().trim(), DateTimeFormatter.ISO_LOCAL_DATE);
 
-            if (tipoSelecionado == null || tamanhoSelecionado == null || fornecedorSelecionado == null || tfQuantidade.getText().trim().isEmpty()) {
+            if (tipoUniforme == null || tamanho == null || fornecedor == null || tfQuantidade.getText().trim().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios!", "Erro de Validação", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
-            UniformeModel uniforme = uniformeDAO.buscarPorTipoETamanho(tipoSelecionado.getId(), tamanhoSelecionado.getId());
-            if (uniforme == null) {
-                JOptionPane.showMessageDialog(this, "Esta combinação de Tipo e Tamanho de uniforme não existe.\nCadastre o uniforme primeiro na tela de Tipos/Tamanhos.", "Erro", JOptionPane.ERROR_MESSAGE);
-                return;
+            
+            boolean sucesso = entradaController.regristrarEntrada(tipoUniforme, tamanho, fornecedor, quantidade, dataEntrada);
+            
+            if (sucesso) {
+                this.salvo = true;
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Falha ao registrar a entrada. Verifique se o uniforme (tipo e tamanho) já está cadastrado.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
-            
-            EntradaModel novaEntrada = new EntradaModel();
-            novaEntrada.setQuantidade(quantidade);
-            novaEntrada.setData_entrada(dataEntrada);
-            novaEntrada.setFornecedor(fornecedorSelecionado);
-            novaEntrada.setUniforme(uniforme);
-
-            entradaDAO.cadastrarEntrada(novaEntrada);
-            
-            this.salvo = true;
-            dispose();
-
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "A quantidade deve ser um número válido.", "Erro de Formato", JOptionPane.ERROR_MESSAGE);
         } catch (DateTimeParseException e) {

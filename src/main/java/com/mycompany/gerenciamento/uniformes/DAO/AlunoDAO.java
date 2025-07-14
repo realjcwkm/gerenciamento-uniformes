@@ -51,10 +51,10 @@ public class AlunoDAO implements AlunoInterface {
         
         if(hasSearchTerm) {
             sqlBuilder.append(
-                " WHERE UPPER(a.nome) LIKE ?"
+                " (UPPER(a.nome) LIKE ?"
              + " OR UPPER(a.sobrenome) LIKE ?"
              + " OR UPPER(a.matricula) LIKE ?"
-             + " OR UPPER(c.nome) LIKE ?"
+             + " OR UPPER(c.nome) LIKE ?)"
             );
         }
         

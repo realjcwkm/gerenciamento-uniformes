@@ -7,7 +7,6 @@ package com.mycompany.gerenciamento.uniformes.DAO;
 import com.mycompany.gerenciamento.uniformes.DBConnection.Conexao;
 import com.mycompany.gerenciamento.uniformes.Models.TamanhoModel;
 import com.mycompany.gerenciamento.uniformes.Models.TipoUniformeModel;
-import com.mycompany.gerenciamento.uniformes.Models.UniformeEstoqueModel;
 import com.mycompany.gerenciamento.uniformes.Models.UniformeModel;
 import java.sql.Connection;
 import java.sql.Date;
@@ -25,26 +24,11 @@ import javax.swing.JOptionPane;
  */
 public class UniformeDAO {
     private Connection conn;
-    private Object EntregaSql;
+    
     public UniformeDAO(){
-    this.conn = Conexao.getConexao();
+        this.conn = Conexao.getConexao();
     }
-    public void cadastrarUniforme(UniformeModel uniforme){
-        String sql = "INSERT INTO uniforme(quantidade, fk_tipo_uniforme, fk_tamanho) VALUES (?,?,?)";
-        
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, uniforme.getQuantidade());
-            ps.setInt(2, uniforme.getFk_tipo_uniforme());
-            ps.setInt(3, uniforme.getFk_tamanho());
-            
-            ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Uniforme cadastrado com sucesso!");
-
-        }catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao cadastrar uniforme: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }  
+    
     public List<UniformeModel> listarTodos() {
         List<UniformeModel> uniformes = new ArrayList<>();
         String sql = "SELECT " +
@@ -58,33 +42,33 @@ public class UniformeDAO {
             "JOIN Tamanho AS t ON u.fk_tamanho = t.id " +
             "JOIN TipoUniforme AS tp ON u.fk_tipo_uniforme = tp.id";
 
-    try (PreparedStatement ps = conn.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()) {
 
-        while (rs.next()) {
-            UniformeModel uniforme = new UniformeModel();
-            TamanhoModel tamanho = new TamanhoModel();
-            TipoUniformeModel tipoUniforme = new TipoUniformeModel();
+            while (rs.next()) {
+                UniformeModel uniforme = new UniformeModel();
+                TamanhoModel tamanho = new TamanhoModel();
+                TipoUniformeModel tipoUniforme = new TipoUniformeModel();
 
-            tamanho.setId(rs.getInt("id_tamanho"));
-//            tamanho.setDescricao(rs.getString("tamanho")); 
+                tamanho.setId(rs.getInt("tamanho_id"));
+                tamanho.setNome(rs.getString("tamanho_nome"));
 
-            tipoUniforme.setId(rs.getInt("id_tipo"));
-            tipoUniforme.setNome(rs.getString("tipo"));
+                tipoUniforme.setId(rs.getInt("tipo_id"));
+                tipoUniforme.setNome(rs.getString("tipo_nome"));
 
-            uniforme.setId(rs.getInt("id_uniforme"));
-            uniforme.setQuantidade(rs.getInt("quantidade_uniforme"));
-            uniforme.setTamanho(tamanho); 
-            uniforme.setTipoUniforme(tipoUniforme); 
-            uniformes.add(uniforme);
+                uniforme.setId(rs.getInt("uniforme_id"));
+                uniforme.setQuantidade(rs.getInt("uniforme_quantidade"));
+                uniforme.setTamanho(tamanho); 
+                uniforme.setTipoUniforme(tipoUniforme); 
+                uniformes.add(uniforme);
+            }
+        } catch (SQLException error) {
+            System.err.println("Erro ao listar uniformes: ");
+            error.printStackTrace();
+
         }
-    } catch (SQLException error) {
-        System.err.println("Erro ao listar uniformes: ");
-        error.printStackTrace();
 
-    }
-
-    return uniformes;
+        return uniformes;
     }
     
     
@@ -129,83 +113,5 @@ public class UniformeDAO {
         }
         
         return uniforme;
-    }
-    
- 
-    public List<UniformeEstoqueModel> TabelaEstoque() {
-        List<UniformeEstoqueModel> relatorio = new ArrayList<>();
-        
-        // Query ajustada 
-        String sql = """
-            SELECT
-            tu.nome AS Tipo,
-            t.nome AS Tamanho,
-            COALESCE(entradas_agg.total, 0) AS Entradas,
-            COALESCE(saidas_agg.total, 0) AS Saida,
-            entradas_agg.ultima_data AS DataEntrada,
-            CASE
-                WHEN (COALESCE(entradas_agg.total, 0) - COALESCE(saidas_agg.total, 0)) > 0
-                THEN CONCAT('Disponível (', (COALESCE(entradas_agg.total, 0) - COALESCE(saidas_agg.total, 0)), ')')
-                ELSE 'Indisponível'
-            END AS Status
-             FROM
-                 Uniforme u
-             JOIN TipoUniforme tu ON u.fk_tipo_uniforme = tu.id
-             JOIN Tamanho t ON u.fk_tamanho = t.id
-             LEFT JOIN (
-                 SELECT fk_uniforme, SUM(quantidade) AS total, MAX(data_entrada) AS ultima_data
-                 FROM Entradas GROUP BY fk_uniforme
-             ) AS entradas_agg ON u.id = entradas_agg.fk_uniforme
-             LEFT JOIN (
-                 SELECT fk_uniforme, SUM(quantidade) AS total
-                 FROM Entrega GROUP BY fk_uniforme
-             ) AS saidas_agg ON u.id = saidas_agg.fk_uniforme
-             ORDER BY
-                 tu.nome, t.nome;
-                     
-            """;
-
-
-        try (Statement stmt = this.conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
-            while (rs.next()) {
-                UniformeEstoqueModel item = new UniformeEstoqueModel();
-
-                item.setTipo(rs.getString("Tipo"));
-                item.setStatus(rs.getString("Status"));
-                item.setTotalEntrada(rs.getInt("Entradas"));
-                item.setTotalSaida(rs.getInt("Saida"));
-                item.setTamanho(rs.getString("Tamanho"));
-                
-                Date dataEntradaSql = rs.getDate("DataEntrada");
-                if (dataEntradaSql != null) {
-                    item.setDataUltimaEntrada(dataEntradaSql.toLocalDate());
-                }
-
-                relatorio.add(item);
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao gerar relatório de estoque: " + e.getMessage());
-            e.printStackTrace();
-        }
-        
-        return relatorio;
-    }
-    
-        
-        public void editarEntrada(UniformeModel uniformes){
-        String sql = "UPDATE Uniforme SET fk_tipo_uniforme = ?, fk_tamanho = ?, quantidade = ? WHERE id = ?";
-
-        try (PreparedStatement ps = this.conn.prepareStatement(sql)) {
-
-            ps.setInt(1, uniformes.getFk_tipo_uniforme()); 
-            ps.setInt(2, uniformes.getFk_tamanho());  
-            ps.setInt(3, uniformes.getQuantidade());
-
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar entrada no banco de dados: " + e.getMessage(), e);
-        }
     }
 }
