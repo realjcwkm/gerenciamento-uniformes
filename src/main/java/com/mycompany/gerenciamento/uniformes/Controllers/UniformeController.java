@@ -139,4 +139,8 @@ public class UniformeController {
         
         return this.relatorioEntradasFiltrado.subList(startIndex, endIndex);
     }
+    
+    public int getTotalQuantidade() {
+        return new UniformeDAO().getTotalQuantidade();
+    }
 }

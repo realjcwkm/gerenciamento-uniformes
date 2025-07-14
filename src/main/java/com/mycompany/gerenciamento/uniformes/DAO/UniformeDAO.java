@@ -126,4 +126,18 @@ public class UniformeDAO {
         }
         return 0;
     }
+    
+    public int getTotalQuantidade() {
+        String sql = "SELECT SUM(quantidade) FROM Uniforme";
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1); 
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao calcular o estoque total geral: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return 0; 
+    }
 }

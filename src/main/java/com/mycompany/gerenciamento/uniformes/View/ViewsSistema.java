@@ -160,6 +160,9 @@ public class ViewsSistema extends javax.swing.JFrame {
         this.servidorTableModel = new ServidorTableModel(new ArrayList<>());
         this.entradaTableModel = new EntradaTableModel();
         
+        // === CARREGA CONTADOR DE UNIFORMES ===
+        carregarContadorEstoque();
+        
         // === INICIO DOS FILTROS ===
         carregarFiltrosDeDistribuicao();
         carregarFiltrosDeAlunos();
@@ -845,6 +848,26 @@ public class ViewsSistema extends javax.swing.JFrame {
         atualizarTabelaEntradas();
     }
     
+    private void carregarContadorEstoque() {
+        try {
+            int estoqueTotal = uniformeController.getTotalQuantidade();
+            
+            System.out.println(estoqueTotal);
+
+            lb_contador_entrada.setText(String.valueOf(estoqueTotal));
+            lb_descricao_contador_entrada.setText("Uniformes");
+
+            lb_contador_entrada.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+            
+            lb_descricao_contador_entrada.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+
+        } catch (Exception e) {
+            lb_contador_entrada.setText("N/D");
+            lb_descricao_contador_entrada.setText("Erro ao carregar dados.");
+            e.printStackTrace();
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -934,6 +957,9 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_anterior_entrada = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         tb_entradas = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        lb_contador_entrada = new javax.swing.JLabel();
+        lb_descricao_contador_entrada = new javax.swing.JLabel();
         panel_autenticacao = new javax.swing.JPanel();
         panel_login = new javax.swing.JPanel();
         img_pl = new javax.swing.JLabel();
@@ -1803,6 +1829,33 @@ public class ViewsSistema extends javax.swing.JFrame {
         tb_entradas.setShowHorizontalLines(true);
         jScrollPane3.setViewportView(tb_entradas);
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        lb_contador_entrada.setForeground(new java.awt.Color(105, 65, 198));
+        lb_contador_entrada.setText("jLabel2");
+
+        lb_descricao_contador_entrada.setForeground(new java.awt.Color(105, 65, 198));
+        lb_descricao_contador_entrada.setText("jLabel3");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(lb_contador_entrada)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lb_descricao_contador_entrada)
+                .addGap(0, 108, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lb_contador_entrada)
+                    .addComponent(lb_descricao_contador_entrada))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout UniformesLayout = new javax.swing.GroupLayout(Uniformes);
         Uniformes.setLayout(UniformesLayout);
         UniformesLayout.setHorizontalGroup(
@@ -1812,17 +1865,19 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(panel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, UniformesLayout.createSequentialGroup()
-                        .addComponent(Titulo)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, UniformesLayout.createSequentialGroup()
-                        .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(subtitulo)
+                        .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(UniformesLayout.createSequentialGroup()
                                 .addComponent(tx_pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(12, 12, 12)
                                 .addComponent(btn_buscar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jcb_filtro_uniformes, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jcb_filtro_uniformes, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(UniformesLayout.createSequentialGroup()
+                                .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Titulo)
+                                    .addComponent(subtitulo))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 367, Short.MAX_VALUE)
                         .addComponent(btn_Add_Uniforme)))
                 .addGap(79, 79, 79))
@@ -1836,10 +1891,12 @@ public class ViewsSistema extends javax.swing.JFrame {
             UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(UniformesLayout.createSequentialGroup()
                 .addGap(57, 57, 57)
-                .addComponent(Titulo)
+                .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Titulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(subtitulo)
-                .addGap(18, 18, 18)
+                .addGap(25, 25, 25)
                 .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tx_pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2423,6 +2480,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         System.out.println("Mostrando painel Inicio");        
         carregarGraficoPizza();
         carregarGraficoBarras();
+        carregarContadorEstoque();
     }//GEN-LAST:event_btn_nav_InicioActionPerformed
 
     private void btn_nav_distribuicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_distribuicaoActionPerformed
@@ -2915,6 +2973,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JDialog jDialog;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -2924,6 +2983,8 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JLabel lb_codigo_prs;
     private javax.swing.JLabel lb_confirmar_senha_ppa;
     private javax.swing.JLabel lb_confirmar_senha_prs;
+    private javax.swing.JLabel lb_contador_entrada;
+    private javax.swing.JLabel lb_descricao_contador_entrada;
     private javax.swing.JLabel lb_email_psc;
     private javax.swing.JLabel lb_login_pl;
     private javax.swing.JLabel lb_matricula_pl;
