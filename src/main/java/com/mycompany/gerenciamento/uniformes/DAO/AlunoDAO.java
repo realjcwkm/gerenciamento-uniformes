@@ -8,6 +8,7 @@ import com.mycompany.gerenciamento.uniformes.DBConnection.Conexao;
 import com.mycompany.gerenciamento.uniformes.Interfaces.AlunoInterface;
 import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
 import com.mycompany.gerenciamento.uniformes.Models.CursoModel;
+import com.mycompany.gerenciamento.uniformes.Models.FiltroModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,7 +29,7 @@ public class AlunoDAO implements AlunoInterface {
     }
     
     @Override
-    public List<AlunoModel> listarTodos(int pagina, int itensPorPagina, String busca) {
+    public List<AlunoModel> listarTodos(int pagina, int itensPorPagina, String busca, FiltroModel filtro) {
         List<AlunoModel> alunos = new ArrayList<>();
         
         StringBuilder sqlBuilder = new StringBuilder(
@@ -41,14 +42,33 @@ public class AlunoDAO implements AlunoInterface {
          + "ON a.fk_curso = c.id "
         );
         
-        if (busca != null && !busca.trim().isEmpty()) {
+        boolean hasSearchTerm = busca != null && !busca.trim().isEmpty();
+        boolean hasFilter = filtro != null && filtro.getIdFiltro() > 0;
+        
+        if(hasSearchTerm || hasFilter) {
+            sqlBuilder.append(" WHERE ");
+        }
+        
+        if(hasSearchTerm) {
             sqlBuilder.append(
                 " WHERE UPPER(a.nome) LIKE ?"
              + " OR UPPER(a.sobrenome) LIKE ?"
              + " OR UPPER(a.matricula) LIKE ?"
              + " OR UPPER(c.nome) LIKE ?"
             );
-        } 
+        }
+        
+        if(hasSearchTerm && hasFilter) {
+            sqlBuilder.append(" AND ");
+        }
+        
+        if(hasFilter) {
+            if("CURSO".equals(filtro.getTipoFiltro())) {
+                sqlBuilder.append("c.id = ?");
+            } else if("PERIODO".equals(filtro.getTipoFiltro())){
+                sqlBuilder.append("c.n_periodo = ?");
+            }
+        }
         
         sqlBuilder.append(" ORDER BY a.id DESC LIMIT ? OFFSET ?");
         
@@ -58,12 +78,16 @@ public class AlunoDAO implements AlunoInterface {
         
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             int index = 1;
-            if (busca != null && !busca.trim().isEmpty()) {
+            if (hasSearchTerm) {
                 busca = "%" + busca.toUpperCase() + "%";
                 ps.setString(index++, busca);
                 ps.setString(index++, busca);
                 ps.setString(index++, busca);
                 ps.setString(index++, busca);
+            }
+            
+            if (hasFilter) {
+                ps.setInt(index++, filtro.getIdFiltro());
             }
             
             ps.setInt(index++, itensPorPagina);
@@ -101,31 +125,57 @@ public class AlunoDAO implements AlunoInterface {
     }
     
     @Override
-    public int getTotal(String busca) {
+    public int getTotal(String busca, FiltroModel filtro) {
         StringBuilder sqlBuilder = new StringBuilder(
          "SELECT COUNT(*) FROM Aluno AS a "
          + "LEFT JOIN Curso AS c "
          + "ON a.fk_curso = c.id"
         );
         
-        if (busca != null && !busca.trim().isEmpty()) {
-            sqlBuilder.append(
-                " WHERE UPPER(a.nome) LIKE ?"
+        boolean hasSearchTerm = busca != null && !busca.trim().isEmpty();
+        boolean hasFilter = filtro != null && filtro.getIdFiltro() > 0;
+        
+        if(hasSearchTerm || hasFilter) {
+            sqlBuilder.append(" WHERE ");
+        }
+        
+        if(hasSearchTerm) {
+            sqlBuilder.append("(UPPER(a.nome) LIKE ?"
              + " OR UPPER(a.sobrenome) LIKE ?"
              + " OR UPPER(a.matricula) LIKE ?"
-             + " OR UPPER(c.nome) LIKE ?"
+             + " OR UPPER(c.nome) LIKE ?)"
             );
         }
+        
+        if(hasSearchTerm && hasFilter) {
+            sqlBuilder.append(" AND ");
+        }
+        
+        if(hasFilter) {
+            if("CURSO".equals(filtro.getTipoFiltro())) {
+                sqlBuilder.append("c.id = ?");
+            } else if("PERIODO".equals(filtro.getTipoFiltro())){
+                sqlBuilder.append("c.n_periodo = ?");
+            }
+        }
+        
+       
         
         String sql = sqlBuilder.toString();
         
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            if (busca != null && !busca.trim().isEmpty()) {
+            int index = 1;
+            
+            if (hasSearchTerm) {
                 busca = "%" + busca.toUpperCase() + "%";
-                ps.setString(1, busca);
-                ps.setString(2, busca);
-                ps.setString(3, busca);
-                ps.setString(4, busca);
+                ps.setString(index++, busca);
+                ps.setString(index++, busca);
+                ps.setString(index++, busca);
+                ps.setString(index++, busca);
+            }
+            
+            if (hasFilter) {
+                ps.setInt(index++, filtro.getIdFiltro());
             }
 
             ResultSet rs = ps.executeQuery();
@@ -247,6 +297,20 @@ public class AlunoDAO implements AlunoInterface {
         } catch (SQLException e) {
             System.err.println("Erro ao atualizar aluno:");
             e.printStackTrace();
+            return false;
+        }
+    }
+    
+    @Override
+    public boolean excluir(int id) {
+        String sql = "DELETE FROM Aluno WHERE id = ?";
+        try(PreparedStatement ps = this.conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            int linhasAfetadas = ps.executeUpdate();
+            return linhasAfetadas > 0;
+        } catch (SQLException error) {
+            System.err.println("Erro ao excluir aluno: " + error.getMessage());
+            error.printStackTrace();
             return false;
         }
     }

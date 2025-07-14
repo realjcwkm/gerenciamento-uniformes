@@ -8,6 +8,7 @@ import com.mycompany.gerenciamento.uniformes.DAO.AlunoDAO;
 import com.mycompany.gerenciamento.uniformes.DAO.CursoDAO;
 import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
 import com.mycompany.gerenciamento.uniformes.Models.CursoModel;
+import com.mycompany.gerenciamento.uniformes.Models.FiltroModel;
 import java.util.List;
 
 /**
@@ -23,12 +24,12 @@ public class AlunoController {
         this.cursoDAO = new CursoDAO();
     }
     
-    public List<AlunoModel> listarTodos(int pagina, int itensPorPagina, String busca) {
-        return this.alunoDAO.listarTodos(pagina, itensPorPagina, busca);
+    public List<AlunoModel> listarTodos(int pagina, int itensPorPagina, String busca, FiltroModel filtro) {
+        return this.alunoDAO.listarTodos(pagina, itensPorPagina, busca, filtro);
     }
     
-    public int getTotalDePaginas(int itensPorPagina, String busca) {
-        int totalDeItens = this.alunoDAO.getTotal(busca);
+    public int getTotalDePaginas(int itensPorPagina, String busca, FiltroModel filtro) {
+        int totalDeItens = this.alunoDAO.getTotal(busca, filtro);
         int totalPaginas = (int) Math.ceil((double) totalDeItens / itensPorPagina);
         return Math.max(totalPaginas, 1);
     }
@@ -72,5 +73,9 @@ public class AlunoController {
     
     public void atualizar(AlunoModel aluno) {
         alunoDAO.editar(aluno);
+    }
+    
+    public boolean excluir(int id) {
+        return this.alunoDAO.excluir(id);
     }
 }

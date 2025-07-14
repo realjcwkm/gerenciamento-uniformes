@@ -14,7 +14,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class AlunoTableModel extends AbstractTableModel {
     private List<AlunoModel> alunos;
-    private String[] colunas = {"Nome", "Turma", "Matricula", "Periodo", ""};
+    private String[] colunas = {"Nome", "Turma", "Matricula", "Periodo", "", ""};
     
     public AlunoTableModel(List<AlunoModel> alunos) {
         this.alunos = alunos;
@@ -45,13 +45,14 @@ public class AlunoTableModel extends AbstractTableModel {
             case 2: return aluno.getMatricula();
             case 3: return aluno.getPeriodo();
             case 4: return "Editar";
+            case 5: return "Excluir";
             default: return null;
         }
     }
     
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return columnIndex == 4;
+        return columnIndex == 4 || columnIndex == 5;
     }
     
     public AlunoModel getAlunoAt(int row) {
