@@ -23,4 +23,5 @@ public interface EntregaInterface {
     public List<String> getTodosOsTiposDeUniforme();
     public List<Map<String, Object>> getContagemPorTurmaETipo();
     public Map<String, Integer> getContagemEntregaPorTipo();
+    public void setNullPorAluno(int alunoId);
 }
