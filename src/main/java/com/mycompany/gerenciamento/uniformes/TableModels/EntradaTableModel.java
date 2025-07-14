@@ -4,7 +4,7 @@
  */
 package com.mycompany.gerenciamento.uniformes.TableModels;
 
-import com.mycompany.gerenciamento.uniformes.Models.UniformeEstoqueModel;
+import com.mycompany.gerenciamento.uniformes.Models.EntradaModel;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -15,18 +15,18 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author rober
  */
-public class UniformeTableModel extends AbstractTableModel {
-    private List<UniformeEstoqueModel> listaUniformes;
-    private String[] colunas = {"Tipo", "Status", "Entrada", "Saída", "Tamanho", "Data Entrada", ""}; 
+public class EntradaTableModel extends AbstractTableModel {
+    private List<Object[]> entradas;
+    private String[] colunas = {"Tipo", "Tamanho", "Status", "Entrada", "Saída", "Estoque Atual"}; 
     private final DateTimeFormatter formatadorData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public UniformeTableModel() {
-        this.listaUniformes = new ArrayList<>();
+    public EntradaTableModel() {
+        this.entradas = new ArrayList<>();
     }
     
     @Override
     public int getRowCount() {
-        return listaUniformes.size();
+        return entradas.size();
     }
     
     @Override
@@ -41,36 +41,17 @@ public class UniformeTableModel extends AbstractTableModel {
     
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        UniformeEstoqueModel uniforme = listaUniformes.get(rowIndex);
-        
-        switch (columnIndex) {
-            case 0: return uniforme.getTipo();
-            case 1: return uniforme.getStatus();
-            case 2: return uniforme.getTotalEntrada();
-            case 3: return uniforme.getTotalSaida();
-            case 4: return uniforme.getTamanho();
-            case 5:
-                LocalDate data = uniforme.getDataUltimaEntrada(); 
-                if (data != null) {
-                    return data.format(formatadorData);
-                }
-                return "";
-            case 6: return "Editar";
-            default: return null;
-        }
+        return entradas.get(rowIndex)[columnIndex];
     }
     
-    public void setUniformes(List<UniformeEstoqueModel> novosUniformes) {
-        this.listaUniformes = novosUniformes;
+    public void setEntradas(List<Object[]> novasEntradas) {
+        this.entradas = novasEntradas;
         this.fireTableDataChanged(); 
     }
     
-    @Override
-    public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return columnIndex == 6;
-    }
+//    @Override;;
+//    public boolean isCellEditable(int rowIndex, int columnIndex) {
+//        return columnIndex == 6;
+//    }
     
-    public UniformeEstoqueModel getUniformeAt(int row) {
-        return this.listaUniformes.get(row);
-    }
 }
