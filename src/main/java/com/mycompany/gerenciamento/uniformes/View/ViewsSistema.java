@@ -11,6 +11,7 @@ import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import com.mycompany.gerenciamento.uniformes.Controllers.AlunoController;
 import com.mycompany.gerenciamento.uniformes.Controllers.AuthController;
+import com.mycompany.gerenciamento.uniformes.Controllers.CursoController;
 import com.mycompany.gerenciamento.uniformes.Controllers.EntregaController;
 import com.mycompany.gerenciamento.uniformes.Forms.FormEntregaDialog;
 import com.mycompany.gerenciamento.uniformes.Models.EntregaModel;
@@ -39,6 +40,7 @@ import com.mycompany.gerenciamento.uniformes.Forms.FormUniforme;
 import com.mycompany.gerenciamento.uniformes.Forms.FormEditarServidorDialog;
 import com.mycompany.gerenciamento.uniformes.Forms.FormMensagemConfirmacao;
 import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
+import com.mycompany.gerenciamento.uniformes.Models.CursoModel;
 import com.mycompany.gerenciamento.uniformes.Models.EntradaModel;
 import com.mycompany.gerenciamento.uniformes.Models.FiltroModel;
 import com.mycompany.gerenciamento.uniformes.Models.TamanhoModel;
@@ -92,6 +94,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private final TamanhoController tamanhoController;
     private final TipoUniformeController tipoUniformeController;
     private final TrocaController trocaController;
+    private final CursoController cursoController;
     private GraficosController graficosController;
     
     private String matriculaUpdate;
@@ -147,13 +150,17 @@ public class ViewsSistema extends javax.swing.JFrame {
         this.trocaController = new TrocaController();
         this.tamanhoController = new TamanhoController();
         this.tipoUniformeController = new TipoUniformeController();
+        this.cursoController = new CursoController();
                 
         this.entregaTableModel = new EntregaTableModel(new ArrayList<>());
         this.alunoTableModel = new AlunoTableModel(new ArrayList<>());
         this.servidorTableModel = new ServidorTableModel(new ArrayList<>());
         this.uniformeTableModel = new UniformeTableModel();
         
+        // === INICIO DOS FILTROS ===
         carregarFiltrosDeDistribuicao();
+        carregarFiltrosDeAlunos();
+        // === FIM DOS FILTROS ===
         
         this.tb_alunos.setModel(alunoTableModel);
         this.tabela_uniformes.setModel(uniformeTableModel);
@@ -732,6 +739,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         panelGraficoBarras.repaint();
     }
     
+    // === CARREGA FILTRO DE DISTRIBUICAO ===
     private void carregarFiltrosDeDistribuicao() {
         jcb_filtro_dis_pd.removeAllItems();
         
@@ -746,6 +754,18 @@ public class ViewsSistema extends javax.swing.JFrame {
         for(TamanhoModel tamanho : tamanhos) {
             jcb_filtro_dis_pd.addItem(new FiltroModel("TAMANHO", tamanho.getId(), "Tamanho: " + tamanho.getNome()));
         }
+    }
+    
+    // === CARREGA FILTRO DE ALUNOS ===
+    private void carregarFiltrosDeAlunos() {
+        jcb_filtro_alunos.removeAllItems();
+        
+        jcb_filtro_alunos.addItem(new FiltroModel("TODOS", 0, "Filtrar por curso..."));
+        
+        List<CursoModel> cursos = cursoController.listarTodos();
+        for(CursoModel curso : cursos) {
+            jcb_filtro_alunos.addItem(new FiltroModel("CURSO", curso.getId(), curso.getNome()));
+        }   
     }
     
     // === FLUXO DE TROCA ===
@@ -776,8 +796,6 @@ public class ViewsSistema extends javax.swing.JFrame {
     private void atualizarTabelaDistribuicao() {
         FiltroModel filtroSelecionado = (FiltroModel) jcb_filtro_dis_pd.getSelectedItem();
         
-        String termoBusca = tx_pesquisa_dis_pd.getText();
-        
         List<EntregaModel> listaPaginada = entregaController.listarPagina(paginaAtualDistribuicao, ITENS_POR_PAGINA, termoBuscaAtualDistribuicao, filtroSelecionado);
         
         entregaTableModel.setEntregas(listaPaginada);
@@ -788,8 +806,12 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_proximo_pd.setEnabled(paginaAtualDistribuicao < totalDePaginasDistribuicao);
     }
     
+    // === APLICA PAGINAÇÃO ALUNOS ===
     private void atualizarTabelaAlunos() {
-        List<AlunoModel> listaDeAlunos = this.alunoController.listarTodos(paginaAtualAlunos, ITENS_POR_PAGINA, termoBuscaAtualAluno);
+        FiltroModel filtroSelecionado = (FiltroModel) jcb_filtro_alunos.getSelectedItem();
+        
+        
+        List<AlunoModel> listaDeAlunos = this.alunoController.listarTodos(paginaAtualAlunos, ITENS_POR_PAGINA, termoBuscaAtualAluno, filtroSelecionado);
         
         alunoTableModel.setAlunos(listaDeAlunos);
         
@@ -837,8 +859,10 @@ public class ViewsSistema extends javax.swing.JFrame {
     private void realizarBuscaAlunos() {
         termoBuscaAtualAluno = tx_pesquisa_alunos.getText();
         
+        FiltroModel filtro = (FiltroModel) jcb_filtro_alunos.getSelectedItem();
+        
         paginaAtualAlunos = 1;
-        totalDePaginasAlunos = alunoController.getTotalDePaginas(ITENS_POR_PAGINA, termoBuscaAtualAluno);
+        totalDePaginasAlunos = alunoController.getTotalDePaginas(ITENS_POR_PAGINA, termoBuscaAtualAluno, filtro);
         
         atualizarTabelaAlunos();
     }
@@ -905,6 +929,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         tx_pesquisa_alunos = new javax.swing.JTextField();
         btn_buscar_alunos = new javax.swing.JButton();
         btn_exportar_alunos = new javax.swing.JButton();
+        jcb_filtro_alunos = new javax.swing.JComboBox<>();
         Servidores = new javax.swing.JPanel();
         lb_titulo_serv = new javax.swing.JLabel();
         lb_sub_serv = new javax.swing.JLabel();
@@ -1483,6 +1508,13 @@ public class ViewsSistema extends javax.swing.JFrame {
             }
         });
 
+        jcb_filtro_alunos.setPreferredSize(new java.awt.Dimension(72, 30));
+        jcb_filtro_alunos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcb_filtro_alunosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout AlunosLayout = new javax.swing.GroupLayout(Alunos);
         Alunos.setLayout(AlunosLayout);
         AlunosLayout.setHorizontalGroup(
@@ -1504,8 +1536,10 @@ public class ViewsSistema extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btn_buscar_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jcb_filtro_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btn_exportar_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 405, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 221, Short.MAX_VALUE)
                                 .addComponent(btn_cadastrar_alunos)))
                         .addGap(79, 79, 79))))
         );
@@ -1521,6 +1555,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                     .addComponent(tx_pesquisa_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_buscar_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_cadastrar_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcb_filtro_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_exportar_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addComponent(frame_tb_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2441,7 +2476,13 @@ public class ViewsSistema extends javax.swing.JFrame {
         termoBuscaAtualAluno = "";
         tx_pesquisa_alunos.setText("");
         
-        totalDePaginasAlunos = alunoController.getTotalDePaginas(ITENS_POR_PAGINA, termoBuscaAtualAluno);
+        if (jcb_filtro_alunos.getItemCount() > 0) {
+            jcb_filtro_alunos.setSelectedIndex(0);
+        }
+        
+        FiltroModel filtroResetado = (FiltroModel) jcb_filtro_alunos.getSelectedItem();
+        
+        totalDePaginasAlunos = alunoController.getTotalDePaginas(ITENS_POR_PAGINA, termoBuscaAtualAluno, filtroResetado);
         paginaAtualAlunos = 1;
         atualizarTabelaAlunos();
         
@@ -2798,6 +2839,12 @@ public class ViewsSistema extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_anterior_serv3ActionPerformed
 
+    private void jcb_filtro_alunosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_filtro_alunosActionPerformed
+        // TODO add your handling code here:
+        tx_pesquisa_alunos.setText("");
+        realizarBuscaAlunos();
+    }//GEN-LAST:event_jcb_filtro_alunosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2876,6 +2923,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JComboBox<com.mycompany.gerenciamento.uniformes.Models.FiltroModel> jcb_filtro_alunos;
     private javax.swing.JComboBox<com.mycompany.gerenciamento.uniformes.Models.FiltroModel> jcb_filtro_dis_pd;
     private javax.swing.JLabel lb_codigo_prs;
     private javax.swing.JLabel lb_confirmar_senha_ppa;
