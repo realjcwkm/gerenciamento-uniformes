@@ -27,4 +27,16 @@ public class UniformeController {
     public List<UniformeEstoqueModel> TabelaEstoque (){
         return this.uniformeDAO.TabelaEstoque();
     }
+    public void editarEntrada(UniformeModel uniformes ){      
+        uniformeDAO.editarEntrada(uniformes);
+    }
+    
+    public void atualizarUniforme(UniformeModel uniformes) {      
+        uniformeDAO.editarEntrada(uniformes);
+    }
+    
+    public List<UniformeModel> getAllUniformes() {
+        return this.uniformeDAO.listarTodos(); 
+    }
+
 }

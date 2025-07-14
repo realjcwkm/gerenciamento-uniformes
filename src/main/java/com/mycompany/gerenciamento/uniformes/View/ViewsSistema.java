@@ -32,12 +32,14 @@ import com.mycompany.gerenciamento.uniformes.Controllers.TrocaController;
 import com.mycompany.gerenciamento.uniformes.Forms.ConfirmacaoTroca;
 import com.mycompany.gerenciamento.uniformes.Forms.FormAlunoDialog;
 import com.mycompany.gerenciamento.uniformes.Forms.FormEditarAlunoDialog;
+import com.mycompany.gerenciamento.uniformes.Forms.FormEditarEntradaDialog;
 import com.mycompany.gerenciamento.uniformes.Forms.FormSelecaoUniforme;
 import com.mycompany.gerenciamento.uniformes.Forms.FormServidorDialog;
 import com.mycompany.gerenciamento.uniformes.Forms.FormUniforme;
 import com.mycompany.gerenciamento.uniformes.Forms.FormEditarServidorDialog;
 import com.mycompany.gerenciamento.uniformes.Forms.FormMensagemConfirmacao;
 import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
+import com.mycompany.gerenciamento.uniformes.Models.EntradaModel;
 import com.mycompany.gerenciamento.uniformes.Models.FiltroModel;
 import com.mycompany.gerenciamento.uniformes.Models.TamanhoModel;
 import com.mycompany.gerenciamento.uniformes.Models.TipoUniformeModel;
@@ -60,6 +62,8 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.TableModel;
@@ -286,6 +290,59 @@ public class ViewsSistema extends javax.swing.JFrame {
         this.tb_alunos.getColumnModel().getColumn(EDIT_AlUNO_COLUMN_INDEX).setMaxWidth(90); 
         // === FIM ADICIONA EDIT ICON NA TABELA DE ALUNOS ===
         
+        // === INICIO ADICIONA EDIT ICON NA TABELA DE UNIFORMES ===
+        // Note que o modelo aqui é o EntradaTableModel, como definimos para o histórico
+        this.tabela_uniformes.setModel(uniformeTableModel); 
+        this.tabela_uniformes.setDefaultRenderer(Object.class, new CustomCellRenderer());
+        tabela_uniformes.setFillsViewportHeight(true);
+
+        // O índice da coluna "Editar" no seu EntradaTableModel
+        final int EDIT_COLUMN_UNIFORME_INDEX = 6;
+        
+        try {
+            ImageIcon originalIcon = new ImageIcon(getClass().getResource("/images/edit-icon.png"));
+            
+            Image image = originalIcon.getImage();
+            
+            Image scaledImage = image.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+            
+            editIcon = new ImageIcon(scaledImage);
+        } catch (Exception e) {
+            System.err.println("Erro ao carregar o ícone de edição: " + e.getMessage());
+        }
+
+        ButtonColumnRendererEditor editButtonUniforme = new ButtonColumnRendererEditor(this.tabela_uniformes, editIcon);
+
+        editButtonUniforme.getButton().addActionListener(e -> {
+            if (tabela_uniformes.isEditing()) {
+                tabela_uniformes.getCellEditor().stopCellEditing();
+            }
+            int modelRow = tabela_uniformes.convertRowIndexToModel(tabela_uniformes.getSelectedRow());
+            if (modelRow == -1) {
+                return;
+            }
+
+            UniformeEstoqueModel entradaParaEditar = uniformeTableModel.getUniformeAt(modelRow);
+
+            FormEditarEntradaDialog dialog = new FormEditarEntradaDialog(ViewsSistema.this, entradaParaEditar);
+            dialog.setVisible(true);
+
+            if (dialog.isSalvo()) {
+
+                JOptionPane.showMessageDialog(ViewsSistema.this, "Entrada de uniforme atualizada com sucesso!");
+
+                carregaDadosUniformes();
+            }
+        });
+        int EDIT_ENTRADA_COLUMN_INDEX = 0;
+        TableCellRenderer editEntradaButtonEditor = null;
+
+        this.tabela_uniformes.getColumnModel().getColumn(EDIT_ENTRADA_COLUMN_INDEX).setCellRenderer(editEntradaButtonEditor);
+        this.tabela_uniformes.getColumnModel().getColumn(EDIT_ENTRADA_COLUMN_INDEX).setCellEditor((TableCellEditor) editEntradaButtonEditor);
+        this.tabela_uniformes.getColumnModel().getColumn(EDIT_ENTRADA_COLUMN_INDEX).setPreferredWidth(90);
+        this.tabela_uniformes.getColumnModel().getColumn(EDIT_ENTRADA_COLUMN_INDEX).setMaxWidth(90);
+        // === FIM ADICIONA EDIT ICON NA TABELA DE UNIFORMES ===
+        
         // === INICIO ADICIONA BOTÃO DE EXCLUSÃO NA TABELA SERVIDORES ===
         final int DELETE_COLUMN_INDEX = 5;
 
@@ -347,7 +404,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         this.tb_servidores.getColumnModel().getColumn(DELETE_COLUMN_INDEX).setPreferredWidth(60);
         this.tb_servidores.getColumnModel().getColumn(DELETE_COLUMN_INDEX).setMaxWidth(60);
         // === FIM ADICIONA BOTÃO DE EXCLUSÃO NA TABELA SERVIDORES ===
-        
+
         System.out.println("Painéis disponíveis:");
         for (Component comp : panel_telaInicial.getComponents()) {
             System.out.println("- " + comp.getName() + " (" + comp.getClass().getSimpleName() + ")");
@@ -822,7 +879,10 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_Add_Uniforme = new javax.swing.JButton();
         barra_rolagem = new javax.swing.JScrollPane();
         tabela_uniformes = new javax.swing.JTable();
-        btn_editar = new javax.swing.JButton();
+        panel5 = new java.awt.Panel();
+        lb_status_paginacao_serv3 = new javax.swing.JLabel();
+        btn_proximo_serv3 = new javax.swing.JButton();
+        btn_anterior_serv3 = new javax.swing.JButton();
         panel_autenticacao = new javax.swing.JPanel();
         panel_login = new javax.swing.JPanel();
         img_pl = new javax.swing.JLabel();
@@ -1252,7 +1312,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56))
+                .addGap(95, 95, 95))
         );
 
         panel_telaInicial.add(Distribuicao, "distribuicao");
@@ -1501,7 +1561,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                     .addComponent(btn_proximo_serv, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_anterior_serv, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lb_status_paginacao_serv, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36))
+                .addGap(45, 45, 45))
         );
 
         tx_pesquisa_serv.setText("Busque um servidor...");
@@ -1574,9 +1634,9 @@ public class ViewsSistema extends javax.swing.JFrame {
                     .addComponent(btn_exportar_serv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23)
+                .addGap(32, 32, 32)
                 .addComponent(panel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(90, Short.MAX_VALUE))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
 
         panel_telaInicial.add(Servidores, "servidores");
@@ -1586,19 +1646,21 @@ public class ViewsSistema extends javax.swing.JFrame {
         Uniformes.setMinimumSize(new java.awt.Dimension(1360, 680));
         Uniformes.setPreferredSize(new java.awt.Dimension(1360, 680));
 
-        Titulo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        Titulo.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
         Titulo.setText("Controle de Uniformes");
 
         subtitulo.setForeground(new java.awt.Color(0, 102, 102));
         subtitulo.setText("Tenha um controle em tempo real do estoque de uniformes");
 
+        tx_pesquisa.setPreferredSize(new java.awt.Dimension(130, 30));
         tx_pesquisa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tx_pesquisaActionPerformed(evt);
             }
         });
 
-        btn_buscar.setText("BUSCAR");
+        btn_buscar.setFont(new java.awt.Font("Liberation Sans", 1, 12)); // NOI18N
+        btn_buscar.setText("Buscar");
 
         filtro_tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Camisa", "Calça", "Bermuda", "Tamanho P", "Tamanho M", "Tamanho G" }));
         filtro_tipo.addActionListener(new java.awt.event.ActionListener() {
@@ -1607,7 +1669,7 @@ public class ViewsSistema extends javax.swing.JFrame {
             }
         });
 
-        btn_Add_Uniforme.setBackground(new java.awt.Color(0, 153, 102));
+        btn_Add_Uniforme.setBackground(new java.awt.Color(4, 120, 87));
         btn_Add_Uniforme.setForeground(new java.awt.Color(255, 255, 255));
         btn_Add_Uniforme.setText("+ Adicionar Uniforme");
         btn_Add_Uniforme.addActionListener(new java.awt.event.ActionListener() {
@@ -1627,57 +1689,99 @@ public class ViewsSistema extends javax.swing.JFrame {
                 "Tipo", "Status", "Entrada", "Saída", "Tamanho", "Data Entrada"
             }
         ));
+        tabela_uniformes.setAutoscrolls(false);
+        tabela_uniformes.setMaximumSize(new java.awt.Dimension(2147483647, 0));
+        tabela_uniformes.setMinimumSize(new java.awt.Dimension(60, 0));
+        tabela_uniformes.setPreferredSize(new java.awt.Dimension(300, 0));
+        tabela_uniformes.setRowHeight(27);
+        tabela_uniformes.setShowHorizontalLines(true);
         barra_rolagem.setViewportView(tabela_uniformes);
 
-        btn_editar.setText("EDITAR");
+        lb_status_paginacao_serv3.setText("jLabel2");
+        lb_status_paginacao_serv3.setPreferredSize(new java.awt.Dimension(18, 18));
+
+        btn_proximo_serv3.setText("Próxima");
+        btn_proximo_serv3.setMargin(new java.awt.Insets(8, 14, 8, 14));
+        btn_proximo_serv3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_proximo_serv3ActionPerformed(evt);
+            }
+        });
+
+        btn_anterior_serv3.setText("Anterior");
+        btn_anterior_serv3.setMargin(new java.awt.Insets(8, 14, 8, 14));
+        btn_anterior_serv3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_anterior_serv3ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panel5Layout = new javax.swing.GroupLayout(panel5);
+        panel5.setLayout(panel5Layout);
+        panel5Layout.setHorizontalGroup(
+            panel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lb_status_paginacao_serv3, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_anterior_serv3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_proximo_serv3)
+                .addContainerGap())
+        );
+        panel5Layout.setVerticalGroup(
+            panel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel5Layout.createSequentialGroup()
+                .addGroup(panel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_proximo_serv3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_anterior_serv3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lb_status_paginacao_serv3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(45, 45, 45))
+        );
 
         javax.swing.GroupLayout UniformesLayout = new javax.swing.GroupLayout(Uniformes);
         Uniformes.setLayout(UniformesLayout);
         UniformesLayout.setHorizontalGroup(
             UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(UniformesLayout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(UniformesLayout.createSequentialGroup()
-                        .addComponent(barra_rolagem, javax.swing.GroupLayout.PREFERRED_SIZE, 1280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(46, Short.MAX_VALUE))
-                    .addGroup(UniformesLayout.createSequentialGroup()
-                        .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(95, 95, 95)
+                .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(panel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, UniformesLayout.createSequentialGroup()
+                        .addComponent(Titulo)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(barra_rolagem, javax.swing.GroupLayout.DEFAULT_SIZE, 1186, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, UniformesLayout.createSequentialGroup()
+                        .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(subtitulo)
                             .addGroup(UniformesLayout.createSequentialGroup()
+                                .addComponent(tx_pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
                                 .addComponent(btn_buscar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tx_pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(92, 92, 92)
-                                .addComponent(filtro_tipo, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btn_editar))
-                            .addGroup(UniformesLayout.createSequentialGroup()
-                                .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(subtitulo)
-                                    .addComponent(Titulo))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btn_Add_Uniforme)))
-                        .addGap(35, 35, 35))))
+                                .addGap(18, 18, 18)
+                                .addComponent(filtro_tipo, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_Add_Uniforme)))
+                .addGap(79, 79, 79))
         );
         UniformesLayout.setVerticalGroup(
             UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(UniformesLayout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addComponent(Titulo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(subtitulo)
                 .addGap(18, 18, 18)
-                .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(UniformesLayout.createSequentialGroup()
-                        .addComponent(Titulo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(subtitulo))
-                    .addComponent(btn_Add_Uniforme))
-                .addGap(52, 52, 52)
                 .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_editar)
-                    .addComponent(btn_buscar)
-                    .addComponent(tx_pesquisa)
-                    .addComponent(filtro_tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19)
-                .addComponent(barra_rolagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(132, 132, 132))
+                    .addComponent(tx_pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(filtro_tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_Add_Uniforme, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addComponent(barra_rolagem, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23)
+                .addComponent(panel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(87, 87, 87))
         );
 
         panel_telaInicial.add(Uniformes, "uniformes");
@@ -1795,7 +1899,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_login_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
                 .addComponent(btn_esq_senha_pl)
-                .addContainerGap(154, Short.MAX_VALUE))
+                .addContainerGap(158, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_loginLayout = new javax.swing.GroupLayout(panel_login);
@@ -1928,7 +2032,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_salvar_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_voltar_ppa)
-                .addContainerGap(145, Short.MAX_VALUE))
+                .addContainerGap(149, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_primeiro_acessoLayout = new javax.swing.GroupLayout(panel_primeiro_acesso);
@@ -2065,7 +2169,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_enviar_psc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_voltar_psc)
-                .addContainerGap(145, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_solicitacao_codigoLayout = new javax.swing.GroupLayout(panel_solicitacao_codigo);
@@ -2219,7 +2323,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_salvar_prs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_voltar_prs)
-                .addContainerGap(123, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_redefinir_senhaLayout = new javax.swing.GroupLayout(panel_redefinir_senha);
@@ -2394,13 +2498,6 @@ public class ViewsSistema extends javax.swing.JFrame {
         System.out.println("Atualizando a tabela de servidores...");
         atualizarTabelaServidoresEControles();
     }//GEN-LAST:event_btn_cadastrar_servActionPerformed
-    private void tx_pesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tx_pesquisaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tx_pesquisaActionPerformed
-
-    private void filtro_tipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtro_tipoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_filtro_tipoActionPerformed
 
     private void btn_sair_pnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sair_pnActionPerformed
         boolean confirm = this.authController.sair();
@@ -2635,6 +2732,23 @@ public class ViewsSistema extends javax.swing.JFrame {
             carregaDadosUniformes();
         }
     }//GEN-LAST:event_btn_Add_UniformeActionPerformed
+
+    private void filtro_tipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtro_tipoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_filtro_tipoActionPerformed
+
+    private void tx_pesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tx_pesquisaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tx_pesquisaActionPerformed
+
+    private void btn_proximo_serv3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_proximo_serv3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_proximo_serv3ActionPerformed
+
+    private void btn_anterior_serv3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_anterior_serv3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_anterior_serv3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2651,6 +2765,9 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JButton btn_anterior_alunos;
     private javax.swing.JButton btn_anterior_pd;
     private javax.swing.JButton btn_anterior_serv;
+    private javax.swing.JButton btn_anterior_serv1;
+    private javax.swing.JButton btn_anterior_serv2;
+    private javax.swing.JButton btn_anterior_serv3;
     private javax.swing.JButton btn_buscar;
     private javax.swing.JButton btn_buscar_alunos;
     private javax.swing.JButton btn_buscar_dis_pd;
@@ -2658,7 +2775,6 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JButton btn_cad_distribuicao_pd;
     private javax.swing.JButton btn_cadastrar_alunos;
     private javax.swing.JButton btn_cadastrar_serv;
-    private javax.swing.JButton btn_editar;
     private javax.swing.JButton btn_enviar_psc;
     private javax.swing.JButton btn_esq_senha_pl;
     private javax.swing.JButton btn_exportar_alunos;
@@ -2673,6 +2789,9 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JButton btn_proximo_alunos;
     private javax.swing.JButton btn_proximo_pd;
     private javax.swing.JButton btn_proximo_serv;
+    private javax.swing.JButton btn_proximo_serv1;
+    private javax.swing.JButton btn_proximo_serv2;
+    private javax.swing.JButton btn_proximo_serv3;
     private javax.swing.JButton btn_sair_pn;
     private javax.swing.JButton btn_salvar_ppa;
     private javax.swing.JButton btn_salvar_prs;
@@ -2729,6 +2848,9 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JLabel lb_status_paginacao_alunos;
     private javax.swing.JLabel lb_status_paginacao_pd;
     private javax.swing.JLabel lb_status_paginacao_serv;
+    private javax.swing.JLabel lb_status_paginacao_serv1;
+    private javax.swing.JLabel lb_status_paginacao_serv2;
+    private javax.swing.JLabel lb_status_paginacao_serv3;
     private javax.swing.JLabel lb_sub_alunos;
     private javax.swing.JLabel lb_sub_serv;
     private javax.swing.JLabel lb_subtitulo_pd;
@@ -2740,6 +2862,9 @@ public class ViewsSistema extends javax.swing.JFrame {
     private java.awt.Panel paginacao_alunos;
     private java.awt.Panel panel1;
     private java.awt.Panel panel2;
+    private java.awt.Panel panel3;
+    private java.awt.Panel panel4;
+    private java.awt.Panel panel5;
     private javax.swing.JPanel panelGraficoBarras;
     private javax.swing.JPanel panelGraficoPizza;
     private javax.swing.JPanel panel_aplicacao;

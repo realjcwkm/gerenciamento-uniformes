@@ -135,25 +135,33 @@ public class UniformeDAO {
     public List<UniformeEstoqueModel> TabelaEstoque() {
         List<UniformeEstoqueModel> relatorio = new ArrayList<>();
         
-        // Query ajustada para buscar a data da última ENTRADA
+        // Query ajustada 
         String sql = """
-            SELECT tu.nome AS Tipo,
-            CASE
-            	WHEN (COALESCE(SUM(entradas.quantidade), 0) - COALESCE(SUM(entrega.quantidade), 0)) > 0
-            	THEN CONCAT('Disponível (', (COALESCE(SUM(entradas.quantidade), 0) - COALESCE(SUM(entrega.quantidade), 0)), ')')
-            	ELSE 'Indisponível'
-            END AS Status,
-            entradas.quantidade AS Entradas,
-            COALESCE(SUM(entrega.quantidade), 0) AS Saida,
+            SELECT
+            tu.nome AS Tipo,
             t.nome AS Tamanho,
-            MAX(entradas.data_entrada) AS DataEntrada
-            FROM Uniforme u
-            JOIN TipoUniforme tu ON u.fk_tipo_uniforme = tu.id
-            JOIN Tamanho t ON u.fk_tamanho = t.id
-            LEFT JOIN Entradas entradas ON u.id = entradas.fk_uniforme
-            LEFT JOIN Entrega entrega ON u.id = entrega.fk_uniforme
-            GROUP BY u.id, tu.nome, t.nome
-            ORDER BY tu.nome, t.nome;
+            COALESCE(entradas_agg.total, 0) AS Entradas,
+            COALESCE(saidas_agg.total, 0) AS Saida,
+            entradas_agg.ultima_data AS DataEntrada,
+            CASE
+                WHEN (COALESCE(entradas_agg.total, 0) - COALESCE(saidas_agg.total, 0)) > 0
+                THEN CONCAT('Disponível (', (COALESCE(entradas_agg.total, 0) - COALESCE(saidas_agg.total, 0)), ')')
+                ELSE 'Indisponível'
+            END AS Status
+             FROM
+                 Uniforme u
+             JOIN TipoUniforme tu ON u.fk_tipo_uniforme = tu.id
+             JOIN Tamanho t ON u.fk_tamanho = t.id
+             LEFT JOIN (
+                 SELECT fk_uniforme, SUM(quantidade) AS total, MAX(data_entrada) AS ultima_data
+                 FROM Entradas GROUP BY fk_uniforme
+             ) AS entradas_agg ON u.id = entradas_agg.fk_uniforme
+             LEFT JOIN (
+                 SELECT fk_uniforme, SUM(quantidade) AS total
+                 FROM Entrega GROUP BY fk_uniforme
+             ) AS saidas_agg ON u.id = saidas_agg.fk_uniforme
+             ORDER BY
+                 tu.nome, t.nome;
                      
             """;
 
@@ -183,5 +191,21 @@ public class UniformeDAO {
         }
         
         return relatorio;
+    }
+    
+        
+        public void editarEntrada(UniformeModel uniformes){
+        String sql = "UPDATE Uniforme SET fk_tipo_uniforme = ?, fk_tamanho = ?, quantidade = ? WHERE id = ?";
+
+        try (PreparedStatement ps = this.conn.prepareStatement(sql)) {
+
+            ps.setInt(1, uniformes.getFk_tipo_uniforme()); 
+            ps.setInt(2, uniformes.getFk_tamanho());  
+            ps.setInt(3, uniformes.getQuantidade());
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao atualizar entrada no banco de dados: " + e.getMessage(), e);
+        }
     }
 }
