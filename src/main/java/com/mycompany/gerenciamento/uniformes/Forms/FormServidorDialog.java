@@ -189,7 +189,7 @@ public class FormServidorDialog extends JDialog {
             return;
         }
 
-        boolean sucesso = servidorController.cadastrarNovoServidor(nome, sobrenome, email, telefone, matricula, isAtivo, departamento);
+        boolean sucesso = servidorController.cadastrar(nome, sobrenome, email, telefone, matricula, isAtivo, departamento);
 
         if (sucesso) {
             this.salvo = true;

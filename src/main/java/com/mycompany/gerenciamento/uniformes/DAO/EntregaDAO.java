@@ -272,38 +272,6 @@ public class EntregaDAO implements EntregaInterface {
     }
        
     @Override
-    public int cadastrarEntrega(EntregaModel entrega) throws SQLException {
-        String sql = "INSERT INTO Entrega "
-               + "(semestre, ano, data_entrega, trocado, quantidade, fk_servidor, fk_uniforme, fk_aluno) "
-               + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-       
-        try(PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-           ps.setInt(1, entrega.getSemestre()); //mudar
-           ps.setInt(2, entrega.getAno());
-           ps.setDate(3, java.sql.Date.valueOf(entrega.getData_entrega()));
-           ps.setBoolean(4, entrega.isTrocado());
-           ps.setInt(5, entrega.getQuantidade());
-           ps.setInt(6, entrega.getServidor().getId());
-           ps.setInt(7, entrega.getUniforme().getId());
-           ps.setInt(8, entrega.getAluno().getId());
-           
-           ps.executeUpdate();
-           
-           try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    return generatedKeys.getInt(1); 
-                } else {
-                    throw new SQLException("Falha ao obter o ID da nova entrega.");
-                }
-            }
-           
-        } catch (SQLException error) {
-            System.err.println("Erro ao cadastrar entrega: " + error.getMessage());
-            throw error; 
-        }
-   }
-   
-    @Override
     public int getTotal(String termoBusca, FiltroModel filtro) {
         StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM Entrega AS e "
                 + "LEFT JOIN Servidor AS s ON e.fk_servidor = s.id "
@@ -367,5 +335,37 @@ public class EntregaDAO implements EntregaInterface {
         }
 
         return 0;
-   }
+    }
+    
+    @Override
+    public int cadastrar(EntregaModel entrega) throws SQLException {
+        String sql = "INSERT INTO Entrega "
+               + "(semestre, ano, data_entrega, trocado, quantidade, fk_servidor, fk_uniforme, fk_aluno) "
+               + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+       
+        try(PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+           ps.setInt(1, entrega.getSemestre());
+           ps.setInt(2, entrega.getAno());
+           ps.setDate(3, java.sql.Date.valueOf(entrega.getData_entrega()));
+           ps.setBoolean(4, entrega.isTrocado());
+           ps.setInt(5, entrega.getQuantidade());
+           ps.setInt(6, entrega.getServidor().getId());
+           ps.setInt(7, entrega.getUniforme().getId());
+           ps.setInt(8, entrega.getAluno().getId());
+           
+           ps.executeUpdate();
+           
+           try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1); 
+                } else {
+                    throw new SQLException("Falha ao obter o ID da nova entrega.");
+                }
+            }
+           
+        } catch (SQLException error) {
+            System.err.println("Erro ao cadastrar entrega: " + error.getMessage());
+            throw error; 
+        }
+    }
 }

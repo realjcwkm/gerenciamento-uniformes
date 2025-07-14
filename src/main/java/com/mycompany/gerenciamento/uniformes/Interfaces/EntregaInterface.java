@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public interface EntregaInterface {
     public List<EntregaModel> listarPagina(int pagina, int intesPorPagina, String termoBusca, FiltroModel filtro);
-    public int cadastrarEntrega(EntregaModel entrega) throws SQLException;
+    public int cadastrar(EntregaModel entrega) throws SQLException;
     public int getTotal(String termoBusca, FiltroModel filtro);
     public int getQuantidadeTotalGeral();
     public Map<String, Integer> getContagemPorCurso();

@@ -24,7 +24,17 @@ public class ServidorController {
         return this.departamentoDAO.listarTodos(); 
     }
 
-    public boolean cadastrarNovoServidor(String nome, String sobrenome, String email, String telefone, String matricula, boolean isAtivo, DepartamentoModel departamento) {
+    public List<ServidorModel> listarPagina(int pagina, int itensPorPagina, String termoBusca) {
+        return this.servidorDAO.listarPagina(pagina, itensPorPagina, termoBusca);
+    }
+
+    public int getTotalDePaginas(int itensPorPagina, String termoBusca) {
+        int totalDeItens = this.servidorDAO.getTotal(termoBusca);
+        int totalPaginas = (int) Math.ceil((double) totalDeItens / itensPorPagina);
+        return Math.max(totalPaginas, 1);
+    }
+    
+    public boolean cadastrar(String nome, String sobrenome, String email, String telefone, String matricula, boolean isAtivo, DepartamentoModel departamento) {
         if (nome == null || nome.trim().isEmpty() ||
             sobrenome == null || sobrenome.trim().isEmpty() ||
             email == null || email.trim().isEmpty() ||
@@ -51,7 +61,7 @@ public class ServidorController {
             novoServidor.setAcesso(true);
             novoServidor.setFk_departamento(departamento.getId());
 
-            return this.servidorDAO.cadastrarServidor(novoServidor);
+            return this.servidorDAO.cadastrar(novoServidor);
 
         } catch (Exception error) {
             error.printStackTrace();
@@ -59,23 +69,10 @@ public class ServidorController {
         }
     }
     
-    // PAGINAÇÃO E BUSCA
-    public List<ServidorModel> listarPagina(int pagina, int itensPorPagina, String termoBusca) {
-        return this.servidorDAO.listarPagina(pagina, itensPorPagina, termoBusca);
+    public void editar(ServidorModel servidor) {      
+        servidorDAO.editar(servidor);
     }
 
-    public int getTotalDePaginas(int itensPorPagina, String termoBusca) {
-        int totalDeItens = this.servidorDAO.getTotalDeServidores(termoBusca);
-        int totalPaginas = (int) Math.ceil((double) totalDeItens / itensPorPagina);
-        return Math.max(totalPaginas, 1);
-    }
-    // PAGINAÇÃO E BUSCA
-    
-    public void atualizarServidor(ServidorModel servidor) {      
-        servidorDAO.editServidor(servidor);
-    }
-    
-    // EXCLUIR SERVIDOR
     public String validarExclusao(ServidorModel servidor) {
         if (servidor.isAtivo()) {
             return "Não é possível excluir um servidor com status 'Ativo'.";
@@ -83,8 +80,7 @@ public class ServidorController {
         return "";
     }
 
-    public boolean excluirServidor(int id) {
-        return this.servidorDAO.excluirServidor(id);
+    public boolean excluir(int id) {
+        return this.servidorDAO.excluir(id);
     }
-    // EXCLUIR
 }

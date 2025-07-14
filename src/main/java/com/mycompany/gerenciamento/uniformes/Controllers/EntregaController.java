@@ -50,8 +50,8 @@ public class EntregaController {
     public List<TamanhoModel> getAllTamanhos() {
         return this.tamanhoDAO.listarTodos();
     }
-    
-    public String cadastrarNovaEntrega(AlunoModel aluno, TipoUniformeModel tipo, TamanhoModel tamanho, int quantidade) {
+  
+    public String cadastrar(AlunoModel aluno, TipoUniformeModel tipo, TamanhoModel tamanho, int quantidade) {
         if (aluno == null || tipo == null || tamanho == null || quantidade <= 0) {
             System.err.println("Erro de validação: Dados de entrada incompletos.");
             return "erro_dados";
@@ -89,7 +89,7 @@ public class EntregaController {
             novaEntrega.setSemestre(semestreAtual);
             novaEntrega.setTrocado(false);
 
-            entregaDAO.cadastrarEntrega(novaEntrega);
+            entregaDAO.cadastrar(novaEntrega);
             
             return "sucesso"; 
 
