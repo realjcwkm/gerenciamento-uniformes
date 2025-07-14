@@ -51,7 +51,7 @@ public class TrocaDAO {
         return trocas;
     } 
     
-    public void cadastrarTroca(TrocaModel troca) throws SQLException{
+    public void cadastrar(TrocaModel troca) throws SQLException{
         String sql = "INSERT INTO Troca (data_troca, fk_entrega_antiga, fk_entrega_nova) VALUES (?, ?, ?)";
         
         try(PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -79,14 +79,14 @@ public class TrocaDAO {
             entregaNova.setSemestre(LocalDate.now().getMonthValue() <= 6 ? 1 : 2);
             entregaNova.setTrocado(false); 
             
-            int idNovaEntrega = entregaDAO.cadastrarEntrega(entregaNova);
+            int idNovaEntrega = entregaDAO.cadastrar(entregaNova);
             entregaNova.setId(idNovaEntrega);
 
             TrocaModel novaTroca = new TrocaModel();
             novaTroca.setData_troca(LocalDate.now());
             novaTroca.setEntregaAntiga(entregaAntiga);
             novaTroca.setEntregaNova(entregaNova);
-            this.cadastrarTroca(novaTroca);
+            this.cadastrar(novaTroca);
             
             conn.commit();
             return true;

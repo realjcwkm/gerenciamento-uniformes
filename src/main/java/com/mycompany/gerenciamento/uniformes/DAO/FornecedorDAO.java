@@ -48,20 +48,4 @@ public class FornecedorDAO {
         
         return fornecedores;
     }
-    
-    public void cadastrarFornecedor(FornecedorModel fornecedor) {
-        String sql = "INSERT INTO Fornecedor (nome) VALUES (?)";
-        
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, fornecedor.getNome());
-            
-            ps.executeUpdate();
-            
-            JOptionPane.showMessageDialog(null, "Fornecedor cadastrado com sucesso!");
-
-        } catch (SQLException error) {
-            JOptionPane.showMessageDialog(null, "Erro ao cadastrar fornecedor: " + error.getMessage());
-            error.printStackTrace();
-        }
-    }
 }
