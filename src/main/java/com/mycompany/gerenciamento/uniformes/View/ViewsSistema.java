@@ -395,7 +395,7 @@ public class ViewsSistema extends javax.swing.JFrame {
             dialogoConfirmacao.setVisible(true);
 
             if (dialogoConfirmacao.isConfirmado()) {
-                boolean sucesso = servidorController.excluirServidor(servidorParaExcluir.getId());
+                boolean sucesso = servidorController.excluir(servidorParaExcluir.getId());
 
                 if (sucesso) {
                     JOptionPane.showMessageDialog(this, "Servidor excluído com sucesso.");

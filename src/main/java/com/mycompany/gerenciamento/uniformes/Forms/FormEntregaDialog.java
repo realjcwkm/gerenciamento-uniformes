@@ -225,7 +225,7 @@ public class FormEntregaDialog extends JDialog {
            return;
         }
         
-        boolean sucesso = entregaController.cadastrarNovaEntrega(
+        boolean sucesso = entregaController.cadastrar(
             this.alunoSelecionado,
             tipo,
             tamanho,
