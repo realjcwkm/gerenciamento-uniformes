@@ -17,4 +17,5 @@ public interface AlunoInterface {
     public AlunoModel getByMatricula(String matricula);
     public boolean cadastrar(AlunoModel aluno);
     public boolean editar(AlunoModel aluno);
+    public boolean excluir(int id);
 }
