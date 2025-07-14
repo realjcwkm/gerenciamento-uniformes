@@ -4,6 +4,7 @@
  */
 package com.mycompany.gerenciamento.uniformes.Interfaces;
 
+import com.mycompany.gerenciamento.uniformes.Models.EntradaModel;
 import com.mycompany.gerenciamento.uniformes.Models.UniformeModel;
 import java.util.List;
 
@@ -13,4 +14,6 @@ import java.util.List;
  */
 public interface UniformeInterface {
     public List<UniformeModel> listarTodos();
+    void editarEntrada(UniformeModel uniformes);
 }
+

@@ -6,12 +6,11 @@ package com.mycompany.gerenciamento.uniformes.Models;
 
 /**
  *
- * @author geinfo
+ * @author rober
  */
-public class CursoModel {
+public class FornecedorModel {
     private int id;
     private String nome;
-    private int n_periodos;
 
     public int getId() {
         return id;
@@ -24,19 +23,10 @@ public class CursoModel {
     public String getNome() {
         return nome;
     }
-
-    public void setNome(String nome) {
+    
+        public void setNome(String nome) {
         this.nome = nome;
     }
-
-    public int getN_periodos() {
-        return n_periodos;
-    }
-
-    public void setN_periodos(int n_periodos) {
-        this.n_periodos = n_periodos;
-    }
-    
     @Override
     public String toString() {
         return this.nome;

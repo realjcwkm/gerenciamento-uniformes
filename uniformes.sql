@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `uniformes`.`Servidor` (
   `nome` VARCHAR(45) NOT NULL,
   `sobrenome` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
-  `telefone` VARCHAR(45) NOT NULL,
+  `telefone` VARCHAR(45),
   `matricula` VARCHAR(45) NOT NULL,
   `senha` VARCHAR(255) NOT NULL,
   `ativo` TINYINT NOT NULL,
@@ -80,10 +80,10 @@ CREATE TABLE IF NOT EXISTS `uniformes`.`Aluno` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NOT NULL,
   `sobrenome` VARCHAR(45) NOT NULL,
-  `email` VARCHAR(45) NOT NULL,
-  `telefone` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45),
+  `telefone` VARCHAR(45),
   `matricula` VARCHAR(45) NOT NULL,
-  `idade` INT NOT NULL,
+  `idade` INT,
   `periodo` INT NOT NULL,
   `fk_curso` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -159,7 +159,7 @@ CREATE TABLE IF NOT EXISTS `uniformes`.`Entrega` (
   `trocado` TINYINT NOT NULL DEFAULT 0,
   `quantidade` INT NOT NULL,
   `fk_servidor` INT NOT NULL,
-  `fk_aluno` INT NOT NULL,
+  `fk_aluno` INT,
   `fk_uniforme` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_Entrega_Servidor1_idx` (`fk_servidor` ASC) VISIBLE,
@@ -246,6 +246,16 @@ CREATE TABLE IF NOT EXISTS `uniformes`.`Entradas` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+-- INICIO INSERTS
+INSERT INTO `uniformes`.`Tamanho` (`nome`) VALUES ('P'), ('M'), ('G'), ('GG');
+INSERT INTO `uniformes`.`TipoUniforme` (`nome`) VALUES ('Camisa Branca'), ('Camisa Verde'), ('Regata Verde'), ('Calça'), ('Bermuda');
+INSERT INTO `uniformes`.`Uniforme` (`quantidade`, `fk_tipo_uniforme`, `fk_tamanho`) VALUES (50, 1, 1), (50, 1, 2), (50, 1, 3), (50, 1, 4), (50, 2, 1), (50, 2, 2), (50, 2, 3), (50, 2, 4), (50, 3, 1), (50, 3, 2), (50, 3, 3), (50, 3, 4), (50, 4, 1), (50, 4, 2), (50, 4, 3), (50, 4, 4), (50, 5, 1), (50, 5, 2), (50, 5, 3), (50, 5, 4);
+INSERT INTO `uniformes`.`Departamento` (`nome`) VALUES ('DEPAE'), ('DAPE'), ('DG');
+INSERT INTO `uniformes`.`Curso` (`nome`, `n_periodos`) VALUES ('Química', '3'), ('Eletrotécnica', '3'), ('Informática', '3'), ('Edificações', '3');
+INSERT INTO `uniformes`.`Fornecedor` (`nome`) VALUES ('Uniformes LTDA'), ('Confecção & Uniformes'), ('Uniformes & Cia LTDA');
+INSERT INTO `uniformes`.`Servidor` (`nome`, `sobrenome`, `email`, `telefone`, `matricula`, `senha`, `ativo`, `primeiro_acesso`, `fk_departamento`) VALUES ('Admin', 'Sistema', 'admin@sistema.com', '00000000000', 'admin01', '$2a$12$BZfrVc0ENzsPz2TJq6h4fOivZaMlLUE0DTulOXM6wgOYTa/pnh6oi', 1, 0, 1);
+-- FIM INSERTS
 
 -- INICIO TRIGGERS
 DROP TRIGGER IF EXISTS Tgr_Insert_Troca;
