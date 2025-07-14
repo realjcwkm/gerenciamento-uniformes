@@ -224,7 +224,7 @@ public class FormEditarServidorDialog extends JDialog {
         }
 
         try {
-            servidorController.atualizarServidor(servidorParaEditar);
+            servidorController.editar(servidorParaEditar);
             this.salvo = true;
             dispose();
         } catch (Exception e) {

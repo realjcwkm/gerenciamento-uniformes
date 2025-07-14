@@ -225,16 +225,20 @@ public class FormEntregaDialog extends JDialog {
            return;
         }
         
-        boolean sucesso = entregaController.cadastrarNovaEntrega(
+        String sucesso = entregaController.cadastrar(
             this.alunoSelecionado,
             tipo,
             tamanho,
             quantidade
         );
         
-        if (sucesso) {
+        if (sucesso.equals("sucesso")) {
             this.salvo = true;
             dispose();
+        } else if (sucesso.equals("erro_dados")) {
+            JOptionPane.showMessageDialog(this, "Dados da entrega preenchidos de forma incorreta!", "Erro de Cadastro", JOptionPane.ERROR_MESSAGE);
+        } else if (sucesso.equals("erro_quantidade")) {
+            JOptionPane.showMessageDialog(this, "O uniforme selecionado não possui a quantidade desejada em estoque.", "Erro de Cadastro", JOptionPane.ERROR_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, "Falha ao cadastrar a distribuição.", "Erro de Cadastro", JOptionPane.ERROR_MESSAGE);
         }

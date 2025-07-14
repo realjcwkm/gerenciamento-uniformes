@@ -19,7 +19,7 @@ public class ServidorDAO implements ServidorInterface {
     }
     
     // PAGINAÇÃO E BUSCA
-    public int getTotalDeServidores(String termoBusca) {
+    public int getTotal(String termoBusca) {
         StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM Servidor s JOIN Departamento d ON s.fk_departamento = d.id");
         
         if (termoBusca != null && !termoBusca.trim().isEmpty()) {
@@ -168,7 +168,40 @@ public class ServidorDAO implements ServidorInterface {
     }
     
     @Override
-    public boolean cadastrarServidor(ServidorModel servidor) {
+    public boolean updateSenha(String matricula, String hashSenha) {
+        String sql = "UPDATE Servidor "
+                   + "SET senha = ?, primeiro_acesso = 0 "
+                   + "WHERE matricula = ?";
+        
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, hashSenha);
+            ps.setString(2, matricula);
+            
+            int linhasAfetadas = ps.executeUpdate();
+            
+            return linhasAfetadas == 1;
+            
+        } catch (SQLException e) {
+            System.err.println("Erro ao atualizar a senha:");
+            e.printStackTrace();
+        }
+        
+        return false;
+    }
+    
+    @Override
+    public boolean verificarDepartamento(int idDepartamento) throws SQLException {
+        String sql = "SELECT id FROM Departamento WHERE id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idDepartamento);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        }
+    }
+    
+    @Override
+    public boolean cadastrar(ServidorModel servidor) {
         String sql = "INSERT INTO Servidor (nome, sobrenome, email, telefone, matricula, senha, ativo, fk_departamento) "
                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
@@ -215,62 +248,8 @@ public class ServidorDAO implements ServidorInterface {
         }
     }
     
-    // EXCLUIR SERVIDOR
     @Override
-    public boolean excluirServidor(int id) {
-        String sql = "DELETE FROM Servidor WHERE id = ?";
-        try {
-            if (this.conn == null || this.conn.isClosed()) {
-                this.conn = Conexao.getConexao();
-            }
-            try (PreparedStatement ps = this.conn.prepareStatement(sql)) {
-                ps.setInt(1, id);
-                int linhasAfetadas = ps.executeUpdate();
-                return linhasAfetadas > 0;
-            }
-        } catch (SQLException e) {
-            System.err.println("Erro ao excluir servidor: " + e.getMessage());
-            e.printStackTrace();
-            return false;
-        }
-    }
-    // EXCLUIR SERVIDOR
-    
-    @Override
-    public boolean updateSenha(String matricula, String hashSenha) {
-        String sql = "UPDATE Servidor "
-                   + "SET senha = ?, primeiro_acesso = 0 "
-                   + "WHERE matricula = ?";
-        
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, hashSenha);
-            ps.setString(2, matricula);
-            
-            int linhasAfetadas = ps.executeUpdate();
-            
-            return linhasAfetadas == 1;
-            
-        } catch (SQLException e) {
-            System.err.println("Erro ao atualizar a senha:");
-            e.printStackTrace();
-        }
-        
-        return false;
-    }
-    
-    @Override
-    public boolean verificarDepartamento(int idDepartamento) throws SQLException {
-        String sql = "SELECT id FROM Departamento WHERE id = ?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, idDepartamento);
-            try (ResultSet rs = ps.executeQuery()) {
-                return rs.next();
-            }
-        }
-    }
-    
-    @Override
-    public void editServidor(ServidorModel servidor) {
+    public void editar(ServidorModel servidor) {
         String sql = "UPDATE Servidor SET nome = ?, sobrenome = ?, email = ?, telefone = ?, fk_departamento = ?, ativo = ? WHERE id = ?";
 
         try (PreparedStatement ps = this.conn.prepareStatement(sql)) {
@@ -286,6 +265,25 @@ public class ServidorDAO implements ServidorInterface {
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao atualizar servidor no banco de dados: " + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public boolean excluir(int id) {
+        String sql = "DELETE FROM Servidor WHERE id = ?";
+        try {
+            if (this.conn == null || this.conn.isClosed()) {
+                this.conn = Conexao.getConexao();
+            }
+            try (PreparedStatement ps = this.conn.prepareStatement(sql)) {
+                ps.setInt(1, id);
+                int linhasAfetadas = ps.executeUpdate();
+                return linhasAfetadas > 0;
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao excluir servidor: " + e.getMessage());
+            e.printStackTrace();
+            return false;
         }
     }
 }

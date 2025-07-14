@@ -15,9 +15,9 @@ import java.util.List;
 public interface ServidorInterface {
     public List<ServidorModel> listarTodos();
     public ServidorModel getByMatricula(String matricula);
-    public boolean cadastrarServidor(ServidorModel servidor);
+    public boolean cadastrar(ServidorModel servidor);
     public boolean updateSenha(String matricula, String senha);
     public boolean verificarDepartamento(int idDepartamento) throws SQLException;
-    void editServidor(ServidorModel servidor);
-    public boolean excluirServidor(int id);
+    void editar(ServidorModel servidor);
+    public boolean excluir(int id);
 }

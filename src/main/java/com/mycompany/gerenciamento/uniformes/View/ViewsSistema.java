@@ -339,7 +339,7 @@ public class ViewsSistema extends javax.swing.JFrame {
             dialogoConfirmacao.setVisible(true);
 
             if (dialogoConfirmacao.isConfirmado()) {
-                boolean sucesso = servidorController.excluirServidor(servidorParaExcluir.getId());
+                boolean sucesso = servidorController.excluir(servidorParaExcluir.getId());
 
                 if (sucesso) {
                     JOptionPane.showMessageDialog(this, "Servidor excluído com sucesso.");
@@ -838,7 +838,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(10, 80), new java.awt.Dimension(10, 80));
         btn_nav_uniformes = new javax.swing.JButton();
         filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(20, 80), new java.awt.Dimension(20, 80));
-        btn_sair_pn = new javax.swing.JButton();
+        btn_sair = new com.mycompany.gerenciamento.uniformes.Components.FlatButton();
         filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(30, 80), new java.awt.Dimension(30, 80));
         panel_telaInicial = new javax.swing.JPanel();
         Inicio = new javax.swing.JPanel();
@@ -909,7 +909,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         lb_senha_pl = new javax.swing.JLabel();
         input_senha_pl = new javax.swing.JPasswordField();
         separador_pl = new javax.swing.JSeparator();
-        btn_login_pl = new javax.swing.JButton();
+        btn_login_pl = new com.mycompany.gerenciamento.uniformes.Components.FlatButton();
         btn_esq_senha_pl = new javax.swing.JButton();
         panel_primeiro_acesso = new javax.swing.JPanel();
         img_ppa = new javax.swing.JLabel();
@@ -920,7 +920,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         lb_confirmar_senha_ppa = new javax.swing.JLabel();
         input_confirmar_senha_ppa = new javax.swing.JPasswordField();
         separador_ppa = new javax.swing.JSeparator();
-        btn_salvar_ppa = new javax.swing.JButton();
+        btn_salvar_ppa = new com.mycompany.gerenciamento.uniformes.Components.FlatButton();
         btn_voltar_ppa = new javax.swing.JButton();
         panel_solicitacao_codigo = new javax.swing.JPanel();
         img_psc = new javax.swing.JLabel();
@@ -931,7 +931,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         lb_email_psc = new javax.swing.JLabel();
         input_email_psc = new javax.swing.JTextField();
         separador_psc = new javax.swing.JSeparator();
-        btn_enviar_psc = new javax.swing.JButton();
+        btn_enviar_psc = new com.mycompany.gerenciamento.uniformes.Components.FlatButton();
         btn_voltar_psc = new javax.swing.JButton();
         panel_redefinir_senha = new javax.swing.JPanel();
         img_prs = new javax.swing.JLabel();
@@ -944,7 +944,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         lb_confirmar_senha_prs = new javax.swing.JLabel();
         input_confirmar_senha_prs = new javax.swing.JPasswordField();
         separador_prs = new javax.swing.JSeparator();
-        btn_salvar_prs = new javax.swing.JButton();
+        btn_salvar_prs = new com.mycompany.gerenciamento.uniformes.Components.FlatButton();
         btn_voltar_prs = new javax.swing.JButton();
 
         javax.swing.GroupLayout jDialogLayout = new javax.swing.GroupLayout(jDialog.getContentPane());
@@ -999,7 +999,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_nav_Inicio.setText("Inicio");
         btn_nav_Inicio.setBorderPainted(false);
         btn_nav_Inicio.setContentAreaFilled(false);
-        btn_nav_Inicio.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btn_nav_Inicio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_nav_Inicio.setMaximumSize(new java.awt.Dimension(80, 20));
         btn_nav_Inicio.setMinimumSize(new java.awt.Dimension(80, 20));
         btn_nav_Inicio.addActionListener(new java.awt.event.ActionListener() {
@@ -1016,7 +1016,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_nav_distribuicao.setText("Distribuição");
         btn_nav_distribuicao.setBorderPainted(false);
         btn_nav_distribuicao.setContentAreaFilled(false);
-        btn_nav_distribuicao.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btn_nav_distribuicao.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_nav_distribuicao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_nav_distribuicaoActionPerformed(evt);
@@ -1032,7 +1032,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_nav_alunos.setBorder(null);
         btn_nav_alunos.setBorderPainted(false);
         btn_nav_alunos.setContentAreaFilled(false);
-        btn_nav_alunos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btn_nav_alunos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_nav_alunos.setMaximumSize(new java.awt.Dimension(80, 20));
         btn_nav_alunos.setMinimumSize(new java.awt.Dimension(80, 20));
         btn_nav_alunos.setPreferredSize(new java.awt.Dimension(80, 20));
@@ -1050,7 +1050,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_nav_servidores.setText("Servidores");
         btn_nav_servidores.setBorderPainted(false);
         btn_nav_servidores.setContentAreaFilled(false);
-        btn_nav_servidores.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btn_nav_servidores.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_nav_servidores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_nav_servidoresActionPerformed(evt);
@@ -1065,7 +1065,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_nav_uniformes.setText("Uniformes");
         btn_nav_uniformes.setBorderPainted(false);
         btn_nav_uniformes.setContentAreaFilled(false);
-        btn_nav_uniformes.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btn_nav_uniformes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_nav_uniformes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_nav_uniformesActionPerformed(evt);
@@ -1074,19 +1074,17 @@ public class ViewsSistema extends javax.swing.JFrame {
         panel_navbar.add(btn_nav_uniformes);
         panel_navbar.add(filler5);
 
-        btn_sair_pn.setBackground(new java.awt.Color(0, 164, 55));
-        btn_sair_pn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btn_sair_pn.setForeground(new java.awt.Color(255, 255, 255));
-        btn_sair_pn.setText("SAIR");
-        btn_sair_pn.setMaximumSize(new java.awt.Dimension(70, 30));
-        btn_sair_pn.setMinimumSize(new java.awt.Dimension(70, 30));
-        btn_sair_pn.setPreferredSize(new java.awt.Dimension(70, 30));
-        btn_sair_pn.addActionListener(new java.awt.event.ActionListener() {
+        btn_sair.setText("SAIR");
+        btn_sair.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
+        btn_sair.setMaximumSize(new java.awt.Dimension(70, 30));
+        btn_sair.setMinimumSize(new java.awt.Dimension(70, 30));
+        btn_sair.setPreferredSize(new java.awt.Dimension(70, 30));
+        btn_sair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_sair_pnActionPerformed(evt);
+                btn_sairActionPerformed(evt);
             }
         });
-        panel_navbar.add(btn_sair_pn);
+        panel_navbar.add(btn_sair);
         panel_navbar.add(filler10);
 
         panel_aplicacao.add(panel_navbar, java.awt.BorderLayout.NORTH);
@@ -1318,14 +1316,14 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(lb_titulo_pd)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lb_subtitulo_pd)
-                .addGap(18, 18, 18)
+                .addGap(14, 14, 14)
                 .addGroup(DistribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tx_pesquisa_dis_pd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_buscar_dis_pd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_cad_distribuicao_pd, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jcb_filtro_dis_pd, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_exportar_distribuicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
+                .addGap(19, 19, 19)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1865,11 +1863,7 @@ public class ViewsSistema extends javax.swing.JFrame {
 
         separador_pl.setPreferredSize(new java.awt.Dimension(260, 10));
 
-        btn_login_pl.setBackground(new java.awt.Color(0, 164, 55));
-        btn_login_pl.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btn_login_pl.setForeground(new java.awt.Color(255, 255, 255));
         btn_login_pl.setText("ACESSAR");
-        btn_login_pl.setBorderPainted(false);
         btn_login_pl.setPreferredSize(new java.awt.Dimension(163, 34));
         btn_login_pl.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1882,6 +1876,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_esq_senha_pl.setBorder(null);
         btn_esq_senha_pl.setBorderPainted(false);
         btn_esq_senha_pl.setContentAreaFilled(false);
+        btn_esq_senha_pl.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_esq_senha_pl.setFocusPainted(false);
         btn_esq_senha_pl.setIconTextGap(0);
         btn_esq_senha_pl.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -1901,13 +1896,13 @@ public class ViewsSistema extends javax.swing.JFrame {
                     .addComponent(lb_login_pl)
                     .addComponent(input_matricula_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(separador_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_login_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_esq_senha_pl)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, card_form_plLayout.createSequentialGroup()
                         .addGap(1, 1, 1)
                         .addComponent(lb_matricula_pl))
                     .addComponent(input_senha_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lb_senha_pl, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(lb_senha_pl, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_login_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(86, Short.MAX_VALUE))
         );
         card_form_plLayout.setVerticalGroup(
@@ -1927,9 +1922,9 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(separador_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_login_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8)
+                .addGap(18, 18, 18)
                 .addComponent(btn_esq_senha_pl)
-                .addContainerGap(154, Short.MAX_VALUE))
+                .addContainerGap(144, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_loginLayout = new javax.swing.GroupLayout(panel_login);
@@ -1998,11 +1993,7 @@ public class ViewsSistema extends javax.swing.JFrame {
 
         separador_ppa.setPreferredSize(new java.awt.Dimension(260, 10));
 
-        btn_salvar_ppa.setBackground(new java.awt.Color(0, 164, 55));
-        btn_salvar_ppa.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btn_salvar_ppa.setForeground(new java.awt.Color(255, 255, 255));
         btn_salvar_ppa.setText("SALVAR");
-        btn_salvar_ppa.setBorderPainted(false);
         btn_salvar_ppa.setPreferredSize(new java.awt.Dimension(148, 34));
         btn_salvar_ppa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2015,6 +2006,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_voltar_ppa.setBorder(null);
         btn_voltar_ppa.setBorderPainted(false);
         btn_voltar_ppa.setContentAreaFilled(false);
+        btn_voltar_ppa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_voltar_ppa.setFocusPainted(false);
         btn_voltar_ppa.setIconTextGap(0);
         btn_voltar_ppa.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -2035,12 +2027,12 @@ public class ViewsSistema extends javax.swing.JFrame {
                     .addComponent(input_senha_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(input_confirmar_senha_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(separador_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_salvar_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, card_form_ppaLayout.createSequentialGroup()
                         .addGap(1, 1, 1)
                         .addComponent(lb_senha_ppa))
                     .addComponent(lb_confirmar_senha_ppa, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_voltar_ppa))
+                    .addComponent(btn_voltar_ppa)
+                    .addComponent(btn_salvar_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(86, 86, 86))
         );
         card_form_ppaLayout.setVerticalGroup(
@@ -2130,11 +2122,7 @@ public class ViewsSistema extends javax.swing.JFrame {
 
         separador_psc.setPreferredSize(new java.awt.Dimension(260, 10));
 
-        btn_enviar_psc.setBackground(new java.awt.Color(0, 164, 55));
-        btn_enviar_psc.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btn_enviar_psc.setForeground(new java.awt.Color(255, 255, 255));
         btn_enviar_psc.setText("ENVIAR");
-        btn_enviar_psc.setBorderPainted(false);
         btn_enviar_psc.setPreferredSize(new java.awt.Dimension(148, 34));
         btn_enviar_psc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2147,6 +2135,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_voltar_psc.setBorder(null);
         btn_voltar_psc.setBorderPainted(false);
         btn_voltar_psc.setContentAreaFilled(false);
+        btn_voltar_psc.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_voltar_psc.setFocusPainted(false);
         btn_voltar_psc.setIconTextGap(0);
         btn_voltar_psc.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -2166,9 +2155,9 @@ public class ViewsSistema extends javax.swing.JFrame {
                     .addComponent(lb_solicitar_codigo_psc)
                     .addComponent(input_matricula_psc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(separador_psc, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_enviar_psc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(input_email_psc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_voltar_psc))
+                    .addComponent(btn_voltar_psc)
+                    .addComponent(btn_enviar_psc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(86, 86, 86))
             .addGroup(card_form_pscLayout.createSequentialGroup()
                 .addGroup(card_form_pscLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2199,7 +2188,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_enviar_psc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_voltar_psc)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(145, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_solicitacao_codigoLayout = new javax.swing.GroupLayout(panel_solicitacao_codigo);
@@ -2278,15 +2267,11 @@ public class ViewsSistema extends javax.swing.JFrame {
 
         separador_prs.setPreferredSize(new java.awt.Dimension(260, 10));
 
-        btn_salvar_prs.setBackground(new java.awt.Color(0, 164, 55));
-        btn_salvar_prs.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btn_salvar_prs.setForeground(new java.awt.Color(255, 255, 255));
         btn_salvar_prs.setText("SALVAR");
-        btn_salvar_prs.setBorderPainted(false);
         btn_salvar_prs.setPreferredSize(new java.awt.Dimension(148, 34));
         btn_salvar_prs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_salvar_prsbtn_salvar_prsActionPerformed(evt);
+                btn_salvar_prsActionPerformed(evt);
             }
         });
 
@@ -2295,6 +2280,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_voltar_prs.setBorder(null);
         btn_voltar_prs.setBorderPainted(false);
         btn_voltar_prs.setContentAreaFilled(false);
+        btn_voltar_prs.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_voltar_prs.setFocusPainted(false);
         btn_voltar_prs.setIconTextGap(0);
         btn_voltar_prs.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -2313,7 +2299,6 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addGroup(card_form_prsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(lb_redefinir_senha_prs)
                     .addComponent(separador_prs, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_salvar_prs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(card_form_prsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, card_form_prsLayout.createSequentialGroup()
                             .addGap(1, 1, 1)
@@ -2327,7 +2312,8 @@ public class ViewsSistema extends javax.swing.JFrame {
                             .addGroup(card_form_prsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                                 .addComponent(input_confirmar_senha_prs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(lb_confirmar_senha_prs, javax.swing.GroupLayout.Alignment.LEADING))))
-                    .addComponent(btn_voltar_prs))
+                    .addComponent(btn_voltar_prs)
+                    .addComponent(btn_salvar_prs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(86, 86, 86))
         );
         card_form_prsLayout.setVerticalGroup(
@@ -2353,7 +2339,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_salvar_prs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_voltar_prs)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(123, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_redefinir_senhaLayout = new javax.swing.GroupLayout(panel_redefinir_senha);
@@ -2472,54 +2458,6 @@ public class ViewsSistema extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_input_matricula_plActionPerformed
 
-    private void btn_login_plActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_login_plActionPerformed
-        String matriculaLogin = input_matricula_pl.getText();
-        String senhaLogin = new String(input_senha_pl.getPassword());
-
-        String login = this.authController.autenticar(matriculaLogin, senhaLogin);
-        
-        input_senha_pl.setText("");
-        
-        switch (login) {
-            case "autenticado":
-                mainCardLayout.show(main_container, "card_aplicacao");
-                input_matricula_pl.setText("");
-                JOptionPane.showMessageDialog(this, "Login efetuado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                break;
-            case "p_acesso":
-                this.matriculaUpdate = matriculaLogin;
-                authCardLayout.show(panel_autenticacao, "card_primeiro_acesso");
-                JOptionPane.showMessageDialog(this, "Identificamos que esse é seu primeiro acesso ao sistema, por favor, altere sua senha!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                break;
-            case "n_autenticado":
-                JOptionPane.showMessageDialog(this, "Matrícula ou senha inválida!", "Erro", JOptionPane.ERROR_MESSAGE);
-                break;
-            case "inativo":
-                JOptionPane.showMessageDialog(this, "Usuário desativado!", "Erro", JOptionPane.ERROR_MESSAGE);
-                break;
-        }
-    }//GEN-LAST:event_btn_login_plActionPerformed
-
-    private void btn_salvar_ppaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salvar_ppaActionPerformed
-        String senhaUpdate = new String(input_senha_ppa.getPassword());
-        String senhaUpdateConf = new String(input_confirmar_senha_ppa.getPassword());
-        
-        if (senhaUpdate.equals(senhaUpdateConf)) {
-            boolean confirm = this.authController.redefinirSenha(this.matriculaUpdate, senhaUpdate);
-            if (confirm) {
-                this.matriculaUpdate = null;
-                authCardLayout.show(panel_autenticacao, "card_login");
-                input_senha_ppa.setText("");
-                input_confirmar_senha_ppa.setText("");
-                JOptionPane.showMessageDialog(this, "Senha alterada com sucesso!\nEfetue o login", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "Erro ao redefinir a senha!", "Erro", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "As senhas não são iguais!", "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_btn_salvar_ppaActionPerformed
-
     private void btn_cadastrar_servActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cadastrar_servActionPerformed
         // TODO add your handling code here:                                                 
         FormServidorDialog dialog = new FormServidorDialog(this);
@@ -2535,17 +2473,6 @@ public class ViewsSistema extends javax.swing.JFrame {
         atualizarTabelaServidoresEControles();
     }//GEN-LAST:event_btn_cadastrar_servActionPerformed
 
-    private void btn_sair_pnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sair_pnActionPerformed
-        boolean confirm = this.authController.sair();
-        if (confirm) {
-            mainCardLayout.show(main_container, "card_autenticacao");
-            authCardLayout.show(panel_autenticacao, "card_login");
-            JOptionPane.showMessageDialog(this, "Sessão encerrada!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "Erro ao encerrar sessão!", "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_btn_sair_pnActionPerformed
-
     private void input_confirmar_senha_ppaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_input_confirmar_senha_ppaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_input_confirmar_senha_ppaActionPerformed
@@ -2557,24 +2484,6 @@ public class ViewsSistema extends javax.swing.JFrame {
     private void input_matricula_pscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_input_matricula_pscActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_input_matricula_pscActionPerformed
-
-    private void btn_enviar_pscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_enviar_pscActionPerformed
-        // TODO add your handling code here:
-        String matriculaRecuperacao = input_matricula_psc.getText();
-        String emailRecuperacao = input_email_psc.getText();
-        
-        boolean recuperacao = this.authController.solicitarCodigo(matriculaRecuperacao, emailRecuperacao);
-        
-        if (recuperacao) {
-            this.matriculaUpdate = matriculaRecuperacao;
-            authCardLayout.show(panel_autenticacao, "card_redefinir_senha");
-            input_matricula_psc.setText("");
-            input_email_psc.setText("");
-            JOptionPane.showMessageDialog(this, "O código de recuperação de 6 digitos foi enviado a seu E-mail!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "Usuário inexistente ou E-mail inválido!", "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_btn_enviar_pscActionPerformed
 
     private void input_email_pscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_input_email_pscActionPerformed
         // TODO add your handling code here:
@@ -2591,45 +2500,6 @@ public class ViewsSistema extends javax.swing.JFrame {
     private void input_confirmar_senha_prsinput_confirmar_senha_prsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_input_confirmar_senha_prsinput_confirmar_senha_prsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_input_confirmar_senha_prsinput_confirmar_senha_prsActionPerformed
-
-    private void btn_salvar_prsbtn_salvar_prsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salvar_prsbtn_salvar_prsActionPerformed
-        // TODO add your handling code here:
-        String codigo = input_codigo_prs.getText();
-        String senhaRedefinir = new String(input_senha_prs.getPassword());
-        String senhaRedefinirConf = new String(input_confirmar_senha_prs.getPassword());
-        
-        if (senhaRedefinir.equals(senhaRedefinirConf)) {
-            String confirmCodigo = this.authController.verificarCodigoRecuperacao(this.matriculaUpdate, codigo);
-            switch (confirmCodigo) {
-                case "n_codigo":
-                    JOptionPane.showMessageDialog(this, "Código de recuperação não registrado!", "Erro", JOptionPane.ERROR_MESSAGE);
-                    break;
-                case "exp_codigo":
-                    JOptionPane.showMessageDialog(this, "Código de recuperação expirado!", "Erro", JOptionPane.ERROR_MESSAGE);
-                    break;
-                case "sucesso":
-                    boolean confirm = this.authController.redefinirSenha(this.matriculaUpdate, senhaRedefinir);
-                    if (confirm) {
-                        this.matriculaUpdate = null;
-                        authCardLayout.show(panel_autenticacao, "card_login");
-                        input_codigo_prs.setText("");
-                        input_senha_prs.setText("");
-                        input_confirmar_senha_prs.setText("");
-                        JOptionPane.showMessageDialog(this, "Senha alterada com sucesso!\nEfetue o login", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Erro ao redefinir a senha!", "Erro", JOptionPane.ERROR_MESSAGE);
-                    }
-                    break;
-                case "err_codigo":
-                    JOptionPane.showMessageDialog(this, "Código de recuperação incorreto!", "Erro", JOptionPane.ERROR_MESSAGE);
-                    break;
-            }
-        } else {
-            input_senha_prs.setText("");
-            input_confirmar_senha_prs.setText("");
-            JOptionPane.showMessageDialog(this, "As senhas não são iguais!", "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_btn_salvar_prsbtn_salvar_prsActionPerformed
 
     private void btn_esq_senha_plActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_esq_senha_plActionPerformed
         // TODO add your handling code here:
@@ -2652,14 +2522,6 @@ public class ViewsSistema extends javax.swing.JFrame {
         // TODO add your handling code here:
         authCardLayout.show(panel_autenticacao, "card_login");
     }//GEN-LAST:event_btn_voltar_ppaActionPerformed
-
-    private void btn_anterior_pdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_anterior_pdActionPerformed
-        // TODO add your handling code here:
-        if (paginaAtualDistribuicao > 1) {
-                paginaAtualDistribuicao--; 
-                atualizarTabelaDistribuicao(); 
-        }
-    }//GEN-LAST:event_btn_anterior_pdActionPerformed
 
     private void btn_anterior_servActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_anterior_servActionPerformed
         // TODO add your handling code here:
@@ -2791,6 +2653,133 @@ public class ViewsSistema extends javax.swing.JFrame {
         realizarBuscaAlunos();
     }//GEN-LAST:event_jcb_filtro_alunosActionPerformed
 
+    private void btn_login_plActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_login_plActionPerformed
+        // TODO add your handling code here:
+        String matriculaLogin = input_matricula_pl.getText();
+        String senhaLogin = new String(input_senha_pl.getPassword());
+
+        String login = this.authController.autenticar(matriculaLogin, senhaLogin);
+        
+        input_senha_pl.setText("");
+        
+        switch (login) {
+            case "autenticado":
+                mainCardLayout.show(main_container, "card_aplicacao");
+                input_matricula_pl.setText("");
+                JOptionPane.showMessageDialog(this, "Login efetuado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                break;
+            case "p_acesso":
+                this.matriculaUpdate = matriculaLogin;
+                authCardLayout.show(panel_autenticacao, "card_primeiro_acesso");
+                JOptionPane.showMessageDialog(this, "Identificamos que esse é seu primeiro acesso ao sistema, por favor, altere sua senha!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                break;
+            case "n_autenticado":
+                JOptionPane.showMessageDialog(this, "Matrícula ou senha inválida!", "Erro", JOptionPane.ERROR_MESSAGE);
+                break;
+            case "inativo":
+                JOptionPane.showMessageDialog(this, "Usuário desativado!", "Erro", JOptionPane.ERROR_MESSAGE);
+                break;
+        }
+    }//GEN-LAST:event_btn_login_plActionPerformed
+
+    private void btn_salvar_ppaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salvar_ppaActionPerformed
+        // TODO add your handling code here:
+        String senhaUpdate = new String(input_senha_ppa.getPassword());
+        String senhaUpdateConf = new String(input_confirmar_senha_ppa.getPassword());
+        
+        if (senhaUpdate.equals(senhaUpdateConf)) {
+            boolean confirm = this.authController.redefinirSenha(this.matriculaUpdate, senhaUpdate);
+            if (confirm) {
+                this.matriculaUpdate = null;
+                authCardLayout.show(panel_autenticacao, "card_login");
+                input_senha_ppa.setText("");
+                input_confirmar_senha_ppa.setText("");
+                JOptionPane.showMessageDialog(this, "Senha alterada com sucesso!\nEfetue o login", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao redefinir a senha!", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "As senhas não são iguais!", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_salvar_ppaActionPerformed
+
+    private void btn_enviar_pscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_enviar_pscActionPerformed
+        // TODO add your handling code here:
+        String matriculaRecuperacao = input_matricula_psc.getText();
+        String emailRecuperacao = input_email_psc.getText();
+        
+        boolean recuperacao = this.authController.solicitarCodigo(matriculaRecuperacao, emailRecuperacao);
+        
+        if (recuperacao) {
+            this.matriculaUpdate = matriculaRecuperacao;
+            authCardLayout.show(panel_autenticacao, "card_redefinir_senha");
+            input_matricula_psc.setText("");
+            input_email_psc.setText("");
+            JOptionPane.showMessageDialog(this, "O código de recuperação de 6 digitos foi enviado a seu E-mail!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Usuário inexistente ou E-mail inválido!", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_enviar_pscActionPerformed
+
+    private void btn_salvar_prsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salvar_prsActionPerformed
+        // TODO add your handling code here:
+        String codigo = input_codigo_prs.getText();
+        String senhaRedefinir = new String(input_senha_prs.getPassword());
+        String senhaRedefinirConf = new String(input_confirmar_senha_prs.getPassword());
+        
+        if (senhaRedefinir.equals(senhaRedefinirConf)) {
+            String confirmCodigo = this.authController.verificarCodigoRecuperacao(this.matriculaUpdate, codigo);
+            switch (confirmCodigo) {
+                case "n_codigo":
+                    JOptionPane.showMessageDialog(this, "Código de recuperação não registrado!", "Erro", JOptionPane.ERROR_MESSAGE);
+                    break;
+                case "exp_codigo":
+                    JOptionPane.showMessageDialog(this, "Código de recuperação expirado!", "Erro", JOptionPane.ERROR_MESSAGE);
+                    break;
+                case "sucesso":
+                    boolean confirm = this.authController.redefinirSenha(this.matriculaUpdate, senhaRedefinir);
+                    if (confirm) {
+                        this.matriculaUpdate = null;
+                        authCardLayout.show(panel_autenticacao, "card_login");
+                        input_codigo_prs.setText("");
+                        input_senha_prs.setText("");
+                        input_confirmar_senha_prs.setText("");
+                        JOptionPane.showMessageDialog(this, "Senha alterada com sucesso!\nEfetue o login", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Erro ao redefinir a senha!", "Erro", JOptionPane.ERROR_MESSAGE);
+                    }
+                    break;
+                case "err_codigo":
+                    JOptionPane.showMessageDialog(this, "Código de recuperação incorreto!", "Erro", JOptionPane.ERROR_MESSAGE);
+                    break;
+            }
+        } else {
+            input_senha_prs.setText("");
+            input_confirmar_senha_prs.setText("");
+            JOptionPane.showMessageDialog(this, "As senhas não são iguais!", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_salvar_prsActionPerformed
+
+    private void btn_sairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sairActionPerformed
+        // TODO add your handling code here:
+        boolean confirm = this.authController.sair();
+        if (confirm) {
+            mainCardLayout.show(main_container, "card_autenticacao");
+            authCardLayout.show(panel_autenticacao, "card_login");
+            JOptionPane.showMessageDialog(this, "Sessão encerrada!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao encerrar sessão!", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_sairActionPerformed
+
+    private void btn_anterior_pdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_anterior_pdActionPerformed
+        // TODO add your handling code here:
+        if (paginaAtualDistribuicao > 1) {
+            paginaAtualDistribuicao--;
+            atualizarTabelaDistribuicao();
+        }
+    }//GEN-LAST:event_btn_anterior_pdActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2815,12 +2804,12 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JButton btn_cad_distribuicao_pd;
     private javax.swing.JButton btn_cadastrar_alunos;
     private javax.swing.JButton btn_cadastrar_serv;
-    private javax.swing.JButton btn_enviar_psc;
+    private com.mycompany.gerenciamento.uniformes.Components.FlatButton btn_enviar_psc;
     private javax.swing.JButton btn_esq_senha_pl;
     private javax.swing.JButton btn_exportar_alunos;
     private javax.swing.JButton btn_exportar_distribuicao;
     private javax.swing.JButton btn_exportar_serv;
-    private javax.swing.JButton btn_login_pl;
+    private com.mycompany.gerenciamento.uniformes.Components.FlatButton btn_login_pl;
     private javax.swing.JButton btn_nav_Inicio;
     private javax.swing.JButton btn_nav_alunos;
     private javax.swing.JButton btn_nav_distribuicao;
@@ -2830,9 +2819,9 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JButton btn_proximo_pd;
     private javax.swing.JButton btn_proximo_serv;
     private javax.swing.JButton btn_proximo_serv3;
-    private javax.swing.JButton btn_sair_pn;
-    private javax.swing.JButton btn_salvar_ppa;
-    private javax.swing.JButton btn_salvar_prs;
+    private com.mycompany.gerenciamento.uniformes.Components.FlatButton btn_sair;
+    private com.mycompany.gerenciamento.uniformes.Components.FlatButton btn_salvar_ppa;
+    private com.mycompany.gerenciamento.uniformes.Components.FlatButton btn_salvar_prs;
     private javax.swing.JButton btn_voltar_ppa;
     private javax.swing.JButton btn_voltar_prs;
     private javax.swing.JButton btn_voltar_psc;

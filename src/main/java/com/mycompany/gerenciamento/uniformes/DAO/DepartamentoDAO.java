@@ -35,15 +35,4 @@ public class DepartamentoDAO {
         }
         return departamentos;
     }
-
-    public void cadastrarDepartamento(DepartamentoModel departamento) {
-        String sql = "INSERT INTO Departamento (nome) VALUES (?)";
-
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, departamento.getNome());
-            ps.execute();
-        } catch (SQLException error) {
-            error.printStackTrace();
-        }
-    }
 }
