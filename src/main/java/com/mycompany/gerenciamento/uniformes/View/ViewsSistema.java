@@ -879,6 +879,10 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_Add_Uniforme = new javax.swing.JButton();
         barra_rolagem = new javax.swing.JScrollPane();
         tabela_uniformes = new javax.swing.JTable();
+        panel5 = new java.awt.Panel();
+        lb_status_paginacao_serv3 = new javax.swing.JLabel();
+        btn_proximo_serv3 = new javax.swing.JButton();
+        btn_anterior_serv3 = new javax.swing.JButton();
         panel_autenticacao = new javax.swing.JPanel();
         panel_login = new javax.swing.JPanel();
         img_pl = new javax.swing.JLabel();
@@ -1557,7 +1561,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                     .addComponent(btn_proximo_serv, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_anterior_serv, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lb_status_paginacao_serv, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36))
+                .addGap(45, 45, 45))
         );
 
         tx_pesquisa_serv.setText("Busque um servidor...");
@@ -1630,9 +1634,9 @@ public class ViewsSistema extends javax.swing.JFrame {
                     .addComponent(btn_exportar_serv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23)
+                .addGap(32, 32, 32)
                 .addComponent(panel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
 
         panel_telaInicial.add(Servidores, "servidores");
@@ -1685,12 +1689,55 @@ public class ViewsSistema extends javax.swing.JFrame {
                 "Tipo", "Status", "Entrada", "Saída", "Tamanho", "Data Entrada"
             }
         ));
-        tabela_uniformes.setMaximumSize(new java.awt.Dimension(1360, 0));
-        tabela_uniformes.setMinimumSize(new java.awt.Dimension(1360, 0));
-        tabela_uniformes.setPreferredSize(new java.awt.Dimension(600, 108));
-        tabela_uniformes.setRequestFocusEnabled(false);
+        tabela_uniformes.setAutoscrolls(false);
+        tabela_uniformes.setMaximumSize(new java.awt.Dimension(2147483647, 0));
+        tabela_uniformes.setMinimumSize(new java.awt.Dimension(60, 0));
+        tabela_uniformes.setPreferredSize(new java.awt.Dimension(300, 0));
+        tabela_uniformes.setRowHeight(27);
         tabela_uniformes.setShowHorizontalLines(true);
         barra_rolagem.setViewportView(tabela_uniformes);
+
+        lb_status_paginacao_serv3.setText("jLabel2");
+        lb_status_paginacao_serv3.setPreferredSize(new java.awt.Dimension(18, 18));
+
+        btn_proximo_serv3.setText("Próxima");
+        btn_proximo_serv3.setMargin(new java.awt.Insets(8, 14, 8, 14));
+        btn_proximo_serv3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_proximo_serv3ActionPerformed(evt);
+            }
+        });
+
+        btn_anterior_serv3.setText("Anterior");
+        btn_anterior_serv3.setMargin(new java.awt.Insets(8, 14, 8, 14));
+        btn_anterior_serv3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_anterior_serv3ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panel5Layout = new javax.swing.GroupLayout(panel5);
+        panel5.setLayout(panel5Layout);
+        panel5Layout.setHorizontalGroup(
+            panel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lb_status_paginacao_serv3, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_anterior_serv3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_proximo_serv3)
+                .addContainerGap())
+        );
+        panel5Layout.setVerticalGroup(
+            panel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel5Layout.createSequentialGroup()
+                .addGroup(panel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_proximo_serv3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_anterior_serv3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lb_status_paginacao_serv3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(45, 45, 45))
+        );
 
         javax.swing.GroupLayout UniformesLayout = new javax.swing.GroupLayout(Uniformes);
         Uniformes.setLayout(UniformesLayout);
@@ -1698,10 +1745,13 @@ public class ViewsSistema extends javax.swing.JFrame {
             UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(UniformesLayout.createSequentialGroup()
                 .addGap(95, 95, 95)
-                .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Titulo)
-                    .addComponent(barra_rolagem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(UniformesLayout.createSequentialGroup()
+                .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(panel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, UniformesLayout.createSequentialGroup()
+                        .addComponent(Titulo)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(barra_rolagem, javax.swing.GroupLayout.DEFAULT_SIZE, 1186, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, UniformesLayout.createSequentialGroup()
                         .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(subtitulo)
                             .addGroup(UniformesLayout.createSequentialGroup()
@@ -1712,7 +1762,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                                 .addComponent(filtro_tipo, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btn_Add_Uniforme)))
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addGap(79, 79, 79))
         );
         UniformesLayout.setVerticalGroup(
             UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1727,9 +1777,11 @@ public class ViewsSistema extends javax.swing.JFrame {
                     .addComponent(btn_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(filtro_tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_Add_Uniforme, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(20, 20, 20)
                 .addComponent(barra_rolagem, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(195, Short.MAX_VALUE))
+                .addGap(23, 23, 23)
+                .addComponent(panel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(87, 87, 87))
         );
 
         panel_telaInicial.add(Uniformes, "uniformes");
@@ -1847,7 +1899,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_login_pl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
                 .addComponent(btn_esq_senha_pl)
-                .addContainerGap(154, Short.MAX_VALUE))
+                .addContainerGap(158, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_loginLayout = new javax.swing.GroupLayout(panel_login);
@@ -1980,7 +2032,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_salvar_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_voltar_ppa)
-                .addContainerGap(145, Short.MAX_VALUE))
+                .addContainerGap(149, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_primeiro_acessoLayout = new javax.swing.GroupLayout(panel_primeiro_acesso);
@@ -2117,7 +2169,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_enviar_psc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_voltar_psc)
-                .addContainerGap(145, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_solicitacao_codigoLayout = new javax.swing.GroupLayout(panel_solicitacao_codigo);
@@ -2271,7 +2323,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_salvar_prs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_voltar_prs)
-                .addContainerGap(123, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_redefinir_senhaLayout = new javax.swing.GroupLayout(panel_redefinir_senha);
@@ -2689,6 +2741,14 @@ public class ViewsSistema extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tx_pesquisaActionPerformed
 
+    private void btn_proximo_serv3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_proximo_serv3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_proximo_serv3ActionPerformed
+
+    private void btn_anterior_serv3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_anterior_serv3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_anterior_serv3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2705,6 +2765,9 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JButton btn_anterior_alunos;
     private javax.swing.JButton btn_anterior_pd;
     private javax.swing.JButton btn_anterior_serv;
+    private javax.swing.JButton btn_anterior_serv1;
+    private javax.swing.JButton btn_anterior_serv2;
+    private javax.swing.JButton btn_anterior_serv3;
     private javax.swing.JButton btn_buscar;
     private javax.swing.JButton btn_buscar_alunos;
     private javax.swing.JButton btn_buscar_dis_pd;
@@ -2726,6 +2789,9 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JButton btn_proximo_alunos;
     private javax.swing.JButton btn_proximo_pd;
     private javax.swing.JButton btn_proximo_serv;
+    private javax.swing.JButton btn_proximo_serv1;
+    private javax.swing.JButton btn_proximo_serv2;
+    private javax.swing.JButton btn_proximo_serv3;
     private javax.swing.JButton btn_sair_pn;
     private javax.swing.JButton btn_salvar_ppa;
     private javax.swing.JButton btn_salvar_prs;
@@ -2782,6 +2848,9 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JLabel lb_status_paginacao_alunos;
     private javax.swing.JLabel lb_status_paginacao_pd;
     private javax.swing.JLabel lb_status_paginacao_serv;
+    private javax.swing.JLabel lb_status_paginacao_serv1;
+    private javax.swing.JLabel lb_status_paginacao_serv2;
+    private javax.swing.JLabel lb_status_paginacao_serv3;
     private javax.swing.JLabel lb_sub_alunos;
     private javax.swing.JLabel lb_sub_serv;
     private javax.swing.JLabel lb_subtitulo_pd;
@@ -2793,6 +2862,9 @@ public class ViewsSistema extends javax.swing.JFrame {
     private java.awt.Panel paginacao_alunos;
     private java.awt.Panel panel1;
     private java.awt.Panel panel2;
+    private java.awt.Panel panel3;
+    private java.awt.Panel panel4;
+    private java.awt.Panel panel5;
     private javax.swing.JPanel panelGraficoBarras;
     private javax.swing.JPanel panelGraficoPizza;
     private javax.swing.JPanel panel_aplicacao;
