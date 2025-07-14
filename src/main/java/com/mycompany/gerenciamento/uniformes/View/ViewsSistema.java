@@ -41,6 +41,7 @@ import com.mycompany.gerenciamento.uniformes.Forms.FormEditarServidorDialog;
 import com.mycompany.gerenciamento.uniformes.Forms.FormMensagemConfirmacao;
 import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
 import com.mycompany.gerenciamento.uniformes.Models.CursoModel;
+import com.mycompany.gerenciamento.uniformes.Models.DepartamentoModel;
 import com.mycompany.gerenciamento.uniformes.Models.EntradaModel;
 import com.mycompany.gerenciamento.uniformes.Models.FiltroModel;
 import com.mycompany.gerenciamento.uniformes.Models.TamanhoModel;
@@ -100,7 +101,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private String matriculaUpdate;
     private String termoBuscaAtualDistribuicao = "";
     private String termoBuscaAtualAluno = "";
-    private String termoBuscaAtualServidores = "";
+    private String termoBuscaAtualServidor = "";
     
     // === PAGINAÇÃO ENTREGAS ===
     private int paginaAtualDistribuicao = 1;
@@ -160,6 +161,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         // === INICIO DOS FILTROS ===
         carregarFiltrosDeDistribuicao();
         carregarFiltrosDeAlunos();
+        carregarFiltrosDeServidores();
         // === FIM DOS FILTROS ===
         
         this.tb_alunos.setModel(alunoTableModel);
@@ -245,7 +247,7 @@ public class ViewsSistema extends javax.swing.JFrame {
 
             if (dialog.isSalvo()) {
                 JOptionPane.showMessageDialog(ViewsSistema.this, "Servidor atualizado com sucesso!");
-                atualizarTabelaServidoresEControles();
+                atualizarTabelaServidores();
             }
         });
 
@@ -298,12 +300,10 @@ public class ViewsSistema extends javax.swing.JFrame {
         // === FIM ADICIONA EDIT ICON NA TABELA DE ALUNOS ===
         
         // === INICIO ADICIONA EDIT ICON NA TABELA DE UNIFORMES ===
-        // Note que o modelo aqui é o EntradaTableModel, como definimos para o histórico
         this.tabela_uniformes.setModel(uniformeTableModel); 
         this.tabela_uniformes.setDefaultRenderer(Object.class, new CustomCellRenderer());
         tabela_uniformes.setFillsViewportHeight(true);
 
-        // O índice da coluna "Editar" no seu EntradaTableModel
         final int EDIT_COLUMN_UNIFORME_INDEX = 6;
         
         try {
@@ -481,7 +481,7 @@ public class ViewsSistema extends javax.swing.JFrame {
             error.printStackTrace();
         }
     }
-    
+     
     // === SELECIONAR FORMATO DO ARQUIVO A SER EXPORTADO ===
     private void iniciarExportacao(JTable table, String baseFileName, boolean excluirUltimaColuna) {
         JFileChooser fileChooser = new JFileChooser();
@@ -768,6 +768,19 @@ public class ViewsSistema extends javax.swing.JFrame {
         }   
     }
     
+    private void carregarFiltrosDeServidores() {
+        jcb_filtro_serv_depto.removeAllItems();
+        jcb_filtro_serv_depto.addItem(new FiltroModel("DEPARTAMENTO", 0, "Filtrar por depto..."));
+        List<DepartamentoModel> departamentos = servidorController.getAllDepartamentos();
+        for (DepartamentoModel depto : departamentos) {
+            jcb_filtro_serv_depto.addItem(new FiltroModel("DEPARTAMENTO", depto.getId(), depto.getNome()));
+        }
+        jcb_filtro_serv_status.removeAllItems();
+        jcb_filtro_serv_status.addItem(new FiltroModel("TODOS", -1, "Status..."));
+        jcb_filtro_serv_status.addItem(new FiltroModel("STATUS", 1, "Ativo"));
+        jcb_filtro_serv_status.addItem(new FiltroModel("STATUS", 0, "Inativo"));
+    }
+    
     // === FLUXO DE TROCA ===
     private void iniciaFluxoDeTroca(EntregaModel entregaAntiga) {
         FormSelecaoUniforme selecaoDialog = new FormSelecaoUniforme(this);
@@ -822,25 +835,26 @@ public class ViewsSistema extends javax.swing.JFrame {
     }
 
     // === APLICA PAGINAÇÃO SERVIDORES ===
-    private void atualizarTabelaServidoresEControles() {
-        List<ServidorModel> listaPaginada = servidorController.listarPagina(paginaAtualServidores, ITENS_POR_PAGINA, termoBuscaAtualServidores);
+    private void atualizarTabelaServidores() {
+        FiltroModel filtroDepto = (FiltroModel) jcb_filtro_serv_depto.getSelectedItem();
+        FiltroModel filtroStatus = (FiltroModel) jcb_filtro_serv_status.getSelectedItem();
+
+        // Busca os dados para a página atual
+        List<ServidorModel> listaPaginada = servidorController.listarPagina(
+            paginaAtualServidores,
+            ITENS_POR_PAGINA,
+            termoBuscaAtualServidor,
+            filtroDepto,
+            filtroStatus
+        );
         servidorTableModel.setServidores(listaPaginada);
 
+        // Apenas atualiza os componentes da UI com o total já calculado
         lb_status_paginacao_serv.setText("Página " + paginaAtualServidores + " de " + totalDePaginasServidores);
-
-        btn_anterior_serv.setEnabled(paginaAtualServidores > 1);
         btn_proximo_serv.setEnabled(paginaAtualServidores < totalDePaginasServidores);
+        btn_anterior_serv.setEnabled(paginaAtualServidores > 1);
     }
-    
-    // === BUSCA SERVIDORES ===
-    private void realizarBuscaServidores() {
-        termoBuscaAtualServidores = tx_pesquisa_serv.getText(); // Texto do campo de pesquisa
 
-        paginaAtualServidores = 1;
-        totalDePaginasServidores = servidorController.getTotalDePaginas(ITENS_POR_PAGINA, termoBuscaAtualServidores);
-
-        atualizarTabelaServidoresEControles();
-    }
     
     // === BUSCA DISTRIBUIÇÃO ===
     private void realizarBuscaDistribuicao() {
@@ -865,6 +879,25 @@ public class ViewsSistema extends javax.swing.JFrame {
         totalDePaginasAlunos = alunoController.getTotalDePaginas(ITENS_POR_PAGINA, termoBuscaAtualAluno, filtro);
         
         atualizarTabelaAlunos();
+    }
+    
+    // === BUSCA SERVIDORES ===
+    private void realizarBuscaServidores() {
+        termoBuscaAtualServidor = tx_pesquisa_serv.getText();
+
+        FiltroModel filtroDepto = (FiltroModel) jcb_filtro_serv_depto.getSelectedItem();
+        FiltroModel filtroStatus = (FiltroModel) jcb_filtro_serv_status.getSelectedItem();
+
+        paginaAtualServidores = 1;
+        
+        totalDePaginasServidores = servidorController.getTotalDePaginas(
+            ITENS_POR_PAGINA,
+            termoBuscaAtualServidor,
+            filtroDepto,
+            filtroStatus
+        );
+        
+        atualizarTabelaServidores();
     }
     
     /**
@@ -943,6 +976,8 @@ public class ViewsSistema extends javax.swing.JFrame {
         tx_pesquisa_serv = new javax.swing.JTextField();
         btn_buscar_serv = new javax.swing.JButton();
         btn_exportar_serv = new javax.swing.JButton();
+        jcb_filtro_serv_depto = new javax.swing.JComboBox<>();
+        jcb_filtro_serv_status = new javax.swing.JComboBox<>();
         Uniformes = new javax.swing.JPanel();
         Titulo = new javax.swing.JLabel();
         subtitulo = new javax.swing.JLabel();
@@ -1056,7 +1091,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_nav_Inicio.setText("Inicio");
         btn_nav_Inicio.setBorderPainted(false);
         btn_nav_Inicio.setContentAreaFilled(false);
-        btn_nav_Inicio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_nav_Inicio.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btn_nav_Inicio.setMaximumSize(new java.awt.Dimension(80, 20));
         btn_nav_Inicio.setMinimumSize(new java.awt.Dimension(80, 20));
         btn_nav_Inicio.addActionListener(new java.awt.event.ActionListener() {
@@ -1073,7 +1108,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_nav_distribuicao.setText("Distribuição");
         btn_nav_distribuicao.setBorderPainted(false);
         btn_nav_distribuicao.setContentAreaFilled(false);
-        btn_nav_distribuicao.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_nav_distribuicao.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btn_nav_distribuicao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_nav_distribuicaoActionPerformed(evt);
@@ -1089,7 +1124,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_nav_alunos.setBorder(null);
         btn_nav_alunos.setBorderPainted(false);
         btn_nav_alunos.setContentAreaFilled(false);
-        btn_nav_alunos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_nav_alunos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btn_nav_alunos.setMaximumSize(new java.awt.Dimension(80, 20));
         btn_nav_alunos.setMinimumSize(new java.awt.Dimension(80, 20));
         btn_nav_alunos.setPreferredSize(new java.awt.Dimension(80, 20));
@@ -1107,7 +1142,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_nav_servidores.setText("Servidores");
         btn_nav_servidores.setBorderPainted(false);
         btn_nav_servidores.setContentAreaFilled(false);
-        btn_nav_servidores.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_nav_servidores.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btn_nav_servidores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_nav_servidoresActionPerformed(evt);
@@ -1122,7 +1157,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_nav_uniformes.setText("Uniformes");
         btn_nav_uniformes.setBorderPainted(false);
         btn_nav_uniformes.setContentAreaFilled(false);
-        btn_nav_uniformes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_nav_uniformes.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btn_nav_uniformes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_nav_uniformesActionPerformed(evt);
@@ -1678,6 +1713,22 @@ public class ViewsSistema extends javax.swing.JFrame {
             }
         });
 
+        jcb_filtro_serv_depto.setMinimumSize(new java.awt.Dimension(72, 30));
+        jcb_filtro_serv_depto.setPreferredSize(new java.awt.Dimension(72, 30));
+        jcb_filtro_serv_depto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcb_filtro_serv_deptoActionPerformed(evt);
+            }
+        });
+
+        jcb_filtro_serv_status.setMinimumSize(new java.awt.Dimension(72, 30));
+        jcb_filtro_serv_status.setPreferredSize(new java.awt.Dimension(72, 30));
+        jcb_filtro_serv_status.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcb_filtro_serv_statusActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout ServidoresLayout = new javax.swing.GroupLayout(Servidores);
         Servidores.setLayout(ServidoresLayout);
         ServidoresLayout.setHorizontalGroup(
@@ -1688,17 +1739,22 @@ public class ViewsSistema extends javax.swing.JFrame {
                     .addComponent(panel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2)
                     .addGroup(ServidoresLayout.createSequentialGroup()
+                        .addComponent(tx_pesquisa_serv, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_buscar_serv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jcb_filtro_serv_depto, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jcb_filtro_serv_status, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_exportar_serv, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
+                        .addComponent(btn_cadastrar_serv))
+                    .addGroup(ServidoresLayout.createSequentialGroup()
                         .addGroup(ServidoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lb_sub_serv)
-                            .addComponent(lb_titulo_serv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(ServidoresLayout.createSequentialGroup()
-                                .addComponent(tx_pesquisa_serv, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btn_buscar_serv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(12, 12, 12)
-                        .addComponent(btn_exportar_serv, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 365, Short.MAX_VALUE)
-                        .addComponent(btn_cadastrar_serv)))
+                            .addComponent(lb_titulo_serv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(79, 79, 79))
         );
         ServidoresLayout.setVerticalGroup(
@@ -1713,12 +1769,14 @@ public class ViewsSistema extends javax.swing.JFrame {
                     .addComponent(tx_pesquisa_serv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_buscar_serv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_cadastrar_serv, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_exportar_serv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_exportar_serv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcb_filtro_serv_depto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcb_filtro_serv_status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(panel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addContainerGap(74, Short.MAX_VALUE))
         );
 
         panel_telaInicial.add(Servidores, "servidores");
@@ -1930,7 +1988,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_esq_senha_pl.setBorder(null);
         btn_esq_senha_pl.setBorderPainted(false);
         btn_esq_senha_pl.setContentAreaFilled(false);
-        btn_esq_senha_pl.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_esq_senha_pl.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btn_esq_senha_pl.setFocusPainted(false);
         btn_esq_senha_pl.setIconTextGap(0);
         btn_esq_senha_pl.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -2060,7 +2118,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_voltar_ppa.setBorder(null);
         btn_voltar_ppa.setBorderPainted(false);
         btn_voltar_ppa.setContentAreaFilled(false);
-        btn_voltar_ppa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_voltar_ppa.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btn_voltar_ppa.setFocusPainted(false);
         btn_voltar_ppa.setIconTextGap(0);
         btn_voltar_ppa.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -2189,7 +2247,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_voltar_psc.setBorder(null);
         btn_voltar_psc.setBorderPainted(false);
         btn_voltar_psc.setContentAreaFilled(false);
-        btn_voltar_psc.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_voltar_psc.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btn_voltar_psc.setFocusPainted(false);
         btn_voltar_psc.setIconTextGap(0);
         btn_voltar_psc.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -2334,7 +2392,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_voltar_prs.setBorder(null);
         btn_voltar_prs.setBorderPainted(false);
         btn_voltar_prs.setContentAreaFilled(false);
-        btn_voltar_prs.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_voltar_prs.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btn_voltar_prs.setFocusPainted(false);
         btn_voltar_prs.setIconTextGap(0);
         btn_voltar_prs.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -2479,15 +2537,31 @@ public class ViewsSistema extends javax.swing.JFrame {
 
     private void btn_nav_servidoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_servidoresActionPerformed
         // TODO add your handling code here:
-        termoBuscaAtualServidores = "";
+        termoBuscaAtualServidor = "";
         tx_pesquisa_serv.setText("");
 
-        totalDePaginasServidores = servidorController.getTotalDePaginas(ITENS_POR_PAGINA, termoBuscaAtualServidores);
+        if (jcb_filtro_serv_depto.getItemCount() > 0) {
+            jcb_filtro_serv_depto.setSelectedIndex(0);
+        }
+        if (jcb_filtro_serv_status.getItemCount() > 0) {
+            jcb_filtro_serv_status.setSelectedIndex(0);
+        }
+
+        FiltroModel filtroDeptoResetado = (FiltroModel) jcb_filtro_serv_depto.getSelectedItem();
+        FiltroModel filtroStatusResetado = (FiltroModel) jcb_filtro_serv_status.getSelectedItem();
+
+        totalDePaginasServidores = servidorController.getTotalDePaginas(
+            ITENS_POR_PAGINA,
+            termoBuscaAtualServidor,
+            filtroDeptoResetado,
+            filtroStatusResetado
+        );
+
         paginaAtualServidores = 1;
-        atualizarTabelaServidoresEControles();
+        atualizarTabelaServidores();
 
         appCardLayout.show(panel_telaInicial, "servidores");
-        //JOptionPane.showMessageDialog(this, "Painel de Servidores ainda não implementado");
+        System.out.println("Mostrando painel Servidores");
     }//GEN-LAST:event_btn_nav_servidoresActionPerformed
 
     private void btn_nav_uniformesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_uniformesActionPerformed
@@ -2515,16 +2589,13 @@ public class ViewsSistema extends javax.swing.JFrame {
     private void btn_cadastrar_servActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cadastrar_servActionPerformed
         // TODO add your handling code here:                                                 
         FormServidorDialog dialog = new FormServidorDialog(this);
-
-        dialog.setVisible(true); 
+        dialog.setVisible(true);
 
         if (dialog.isSalvo()) {
             JOptionPane.showMessageDialog(this, "Servidor cadastrado com sucesso!");
-            atualizarTabelaServidoresEControles();
-        }
 
-        System.out.println("Atualizando a tabela de servidores...");
-        atualizarTabelaServidoresEControles();
+            realizarBuscaServidores();
+        }
     }//GEN-LAST:event_btn_cadastrar_servActionPerformed
 
     private void input_confirmar_senha_ppaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_input_confirmar_senha_ppaActionPerformed
@@ -2580,8 +2651,8 @@ public class ViewsSistema extends javax.swing.JFrame {
     private void btn_anterior_servActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_anterior_servActionPerformed
         // TODO add your handling code here:
         if (paginaAtualServidores > 1) {
-                paginaAtualServidores--;
-                atualizarTabelaServidoresEControles();
+            paginaAtualServidores--;
+            atualizarTabelaServidores();
         }
     }//GEN-LAST:event_btn_anterior_servActionPerformed
 
@@ -2616,8 +2687,8 @@ public class ViewsSistema extends javax.swing.JFrame {
     private void btn_proximo_servActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_proximo_servActionPerformed
         // TODO add your handling code here:
         if (paginaAtualServidores < totalDePaginasServidores) {
-                paginaAtualServidores++;
-                atualizarTabelaServidoresEControles();
+            paginaAtualServidores++;
+            atualizarTabelaServidores();
         }
     }//GEN-LAST:event_btn_proximo_servActionPerformed
 
@@ -2834,6 +2905,18 @@ public class ViewsSistema extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_anterior_pdActionPerformed
 
+    private void jcb_filtro_serv_deptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_filtro_serv_deptoActionPerformed
+        // TODO add your handling code here:
+        tx_pesquisa_serv.setText("");
+        realizarBuscaServidores();
+    }//GEN-LAST:event_jcb_filtro_serv_deptoActionPerformed
+
+    private void jcb_filtro_serv_statusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_filtro_serv_statusActionPerformed
+        // TODO add your handling code here:
+        tx_pesquisa_serv.setText("");
+        realizarBuscaServidores();
+    }//GEN-LAST:event_jcb_filtro_serv_statusActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2914,6 +2997,8 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JComboBox<com.mycompany.gerenciamento.uniformes.Models.FiltroModel> jcb_filtro_alunos;
     private javax.swing.JComboBox<com.mycompany.gerenciamento.uniformes.Models.FiltroModel> jcb_filtro_dis_pd;
+    private javax.swing.JComboBox<com.mycompany.gerenciamento.uniformes.Models.FiltroModel> jcb_filtro_serv_depto;
+    private javax.swing.JComboBox<com.mycompany.gerenciamento.uniformes.Models.FiltroModel> jcb_filtro_serv_status;
     private javax.swing.JLabel lb_codigo_prs;
     private javax.swing.JLabel lb_confirmar_senha_ppa;
     private javax.swing.JLabel lb_confirmar_senha_prs;
