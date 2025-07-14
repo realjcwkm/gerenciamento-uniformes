@@ -906,8 +906,6 @@ public class ViewsSistema extends javax.swing.JFrame {
         separador_ppa = new javax.swing.JSeparator();
         btn_salvar_ppa = new com.mycompany.gerenciamento.uniformes.Components.FlatButton();
         btn_voltar_ppa = new javax.swing.JButton();
-        btn_salvar_ppa1 = new com.mycompany.gerenciamento.uniformes.Components.FlatButton();
-        btn_salvar_ppa2 = new com.mycompany.gerenciamento.uniformes.Components.FlatButton();
         panel_solicitacao_codigo = new javax.swing.JPanel();
         img_psc = new javax.swing.JLabel();
         card_form_psc = new com.mycompany.gerenciamento.uniformes.Components.CardPanel();
@@ -1215,7 +1213,7 @@ public class ViewsSistema extends javax.swing.JFrame {
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel1Layout.createSequentialGroup()
                 .addComponent(lb_status_paginacao_pd, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btn_anterior_pd)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_proximo_pd)
@@ -1988,22 +1986,6 @@ public class ViewsSistema extends javax.swing.JFrame {
             }
         });
 
-        btn_salvar_ppa1.setText("SALVAR");
-        btn_salvar_ppa1.setPreferredSize(new java.awt.Dimension(148, 34));
-        btn_salvar_ppa1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_salvar_ppa1ActionPerformed(evt);
-            }
-        });
-
-        btn_salvar_ppa2.setText("SALVAR");
-        btn_salvar_ppa2.setPreferredSize(new java.awt.Dimension(148, 34));
-        btn_salvar_ppa2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_salvar_ppa2ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout card_form_ppaLayout = new javax.swing.GroupLayout(card_form_ppa);
         card_form_ppa.setLayout(card_form_ppaLayout);
         card_form_ppaLayout.setHorizontalGroup(
@@ -2021,39 +2003,27 @@ public class ViewsSistema extends javax.swing.JFrame {
                     .addComponent(lb_confirmar_senha_ppa, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_voltar_ppa)
                     .addComponent(btn_salvar_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(86, 86, 86)
-                .addComponent(btn_salvar_ppa1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(86, 86, 86)
-                .addComponent(btn_salvar_ppa2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(86, 86, 86))
         );
         card_form_ppaLayout.setVerticalGroup(
             card_form_ppaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(card_form_ppaLayout.createSequentialGroup()
-                .addGroup(card_form_ppaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(card_form_ppaLayout.createSequentialGroup()
-                        .addGap(165, 165, 165)
-                        .addComponent(lb_redefinir_senha_ppa)
-                        .addGap(33, 33, 33)
-                        .addComponent(lb_senha_ppa)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(input_senha_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(lb_confirmar_senha_ppa)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(input_confirmar_senha_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(23, 23, 23)
-                        .addComponent(separador_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, 9, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_salvar_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_voltar_ppa))
-                    .addGroup(card_form_ppaLayout.createSequentialGroup()
-                        .addGap(419, 419, 419)
-                        .addComponent(btn_salvar_ppa1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(card_form_ppaLayout.createSequentialGroup()
-                        .addGap(419, 419, 419)
-                        .addComponent(btn_salvar_ppa2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(165, 165, 165)
+                .addComponent(lb_redefinir_senha_ppa)
+                .addGap(33, 33, 33)
+                .addComponent(lb_senha_ppa)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(input_senha_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lb_confirmar_senha_ppa)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(input_confirmar_senha_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23)
+                .addComponent(separador_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, 9, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btn_salvar_ppa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btn_voltar_ppa)
                 .addContainerGap(145, Short.MAX_VALUE))
         );
 
@@ -2760,14 +2730,6 @@ public class ViewsSistema extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_sairActionPerformed
 
-    private void btn_salvar_ppa1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salvar_ppa1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_salvar_ppa1ActionPerformed
-
-    private void btn_salvar_ppa2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salvar_ppa2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_salvar_ppa2ActionPerformed
-
     private void btn_anterior_pdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_anterior_pdActionPerformed
         // TODO add your handling code here:
         if (paginaAtualDistribuicao > 1) {
@@ -2817,8 +2779,6 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JButton btn_proximo_serv3;
     private com.mycompany.gerenciamento.uniformes.Components.FlatButton btn_sair;
     private com.mycompany.gerenciamento.uniformes.Components.FlatButton btn_salvar_ppa;
-    private com.mycompany.gerenciamento.uniformes.Components.FlatButton btn_salvar_ppa1;
-    private com.mycompany.gerenciamento.uniformes.Components.FlatButton btn_salvar_ppa2;
     private com.mycompany.gerenciamento.uniformes.Components.FlatButton btn_salvar_prs;
     private javax.swing.JButton btn_voltar_ppa;
     private javax.swing.JButton btn_voltar_prs;
