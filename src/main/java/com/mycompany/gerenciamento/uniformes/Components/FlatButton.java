@@ -25,7 +25,7 @@ public class FlatButton extends JButton {
     }
 
     public FlatButton(String texto) {
-        this(texto, new Color(22, 160, 133));
+        this(texto, new Color(0,164,55));
     }
 
     public FlatButton(String texto, Color corDeFundo) {
@@ -68,5 +68,9 @@ public class FlatButton extends JButton {
     public void setCorDeFundo(Color corDeFundo) {
         this.corDeFundo = corDeFundo;
         repaint();
+    }
+    
+    public void setPadding(int top, int left, int bottom, int right) {
+        setBorder(new EmptyBorder(top, left, bottom, right));
     }
 }
