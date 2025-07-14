@@ -71,7 +71,6 @@ public class UniformeDAO {
         return uniformes;
     }
     
-    
     public UniformeModel buscarPorTipoETamanho(int idTipo, int idTamanho) {
         String sql = "SELECT u.id AS id_uniforme, u.quantidade AS quantidade_estoque, "
                 + "tu.id AS id_tipo, tu.nome AS tipo, "
@@ -113,5 +112,18 @@ public class UniformeDAO {
         }
         
         return uniforme;
+    }
+    
+    public int getTotal() {
+        String sql = "SELECT COUNT(*) FROM Uniforme";
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

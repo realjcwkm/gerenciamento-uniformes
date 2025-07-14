@@ -62,6 +62,8 @@ public class EntradaDAO {
             e.printStackTrace();
         }
     }
+    
+    
         
       
     public List<EntradaModel> listarTodos() {
@@ -113,7 +115,7 @@ public class EntradaDAO {
                 e.printStackTrace();
             }
             return listaDeEntradas;
-        }
+    }
 
     public boolean registrarEntrada(TipoUniformeModel tipo, TamanhoModel tamanho, FornecedorModel fornecedor, int quantidade, LocalDate dataEntrada) { 
         try {

@@ -9,40 +9,46 @@ import com.mycompany.gerenciamento.uniformes.DAO.EntregaDAO;
 import com.mycompany.gerenciamento.uniformes.DAO.UniformeDAO;
 import com.mycompany.gerenciamento.uniformes.Models.EntradaModel;
 import com.mycompany.gerenciamento.uniformes.Models.EntregaModel;
+import com.mycompany.gerenciamento.uniformes.Models.FiltroModel;
 import com.mycompany.gerenciamento.uniformes.Models.UniformeModel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  *
  * @author geinfo
  */
 public class UniformeController {
-    private final UniformeDAO uniformeDAO;
-    private final EntradaDAO entradaDAO;
-    private final EntregaDAO entregaDAO;
+    private List<Object[]> relatorioEntradas; 
+    private List<Object[]> relatorioEntradasFiltrado;
     
     public UniformeController() {
-        this.uniformeDAO = new UniformeDAO();
-        this.entradaDAO = new EntradaDAO();
-        this.entregaDAO = new EntregaDAO();
+        this.relatorioEntradas = new ArrayList<>();
+        this.relatorioEntradasFiltrado = new ArrayList<>();
     }
     
     public UniformeModel buscarPorTipoETamanho(int idTipo, int idTamanho) {
-        return this.uniformeDAO.buscarPorTipoETamanho(idTipo, idTamanho);
+        UniformeDAO uniformeDAO = new UniformeDAO();
+        return uniformeDAO.buscarPorTipoETamanho(idTipo, idTamanho);
     }
 
     public List<UniformeModel> getAllUniformes() {
-        return this.uniformeDAO.listarTodos(); 
+        UniformeDAO uniformeDAO = new UniformeDAO();
+        return uniformeDAO.listarTodos(); 
     }
     
     public List<Object[]> gerarDadosParaTabelaEstoque() {
+        UniformeDAO uniformeDAO = new UniformeDAO();
+        EntradaDAO entradaDAO = new EntradaDAO();
+        EntregaDAO entregaDAO = new EntregaDAO();
        
         List<EntradaModel> todasEntradas = entradaDAO.listarTodos();
         List<EntregaModel> todasSaidas = entregaDAO.listarTodasAsEntregas(); 
-        List<UniformeModel> todosUniformes = uniformeDAO.listarTodos(); 
+        List<UniformeModel> todosUniformes = uniformeDAO.listarTodos();     
 
         Map<Integer, Integer> entradasPorUniformeId = new HashMap<>();
         for (EntradaModel entrada : todasEntradas) {
@@ -62,7 +68,8 @@ public class UniformeController {
             
             int totalEntradas = entradasPorUniformeId.getOrDefault(idUniforme, 0);
             int totalSaidas = saidasPorUniformeId.getOrDefault(idUniforme, 0);
-            int estoqueAtual = totalEntradas - totalSaidas;
+            int estoqueAtual = uniforme.getQuantidade();
+           
             String status = estoqueAtual > 0 ? "Em Estoque" : "Fora de Estoque";
             
             Object[] linha = new Object[]{
@@ -72,11 +79,64 @@ public class UniformeController {
                 totalEntradas,
                 totalSaidas,
                 estoqueAtual,
+                uniforme.getTipoUniforme().getId(),    
+                uniforme.getTamanho().getId() 
             };
             
             dadosParaTabela.add(linha);
         }
         
-        return dadosParaTabela;
+        return this.relatorioEntradas = dadosParaTabela;
+    }
+    
+    public void filtrarRelatorio(String termoBusca, FiltroModel filtro) {
+        String termo = termoBusca.toLowerCase().trim();
+        
+        List<Object[]> resultadoParcial = new ArrayList<>(this.relatorioEntradas);
+        
+        
+        if (filtro != null && filtro.getIdFiltro() > 0) {
+            resultadoParcial = resultadoParcial.stream()
+                .filter(linha -> {
+                    if ("TIPO".equals(filtro.getTipoFiltro())) {
+                        return (Integer) linha[6] == filtro.getIdFiltro(); 
+                    } else if ("TAMANHO".equals(filtro.getTipoFiltro())) {
+                        return (Integer) linha[7] == filtro.getIdFiltro();
+                    }
+                    return true;
+                })
+                .collect(Collectors.toList());
+        }
+        
+        if (!termo.isEmpty()) {
+            resultadoParcial = resultadoParcial.stream()
+                .filter(linha -> 
+                    Arrays.stream(linha, 0, 6) 
+                          .anyMatch(celula -> celula != null && celula.toString().toLowerCase().contains(termo))
+                )
+                .collect(Collectors.toList());
+        }
+        
+        this.relatorioEntradasFiltrado = resultadoParcial;
+    }
+    
+    public int getTotal(int itensPorPagina) {
+        int totalItens = (this.relatorioEntradasFiltrado != null) ? this.relatorioEntradas.size() : 0;
+        int totalPaginas = (int) Math.ceil((double) totalItens / itensPorPagina);
+        return Math.max(totalPaginas, 1);
+    }
+    
+    public List<Object[]> getPaginaDoRelatorio(int pagina, int itensPorPagina) {
+        if (this.relatorioEntradasFiltrado == null) {
+            return new ArrayList<>();
+        }
+        int startIndex = (pagina - 1) * itensPorPagina;
+        int endIndex = Math.min(startIndex + itensPorPagina, this.relatorioEntradasFiltrado.size());
+        
+        if (startIndex >= endIndex) {
+            return new ArrayList<>(); 
+        }
+        
+        return this.relatorioEntradasFiltrado.subList(startIndex, endIndex);
     }
 }
