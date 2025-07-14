@@ -44,14 +44,9 @@ public class EntradaTableModel extends AbstractTableModel {
         return entradas.get(rowIndex)[columnIndex];
     }
     
-    public void setEntradas(List<Object[]> novasEntradas) {
+    public void setDados(List<Object[]> novasEntradas) {
         this.entradas = novasEntradas;
         this.fireTableDataChanged(); 
     }
-    
-//    @Override;;
-//    public boolean isCellEditable(int rowIndex, int columnIndex) {
-//        return columnIndex == 6;
-//    }
     
 }

@@ -451,4 +451,29 @@ public class EntregaDAO implements EntregaInterface {
             throw error; 
         }
     }
+    
+    public List<EntregaModel> listarTodasAsEntregas() {
+    List<EntregaModel> entregas = new ArrayList<>();
+    String sql = "SELECT fk_uniforme, quantidade FROM Entrega";
+    
+    try (PreparedStatement ps = conn.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+        
+        while (rs.next()) {
+            EntregaModel entrega = new EntregaModel();
+            UniformeModel uniforme = new UniformeModel();
+
+            uniforme.setId(rs.getInt("fk_uniforme"));
+            entrega.setQuantidade(rs.getInt("quantidade"));
+            entrega.setUniforme(uniforme);
+            
+            entregas.add(entrega);
+        }
+    } catch (SQLException e) {
+        System.err.println("Erro ao listar todas as entregas para relatório: " + e.getMessage());
+        e.printStackTrace();
+    }
+    
+        return entregas;
+    }
 }

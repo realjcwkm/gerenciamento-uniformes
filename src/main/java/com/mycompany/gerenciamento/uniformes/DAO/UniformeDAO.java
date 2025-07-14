@@ -67,10 +67,9 @@ public class UniformeDAO {
             error.printStackTrace();
 
         }
-
+        
         return uniformes;
     }
-    
     
     public UniformeModel buscarPorTipoETamanho(int idTipo, int idTamanho) {
         String sql = "SELECT u.id AS id_uniforme, u.quantidade AS quantidade_estoque, "
@@ -113,5 +112,32 @@ public class UniformeDAO {
         }
         
         return uniforme;
+    }
+    
+    public int getTotal() {
+        String sql = "SELECT COUNT(*) FROM Uniforme";
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    
+    public int getTotalQuantidade() {
+        String sql = "SELECT SUM(quantidade) FROM Uniforme";
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1); 
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao calcular o estoque total geral: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return 0; 
     }
 }
