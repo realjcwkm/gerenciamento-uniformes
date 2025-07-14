@@ -51,10 +51,10 @@ public class EntregaController {
         return this.tamanhoDAO.listarTodos();
     }
     
-    public boolean cadastrarNovaEntrega(AlunoModel aluno, TipoUniformeModel tipo, TamanhoModel tamanho, int quantidade) {
+    public String cadastrarNovaEntrega(AlunoModel aluno, TipoUniformeModel tipo, TamanhoModel tamanho, int quantidade) {
         if (aluno == null || tipo == null || tamanho == null || quantidade <= 0) {
             System.err.println("Erro de validação: Dados de entrada incompletos.");
-            return false;
+            return "erro_dados";
         }
 
         try {
@@ -62,7 +62,11 @@ public class EntregaController {
             UniformeModel uniformeCompleto = uniformeDAO.buscarPorTipoETamanho(tipo.getId(), tamanho.getId());
             if (uniformeCompleto == null) {
                 System.err.println("Não existe um uniforme para o tipo e tamanho selecionado.");
-                return false;
+                return "erro_inexistente";
+            }
+            
+            if (quantidade > uniformeCompleto.getQuantidade()) {
+                return "erro_quantidade";
             }
             
             LocalDate hoje = LocalDate.now(); 
@@ -87,11 +91,11 @@ public class EntregaController {
 
             entregaDAO.cadastrarEntrega(novaEntrega);
             
-            return true; 
+            return "sucesso"; 
 
         } catch (Exception error) {
             error.printStackTrace();
-            return false;
+            return "falha";
         }
     }
     
