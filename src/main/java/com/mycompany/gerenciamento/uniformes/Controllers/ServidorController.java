@@ -3,6 +3,7 @@ package com.mycompany.gerenciamento.uniformes.Controllers;
 import com.mycompany.gerenciamento.uniformes.DAO.DepartamentoDAO;
 import com.mycompany.gerenciamento.uniformes.DAO.ServidorDAO;
 import com.mycompany.gerenciamento.uniformes.Models.DepartamentoModel;
+import com.mycompany.gerenciamento.uniformes.Models.FiltroModel;
 import com.mycompany.gerenciamento.uniformes.Models.ServidorModel;
 import java.util.List;
 import org.mindrot.jbcrypt.BCrypt;
@@ -16,20 +17,16 @@ public class ServidorController {
         this.departamentoDAO = new DepartamentoDAO(); 
     }
 
-    public List<ServidorModel> listarTodos() {
-        return this.servidorDAO.listarTodos();
-    }
-
     public List<DepartamentoModel> getAllDepartamentos() {
         return this.departamentoDAO.listarTodos(); 
     }
 
-    public List<ServidorModel> listarPagina(int pagina, int itensPorPagina, String termoBusca) {
-        return this.servidorDAO.listarPagina(pagina, itensPorPagina, termoBusca);
+    public List<ServidorModel> listarPagina(int pagina, int itensPorPagina, String termoBusca, FiltroModel filtroDepto, FiltroModel filtroStatus) {
+        return this.servidorDAO.listarPagina(pagina, itensPorPagina, termoBusca, filtroDepto, filtroStatus);
     }
 
-    public int getTotalDePaginas(int itensPorPagina, String termoBusca) {
-        int totalDeItens = this.servidorDAO.getTotal(termoBusca);
+    public int getTotalDePaginas(int itensPorPagina, String termoBusca, FiltroModel filtroDepto, FiltroModel filtroStatus) {
+        int totalDeItens = this.servidorDAO.getTotal(termoBusca, filtroDepto, filtroStatus);
         int totalPaginas = (int) Math.ceil((double) totalDeItens / itensPorPagina);
         return Math.max(totalPaginas, 1);
     }
