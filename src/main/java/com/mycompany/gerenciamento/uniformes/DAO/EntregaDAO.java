@@ -337,6 +337,20 @@ public class EntregaDAO implements EntregaInterface {
         return 0;
     }
     
+    @Override
+    public void setNullPorAluno(int alunodId) {
+        String sql = "UPDATE Entrega "
+                + "SET fk_aluno = NULL "
+                + "WHERE fk_aluno = ?";
+        
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, alunodId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
     public List<EntregaModel> listarTodos() {
         List<EntregaModel> entregas = new ArrayList<>();
         String sql = "SELECT e.id, e.semestre, e.ano, e.data_entrega, e.trocado, e.quantidade, "
