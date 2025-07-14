@@ -1,5 +1,14 @@
 package com.mycompany.gerenciamento.uniformes.View;
 
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
 import com.mycompany.gerenciamento.uniformes.Controllers.AlunoController;
 import com.mycompany.gerenciamento.uniformes.Controllers.AuthController;
 import com.mycompany.gerenciamento.uniformes.Controllers.EntregaController;
@@ -28,6 +37,7 @@ import com.mycompany.gerenciamento.uniformes.Forms.FormSelecaoUniforme;
 import com.mycompany.gerenciamento.uniformes.Forms.FormServidorDialog;
 import com.mycompany.gerenciamento.uniformes.Forms.FormUniforme;
 import com.mycompany.gerenciamento.uniformes.Forms.FormEditarServidorDialog;
+import com.mycompany.gerenciamento.uniformes.Forms.FormMensagemConfirmacao;
 import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
 import com.mycompany.gerenciamento.uniformes.Models.EntradaModel;
 import com.mycompany.gerenciamento.uniformes.Models.FiltroModel;
@@ -36,21 +46,30 @@ import com.mycompany.gerenciamento.uniformes.Models.TipoUniformeModel;
 import com.mycompany.gerenciamento.uniformes.Models.UniformeModel;
 import com.mycompany.gerenciamento.uniformes.TableModels.AlunoTableModel;
 import com.mycompany.gerenciamento.uniformes.View.Utils.ButtonColumnRendererEditor;
+import com.mycompany.gerenciamento.uniformes.View.Utils.ColumnFormatter;
 import com.mycompany.gerenciamento.uniformes.View.Utils.CustomCellRenderer;
 import java.awt.BorderLayout;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.JTable;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.TableModel;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-
+import java.io.IOException;
 /**
  * @author barbara
  */
@@ -101,6 +120,21 @@ public class ViewsSistema extends javax.swing.JFrame {
         carregarGraficoPizza(); // === GRÁFICO PIZZA ===
         carregarGraficoBarras(); // === GRÁFICO BARRAS ===
         
+        // === EXPORTAR LISTA SERVIDOR ===
+        btn_exportar_serv.addActionListener(e -> {
+            iniciarExportacao(tb_servidores, "Relatorio_de_Servidores", true);
+        });        
+        
+        // === EXPORTAR LISTA DISTRIBUIÇÃO ===
+        btn_exportar_distribuicao.addActionListener(e -> {
+            iniciarExportacao(tb_distribuicao, "Relatorio_de_Distribuicao", true);
+        });
+        
+        // === EXPORTAR LISTA ALUNOS ===
+        btn_exportar_alunos.addActionListener(e -> {
+            iniciarExportacao(tb_alunos, "Relatorio_Alunos", true);
+        });
+
         this.appCardLayout = (CardLayout) panel_telaInicial.getLayout();
         this.mainCardLayout = (CardLayout) main_container.getLayout();
         this.authCardLayout = (CardLayout) panel_autenticacao.getLayout();
@@ -165,13 +199,10 @@ public class ViewsSistema extends javax.swing.JFrame {
         });
 
         this.tb_distribuicao.getColumnModel().getColumn(TROCA_COLUMN_INDEX).setCellRenderer(trocaButtonEditor);
-        this.tb_distribuicao.getColumnModel().getColumn(TROCA_COLUMN_INDEX).setCellEditor(trocaButtonEditor);
-
-        this.tb_distribuicao.getColumnModel().getColumn(TROCA_COLUMN_INDEX).setPreferredWidth(40);
-        this.tb_distribuicao.getColumnModel().getColumn(TROCA_COLUMN_INDEX).setMaxWidth(40);        
+        this.tb_distribuicao.getColumnModel().getColumn(TROCA_COLUMN_INDEX).setCellEditor(trocaButtonEditor);      
         // === FIM ADICIONA TROCA ICON NA TABELA ===
 
-        // === INICIO ADICIONA EDIT ICON NA TABELA ===
+        // === INICIO ADICIONA EDIT ICON NA TABELA SERVIDORES ===
         this.tb_servidores.setModel(servidorTableModel);
         this.tb_servidores.setDefaultRenderer(Object.class, new CustomCellRenderer());
         tb_servidores.setFillsViewportHeight(true); 
@@ -215,7 +246,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         this.tb_servidores.getColumnModel().getColumn(EDIT_COLUMN_INDEX).setCellEditor(editButtonEditor);
         this.tb_servidores.getColumnModel().getColumn(EDIT_COLUMN_INDEX).setPreferredWidth(90);
         this.tb_servidores.getColumnModel().getColumn(EDIT_COLUMN_INDEX).setMaxWidth(90); 
-        // === FIM ADICIONA EDIT ICON NA TABELA ===
+        // === FIM ADICIONA EDIT ICON NA TABELA SERVIDORES ===
         
         // === INICIO ADICIONA EDIT ICON NA TABELA DE ALUNOS ===
         this.tb_alunos.setModel(alunoTableModel);
@@ -257,7 +288,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         this.tb_alunos.getColumnModel().getColumn(EDIT_AlUNO_COLUMN_INDEX).setCellEditor(editAlunoButtonEditor);
         this.tb_alunos.getColumnModel().getColumn(EDIT_AlUNO_COLUMN_INDEX).setPreferredWidth(90);
         this.tb_alunos.getColumnModel().getColumn(EDIT_AlUNO_COLUMN_INDEX).setMaxWidth(90); 
-        // === FIM ADICIONA EDIT ICON NA TABELA ===
+        // === FIM ADICIONA EDIT ICON NA TABELA DE ALUNOS ===
         
         // === INICIO ADICIONA EDIT ICON NA TABELA DE UNIFORMES ===
         // Note que o modelo aqui é o EntradaTableModel, como definimos para o histórico
@@ -312,7 +343,68 @@ public class ViewsSistema extends javax.swing.JFrame {
         this.tabela_uniformes.getColumnModel().getColumn(EDIT_ENTRADA_COLUMN_INDEX).setMaxWidth(90);
         // === FIM ADICIONA EDIT ICON NA TABELA DE UNIFORMES ===
         
-        
+        // === INICIO ADICIONA BOTÃO DE EXCLUSÃO NA TABELA SERVIDORES ===
+        final int DELETE_COLUMN_INDEX = 5;
+
+        ImageIcon deleteIcon = null;
+        try {
+            ImageIcon originalIcon = new ImageIcon(getClass().getResource("/images/delete-icon.png"));
+            Image image = originalIcon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+            deleteIcon = new ImageIcon(image);
+        } catch (Exception e) {
+            System.err.println("Erro ao carregar o ícone de exclusão: " + e.getMessage());
+        }
+
+        ButtonColumnRendererEditor deleteButtonEditor = new ButtonColumnRendererEditor(this.tb_servidores, deleteIcon);
+
+        deleteButtonEditor.getButton().addActionListener(e -> {
+            if (tb_servidores.isEditing()) {
+                tb_servidores.getCellEditor().stopCellEditing();
+            }
+            int modelRow = tb_servidores.convertRowIndexToModel(tb_servidores.getSelectedRow());
+            if (modelRow == -1) return;
+
+            ServidorModel servidorParaExcluir = servidorTableModel.getServidorAt(modelRow);
+            String erroValidacao = servidorController.validarExclusao(servidorParaExcluir);
+
+            // VALIDAÇÃO
+            if (!erroValidacao.isEmpty()) {
+                // Se servidor ativo
+                FormMensagemConfirmacao dialogoAviso = new FormMensagemConfirmacao(
+                    this,
+                    "Servidor Ativo",
+                    erroValidacao,
+                    "OK", 
+                    ""
+                );
+                dialogoAviso.setVisible(true);
+                return;
+            }
+
+            String titulo = "Confirmar Exclusão";
+            String mensagem = "Tem certeza que deseja excluir o servidor:<br><b>" + servidorParaExcluir.getNome() + "</b>?";
+
+            FormMensagemConfirmacao dialogoConfirmacao = new FormMensagemConfirmacao(this, titulo, mensagem, "Sim, Excluir", "Cancelar");
+            dialogoConfirmacao.setVisible(true);
+
+            if (dialogoConfirmacao.isConfirmado()) {
+                boolean sucesso = servidorController.excluirServidor(servidorParaExcluir.getId());
+
+                if (sucesso) {
+                    JOptionPane.showMessageDialog(this, "Servidor excluído com sucesso.");
+                    realizarBuscaServidores();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ocorreu um erro ao excluir o servidor.", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        this.tb_servidores.getColumnModel().getColumn(DELETE_COLUMN_INDEX).setCellRenderer(deleteButtonEditor);
+        this.tb_servidores.getColumnModel().getColumn(DELETE_COLUMN_INDEX).setCellEditor(deleteButtonEditor);
+        this.tb_servidores.getColumnModel().getColumn(DELETE_COLUMN_INDEX).setPreferredWidth(60);
+        this.tb_servidores.getColumnModel().getColumn(DELETE_COLUMN_INDEX).setMaxWidth(60);
+        // === FIM ADICIONA BOTÃO DE EXCLUSÃO NA TABELA SERVIDORES ===
+
         System.out.println("Painéis disponíveis:");
         for (Component comp : panel_telaInicial.getComponents()) {
             System.out.println("- " + comp.getName() + " (" + comp.getClass().getSimpleName() + ")");
@@ -323,18 +415,165 @@ public class ViewsSistema extends javax.swing.JFrame {
     }
 
     private void carregaDadosUniformes() {
-    try {
-        // Chama o Controller, que por sua vez chama o DAO
-        List<UniformeEstoqueModel> listaUniformes = this.uniformeController.TabelaEstoque();
-        
-        // Passa a lista de dados para o TableModel, que irá atualizar a JTable
-        uniformeTableModel.setUniformes(listaUniformes); 
-    } catch (Exception error) {
-        JOptionPane.showMessageDialog(this, "Erro ao carregar os dados de uniformes.", "Erro", JOptionPane.ERROR_MESSAGE);
-        error.printStackTrace();
-    }
-}
+        try {
+            // Chama o Controller, que por sua vez chama o DAO
+            List<UniformeEstoqueModel> listaUniformes = this.uniformeController.TabelaEstoque();
 
+            // Passa a lista de dados para o TableModel, que irá atualizar a JTable
+            uniformeTableModel.setUniformes(listaUniformes);
+        } catch (Exception error) {
+            JOptionPane.showMessageDialog(this, "Erro ao carregar os dados de uniformes.", "Erro", JOptionPane.ERROR_MESSAGE);
+            error.printStackTrace();
+        }
+    }
+    
+    // === SELECIONAR FORMATO DO ARQUIVO A SER EXPORTADO ===
+    private void iniciarExportacao(JTable table, String baseFileName, boolean excluirUltimaColuna) {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Exportar Tabela");
+        fileChooser.setSelectedFile(new File(baseFileName));
+
+        // Cria os filtros para cada tipo de arquivo
+        FileNameExtensionFilter pdfFilter = new FileNameExtensionFilter("Arquivos PDF (*.pdf)", "pdf");
+        FileNameExtensionFilter csvFilter = new FileNameExtensionFilter("Arquivos CSV (*.csv)", "csv");
+
+        // Adiciona os filtros ao seletor
+        fileChooser.addChoosableFileFilter(pdfFilter);
+        fileChooser.addChoosableFileFilter(csvFilter);
+
+        // Define o filtro padrão
+        fileChooser.setFileFilter(pdfFilter);
+
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            // Verifica qual formato foi escolhido pelo usuário
+            FileNameExtensionFilter selectedFilter = (FileNameExtensionFilter) fileChooser.getFileFilter();
+            File fileToSave = fileChooser.getSelectedFile();
+
+            // Chama a função de exportação correspondente
+            if (selectedFilter == pdfFilter) {
+                exportarParaPDF(table, fileToSave, baseFileName, excluirUltimaColuna); 
+            } else if (selectedFilter == csvFilter) {
+                // Formatação tabela servidores
+                ColumnFormatter formatadorPadrao = (value, row, col) -> {
+                    return (value == null) ? "" : value.toString();
+                };
+                exportarParaCSV(table, fileToSave, formatadorPadrao, excluirUltimaColuna);
+            }
+        }
+    }
+    
+    // === INICIO FUNÇÃO EXPORTAR FORMATO .CVS ===
+    private void exportarParaCSV(JTable table, File fileToSave, ColumnFormatter formatter, boolean excluirUltimaColuna) {
+        if (!fileToSave.getAbsolutePath().endsWith(".csv")) {
+            fileToSave = new File(fileToSave.getAbsolutePath() + ".csv");
+        }
+
+        try (FileOutputStream fos = new FileOutputStream(fileToSave);
+             OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8)) {
+
+            osw.write('\uFEFF');
+
+            TableModel model = table.getModel();
+
+            // Excluir a última coluna (ações)
+            int columnCount = model.getColumnCount();
+            if (excluirUltimaColuna) {
+                columnCount--;
+            }
+
+            // Escreve os cabeçalhos
+            for (int i = 0; i < columnCount; i++) {
+                osw.append(model.getColumnName(i));
+                if (i < columnCount - 1) {
+                    osw.append(";");
+                }
+            }
+            osw.append("\n");
+
+            // Escreve as linhas de dados
+            for (int i = 0; i < model.getRowCount(); i++) {
+                for (int j = 0; j < columnCount; j++) {
+                    Object value = model.getValueAt(i, j);
+                    String finalValue = formatter.format(value, i, j);
+                    osw.append(finalValue);
+                    if (j < columnCount - 1) {
+                        osw.append(";");
+                    }
+                }
+                osw.append("\n");
+            }
+
+            osw.flush();
+            JOptionPane.showMessageDialog(this, "Dados exportados com sucesso!", "Exportação Concluída", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Erro ao exportar os dados: " + e.getMessage(), "Erro de Exportação", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+    // === FIM FUNÇÃO EXPORTAR FORMATO .CVS ===
+    
+    // === INICIO FUNÇÃO EXPORTAR FORMATO .PDF ===
+    private void exportarParaPDF(JTable table, File fileToSave, String tituloDocumento, boolean excluirUltimaColuna) {
+        if (!fileToSave.getAbsolutePath().endsWith(".pdf")) {
+            fileToSave = new File(fileToSave.getAbsolutePath() + ".pdf");
+        }
+        com.lowagie.text.Document document = new com.lowagie.text.Document(PageSize.A4.rotate());
+
+        try {
+            PdfWriter.getInstance(document, new FileOutputStream(fileToSave));
+            document.open();
+
+            com.lowagie.text.Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, Color.BLACK);
+            Paragraph title = new Paragraph(tituloDocumento, titleFont);
+            title.setAlignment(Element.ALIGN_CENTER);
+            title.setSpacingAfter(20);
+            document.add(title);
+
+            // Excluir a última coluna (ações)
+            int columnCount = table.getColumnCount();
+            if (excluirUltimaColuna) {
+                columnCount--;
+            }
+
+            PdfPTable pdfTable = new PdfPTable(columnCount);
+            pdfTable.setWidthPercentage(100);
+
+            com.lowagie.text.Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10, Color.WHITE);
+            for (int i = 0; i < columnCount; i++) {
+                PdfPCell cell = new PdfPCell(new Phrase(table.getColumnName(i), headerFont));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.setBackgroundColor(new Color(35, 91, 88));
+                cell.setPadding(5);
+                pdfTable.addCell(cell);
+            }
+
+            com.lowagie.text.Font cellFont = FontFactory.getFont(FontFactory.HELVETICA, 9, Color.BLACK);
+            for (int rows = 0; rows < table.getRowCount(); rows++) {
+                for (int cols = 0; cols < columnCount; cols++) {
+                    Object value = table.getValueAt(rows, cols);
+                    PdfPCell cell = new PdfPCell(new Phrase(value == null ? "" : value.toString(), cellFont));
+                    cell.setPadding(5);
+                    pdfTable.addCell(cell);
+                }
+            }
+
+            document.add(pdfTable);
+            JOptionPane.showMessageDialog(this, "PDF exportado com sucesso!", "Exportação Concluída", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (DocumentException | IOException e) {
+            JOptionPane.showMessageDialog(this, "Erro ao exportar para PDF: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        } finally {
+            if (document.isOpen()) {
+                document.close();
+            }
+        }
+    }
+    // === FIM FUNÇÃO EXPORTAR FORMATO .PDF ===
+    
     // === CARREGA GRÁFICO PIZZA === 
     private void carregarGraficoPizza() {
         this.graficosController = new GraficosController();
@@ -512,7 +751,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_proximo_alunos.setEnabled(paginaAtualAlunos < totalDePaginasAlunos);
     }
 
-// === APLICA PAGINAÇÃO SERVIDORES ===
+    // === APLICA PAGINAÇÃO SERVIDORES ===
     private void atualizarTabelaServidoresEControles() {
         List<ServidorModel> listaPaginada = servidorController.listarPagina(paginaAtualServidores, ITENS_POR_PAGINA, termoBuscaAtualServidores);
         servidorTableModel.setServidores(listaPaginada);
@@ -604,8 +843,10 @@ public class ViewsSistema extends javax.swing.JFrame {
         tx_pesquisa_dis_pd = new javax.swing.JTextField();
         btn_buscar_dis_pd = new javax.swing.JButton();
         jcb_filtro_dis_pd = new javax.swing.JComboBox<>();
+        btn_exportar_distribuicao = new javax.swing.JButton();
         Alunos = new javax.swing.JPanel();
         lb_titulo_alunos = new javax.swing.JLabel();
+        lb_sub_alunos = new javax.swing.JLabel();
         btn_cadastrar_alunos = new javax.swing.JButton();
         frame_tb_alunos = new javax.swing.JScrollPane();
         tb_alunos = new javax.swing.JTable();
@@ -615,6 +856,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_proximo_alunos = new javax.swing.JButton();
         tx_pesquisa_alunos = new javax.swing.JTextField();
         btn_buscar_alunos = new javax.swing.JButton();
+        btn_exportar_alunos = new javax.swing.JButton();
         Servidores = new javax.swing.JPanel();
         lb_titulo_serv = new javax.swing.JLabel();
         lb_sub_serv = new javax.swing.JLabel();
@@ -627,6 +869,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_anterior_serv = new javax.swing.JButton();
         tx_pesquisa_serv = new javax.swing.JTextField();
         btn_buscar_serv = new javax.swing.JButton();
+        btn_exportar_serv = new javax.swing.JButton();
         Uniformes = new javax.swing.JPanel();
         Titulo = new javax.swing.JLabel();
         subtitulo = new javax.swing.JLabel();
@@ -736,7 +979,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_nav_Inicio.setText("Inicio");
         btn_nav_Inicio.setBorderPainted(false);
         btn_nav_Inicio.setContentAreaFilled(false);
-        btn_nav_Inicio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_nav_Inicio.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btn_nav_Inicio.setMaximumSize(new java.awt.Dimension(80, 20));
         btn_nav_Inicio.setMinimumSize(new java.awt.Dimension(80, 20));
         btn_nav_Inicio.addActionListener(new java.awt.event.ActionListener() {
@@ -753,7 +996,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_nav_distribuicao.setText("Distribuição");
         btn_nav_distribuicao.setBorderPainted(false);
         btn_nav_distribuicao.setContentAreaFilled(false);
-        btn_nav_distribuicao.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_nav_distribuicao.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btn_nav_distribuicao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_nav_distribuicaoActionPerformed(evt);
@@ -769,7 +1012,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_nav_alunos.setBorder(null);
         btn_nav_alunos.setBorderPainted(false);
         btn_nav_alunos.setContentAreaFilled(false);
-        btn_nav_alunos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_nav_alunos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btn_nav_alunos.setMaximumSize(new java.awt.Dimension(80, 20));
         btn_nav_alunos.setMinimumSize(new java.awt.Dimension(80, 20));
         btn_nav_alunos.setPreferredSize(new java.awt.Dimension(80, 20));
@@ -787,7 +1030,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_nav_servidores.setText("Servidores");
         btn_nav_servidores.setBorderPainted(false);
         btn_nav_servidores.setContentAreaFilled(false);
-        btn_nav_servidores.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_nav_servidores.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btn_nav_servidores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_nav_servidoresActionPerformed(evt);
@@ -802,7 +1045,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_nav_uniformes.setText("Uniformes");
         btn_nav_uniformes.setBorderPainted(false);
         btn_nav_uniformes.setContentAreaFilled(false);
-        btn_nav_uniformes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_nav_uniformes.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btn_nav_uniformes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_nav_uniformesActionPerformed(evt);
@@ -1012,6 +1255,17 @@ public class ViewsSistema extends javax.swing.JFrame {
             }
         });
 
+        btn_exportar_distribuicao.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btn_exportar_distribuicao.setText("Exportar Lista");
+        btn_exportar_distribuicao.setMaximumSize(new java.awt.Dimension(75, 30));
+        btn_exportar_distribuicao.setMinimumSize(new java.awt.Dimension(75, 30));
+        btn_exportar_distribuicao.setPreferredSize(new java.awt.Dimension(75, 30));
+        btn_exportar_distribuicao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_exportar_distribuicaoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout DistribuicaoLayout = new javax.swing.GroupLayout(Distribuicao);
         Distribuicao.setLayout(DistribuicaoLayout);
         DistribuicaoLayout.setHorizontalGroup(
@@ -1023,11 +1277,13 @@ public class ViewsSistema extends javax.swing.JFrame {
                         .addGroup(DistribuicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(tx_pesquisa_dis_pd, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lb_subtitulo_pd, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(5, 5, 5)
-                        .addComponent(btn_buscar_dis_pd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_buscar_dis_pd, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
                         .addComponent(jcb_filtro_dis_pd, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(325, 325, 325)
+                        .addGap(12, 12, 12)
+                        .addComponent(btn_exportar_distribuicao, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(155, 155, 155)
                         .addComponent(btn_cad_distribuicao_pd))
                     .addComponent(lb_titulo_pd)
                     .addComponent(jScrollPane1)
@@ -1046,7 +1302,8 @@ public class ViewsSistema extends javax.swing.JFrame {
                     .addComponent(tx_pesquisa_dis_pd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_buscar_dis_pd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_cad_distribuicao_pd, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jcb_filtro_dis_pd, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jcb_filtro_dis_pd, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_exportar_distribuicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
@@ -1065,6 +1322,12 @@ public class ViewsSistema extends javax.swing.JFrame {
         lb_titulo_alunos.setMaximumSize(new java.awt.Dimension(257, 28));
         lb_titulo_alunos.setMinimumSize(new java.awt.Dimension(257, 28));
         lb_titulo_alunos.setPreferredSize(new java.awt.Dimension(257, 28));
+
+        lb_sub_alunos.setForeground(new java.awt.Color(35, 91, 88));
+        lb_sub_alunos.setText("Tenha controle em tempo real dos alunos registrados no sistema.");
+        lb_sub_alunos.setMaximumSize(new java.awt.Dimension(378, 16));
+        lb_sub_alunos.setMinimumSize(new java.awt.Dimension(378, 16));
+        lb_sub_alunos.setPreferredSize(new java.awt.Dimension(378, 16));
 
         btn_cadastrar_alunos.setBackground(new java.awt.Color(4, 120, 87));
         btn_cadastrar_alunos.setForeground(new java.awt.Color(255, 255, 255));
@@ -1156,6 +1419,17 @@ public class ViewsSistema extends javax.swing.JFrame {
             }
         });
 
+        btn_exportar_alunos.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btn_exportar_alunos.setText("Exportar Lista");
+        btn_exportar_alunos.setMaximumSize(new java.awt.Dimension(75, 30));
+        btn_exportar_alunos.setMinimumSize(new java.awt.Dimension(75, 30));
+        btn_exportar_alunos.setPreferredSize(new java.awt.Dimension(75, 30));
+        btn_exportar_alunos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_exportar_alunosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout AlunosLayout = new javax.swing.GroupLayout(Alunos);
         Alunos.setLayout(AlunosLayout);
         AlunosLayout.setHorizontalGroup(
@@ -1163,33 +1437,43 @@ public class ViewsSistema extends javax.swing.JFrame {
             .addGroup(AlunosLayout.createSequentialGroup()
                 .addGap(95, 95, 95)
                 .addGroup(AlunosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(paginacao_alunos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(frame_tb_alunos)
+                    .addGroup(AlunosLayout.createSequentialGroup()
+                        .addComponent(lb_sub_alunos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
                     .addGroup(AlunosLayout.createSequentialGroup()
                         .addGroup(AlunosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lb_titulo_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tx_pesquisa_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btn_buscar_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 521, Short.MAX_VALUE)
-                        .addComponent(btn_cadastrar_alunos)))
-                .addGap(79, 79, 79))
+                            .addComponent(paginacao_alunos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(frame_tb_alunos)
+                            .addGroup(AlunosLayout.createSequentialGroup()
+                                .addGroup(AlunosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lb_titulo_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tx_pesquisa_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btn_buscar_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btn_exportar_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 405, Short.MAX_VALUE)
+                                .addComponent(btn_cadastrar_alunos)))
+                        .addGap(79, 79, 79))))
         );
         AlunosLayout.setVerticalGroup(
             AlunosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(AlunosLayout.createSequentialGroup()
                 .addGap(57, 57, 57)
                 .addComponent(lb_titulo_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
+                .addGap(12, 12, 12)
+                .addComponent(lb_sub_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(AlunosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tx_pesquisa_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_buscar_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_cadastrar_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_cadastrar_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_exportar_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addComponent(frame_tb_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25)
                 .addComponent(paginacao_alunos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addContainerGap(88, Short.MAX_VALUE))
         );
 
         panel_telaInicial.add(Alunos, "alunos");
@@ -1206,7 +1490,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         lb_titulo_serv.setPreferredSize(new java.awt.Dimension(257, 28));
 
         lb_sub_serv.setForeground(new java.awt.Color(35, 91, 88));
-        lb_sub_serv.setText("Tenha um controle em tempo real dos funcionários com acesso ao sistema.");
+        lb_sub_serv.setText("Tenha controle em tempo real dos funcionários com acesso ao sistema.");
 
         btn_cadastrar_serv.setBackground(new java.awt.Color(4, 120, 87));
         btn_cadastrar_serv.setForeground(new java.awt.Color(255, 255, 255));
@@ -1297,6 +1581,17 @@ public class ViewsSistema extends javax.swing.JFrame {
             }
         });
 
+        btn_exportar_serv.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btn_exportar_serv.setText("Exportar Lista");
+        btn_exportar_serv.setMaximumSize(new java.awt.Dimension(75, 30));
+        btn_exportar_serv.setMinimumSize(new java.awt.Dimension(75, 30));
+        btn_exportar_serv.setPreferredSize(new java.awt.Dimension(75, 30));
+        btn_exportar_serv.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_exportar_servActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout ServidoresLayout = new javax.swing.GroupLayout(Servidores);
         Servidores.setLayout(ServidoresLayout);
         ServidoresLayout.setHorizontalGroup(
@@ -1307,13 +1602,16 @@ public class ViewsSistema extends javax.swing.JFrame {
                     .addComponent(panel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2)
                     .addGroup(ServidoresLayout.createSequentialGroup()
-                        .addGroup(ServidoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lb_sub_serv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(ServidoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lb_sub_serv)
                             .addComponent(lb_titulo_serv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tx_pesquisa_serv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btn_buscar_serv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 568, Short.MAX_VALUE)
+                            .addGroup(ServidoresLayout.createSequentialGroup()
+                                .addComponent(tx_pesquisa_serv, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btn_buscar_serv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(12, 12, 12)
+                        .addComponent(btn_exportar_serv, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 394, Short.MAX_VALUE)
                         .addComponent(btn_cadastrar_serv)))
                 .addGap(79, 79, 79))
         );
@@ -1328,7 +1626,8 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addGroup(ServidoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tx_pesquisa_serv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_buscar_serv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_cadastrar_serv, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_cadastrar_serv, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_exportar_serv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23)
@@ -2360,6 +2659,18 @@ public class ViewsSistema extends javax.swing.JFrame {
         realizarBuscaAlunos();
     }//GEN-LAST:event_btn_buscar_alunosActionPerformed
 
+    private void btn_exportar_servActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_exportar_servActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_exportar_servActionPerformed
+
+    private void btn_exportar_alunosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_exportar_alunosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_exportar_alunosActionPerformed
+
+    private void btn_exportar_distribuicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_exportar_distribuicaoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_exportar_distribuicaoActionPerformed
+
     private void btn_Add_UniformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Add_UniformeActionPerformed
         FormUniforme formDialog = new FormUniforme(this);
         formDialog.setVisible(true);
@@ -2403,6 +2714,9 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JButton btn_cadastrar_serv;
     private javax.swing.JButton btn_enviar_psc;
     private javax.swing.JButton btn_esq_senha_pl;
+    private javax.swing.JButton btn_exportar_alunos;
+    private javax.swing.JButton btn_exportar_distribuicao;
+    private javax.swing.JButton btn_exportar_serv;
     private javax.swing.JButton btn_login_pl;
     private javax.swing.JButton btn_nav_Inicio;
     private javax.swing.JButton btn_nav_alunos;
@@ -2468,6 +2782,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JLabel lb_status_paginacao_alunos;
     private javax.swing.JLabel lb_status_paginacao_pd;
     private javax.swing.JLabel lb_status_paginacao_serv;
+    private javax.swing.JLabel lb_sub_alunos;
     private javax.swing.JLabel lb_sub_serv;
     private javax.swing.JLabel lb_subtitulo_pd;
     private javax.swing.JLabel lb_titulo_alunos;
