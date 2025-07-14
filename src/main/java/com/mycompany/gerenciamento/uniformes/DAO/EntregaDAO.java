@@ -368,4 +368,73 @@ public class EntregaDAO implements EntregaInterface {
 
         return 0;
    }
+    
+    public List<EntregaModel> listarTodos() {
+        List<EntregaModel> entregas = new ArrayList<>();
+        String sql = "SELECT e.id, e.semestre, e.ano, e.data_entrega, e.trocado, e.quantidade, "
+                + "s.id AS id_servidor, s.nome AS nome_servidor, "
+                + "u.id AS id_uniforme, u.quantidade AS quantidade_uniforme, "
+                + "a.id AS id_aluno, a.matricula AS matricula_aluno, a.nome AS nome_aluno, "
+                + "t.id AS id_tamanho, t.nome AS tamanho, "
+                + "tu.id AS id_tipo, tu.nome AS tipo,"
+                + "tr.id AS id_troca, tr.data_troca AS data_troca "
+                + "FROM Entrega AS e "
+                + "LEFT JOIN Servidor AS s ON e.fk_servidor = s.id "
+                + "LEFT JOIN Uniforme AS u ON e.fk_uniforme = u.id "
+                + "LEFT JOIN Aluno AS a ON e.fk_aluno = a.id "
+                + "LEFT JOIN Tamanho AS t ON u.fk_tamanho = t.id "
+                + "LEFT JOIN TipoUniforme AS tu ON u.fk_tipo_uniforme = tu.id "
+                + "LEFT JOIN Troca AS tr ON tr.fk_entrega_antiga = e.id";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql); 
+             ResultSet rs = ps.executeQuery()) {
+
+            while(rs.next()) {
+                EntregaModel entrega = new EntregaModel();
+                ServidorModel servidor = new ServidorModel();
+                UniformeModel uniforme = new UniformeModel();
+                AlunoModel aluno = new AlunoModel();
+                TamanhoModel tamanho = new TamanhoModel();
+                TipoUniformeModel tipoUniforme = new TipoUniformeModel();
+
+                entrega.setId(rs.getInt("id"));
+                entrega.setSemestre(rs.getInt("semestre"));
+                entrega.setAno(rs.getInt("ano"));
+                entrega.setData_entrega(rs.getDate("data_entrega").toLocalDate());
+                entrega.setTrocado(rs.getBoolean("trocado"));
+                entrega.setQuantidade(rs.getInt("quantidade"));
+
+                servidor.setId(rs.getInt("id_servidor"));
+                servidor.setNome(rs.getString("nome_servidor"));
+
+                aluno.setId(rs.getInt("id_aluno"));
+                aluno.setNome(rs.getString("nome_aluno"));
+                aluno.setMatricula(rs.getString("matricula_aluno"));
+
+                tamanho.setId(rs.getInt("id_tamanho"));
+                tamanho.setNome(rs.getString("tamanho"));
+
+                tipoUniforme.setId(rs.getInt("id_tipo"));
+                tipoUniforme.setNome(rs.getString("tipo"));
+
+                uniforme.setId(rs.getInt("id_uniforme"));
+                uniforme.setTamanho(tamanho); 
+                uniforme.setTipoUniforme(tipoUniforme);
+
+
+                entrega.setServidor(servidor);
+                entrega.setUniforme(uniforme);
+                entrega.setAluno(aluno);
+
+                entregas.add(entrega);
+            }
+
+        } catch(SQLException error) {
+            System.err.println("Erro ao listar entregas: ");
+            error.printStackTrace();
+        }
+
+        return entregas;
+
+    }
 }
