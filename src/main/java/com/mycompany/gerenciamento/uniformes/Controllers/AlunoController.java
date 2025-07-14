@@ -6,8 +6,10 @@ package com.mycompany.gerenciamento.uniformes.Controllers;
 
 import com.mycompany.gerenciamento.uniformes.DAO.AlunoDAO;
 import com.mycompany.gerenciamento.uniformes.DAO.CursoDAO;
+import com.mycompany.gerenciamento.uniformes.DAO.EntregaDAO;
 import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
 import com.mycompany.gerenciamento.uniformes.Models.CursoModel;
+import com.mycompany.gerenciamento.uniformes.Models.EntregaModel;
 import com.mycompany.gerenciamento.uniformes.Models.FiltroModel;
 import java.util.List;
 
@@ -76,6 +78,8 @@ public class AlunoController {
     }
     
     public boolean excluir(int id) {
+        EntregaDAO entregaDAO = new EntregaDAO();
+        entregaDAO.setNullPorAluno(id);
         return this.alunoDAO.excluir(id);
     }
 }

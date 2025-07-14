@@ -46,7 +46,12 @@ public class EntregaTableModel extends AbstractTableModel{
         EntregaModel entrega = entregas.get(rowIndex);
         
         switch(columnIndex) {
-            case 0: return entrega.getAluno().getNome()+ " " + entrega.getAluno().getSobrenome();
+            case 0: 
+                if (entrega.getAluno().getNome() != null) {
+                    return entrega.getAluno().getNome() + " " + entrega.getAluno().getSobrenome();
+                } else {
+                    return "<Aluno inexistente>";
+                }
             case 1: return entrega.getUniforme().getTamanho().getNome();
             case 2: return entrega.getUniforme().getTipoUniforme().getNome();
             case 3: return entrega.getAluno().getMatricula();
