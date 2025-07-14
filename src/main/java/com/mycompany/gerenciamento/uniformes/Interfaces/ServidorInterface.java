@@ -19,4 +19,5 @@ public interface ServidorInterface {
     public boolean updateSenha(String matricula, String senha);
     public boolean verificarDepartamento(int idDepartamento) throws SQLException;
     void editServidor(ServidorModel servidor);
+    public boolean excluirServidor(int id);
 }

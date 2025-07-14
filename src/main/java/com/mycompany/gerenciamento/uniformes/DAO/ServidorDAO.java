@@ -215,6 +215,27 @@ public class ServidorDAO implements ServidorInterface {
         }
     }
     
+    // EXCLUIR SERVIDOR
+    @Override
+    public boolean excluirServidor(int id) {
+        String sql = "DELETE FROM servidor WHERE id = ?";
+        try {
+            if (this.conn == null || this.conn.isClosed()) {
+                this.conn = Conexao.getConexao();
+            }
+            try (PreparedStatement ps = this.conn.prepareStatement(sql)) {
+                ps.setInt(1, id);
+                int linhasAfetadas = ps.executeUpdate();
+                return linhasAfetadas > 0;
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao excluir servidor: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+    // EXCLUIR SERVIDOR
+    
     @Override
     public boolean updateSenha(String matricula, String hashSenha) {
         String sql = "UPDATE Servidor "

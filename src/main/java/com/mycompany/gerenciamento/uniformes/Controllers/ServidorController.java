@@ -74,4 +74,17 @@ public class ServidorController {
     public void atualizarServidor(ServidorModel servidor) {      
         servidorDAO.editServidor(servidor);
     }
+    
+    // EXCLUIR SERVIDOR
+    public String validarExclusao(ServidorModel servidor) {
+        if (servidor.isAtivo()) {
+            return "Não é possível excluir um servidor com status 'Ativo'.";
+        }
+        return "";
+    }
+
+    public boolean excluirServidor(int id) {
+        return this.servidorDAO.excluirServidor(id);
+    }
+    // EXCLUIR
 }
