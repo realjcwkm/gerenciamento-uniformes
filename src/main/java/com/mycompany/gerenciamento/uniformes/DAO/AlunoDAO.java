@@ -250,4 +250,18 @@ public class AlunoDAO implements AlunoInterface {
             return false;
         }
     }
+    
+    @Override
+    public boolean excluir(int id) {
+        String sql = "DELETE FROM Aluno WHERE id = ?";
+        try(PreparedStatement ps = this.conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            int linhasAfetadas = ps.executeUpdate();
+            return linhasAfetadas > 0;
+        } catch (SQLException error) {
+            System.err.println("Erro ao excluir aluno: " + error.getMessage());
+            error.printStackTrace();
+            return false;
+        }
+    }
 }

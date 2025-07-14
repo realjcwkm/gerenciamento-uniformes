@@ -582,7 +582,7 @@
                                       <Component id="jcb_filtro_dis_pd" min="-2" pref="163" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                                       <Component id="btn_exportar_distribuicao" min="-2" pref="114" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="155" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="200" max="-2" attributes="0"/>
                                       <Component id="btn_cad_distribuicao_pd" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="lb_titulo_pd" min="-2" max="-2" attributes="0"/>
@@ -747,10 +747,12 @@
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="btn_proximo_pd" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
-                                      <Component id="btn_anterior_pd" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
-                                      <Component id="lb_status_paginacao_pd" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="btn_proximo_pd" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
+                                          <Component id="btn_anterior_pd" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="lb_status_paginacao_pd" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace pref="36" max="32767" attributes="0"/>
                               </Group>
@@ -1180,7 +1182,7 @@
                                       </Group>
                                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                                       <Component id="btn_exportar_serv" min="-2" pref="114" max="-2" attributes="0"/>
-                                      <EmptySpace pref="394" max="32767" attributes="0"/>
+                                      <EmptySpace pref="365" max="32767" attributes="0"/>
                                       <Component id="btn_cadastrar_serv" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -1204,7 +1206,7 @@
                               </Group>
                               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                               <Component id="jScrollPane2" min="-2" pref="300" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                               <Component id="panel2" min="-2" max="-2" attributes="0"/>
                               <EmptySpace pref="72" max="32767" attributes="0"/>
                           </Group>
@@ -1802,7 +1804,7 @@
                               <Component id="btn_login_pl" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                               <Component id="btn_esq_senha_pl" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="158" max="32767" attributes="0"/>
+                              <EmptySpace pref="154" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -2037,7 +2039,7 @@
                               <Component id="btn_salvar_ppa" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="btn_voltar_ppa" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="149" max="32767" attributes="0"/>
+                              <EmptySpace pref="145" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>

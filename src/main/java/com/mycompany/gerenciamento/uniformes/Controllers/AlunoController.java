@@ -73,4 +73,8 @@ public class AlunoController {
     public void atualizar(AlunoModel aluno) {
         alunoDAO.editar(aluno);
     }
+    
+    public boolean excluir(int id) {
+        return this.alunoDAO.excluir(id);
+    }
 }
