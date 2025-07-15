@@ -469,19 +469,6 @@ public class ViewsSistema extends javax.swing.JFrame {
             }
         }
     }
-    
-    private void carregaDadosUniformes() {
-        try {
-            // Chama o Controller, que por sua vez chama o DAO
-            List<UniformeEstoqueModel> listaUniformes = this.uniformeController.TabelaEstoque();
-
-            // Passa a lista de dados para o TableModel, que irá atualizar a JTable
-            uniformeTableModel.setUniformes(listaUniformes);
-        } catch (Exception error) {
-            JOptionPane.showMessageDialog(this, "Erro ao carregar os dados de uniformes.", "Erro", JOptionPane.ERROR_MESSAGE);
-            error.printStackTrace();
-        }
-    }
      
     // === SELECIONAR FORMATO DO ARQUIVO A SER EXPORTADO ===
     private void iniciarExportacao(JTable table, String baseFileName, boolean excluirUltimaColuna) {
@@ -1234,7 +1221,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_sair.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         btn_sair.setMaximumSize(new java.awt.Dimension(70, 30));
         btn_sair.setMinimumSize(new java.awt.Dimension(70, 30));
-        btn_sair.setPreferredSize(new java.awt.Dimension(70, 30));
+        btn_sair.setPreferredSize(new java.awt.Dimension(72, 30));
         btn_sair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_sairActionPerformed(evt);
@@ -2406,7 +2393,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_enviar_psc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_voltar_psc)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(149, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_solicitacao_codigoLayout = new javax.swing.GroupLayout(panel_solicitacao_codigo);
@@ -2557,7 +2544,7 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addComponent(btn_salvar_prs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_voltar_prs)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(127, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_redefinir_senhaLayout = new javax.swing.GroupLayout(panel_redefinir_senha);
