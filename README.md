@@ -61,3 +61,14 @@ Após o acesso inicial, você pode cadastrar novos servidores:
 * **Exemplo:** Para um servidor cadastrado com a matrícula `100123`, sua senha de primeiro acesso será `ifro100123`.
 
 **Após seguir estes passos, o sistema estará pronto para ser utilizado.**
+
+## 👨‍💻 Desenvolvedores do Projeto
+Este sistema foi idealizado e desenvolvido com dedicação pela seguinte equipe. Sinta-se à vontade para entrar em contato e conferir nossos outros projetos!
+
+[Ana Clara Souza Gibson] - @anaclaragibson
+
+[Barbara Campos Mercez] - @BarbaraMercez
+
+[Robert Viera Barreto] - @RobertBVieira
+
+[Wagner José Nascimento Relvas] - @wagnerelvas1
