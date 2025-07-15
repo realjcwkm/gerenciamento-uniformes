@@ -20,6 +20,10 @@ public class EntradaTableModel extends AbstractTableModel {
     private String[] colunas = {"Tipo", "Tamanho", "Status", "Entrada", "Saída", "Estoque Atual"}; 
     private final DateTimeFormatter formatadorData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
+    public List<Object[]> getDados() {
+        return this.entradas;
+    }
+    
     public EntradaTableModel() {
         this.entradas = new ArrayList<>();
     }
