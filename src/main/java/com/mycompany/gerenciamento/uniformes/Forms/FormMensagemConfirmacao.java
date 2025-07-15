@@ -105,6 +105,7 @@ public class FormMensagemConfirmacao extends JDialog {
         button.setOpaque(false);
         button.setBorderPainted(false);
         button.setFocusPainted(false);
+        button.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         return button;
     }
 

@@ -2,6 +2,7 @@ package com.mycompany.gerenciamento.uniformes.DAO;
 
 import com.mycompany.gerenciamento.uniformes.Interfaces.ServidorInterface;
 import com.mycompany.gerenciamento.uniformes.DBConnection.Conexao;
+import com.mycompany.gerenciamento.uniformes.Models.FiltroModel;
 import com.mycompany.gerenciamento.uniformes.Models.ServidorModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,22 +19,56 @@ public class ServidorDAO implements ServidorInterface {
         this.conn = Conexao.getConexao();
     }
     
-    // PAGINAÇÃO E BUSCA
-    public int getTotal(String termoBusca) {
-        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM Servidor s JOIN Departamento d ON s.fk_departamento = d.id");
-        
-        if (termoBusca != null && !termoBusca.trim().isEmpty()) {
-            sql.append(" WHERE LOWER(s.nome) LIKE ? OR LOWER(s.sobrenome) LIKE ? OR LOWER(s.matricula) LIKE ? OR LOWER(d.nome) LIKE ?");
+    @Override
+    public int getTotal(String termoBusca, FiltroModel filtroDepto, FiltroModel filtroStatus) {
+        StringBuilder sqlBuilder = new StringBuilder(
+            "SELECT COUNT(*) FROM Servidor s JOIN Departamento d ON s.fk_departamento = d.id"
+        );
+
+        boolean hasSearchTerm = termoBusca != null && !termoBusca.trim().isEmpty();
+        boolean hasDeptoFilter = filtroDepto != null && filtroDepto.getIdFiltro() > 0;
+        boolean hasStatusFilter = filtroStatus != null && !filtroStatus.getTipoFiltro().equals("TODOS"); 
+
+        if(hasSearchTerm || hasDeptoFilter || hasStatusFilter) {
+            sqlBuilder.append(" WHERE ");
         }
 
-        try (PreparedStatement ps = conn.prepareStatement(sql.toString())) {
-            if (termoBusca != null && !termoBusca.trim().isEmpty()) {
+        if(hasSearchTerm) {
+            sqlBuilder.append("(LOWER(s.nome) LIKE ? OR LOWER(s.sobrenome) LIKE ? OR LOWER(s.matricula) LIKE ? OR LOWER(d.nome) LIKE ?)");
+        }
+        
+        if(hasSearchTerm && (hasDeptoFilter || hasStatusFilter)) {
+            sqlBuilder.append(" AND ");
+        }
+
+        if(hasDeptoFilter) {
+            sqlBuilder.append("d.id = ?");
+        }
+        
+        if(hasDeptoFilter && hasStatusFilter) {
+            sqlBuilder.append(" AND ");
+        }
+        
+        if(hasStatusFilter) {
+            sqlBuilder.append("s.ativo = ?");
+        }
+
+        try (PreparedStatement ps = conn.prepareStatement(sqlBuilder.toString())) {
+            int index = 1;
+            if (hasSearchTerm) {
                 String termoLike = "%" + termoBusca.toLowerCase() + "%";
-                ps.setString(1, termoLike);
-                ps.setString(2, termoLike);
-                ps.setString(3, termoLike);
-                ps.setString(4, termoLike);
+                ps.setString(index++, termoLike);
+                ps.setString(index++, termoLike);
+                ps.setString(index++, termoLike);
+                ps.setString(index++, termoLike);
             }
+            if (hasDeptoFilter) {
+                ps.setInt(index++, filtroDepto.getIdFiltro());
+            }
+            if(hasStatusFilter) {
+                ps.setBoolean(index++, filtroStatus.getIdFiltro() == 1);
+            }
+            
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return rs.getInt(1);
@@ -45,35 +80,64 @@ public class ServidorDAO implements ServidorInterface {
         return 0;
     }
 
-    public List<ServidorModel> listarPagina(int pagina, int itensPorPagina, String termoBusca) { // Adicionado parâmetro
+    @Override
+    public List<ServidorModel> listarPagina(int pagina, int itensPorPagina, String termoBusca, FiltroModel filtroDepto, FiltroModel filtroStatus) {
         List<ServidorModel> servidores = new ArrayList<>();
-
-        StringBuilder sql = new StringBuilder(
+        StringBuilder sqlBuilder = new StringBuilder(
             "SELECT s.*, d.nome AS nome_departamento " +
             "FROM Servidor s " +
             "JOIN Departamento d ON s.fk_departamento = d.id"
         );
 
-        if (termoBusca != null && !termoBusca.trim().isEmpty()) {
-            sql.append(" WHERE LOWER(s.nome) LIKE ? OR LOWER(s.sobrenome) LIKE ? OR LOWER(s.matricula) LIKE ? OR LOWER(d.nome) LIKE ?");
+        boolean hasSearchTerm = termoBusca != null && !termoBusca.trim().isEmpty();
+        boolean hasDeptoFilter = filtroDepto != null && filtroDepto.getIdFiltro() > 0;
+        boolean hasStatusFilter = filtroStatus != null && !filtroStatus.getTipoFiltro().equals("TODOS");
+
+        if(hasSearchTerm || hasDeptoFilter || hasStatusFilter) {
+            sqlBuilder.append(" WHERE ");
         }
 
-        sql.append(" ORDER BY s.id ASC LIMIT ? OFFSET ?");
+        if(hasSearchTerm) {
+            sqlBuilder.append("(LOWER(s.nome) LIKE ? OR LOWER(s.sobrenome) LIKE ? OR LOWER(s.matricula) LIKE ? OR LOWER(d.nome) LIKE ?)");
+        }
+        
+        if(hasSearchTerm && (hasDeptoFilter || hasStatusFilter)) {
+            sqlBuilder.append(" AND ");
+        }
 
+        if(hasDeptoFilter) {
+            sqlBuilder.append("d.id = ?");
+        }
+        
+        if(hasDeptoFilter && hasStatusFilter) {
+            sqlBuilder.append(" AND ");
+        }
+        
+        if(hasStatusFilter) {
+            sqlBuilder.append("s.ativo = ?");
+        }
+
+        sqlBuilder.append(" ORDER BY s.id ASC LIMIT ? OFFSET ?");
         int offset = (pagina - 1) * itensPorPagina;
 
-        try (PreparedStatement ps = conn.prepareStatement(sql.toString())) {
-            int paramIndex = 1;
-            if (termoBusca != null && !termoBusca.trim().isEmpty()) {
+        try (PreparedStatement ps = conn.prepareStatement(sqlBuilder.toString())) {
+            int index = 1;
+            if (hasSearchTerm) {
                 String termoLike = "%" + termoBusca.toLowerCase() + "%";
-                ps.setString(paramIndex++, termoLike);
-                ps.setString(paramIndex++, termoLike);
-                ps.setString(paramIndex++, termoLike);
-                ps.setString(paramIndex++, termoLike);
+                ps.setString(index++, termoLike);
+                ps.setString(index++, termoLike);
+                ps.setString(index++, termoLike);
+                ps.setString(index++, termoLike);
+            }
+            if (hasDeptoFilter) {
+                ps.setInt(index++, filtroDepto.getIdFiltro());
+            }
+            if (hasStatusFilter) {
+                ps.setBoolean(index++, filtroStatus.getIdFiltro() == 1);
             }
 
-            ps.setInt(paramIndex++, itensPorPagina);
-            ps.setInt(paramIndex++, offset);
+            ps.setInt(index++, itensPorPagina);
+            ps.setInt(index++, offset);
             
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -95,41 +159,6 @@ public class ServidorDAO implements ServidorInterface {
         } catch (SQLException e) {
             System.err.println("Erro ao listar servidores por página com filtro: " + e.getMessage());
         }
-        return servidores;
-    }
-    // PAGINAÇÃO E BUSCA
-    
-    @Override
-    public List<ServidorModel> listarTodos() {
-        List<ServidorModel> servidores = new ArrayList<>();
-        String sql = "SELECT s.*, d.nome AS nome_departamento " +
-                "FROM Servidor s " +
-                "JOIN Departamento d ON s.fk_departamento = d.id";
-
-        try (PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-
-            while (rs.next()) {
-                ServidorModel servidor = new ServidorModel();
-                servidor.setId(rs.getInt("id"));
-                servidor.setNome(rs.getString("nome"));
-                servidor.setSobrenome(rs.getString("sobrenome"));
-                servidor.setEmail(rs.getString("email"));
-                servidor.setTelefone(rs.getString("telefone"));
-                servidor.setMatricula(rs.getString("matricula"));
-                servidor.setSenha(rs.getString("senha"));
-                servidor.setAtivo(rs.getBoolean("ativo"));
-                servidor.setAcesso(rs.getBoolean("primeiro_acesso"));
-                servidor.setFk_departamento(rs.getInt("fk_departamento"));                
-                servidor.setNomeDepartamento(rs.getString("nome_departamento"));
-
-                servidores.add(servidor);
-            }
-        } catch (SQLException e) {
-            System.err.println("Erro ao listar servidores:");
-            e.printStackTrace();
-        }
-
         return servidores;
     }
     
