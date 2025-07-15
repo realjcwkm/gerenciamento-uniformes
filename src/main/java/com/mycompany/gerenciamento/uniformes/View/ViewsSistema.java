@@ -27,16 +27,14 @@ import com.mycompany.gerenciamento.uniformes.Controllers.GraficosController;
 import com.mycompany.gerenciamento.uniformes.Controllers.TamanhoController;
 import com.mycompany.gerenciamento.uniformes.Controllers.TipoUniformeController;
 import com.mycompany.gerenciamento.uniformes.Controllers.UniformeController;
-import com.mycompany.gerenciamento.uniformes.Models.UniformeEstoqueModel;
-import com.mycompany.gerenciamento.uniformes.TableModels.UniformeTableModel;
+import com.mycompany.gerenciamento.uniformes.TableModels.EntradaTableModel;
 import com.mycompany.gerenciamento.uniformes.Controllers.TrocaController;
 import com.mycompany.gerenciamento.uniformes.Forms.ConfirmacaoTroca;
 import com.mycompany.gerenciamento.uniformes.Forms.FormAlunoDialog;
 import com.mycompany.gerenciamento.uniformes.Forms.FormEditarAlunoDialog;
-import com.mycompany.gerenciamento.uniformes.Forms.FormEditarEntradaDialog;
 import com.mycompany.gerenciamento.uniformes.Forms.FormSelecaoUniforme;
 import com.mycompany.gerenciamento.uniformes.Forms.FormServidorDialog;
-import com.mycompany.gerenciamento.uniformes.Forms.FormUniforme;
+import com.mycompany.gerenciamento.uniformes.Forms.FormEntradaDialog;
 import com.mycompany.gerenciamento.uniformes.Forms.FormEditarServidorDialog;
 import com.mycompany.gerenciamento.uniformes.Forms.FormMensagemConfirmacao;
 import com.mycompany.gerenciamento.uniformes.Models.AlunoModel;
@@ -85,7 +83,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     private final EntregaTableModel entregaTableModel;
     private final AlunoTableModel alunoTableModel;
     private final ServidorTableModel servidorTableModel;
-    private final UniformeTableModel uniformeTableModel;
+    private final EntradaTableModel entradaTableModel;
     
     private final AuthController authController;
     private final EntregaController entregaController;
@@ -114,6 +112,11 @@ public class ViewsSistema extends javax.swing.JFrame {
     // === PAGINAÇÃO SERVIDORES === 
     private int paginaAtualServidores = 1;
     private int totalDePaginasServidores = 0;
+    
+    // === PAGINAÇÃO ENTRADAS === 
+    private int paginaAtualEntradas = 1;
+    private int totalDePaginasEntradas = 0;
+    private List<Object[]> relatorioEntrada;
         
     // === PADRÃO 10 LINHAS POR PÁGINA ===
     private final int ITENS_POR_PAGINA = 10;
@@ -167,17 +170,20 @@ public class ViewsSistema extends javax.swing.JFrame {
         this.entregaTableModel = new EntregaTableModel(new ArrayList<>());
         this.alunoTableModel = new AlunoTableModel(new ArrayList<>());
         this.servidorTableModel = new ServidorTableModel(new ArrayList<>());
-        this.uniformeTableModel = new UniformeTableModel();
+        this.entradaTableModel = new EntradaTableModel();
+        
+        // === CARREGA CONTADOR DE UNIFORMES ===
+        carregarContadorEstoque();
         
         // === INICIO DOS FILTROS ===
         carregarFiltrosDeDistribuicao();
         carregarFiltrosDeAlunos();
         carregarFiltrosDeServidores();
+        carregarFiltrosEntradas();
         // === FIM DOS FILTROS ===
         
         this.tb_alunos.setModel(alunoTableModel);
-        this.tabela_uniformes.setModel(uniformeTableModel);
-        
+        this.tb_entradas.setModel(entradaTableModel);
         
         // === INICIO ADICIONA TROCA ICON NA TABELA DISTRIBUIÇÃO ===
         this.tb_distribuicao.setModel(entregaTableModel);
@@ -309,57 +315,6 @@ public class ViewsSistema extends javax.swing.JFrame {
         this.tb_alunos.getColumnModel().getColumn(EDIT_AlUNO_COLUMN_INDEX).setPreferredWidth(90);
         this.tb_alunos.getColumnModel().getColumn(EDIT_AlUNO_COLUMN_INDEX).setMaxWidth(90); 
         // === FIM ADICIONA EDIT ICON NA TABELA DE ALUNOS ===
-        
-        // === INICIO ADICIONA EDIT ICON NA TABELA DE UNIFORMES ===
-        this.tabela_uniformes.setModel(uniformeTableModel); 
-        this.tabela_uniformes.setDefaultRenderer(Object.class, new CustomCellRenderer());
-        tabela_uniformes.setFillsViewportHeight(true);
-
-        final int EDIT_COLUMN_UNIFORME_INDEX = 6;
-        
-        try {
-            ImageIcon originalIcon = new ImageIcon(getClass().getResource("/images/edit-icon.png"));
-            
-            Image image = originalIcon.getImage();
-            
-            Image scaledImage = image.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
-            
-            editIcon = new ImageIcon(scaledImage);
-        } catch (Exception e) {
-            System.err.println("Erro ao carregar o ícone de edição: " + e.getMessage());
-        }
-
-        ButtonColumnRendererEditor editButtonUniforme = new ButtonColumnRendererEditor(this.tabela_uniformes, editIcon);
-
-        editButtonUniforme.getButton().addActionListener(e -> {
-            if (tabela_uniformes.isEditing()) {
-                tabela_uniformes.getCellEditor().stopCellEditing();
-            }
-            int modelRow = tabela_uniformes.convertRowIndexToModel(tabela_uniformes.getSelectedRow());
-            if (modelRow == -1) {
-                return;
-            }
-
-            UniformeEstoqueModel entradaParaEditar = uniformeTableModel.getUniformeAt(modelRow);
-
-            FormEditarEntradaDialog dialog = new FormEditarEntradaDialog(ViewsSistema.this, entradaParaEditar);
-            dialog.setVisible(true);
-
-            if (dialog.isSalvo()) {
-
-                JOptionPane.showMessageDialog(ViewsSistema.this, "Entrada de uniforme atualizada com sucesso!");
-
-                carregaDadosUniformes();
-            }
-        });
-        int EDIT_ENTRADA_COLUMN_INDEX = 0;
-        TableCellRenderer editEntradaButtonEditor = null;
-
-        this.tabela_uniformes.getColumnModel().getColumn(EDIT_ENTRADA_COLUMN_INDEX).setCellRenderer(editEntradaButtonEditor);
-        this.tabela_uniformes.getColumnModel().getColumn(EDIT_ENTRADA_COLUMN_INDEX).setCellEditor((TableCellEditor) editEntradaButtonEditor);
-        this.tabela_uniformes.getColumnModel().getColumn(EDIT_ENTRADA_COLUMN_INDEX).setPreferredWidth(90);
-        this.tabela_uniformes.getColumnModel().getColumn(EDIT_ENTRADA_COLUMN_INDEX).setMaxWidth(90);
-        // === FIM ADICIONA EDIT ICON NA TABELA DE UNIFORMES ===
         
         // === INICIO ADICIONA BOTÃO DE EXCLUSÃO NA TABELA SERVIDORES ===
         final int DELETE_COLUMN_INDEX = 5;
@@ -827,6 +782,21 @@ public class ViewsSistema extends javax.swing.JFrame {
         jcb_filtro_serv_status.addItem(new FiltroModel("STATUS", 0, "Inativo"));
     }
     
+     // === CARREGA FILTRO DE ENTRADAS ===
+    private void carregarFiltrosEntradas() {
+        jcb_filtro_uniformes.removeAllItems();
+    
+        jcb_filtro_uniformes.addItem(new FiltroModel("TODOS", 0, "Filtrar por..."));
+
+        tipoUniformeController.listarTodos().forEach(tipo -> 
+            jcb_filtro_uniformes.addItem(new FiltroModel("TIPO", tipo.getId(), "Tipo: " + tipo.getNome()))
+        );
+
+        tamanhoController.listarTodos().forEach(tamanho -> 
+            jcb_filtro_uniformes.addItem(new FiltroModel("TAMANHO", tamanho.getId(), "Tamanho: " + tamanho.getNome()))
+        );
+    }
+    
     // === FLUXO DE TROCA ===
     private void iniciaFluxoDeTroca(EntregaModel entregaAntiga) {
         FormSelecaoUniforme selecaoDialog = new FormSelecaoUniforme(this);
@@ -901,7 +871,19 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_anterior_serv.setEnabled(paginaAtualServidores > 1);
     }
 
-    
+    // === APLICA PAGINAÇÃO ENTRADAS ===
+    private void atualizarTabelaEntradas() {
+        List<Object[]> entradas = uniformeController.getPaginaDoRelatorio(paginaAtualEntradas, ITENS_POR_PAGINA);
+        
+        entradaTableModel.setDados(entradas);
+
+        lb_status_paginacao_serv3.setText("Página " + paginaAtualEntradas + " de " + totalDePaginasEntradas);
+        btn_anterior_entrada.setEnabled(paginaAtualEntradas > 1);
+        btn_proximo_entrada.setEnabled(paginaAtualEntradas < totalDePaginasEntradas);
+        
+        
+    }
+
     // === BUSCA DISTRIBUIÇÃO ===
     private void realizarBuscaDistribuicao() {
         termoBuscaAtualDistribuicao = tx_pesquisa_dis_pd.getText();
@@ -944,6 +926,39 @@ public class ViewsSistema extends javax.swing.JFrame {
         );
         
         atualizarTabelaServidores();
+    }
+    
+    // === BUSCA ENTRADAS ===
+    private void realizarBuscaEntradas() {
+        String termoBusca = tx_pesquisa.getText();
+        FiltroModel filtro = (FiltroModel) jcb_filtro_uniformes.getSelectedItem();
+
+        uniformeController.filtrarRelatorio(termoBusca, filtro);
+
+        totalDePaginasEntradas = uniformeController.getTotal(ITENS_POR_PAGINA);
+
+        paginaAtualEntradas = 1;
+        atualizarTabelaEntradas();
+    }
+    
+    private void carregarContadorEstoque() {
+        try {
+            int estoqueTotal = uniformeController.getTotalQuantidade();
+            
+            System.out.println(estoqueTotal);
+
+            lb_contador_entrada.setText(String.valueOf(estoqueTotal));
+            lb_descricao_contador_entrada.setText("Uniformes");
+
+            lb_contador_entrada.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+            
+            lb_descricao_contador_entrada.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+
+        } catch (Exception e) {
+            lb_contador_entrada.setText("N/D");
+            lb_descricao_contador_entrada.setText("Erro ao carregar dados.");
+            e.printStackTrace();
+        }
     }
     
     /**
@@ -1029,14 +1044,17 @@ public class ViewsSistema extends javax.swing.JFrame {
         subtitulo = new javax.swing.JLabel();
         tx_pesquisa = new javax.swing.JTextField();
         btn_buscar = new javax.swing.JButton();
-        filtro_tipo = new javax.swing.JComboBox<>();
+        jcb_filtro_uniformes = new javax.swing.JComboBox<>();
         btn_Add_Uniforme = new javax.swing.JButton();
-        barra_rolagem = new javax.swing.JScrollPane();
-        tabela_uniformes = new javax.swing.JTable();
         panel5 = new java.awt.Panel();
         lb_status_paginacao_serv3 = new javax.swing.JLabel();
-        btn_proximo_serv3 = new javax.swing.JButton();
-        btn_anterior_serv3 = new javax.swing.JButton();
+        btn_proximo_entrada = new javax.swing.JButton();
+        btn_anterior_entrada = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tb_entradas = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        lb_contador_entrada = new javax.swing.JLabel();
+        lb_descricao_contador_entrada = new javax.swing.JLabel();
         panel_autenticacao = new javax.swing.JPanel();
         panel_login = new javax.swing.JPanel();
         img_pl = new javax.swing.JLabel();
@@ -1833,7 +1851,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         Uniformes.setPreferredSize(new java.awt.Dimension(1360, 680));
 
         Titulo.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
-        Titulo.setText("Controle de Uniformes");
+        Titulo.setText("Controle de Entrada de Uniformes");
 
         subtitulo.setForeground(new java.awt.Color(0, 102, 102));
         subtitulo.setText("Tenha um controle em tempo real do estoque de uniformes");
@@ -1847,58 +1865,46 @@ public class ViewsSistema extends javax.swing.JFrame {
 
         btn_buscar.setFont(new java.awt.Font("Liberation Sans", 1, 12)); // NOI18N
         btn_buscar.setText("Buscar");
-
-        filtro_tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Camisa", "Calça", "Bermuda", "Tamanho P", "Tamanho M", "Tamanho G" }));
-        filtro_tipo.addActionListener(new java.awt.event.ActionListener() {
+        btn_buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                filtro_tipoActionPerformed(evt);
+                btn_buscarActionPerformed(evt);
+            }
+        });
+
+        jcb_filtro_uniformes.setPreferredSize(new java.awt.Dimension(72, 30));
+        jcb_filtro_uniformes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcb_filtro_uniformesActionPerformed(evt);
             }
         });
 
         btn_Add_Uniforme.setBackground(new java.awt.Color(4, 120, 87));
         btn_Add_Uniforme.setForeground(new java.awt.Color(255, 255, 255));
-        btn_Add_Uniforme.setText("+ Adicionar Uniforme");
+        btn_Add_Uniforme.setText("+ Cadastrar Entrada");
         btn_Add_Uniforme.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_Add_UniformeActionPerformed(evt);
             }
         });
 
-        tabela_uniformes.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "Tipo", "Status", "Entrada", "Saída", "Tamanho", "Data Entrada"
-            }
-        ));
-        tabela_uniformes.setAutoscrolls(false);
-        tabela_uniformes.setMaximumSize(new java.awt.Dimension(2147483647, 0));
-        tabela_uniformes.setMinimumSize(new java.awt.Dimension(60, 0));
-        tabela_uniformes.setPreferredSize(new java.awt.Dimension(300, 0));
-        tabela_uniformes.setRowHeight(27);
-        tabela_uniformes.setShowHorizontalLines(true);
-        barra_rolagem.setViewportView(tabela_uniformes);
+        panel5.setPreferredSize(new java.awt.Dimension(950, 87));
 
         lb_status_paginacao_serv3.setText("jLabel2");
         lb_status_paginacao_serv3.setPreferredSize(new java.awt.Dimension(18, 18));
 
-        btn_proximo_serv3.setText("Próxima");
-        btn_proximo_serv3.setMargin(new java.awt.Insets(8, 14, 8, 14));
-        btn_proximo_serv3.addActionListener(new java.awt.event.ActionListener() {
+        btn_proximo_entrada.setText("Próxima");
+        btn_proximo_entrada.setMargin(new java.awt.Insets(8, 14, 8, 14));
+        btn_proximo_entrada.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_proximo_serv3ActionPerformed(evt);
+                btn_proximo_entradaActionPerformed(evt);
             }
         });
 
-        btn_anterior_serv3.setText("Anterior");
-        btn_anterior_serv3.setMargin(new java.awt.Insets(8, 14, 8, 14));
-        btn_anterior_serv3.addActionListener(new java.awt.event.ActionListener() {
+        btn_anterior_entrada.setText("Anterior");
+        btn_anterior_entrada.setMargin(new java.awt.Insets(8, 14, 8, 14));
+        btn_anterior_entrada.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_anterior_serv3ActionPerformed(evt);
+                btn_anterior_entradaActionPerformed(evt);
             }
         });
 
@@ -1907,22 +1913,65 @@ public class ViewsSistema extends javax.swing.JFrame {
         panel5Layout.setHorizontalGroup(
             panel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel5Layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(lb_status_paginacao_serv3, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btn_anterior_serv3)
+                .addComponent(btn_anterior_entrada)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_proximo_serv3)
+                .addComponent(btn_proximo_entrada)
                 .addContainerGap())
         );
         panel5Layout.setVerticalGroup(
             panel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel5Layout.createSequentialGroup()
-                .addGroup(panel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_proximo_serv3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_anterior_serv3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lb_status_paginacao_serv3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_proximo_entrada, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_anterior_entrada, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lb_status_paginacao_serv3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(45, 45, 45))
+        );
+
+        tb_entradas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Tipo", "Tamanho", "Status", "Entradas", "Saidas", "Total Estoque"
+            }
+        ));
+        tb_entradas.setAutoscrolls(false);
+        tb_entradas.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tb_entradas.setName(""); // NOI18N
+        tb_entradas.setRowHeight(27);
+        tb_entradas.setShowGrid(false);
+        tb_entradas.setShowHorizontalLines(true);
+        jScrollPane3.setViewportView(tb_entradas);
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        lb_contador_entrada.setForeground(new java.awt.Color(105, 65, 198));
+        lb_contador_entrada.setText("jLabel2");
+
+        lb_descricao_contador_entrada.setForeground(new java.awt.Color(105, 65, 198));
+        lb_descricao_contador_entrada.setText("jLabel3");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(lb_contador_entrada)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lb_descricao_contador_entrada)
+                .addGap(0, 108, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lb_contador_entrada)
+                    .addComponent(lb_descricao_contador_entrada))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout UniformesLayout = new javax.swing.GroupLayout(Uniformes);
@@ -1934,40 +1983,51 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(panel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, UniformesLayout.createSequentialGroup()
-                        .addComponent(Titulo)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(barra_rolagem, javax.swing.GroupLayout.DEFAULT_SIZE, 1186, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, UniformesLayout.createSequentialGroup()
-                        .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(subtitulo)
+                        .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(UniformesLayout.createSequentialGroup()
                                 .addComponent(tx_pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addGap(12, 12, 12)
                                 .addComponent(btn_buscar)
-                                .addGap(18, 18, 18)
-                                .addComponent(filtro_tipo, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jcb_filtro_uniformes, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(UniformesLayout.createSequentialGroup()
+                                .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Titulo)
+                                    .addComponent(subtitulo))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 367, Short.MAX_VALUE)
                         .addComponent(btn_Add_Uniforme)))
                 .addGap(79, 79, 79))
+            .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(UniformesLayout.createSequentialGroup()
+                    .addGap(87, 87, 87)
+                    .addComponent(jScrollPane3)
+                    .addGap(87, 87, 87)))
         );
         UniformesLayout.setVerticalGroup(
             UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(UniformesLayout.createSequentialGroup()
                 .addGap(57, 57, 57)
-                .addComponent(Titulo)
+                .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Titulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(subtitulo)
-                .addGap(18, 18, 18)
+                .addGap(25, 25, 25)
                 .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tx_pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(filtro_tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcb_filtro_uniformes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_Add_Uniforme, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addComponent(barra_rolagem, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23)
+                .addGap(343, 343, 343)
                 .addComponent(panel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(87, 87, 87))
+                .addGap(81, 81, 81))
+            .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(UniformesLayout.createSequentialGroup()
+                    .addGap(190, 190, 190)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(190, Short.MAX_VALUE)))
         );
 
         panel_telaInicial.add(Uniformes, "uniformes");
@@ -2538,6 +2598,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         System.out.println("Mostrando painel Inicio");        
         carregarGraficoPizza();
         carregarGraficoBarras();
+        carregarContadorEstoque();
     }//GEN-LAST:event_btn_nav_InicioActionPerformed
 
     private void btn_nav_distribuicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_distribuicaoActionPerformed
@@ -2611,8 +2672,11 @@ public class ViewsSistema extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_nav_servidoresActionPerformed
 
     private void btn_nav_uniformesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nav_uniformesActionPerformed
-        // TODO add your handling code here:
-        carregaDadosUniformes();
+        // TODO add your handling code here:     
+        uniformeController.gerarDadosParaTabelaEstoque();
+        
+        realizarBuscaEntradas();
+
         appCardLayout.show(panel_telaInicial, "uniformes");
         System.out.println("Mostrando painel Uniformes");
     }//GEN-LAST:event_btn_nav_uniformesActionPerformed
@@ -2792,32 +2856,6 @@ public class ViewsSistema extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_exportar_distribuicaoActionPerformed
 
-    private void btn_Add_UniformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Add_UniformeActionPerformed
-        FormUniforme formDialog = new FormUniforme(this);
-        formDialog.setVisible(true);
-
-        if (formDialog.isSalvo()) {
-            System.out.println("Atualizando a tabela de uniformes...");
-            carregaDadosUniformes();
-        }
-    }//GEN-LAST:event_btn_Add_UniformeActionPerformed
-
-    private void filtro_tipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtro_tipoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_filtro_tipoActionPerformed
-
-    private void tx_pesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tx_pesquisaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tx_pesquisaActionPerformed
-
-    private void btn_proximo_serv3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_proximo_serv3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_proximo_serv3ActionPerformed
-
-    private void btn_anterior_serv3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_anterior_serv3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_anterior_serv3ActionPerformed
-
     private void jcb_filtro_alunosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_filtro_alunosActionPerformed
         // TODO add your handling code here:
         tx_pesquisa_alunos.setText("");
@@ -2963,6 +3001,47 @@ public class ViewsSistema extends javax.swing.JFrame {
         realizarBuscaServidores();
     }//GEN-LAST:event_jcb_filtro_serv_statusActionPerformed
 
+    private void btn_anterior_entradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_anterior_entradaActionPerformed
+        // TODO add your handling code here:
+        if (paginaAtualEntradas > 1) {
+            paginaAtualEntradas--;
+            atualizarTabelaEntradas();
+        }
+    }//GEN-LAST:event_btn_anterior_entradaActionPerformed
+
+    private void btn_proximo_entradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_proximo_entradaActionPerformed
+        // TODO add your handling code here:
+        if (paginaAtualEntradas < totalDePaginasEntradas) {
+            paginaAtualEntradas++;
+            atualizarTabelaEntradas();
+        }
+    }//GEN-LAST:event_btn_proximo_entradaActionPerformed
+
+    private void btn_Add_UniformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Add_UniformeActionPerformed
+        FormEntradaDialog formDialog = new FormEntradaDialog(this);
+        formDialog.setVisible(true);
+
+        if (formDialog.isSalvo()) {
+            this.relatorioEntrada = this.uniformeController.gerarDadosParaTabelaEstoque();
+            this.realizarBuscaEntradas();
+            JOptionPane.showMessageDialog(this, "Entrada de uniformes registrada com sucesso!");
+        }
+    }//GEN-LAST:event_btn_Add_UniformeActionPerformed
+
+    private void jcb_filtro_uniformesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_filtro_uniformesActionPerformed
+        // TODO add your handling code here:
+        realizarBuscaEntradas();
+    }//GEN-LAST:event_jcb_filtro_uniformesActionPerformed
+
+    private void tx_pesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tx_pesquisaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tx_pesquisaActionPerformed
+
+    private void btn_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscarActionPerformed
+        // TODO add your handling code here:
+        realizarBuscaEntradas();
+    }//GEN-LAST:event_btn_buscarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2974,12 +3053,11 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JPanel Servidores;
     private javax.swing.JLabel Titulo;
     private javax.swing.JPanel Uniformes;
-    private javax.swing.JScrollPane barra_rolagem;
     private javax.swing.JButton btn_Add_Uniforme;
     private javax.swing.JButton btn_anterior_alunos;
+    private javax.swing.JButton btn_anterior_entrada;
     private javax.swing.JButton btn_anterior_pd;
     private javax.swing.JButton btn_anterior_serv;
-    private javax.swing.JButton btn_anterior_serv3;
     private javax.swing.JButton btn_buscar;
     private javax.swing.JButton btn_buscar_alunos;
     private javax.swing.JButton btn_buscar_dis_pd;
@@ -2999,9 +3077,9 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JButton btn_nav_servidores;
     private javax.swing.JButton btn_nav_uniformes;
     private javax.swing.JButton btn_proximo_alunos;
+    private javax.swing.JButton btn_proximo_entrada;
     private javax.swing.JButton btn_proximo_pd;
     private javax.swing.JButton btn_proximo_serv;
-    private javax.swing.JButton btn_proximo_serv3;
     private com.mycompany.gerenciamento.uniformes.Components.FlatButton btn_sair;
     private com.mycompany.gerenciamento.uniformes.Components.FlatButton btn_salvar_ppa;
     private com.mycompany.gerenciamento.uniformes.Components.FlatButton btn_salvar_prs;
@@ -3021,7 +3099,6 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler7;
     private javax.swing.Box.Filler filler8;
     private javax.swing.Box.Filler filler9;
-    private javax.swing.JComboBox<String> filtro_tipo;
     private javax.swing.JScrollPane frame_tb_alunos;
     private javax.swing.JLabel img_pl;
     private javax.swing.JLabel img_ppa;
@@ -3039,15 +3116,20 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JDialog jDialog;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JComboBox<com.mycompany.gerenciamento.uniformes.Models.FiltroModel> jcb_filtro_alunos;
     private javax.swing.JComboBox<com.mycompany.gerenciamento.uniformes.Models.FiltroModel> jcb_filtro_dis_pd;
     private javax.swing.JComboBox<com.mycompany.gerenciamento.uniformes.Models.FiltroModel> jcb_filtro_serv_depto;
     private javax.swing.JComboBox<com.mycompany.gerenciamento.uniformes.Models.FiltroModel> jcb_filtro_serv_status;
+    private javax.swing.JComboBox<com.mycompany.gerenciamento.uniformes.Models.FiltroModel> jcb_filtro_uniformes;
     private javax.swing.JLabel lb_codigo_prs;
     private javax.swing.JLabel lb_confirmar_senha_ppa;
     private javax.swing.JLabel lb_confirmar_senha_prs;
+    private javax.swing.JLabel lb_contador_entrada;
+    private javax.swing.JLabel lb_descricao_contador_entrada;
     private javax.swing.JLabel lb_email_psc;
     private javax.swing.JLabel lb_login_pl;
     private javax.swing.JLabel lb_matricula_pl;
@@ -3089,9 +3171,9 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JSeparator separador_prs;
     private javax.swing.JSeparator separador_psc;
     private javax.swing.JLabel subtitulo;
-    private javax.swing.JTable tabela_uniformes;
     private javax.swing.JTable tb_alunos;
     private javax.swing.JTable tb_distribuicao;
+    private javax.swing.JTable tb_entradas;
     private javax.swing.JTable tb_servidores;
     private javax.swing.JTextField tx_pesquisa;
     private javax.swing.JTextField tx_pesquisa_alunos;
