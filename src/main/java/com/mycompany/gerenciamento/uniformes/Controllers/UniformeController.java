@@ -143,4 +143,8 @@ public class UniformeController {
     public int getTotalQuantidade() {
         return new UniformeDAO().getTotalQuantidade();
     }
+    
+    public List<Object[]> getRelatorioCompleto() {
+        return this.relatorioEntradasFiltrado;
+    }
 }
