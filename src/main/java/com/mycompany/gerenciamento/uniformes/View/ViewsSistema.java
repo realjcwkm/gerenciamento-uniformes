@@ -141,7 +141,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         btn_exportar_alunos.addActionListener(e -> {
             iniciarExportacao(tb_alunos, "Relatorio_Alunos", true);
         });
-
+                
         applyHandCursors(this);
         
         // Tabela de Servidores (colunas 4 e 5)
@@ -184,6 +184,26 @@ public class ViewsSistema extends javax.swing.JFrame {
         
         this.tb_alunos.setModel(alunoTableModel);
         this.tb_entradas.setModel(entradaTableModel);
+        
+        // === EXPORTAR LISTA UNIFORMES ===
+        btn_exportar_entradas.addActionListener(e -> {
+            realizarBuscaEntradas();
+
+            List<Object[]> dadosDaPagina = entradaTableModel.getDados();
+
+            try {
+                List<Object[]> listaCompleta = uniformeController.getRelatorioCompleto();
+                if (listaCompleta == null || listaCompleta.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Não há dados para exportar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                
+                entradaTableModel.setDados(listaCompleta);
+                iniciarExportacao(tb_entradas, "Relatorio_de_Entradas", false);
+            } finally {
+                entradaTableModel.setDados(dadosDaPagina);
+            }
+        });
         
         // === INICIO ADICIONA TROCA ICON NA TABELA DISTRIBUIÇÃO ===
         this.tb_distribuicao.setModel(entregaTableModel);
@@ -917,7 +937,7 @@ public class ViewsSistema extends javax.swing.JFrame {
     
     // === BUSCA ENTRADAS ===
     private void realizarBuscaEntradas() {
-        String termoBusca = tx_pesquisa.getText();
+        String termoBusca = tx_pesquisa_unif.getText();
         FiltroModel filtro = (FiltroModel) jcb_filtro_uniformes.getSelectedItem();
 
         uniformeController.filtrarRelatorio(termoBusca, filtro);
@@ -1027,21 +1047,22 @@ public class ViewsSistema extends javax.swing.JFrame {
         jcb_filtro_serv_depto = new javax.swing.JComboBox<>();
         jcb_filtro_serv_status = new javax.swing.JComboBox<>();
         Uniformes = new javax.swing.JPanel();
-        Titulo = new javax.swing.JLabel();
-        subtitulo = new javax.swing.JLabel();
-        tx_pesquisa = new javax.swing.JTextField();
-        btn_buscar = new javax.swing.JButton();
-        jcb_filtro_uniformes = new javax.swing.JComboBox<>();
-        btn_Add_Uniforme = new javax.swing.JButton();
+        lb_titulo_unif = new javax.swing.JLabel();
+        lb_sub_unif = new javax.swing.JLabel();
+        lb_total_unif = new javax.swing.JPanel();
+        lb_contador_entrada = new javax.swing.JLabel();
+        lb_descricao_contador_entrada = new javax.swing.JLabel();
+        btn_cadastrar_unif = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tb_entradas = new javax.swing.JTable();
         panel5 = new java.awt.Panel();
         lb_status_paginacao_serv3 = new javax.swing.JLabel();
         btn_proximo_entrada = new javax.swing.JButton();
         btn_anterior_entrada = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tb_entradas = new javax.swing.JTable();
-        jPanel1 = new javax.swing.JPanel();
-        lb_contador_entrada = new javax.swing.JLabel();
-        lb_descricao_contador_entrada = new javax.swing.JLabel();
+        tx_pesquisa_unif = new javax.swing.JTextField();
+        btn_buscar_unif = new javax.swing.JButton();
+        jcb_filtro_uniformes = new javax.swing.JComboBox<>();
+        btn_exportar_entradas = new javax.swing.JButton();
         panel_autenticacao = new javax.swing.JPanel();
         panel_login = new javax.swing.JPanel();
         img_pl = new javax.swing.JLabel();
@@ -1837,42 +1858,63 @@ public class ViewsSistema extends javax.swing.JFrame {
         Uniformes.setMinimumSize(new java.awt.Dimension(1360, 680));
         Uniformes.setPreferredSize(new java.awt.Dimension(1360, 680));
 
-        Titulo.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
-        Titulo.setText("Controle de Entrada de Uniformes");
+        lb_titulo_unif.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
+        lb_titulo_unif.setText("Controle de Entrada de Uniformes");
 
-        subtitulo.setForeground(new java.awt.Color(0, 102, 102));
-        subtitulo.setText("Tenha um controle em tempo real do estoque de uniformes");
+        lb_sub_unif.setForeground(new java.awt.Color(0, 102, 102));
+        lb_sub_unif.setText("Tenha um controle em tempo real do estoque de uniformes");
 
-        tx_pesquisa.setPreferredSize(new java.awt.Dimension(130, 30));
-        tx_pesquisa.addActionListener(new java.awt.event.ActionListener() {
+        lb_total_unif.setBackground(new java.awt.Color(255, 255, 255));
+
+        lb_contador_entrada.setForeground(new java.awt.Color(105, 65, 198));
+        lb_contador_entrada.setText("jLabel2");
+
+        lb_descricao_contador_entrada.setForeground(new java.awt.Color(105, 65, 198));
+        lb_descricao_contador_entrada.setText("jLabel3");
+
+        javax.swing.GroupLayout lb_total_unifLayout = new javax.swing.GroupLayout(lb_total_unif);
+        lb_total_unif.setLayout(lb_total_unifLayout);
+        lb_total_unifLayout.setHorizontalGroup(
+            lb_total_unifLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(lb_total_unifLayout.createSequentialGroup()
+                .addComponent(lb_contador_entrada)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lb_descricao_contador_entrada)
+                .addGap(0, 108, Short.MAX_VALUE))
+        );
+        lb_total_unifLayout.setVerticalGroup(
+            lb_total_unifLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(lb_total_unifLayout.createSequentialGroup()
+                .addGroup(lb_total_unifLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lb_contador_entrada)
+                    .addComponent(lb_descricao_contador_entrada))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        btn_cadastrar_unif.setBackground(new java.awt.Color(4, 120, 87));
+        btn_cadastrar_unif.setForeground(new java.awt.Color(255, 255, 255));
+        btn_cadastrar_unif.setText("+ Cadastrar Entrada");
+        btn_cadastrar_unif.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tx_pesquisaActionPerformed(evt);
+                btn_cadastrar_unifActionPerformed(evt);
             }
         });
 
-        btn_buscar.setFont(new java.awt.Font("Liberation Sans", 1, 12)); // NOI18N
-        btn_buscar.setText("Buscar");
-        btn_buscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_buscarActionPerformed(evt);
-            }
-        });
+        tb_entradas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        jcb_filtro_uniformes.setPreferredSize(new java.awt.Dimension(72, 30));
-        jcb_filtro_uniformes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcb_filtro_uniformesActionPerformed(evt);
+            },
+            new String [] {
+                "Tipo", "Tamanho", "Status", "Entradas", "Saidas", "Total Estoque"
             }
-        });
-
-        btn_Add_Uniforme.setBackground(new java.awt.Color(4, 120, 87));
-        btn_Add_Uniforme.setForeground(new java.awt.Color(255, 255, 255));
-        btn_Add_Uniforme.setText("+ Cadastrar Entrada");
-        btn_Add_Uniforme.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_Add_UniformeActionPerformed(evt);
-            }
-        });
+        ));
+        tb_entradas.setAutoscrolls(false);
+        tb_entradas.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tb_entradas.setName(""); // NOI18N
+        tb_entradas.setRowHeight(27);
+        tb_entradas.setShowGrid(false);
+        tb_entradas.setShowHorizontalLines(true);
+        jScrollPane3.setViewportView(tb_entradas);
 
         panel5.setPreferredSize(new java.awt.Dimension(950, 87));
 
@@ -1918,74 +1960,68 @@ public class ViewsSistema extends javax.swing.JFrame {
                 .addGap(45, 45, 45))
         );
 
-        tb_entradas.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Tipo", "Tamanho", "Status", "Entradas", "Saidas", "Total Estoque"
+        tx_pesquisa_unif.setPreferredSize(new java.awt.Dimension(130, 30));
+        tx_pesquisa_unif.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tx_pesquisa_unifActionPerformed(evt);
             }
-        ));
-        tb_entradas.setAutoscrolls(false);
-        tb_entradas.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        tb_entradas.setName(""); // NOI18N
-        tb_entradas.setRowHeight(27);
-        tb_entradas.setShowGrid(false);
-        tb_entradas.setShowHorizontalLines(true);
-        jScrollPane3.setViewportView(tb_entradas);
+        });
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        btn_buscar_unif.setFont(new java.awt.Font("Liberation Sans", 1, 12)); // NOI18N
+        btn_buscar_unif.setText("Buscar");
+        btn_buscar_unif.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_buscar_unifActionPerformed(evt);
+            }
+        });
 
-        lb_contador_entrada.setForeground(new java.awt.Color(105, 65, 198));
-        lb_contador_entrada.setText("jLabel2");
+        jcb_filtro_uniformes.setPreferredSize(new java.awt.Dimension(72, 30));
+        jcb_filtro_uniformes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcb_filtro_uniformesActionPerformed(evt);
+            }
+        });
 
-        lb_descricao_contador_entrada.setForeground(new java.awt.Color(105, 65, 198));
-        lb_descricao_contador_entrada.setText("jLabel3");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(lb_contador_entrada)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lb_descricao_contador_entrada)
-                .addGap(0, 108, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lb_contador_entrada)
-                    .addComponent(lb_descricao_contador_entrada))
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+        btn_exportar_entradas.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btn_exportar_entradas.setText("Exportar Lista");
+        btn_exportar_entradas.setMaximumSize(new java.awt.Dimension(75, 30));
+        btn_exportar_entradas.setMinimumSize(new java.awt.Dimension(75, 30));
+        btn_exportar_entradas.setPreferredSize(new java.awt.Dimension(75, 30));
+        btn_exportar_entradas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_exportar_entradasActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout UniformesLayout = new javax.swing.GroupLayout(Uniformes);
         Uniformes.setLayout(UniformesLayout);
         UniformesLayout.setHorizontalGroup(
             UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(UniformesLayout.createSequentialGroup()
-                .addGap(95, 95, 95)
-                .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(panel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, UniformesLayout.createSequentialGroup()
+                .addGap(86, 86, 86)
+                .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(UniformesLayout.createSequentialGroup()
+                        .addComponent(panel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(79, 79, 79))
+                    .addGroup(UniformesLayout.createSequentialGroup()
                         .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(UniformesLayout.createSequentialGroup()
-                                .addComponent(tx_pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(tx_pesquisa_unif, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(12, 12, 12)
-                                .addComponent(btn_buscar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btn_buscar_unif)
+                                .addGap(18, 18, 18)
                                 .addComponent(jcb_filtro_uniformes, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(UniformesLayout.createSequentialGroup()
                                 .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Titulo)
-                                    .addComponent(subtitulo))
+                                    .addComponent(lb_titulo_unif)
+                                    .addComponent(lb_sub_unif))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 367, Short.MAX_VALUE)
-                        .addComponent(btn_Add_Uniforme)))
-                .addGap(79, 79, 79))
+                                .addComponent(lb_total_unif, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_exportar_entradas, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 228, Short.MAX_VALUE)
+                        .addComponent(btn_cadastrar_unif)
+                        .addGap(89, 89, 89))))
             .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(UniformesLayout.createSequentialGroup()
                     .addGap(87, 87, 87)
@@ -1997,16 +2033,17 @@ public class ViewsSistema extends javax.swing.JFrame {
             .addGroup(UniformesLayout.createSequentialGroup()
                 .addGap(57, 57, 57)
                 .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Titulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lb_total_unif, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lb_titulo_unif, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(subtitulo)
+                .addComponent(lb_sub_unif)
                 .addGap(25, 25, 25)
                 .addGroup(UniformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tx_pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tx_pesquisa_unif, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_buscar_unif, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jcb_filtro_uniformes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_Add_Uniforme, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_cadastrar_unif, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_exportar_entradas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(343, 343, 343)
                 .addComponent(panel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(81, 81, 81))
@@ -3004,7 +3041,7 @@ public class ViewsSistema extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_proximo_entradaActionPerformed
 
-    private void btn_Add_UniformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Add_UniformeActionPerformed
+    private void btn_cadastrar_unifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cadastrar_unifActionPerformed
         FormEntradaDialog formDialog = new FormEntradaDialog(this);
         formDialog.setVisible(true);
 
@@ -3013,21 +3050,25 @@ public class ViewsSistema extends javax.swing.JFrame {
             this.realizarBuscaEntradas();
             JOptionPane.showMessageDialog(this, "Entrada de uniformes registrada com sucesso!");
         }
-    }//GEN-LAST:event_btn_Add_UniformeActionPerformed
+    }//GEN-LAST:event_btn_cadastrar_unifActionPerformed
 
     private void jcb_filtro_uniformesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_filtro_uniformesActionPerformed
         // TODO add your handling code here:
         realizarBuscaEntradas();
     }//GEN-LAST:event_jcb_filtro_uniformesActionPerformed
 
-    private void tx_pesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tx_pesquisaActionPerformed
+    private void tx_pesquisa_unifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tx_pesquisa_unifActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_tx_pesquisaActionPerformed
+    }//GEN-LAST:event_tx_pesquisa_unifActionPerformed
 
-    private void btn_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscarActionPerformed
+    private void btn_buscar_unifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscar_unifActionPerformed
         // TODO add your handling code here:
         realizarBuscaEntradas();
-    }//GEN-LAST:event_btn_buscarActionPerformed
+    }//GEN-LAST:event_btn_buscar_unifActionPerformed
+
+    private void btn_exportar_entradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_exportar_entradasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_exportar_entradasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -3038,24 +3079,24 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JPanel Distribuicao;
     private javax.swing.JPanel Inicio;
     private javax.swing.JPanel Servidores;
-    private javax.swing.JLabel Titulo;
     private javax.swing.JPanel Uniformes;
-    private javax.swing.JButton btn_Add_Uniforme;
     private javax.swing.JButton btn_anterior_alunos;
     private javax.swing.JButton btn_anterior_entrada;
     private javax.swing.JButton btn_anterior_pd;
     private javax.swing.JButton btn_anterior_serv;
-    private javax.swing.JButton btn_buscar;
     private javax.swing.JButton btn_buscar_alunos;
     private javax.swing.JButton btn_buscar_dis_pd;
     private javax.swing.JButton btn_buscar_serv;
+    private javax.swing.JButton btn_buscar_unif;
     private javax.swing.JButton btn_cad_distribuicao_pd;
     private javax.swing.JButton btn_cadastrar_alunos;
     private javax.swing.JButton btn_cadastrar_serv;
+    private javax.swing.JButton btn_cadastrar_unif;
     private com.mycompany.gerenciamento.uniformes.Components.FlatButton btn_enviar_psc;
     private javax.swing.JButton btn_esq_senha_pl;
     private javax.swing.JButton btn_exportar_alunos;
     private javax.swing.JButton btn_exportar_distribuicao;
+    private javax.swing.JButton btn_exportar_entradas;
     private javax.swing.JButton btn_exportar_serv;
     private com.mycompany.gerenciamento.uniformes.Components.FlatButton btn_login_pl;
     private javax.swing.JButton btn_nav_Inicio;
@@ -3103,7 +3144,6 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JDialog jDialog;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -3133,10 +3173,13 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JLabel lb_status_paginacao_serv3;
     private javax.swing.JLabel lb_sub_alunos;
     private javax.swing.JLabel lb_sub_serv;
+    private javax.swing.JLabel lb_sub_unif;
     private javax.swing.JLabel lb_subtitulo_pd;
     private javax.swing.JLabel lb_titulo_alunos;
     private javax.swing.JLabel lb_titulo_pd;
     private javax.swing.JLabel lb_titulo_serv;
+    private javax.swing.JLabel lb_titulo_unif;
+    private javax.swing.JPanel lb_total_unif;
     private javax.swing.JPanel main_container;
     private javax.swing.JLabel nome_sistema;
     private java.awt.Panel paginacao_alunos;
@@ -3157,14 +3200,13 @@ public class ViewsSistema extends javax.swing.JFrame {
     private javax.swing.JSeparator separador_ppa;
     private javax.swing.JSeparator separador_prs;
     private javax.swing.JSeparator separador_psc;
-    private javax.swing.JLabel subtitulo;
     private javax.swing.JTable tb_alunos;
     private javax.swing.JTable tb_distribuicao;
     private javax.swing.JTable tb_entradas;
     private javax.swing.JTable tb_servidores;
-    private javax.swing.JTextField tx_pesquisa;
     private javax.swing.JTextField tx_pesquisa_alunos;
     private javax.swing.JTextField tx_pesquisa_dis_pd;
     private javax.swing.JTextField tx_pesquisa_serv;
+    private javax.swing.JTextField tx_pesquisa_unif;
     // End of variables declaration//GEN-END:variables
 }
